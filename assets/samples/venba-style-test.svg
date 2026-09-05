@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <!-- ============ PALETTE / GRADIENTS ============ -->
+    <linearGradient id="wallGrad" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0%"   stop-color="#FBDCC6"/>
+      <stop offset="35%"  stop-color="#F3BDA9"/>
+      <stop offset="75%"  stop-color="#E5A199"/>
+      <stop offset="100%" stop-color="#D08D91"/>
+    </linearGradient>
+
+    <linearGradient id="floorGrad" x1="0" y1="0" x2="0.9" y2="0.3">
+      <stop offset="0%"   stop-color="#D9836B"/>
+      <stop offset="60%"  stop-color="#C2685C"/>
+      <stop offset="100%" stop-color="#A6524F"/>
+    </linearGradient>
+
+    <linearGradient id="tableGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#D46A4C"/>
+      <stop offset="18%"  stop-color="#C1553F"/>
+      <stop offset="100%" stop-color="#8E3A33"/>
+    </linearGradient>
+
+    <radialGradient id="windowGlow" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0%"   stop-color="#FFF3D6" stop-opacity="1"/>
+      <stop offset="55%"  stop-color="#FFD9A0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFBE84" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="shaftGrad" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%"   stop-color="#FFE3B4" stop-opacity="0.85"/>
+      <stop offset="60%"  stop-color="#FFD1A0" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFC79A" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="stairShade" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%"   stop-color="#5E4570" stop-opacity="0.62"/>
+      <stop offset="70%"  stop-color="#7B5A7C" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#8E6A86" stop-opacity="0.12"/>
+    </linearGradient>
+
+    <linearGradient id="hairGrad" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0%"   stop-color="#3A2B55"/>
+      <stop offset="55%"  stop-color="#2A1E3C"/>
+      <stop offset="100%" stop-color="#1C1430"/>
+    </linearGradient>
+
+    <linearGradient id="skinGrad" x1="0.15" y1="0" x2="0.95" y2="1">
+      <stop offset="0%"   stop-color="#E8A184"/>
+      <stop offset="55%"  stop-color="#D98E77"/>
+      <stop offset="100%" stop-color="#B96D5E"/>
+    </linearGradient>
+
+    <linearGradient id="blouseGrad" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0%"   stop-color="#2E6B64"/>
+      <stop offset="60%"  stop-color="#1F4F4C"/>
+      <stop offset="100%" stop-color="#143634"/>
+    </linearGradient>
+
+    <linearGradient id="potGrad" x1="0.05" y1="0" x2="0.95" y2="0.8">
+      <stop offset="0%"   stop-color="#8492BE"/>
+      <stop offset="45%"  stop-color="#5E6D9B"/>
+      <stop offset="100%" stop-color="#3E4A73"/>
+    </linearGradient>
+
+    <linearGradient id="riceGrad" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%"   stop-color="#FBEFD2"/>
+      <stop offset="60%"  stop-color="#F0DDB4"/>
+      <stop offset="100%" stop-color="#D9BE91"/>
+    </linearGradient>
+
+    <radialGradient id="vig" cx="0.5" cy="0.42" r="0.78">
+      <stop offset="0%"   stop-color="#000000" stop-opacity="0"/>
+      <stop offset="62%"  stop-color="#2B1A33" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#2B1A33" stop-opacity="0.40"/>
+    </radialGradient>
+
+    <!-- ============ TEXTURE FILTERS ============ -->
+    <!-- Chalky, eroded edge: coarse organic wobble + fine fuzz -->
+    <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
+      <feDisplacementMap in="SourceGraphic" in2="big" scale="9" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" seed="19" result="fine"/>
+      <feDisplacementMap in="d1" in2="fine" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="roughFine" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="31" result="big"/>
+      <feDisplacementMap in="SourceGraphic" in2="big" scale="4" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="fine"/>
+      <feDisplacementMap in="d1" in2="fine" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <filter id="midBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <filter id="tinyBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.5"/>
+    </filter>
+
+    <filter id="paperGrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" seed="11"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+
+    <clipPath id="frameClip"><rect x="1002" y="182" width="176" height="228" rx="4"/></clipPath>
+    <clipPath id="stage"><rect x="0" y="0" width="1600" height="900"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#stage)">
+
+    <!-- ============ WALL ============ -->
+    <rect width="1600" height="900" fill="url(#wallGrad)"/>
+
+    <!-- wallpaper stripes -->
+    <g opacity="0.16" filter="url(#roughFine)">
+      <g fill="#C97F82">
+        <rect x="120"  y="0" width="7" height="780"/><rect x="238" y="0" width="5" height="780"/>
+        <rect x="352"  y="0" width="8" height="780"/><rect x="470" y="0" width="5" height="780"/>
+        <rect x="588"  y="0" width="7" height="780"/><rect x="706" y="0" width="5" height="780"/>
+        <rect x="824"  y="0" width="8" height="780"/><rect x="942" y="0" width="5" height="780"/>
+        <rect x="1060" y="0" width="7" height="780"/><rect x="1178" y="0" width="5" height="780"/>
+        <rect x="1296" y="0" width="8" height="780"/><rect x="1414" y="0" width="5" height="780"/>
+        <rect x="1532" y="0" width="7" height="780"/>
+      </g>
+    </g>
+
+    <!-- ============ WINDOW (left) ============ -->
+    <g filter="url(#rough)">
+      <rect x="44" y="62" width="244" height="316" rx="10" fill="#C98A73"/>
+      <rect x="30" y="366" width="272" height="18" rx="6" fill="#B87A66"/>
+      <rect x="66" y="84" width="200" height="272" rx="6" fill="#FFE9C0"/>
+    </g>
+    <ellipse cx="166" cy="216" rx="205" ry="225" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.72"/>
+    <g filter="url(#roughFine)" fill="#B4705E" opacity="0.85">
+      <rect x="160" y="84" width="9" height="272"/>
+      <rect x="66" y="212" width="200" height="8"/>
+    </g>
+    <!-- window blind slats -->
+    <g filter="url(#roughFine)" fill="#D08A72" opacity="0.7">
+      <rect x="66" y="92"  width="200" height="10" rx="4"/>
+      <rect x="66" y="118" width="200" height="10" rx="4"/>
+      <rect x="66" y="144" width="200" height="10" rx="4"/>
+    </g>
+
+    <!-- ============ LIGHT SHAFT ============ -->
+    <path d="M 60 120 L 300 90 L 900 720 L 480 800 Z" fill="url(#shaftGrad)" filter="url(#softGlow)" style="mix-blend-mode:screen"/>
+    <path d="M 90 150 L 250 130 L 700 700 L 430 760 Z" fill="#FFE7BE" opacity="0.20" filter="url(#softGlow)" style="mix-blend-mode:screen"/>
+
+    <!-- ============ STAIRCASE SHADOW WEDGE (right) ============ -->
+    <path d="M 1120 -20 L 1640 -20 L 1640 900 L 1300 900 Z" fill="url(#stairShade)" style="mix-blend-mode:multiply" filter="url(#midBlur)"/>
+    <g filter="url(#rough)">
+      <path d="M 1180 -10 L 1640 -10 L 1640 250 Z" fill="#B87C86" opacity="0.65"/>
+      <path d="M 1272 118 L 1640 118 L 1640 168 L 1300 168 Z" fill="#A96E7C" opacity="0.45"/>
+    </g>
+
+    <!-- ============ HANGING LAMP ============ -->
+    <g filter="url(#roughFine)">
+      <rect x="356" y="0" width="5" height="120" fill="#7A4A54"/>
+      <path d="M 300 120 L 418 120 L 392 178 L 326 178 Z" fill="#C9524A"/>
+      <path d="M 300 120 L 418 120 L 410 134 L 308 134 Z" fill="#E0685C"/>
+    </g>
+    <ellipse cx="359" cy="196" rx="70" ry="46" fill="#FFD9A0" opacity="0.34" filter="url(#softGlow)"/>
+
+    <!-- ============ FRAMED PICTURES ============ -->
+    <!-- frame 1 : portrait -->
+    <g filter="url(#rough)">
+      <rect x="512" y="196" width="182" height="238" rx="5" fill="#7E5A86"/>
+      <rect x="528" y="212" width="150" height="206" rx="3" fill="#5C4270"/>
+      <path d="M 603 252 C 636 252 652 276 652 306 C 652 340 632 360 603 360 C 574 360 554 340 554 306 C 554 276 570 252 603 252 Z" fill="#C58063"/>
+      <path d="M 603 244 C 640 244 656 268 654 292 C 640 274 624 266 603 268 C 582 266 566 274 552 292 C 550 268 566 244 603 244 Z" fill="#241A38"/>
+      <path d="M 548 418 L 548 380 C 548 356 574 344 603 344 C 632 344 658 356 658 380 L 658 418 Z" fill="#8E3A33"/>
+      <circle cx="586" cy="306" r="9" fill="#F2E2C4" opacity="0.9"/>
+      <circle cx="620" cy="306" r="9" fill="#F2E2C4" opacity="0.9"/>
+      <circle cx="586" cy="307" r="5" fill="#1C1430"/>
+      <circle cx="620" cy="307" r="5" fill="#1C1430"/>
+    </g>
+    <!-- frame 2 : poster, in the stair shadow -->
+    <g filter="url(#rough)">
+      <rect x="994" y="174" width="192" height="244" rx="5" fill="#6B4A7E"/>
+      <rect x="1002" y="182" width="176" height="228" rx="4" fill="#7E5FA8"/>
+      <g clip-path="url(#frameClip)">
+        <circle cx="1090" cy="252" r="46" fill="#FFD79B" opacity="0.55"/>
+        <path d="M 1090 214 C 1114 214 1126 232 1126 252 C 1126 276 1112 290 1090 290 C 1068 290 1054 276 1054 252 C 1054 232 1066 214 1090 214 Z" fill="#D99A7C"/>
+        <path d="M 1090 208 C 1118 208 1130 226 1128 244 C 1116 230 1104 226 1090 228 C 1076 226 1064 230 1052 244 C 1050 226 1062 208 1090 208 Z" fill="#241A38"/>
+        <path d="M 1060 266 C 1070 292 1110 292 1120 266 C 1116 300 1064 300 1060 266 Z" fill="#241A38"/>
+        <path d="M 1040 410 L 1040 336 C 1040 312 1064 302 1090 302 C 1116 302 1140 312 1140 336 L 1140 410 Z" fill="#F4EDE2"/>
+        <rect x="1002" y="352" width="176" height="58" fill="#C9524A"/>
+      </g>
+    </g>
+
+    <!-- ============ CHARACTER ============ -->
+    <!-- soft contact shadow on wall behind her -->
+    <ellipse cx="828" cy="560" rx="180" ry="210" fill="#9A5F72" opacity="0.28" filter="url(#softGlow)" style="mix-blend-mode:multiply"/>
+
+    <g filter="url(#rough)">
+      <!-- hair : back mass -->
+      <path d="M 800 262 C 900 262 952 336 952 436 C 952 528 934 596 926 660 L 674 660 C 666 596 648 528 648 436 C 648 336 700 262 800 262 Z" fill="url(#hairGrad)"/>
+      <!-- neck -->
+      <path d="M 772 500 L 828 500 L 832 588 L 768 588 Z" fill="#B96D5E"/>
+      <!-- face -->
+      <path d="M 800 314 C 864 314 894 366 894 428 C 894 500 856 552 800 552 C 744 552 706 500 706 428 C 706 366 736 314 800 314 Z" fill="url(#skinGrad)"/>
+      <!-- ear -->
+      <path d="M 890 424 C 906 418 916 430 912 446 C 908 462 896 468 888 462 Z" fill="#C4735F"/>
+      <!-- hair : fringe / centre part -->
+      <path d="M 800 292 C 878 292 908 344 902 402 C 884 366 852 344 800 348 C 748 344 716 366 698 402 C 692 344 722 292 800 292 Z" fill="url(#hairGrad)"/>
+      <!-- hair : side sweep left -->
+      <path d="M 706 372 C 686 424 682 500 692 566 C 664 512 654 428 672 366 Z" fill="#3A2B55" opacity="0.85"/>
+      <!-- hair : bun -->
+      <path d="M 916 470 C 964 462 992 500 984 542 C 976 584 936 600 906 580 C 886 566 888 496 916 470 Z" fill="url(#hairGrad)"/>
+      <!-- hair highlight strands -->
+      <g stroke="#4C3A6E" stroke-width="4" fill="none" opacity="0.75" stroke-linecap="round">
+        <path d="M 754 316 C 716 352 700 412 700 470"/>
+        <path d="M 786 306 C 748 344 730 408 730 468"/>
+        <path d="M 846 314 C 884 350 902 410 900 462"/>
+      </g>
+    </g>
+
+    <!-- face features : kept crisp-ish so they read at small size -->
+    <g filter="url(#roughFine)">
+      <!-- blush -->
+      <ellipse cx="742" cy="470" rx="30" ry="17" fill="#C05B58" opacity="0.30"/>
+      <ellipse cx="858" cy="470" rx="30" ry="17" fill="#C05B58" opacity="0.30"/>
+      <!-- brows -->
+      <path d="M 736 396 C 752 384 776 384 790 392" stroke="#1C1430" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <path d="M 812 392 C 826 384 850 384 866 396" stroke="#1C1430" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <!-- eyes -->
+      <path d="M 738 430 C 748 414 776 414 786 430 C 776 448 748 448 738 430 Z" fill="#FBF3E4"/>
+      <path d="M 816 430 C 826 414 854 414 864 430 C 854 448 826 448 816 430 Z" fill="#FBF3E4"/>
+      <ellipse cx="766" cy="430" rx="12" ry="13" fill="#1C1430"/>
+      <ellipse cx="838" cy="430" rx="12" ry="13" fill="#1C1430"/>
+      <circle cx="770" cy="425" r="3.6" fill="#FBF3E4"/>
+      <circle cx="842" cy="425" r="3.6" fill="#FBF3E4"/>
+      <!-- bindi -->
+      <circle cx="800" cy="376" r="8" fill="#C9524A"/>
+      <!-- nose -->
+      <path d="M 796 448 C 792 470 798 478 810 476" stroke="#B0604F" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- smile -->
+      <path d="M 776 502 C 790 516 812 516 826 500" stroke="#8E3A33" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <!-- earring -->
+      <circle cx="900" cy="470" r="7" fill="#E8B45C"/>
+      <path d="M 900 478 C 912 478 916 494 906 502 C 896 510 884 500 888 488 Z" fill="#E8B45C"/>
+    </g>
+
+    <!-- body -->
+    <g filter="url(#rough)">
+      <path d="M 660 800 C 664 690 706 606 772 584 L 828 584 C 894 606 936 690 940 800 Z" fill="url(#blouseGrad)"/>
+      <!-- sari drape -->
+      <path d="M 828 584 C 862 622 886 700 892 800 L 946 800 C 940 692 898 608 838 582 Z" fill="#2E6B64"/>
+      <path d="M 834 596 C 866 634 888 706 894 800 L 916 800 C 910 704 884 630 850 592 Z" fill="#D9BE91" opacity="0.55"/>
+      <!-- shoulder light -->
+      <path d="M 772 584 C 730 604 700 648 682 700 C 706 640 736 604 776 592 Z" fill="#5A9089" opacity="0.45"/>
+      <!-- arm reaching to the table -->
+      <path d="M 690 664 C 650 692 630 730 636 764 C 640 786 660 700 700 690 Z" fill="#1A4340"/>
+      <path d="M 636 748 C 622 756 612 772 618 786 C 624 800 646 806 664 800 L 706 786 C 716 782 716 768 706 764 L 664 748 Z" fill="url(#skinGrad)"/>
+      <path d="M 660 754 C 650 762 648 776 656 784" stroke="#B0604F" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- ============ TABLE ============ -->
+    <g filter="url(#rough)">
+      <rect x="-40" y="726" width="1680" height="220" fill="url(#tableGrad)"/>
+      <rect x="-40" y="726" width="1680" height="14" fill="#E8845E" opacity="0.75"/>
+      <rect x="-40" y="782" width="1680" height="5" fill="#6E2C2C" opacity="0.35"/>
+    </g>
+
+    <!-- props : plate of rice --><g transform="translate(0,-46)">
+    <ellipse cx="806" cy="806" rx="150" ry="34" fill="#7A2E2E" opacity="0.35" filter="url(#midBlur)"/>
+    <g filter="url(#rough)">
+      <ellipse cx="800" cy="792" rx="146" ry="36" fill="#F4EDE2"/>
+      <ellipse cx="800" cy="786" rx="120" ry="27" fill="#E4D7C2"/>
+      <path d="M 700 786 C 716 748 762 736 800 736 C 838 736 884 748 900 786 C 866 800 734 800 700 786 Z" fill="url(#riceGrad)"/>
+      <g fill="#C9524A" opacity="0.9">
+        <ellipse cx="762" cy="764" rx="15" ry="9" transform="rotate(-16 762 764)"/>
+        <ellipse cx="824" cy="758" rx="17" ry="9" transform="rotate(12 824 758)"/>
+        <ellipse cx="856" cy="776" rx="13" ry="8" transform="rotate(-8 856 776)"/>
+      </g>
+      <g fill="#3F7A4E" opacity="0.85">
+        <ellipse cx="792" cy="752" rx="10" ry="5" transform="rotate(-24 792 752)"/>
+        <ellipse cx="736" cy="778" rx="9" ry="5" transform="rotate(14 736 778)"/>
+      </g>
+    </g>
+
+    </g>
+    <!-- props : steel pot, left --><g transform="translate(0,-34)">
+    <ellipse cx="380" cy="812" rx="130" ry="30" fill="#7A2E2E" opacity="0.40" filter="url(#midBlur)"/>
+    <g filter="url(#rough)">
+      <path d="M 272 700 L 488 700 L 470 800 L 290 800 Z" fill="url(#potGrad)"/>
+      <ellipse cx="380" cy="700" rx="108" ry="26" fill="#8C9AC6"/>
+      <ellipse cx="380" cy="700" rx="88" ry="19" fill="#3E4A73"/>
+      <path d="M 292 712 C 306 748 306 776 300 796 L 316 796 C 322 770 320 742 310 710 Z" fill="#A8B4D8" opacity="0.55"/>
+      <rect x="252" y="710" width="46" height="16" rx="8" fill="#2E3758"/>
+      <rect x="462" y="710" width="46" height="16" rx="8" fill="#2E3758"/>
+    </g>
+    <!-- steam -->
+    <g opacity="0.34" filter="url(#midBlur)" stroke="#FFF3DC" stroke-width="12" fill="none" stroke-linecap="round">
+      <path d="M 344 676 C 328 640 360 620 344 584 C 334 562 350 546 356 534"/>
+      <path d="M 412 682 C 398 650 424 630 412 600 C 404 582 416 568 422 558"/>
+    </g>
+
+    </g>
+    <!-- props : small cup, right --><g transform="translate(0,-34)">
+    <ellipse cx="1188" cy="806" rx="58" ry="16" fill="#7A2E2E" opacity="0.40" filter="url(#midBlur)"/>
+    <g filter="url(#rough)">
+      <path d="M 1142 742 L 1234 742 L 1224 798 L 1152 798 Z" fill="#E2E8F2"/>
+      <ellipse cx="1188" cy="742" rx="46" ry="12" fill="#C6D0E2"/>
+      <ellipse cx="1188" cy="743" rx="36" ry="8" fill="#9C6A4E"/>
+      <path d="M 1146 752 C 1152 774 1152 786 1150 794 L 1160 794 C 1160 780 1158 762 1154 750 Z" fill="#FFFFFF" opacity="0.45"/>
+    </g>
+
+    </g>
+    <!-- ============ ATMOSPHERE ============ -->
+    <!-- warm bounce light from window across left of the scene -->
+    <ellipse cx="300" cy="640" rx="420" ry="300" fill="#FFCF9B" opacity="0.20" filter="url(#softGlow)" style="mix-blend-mode:screen"/>
+    <!-- cool shadow settling in the lower right -->
+    <ellipse cx="1420" cy="820" rx="420" ry="260" fill="#5E4570" opacity="0.30" filter="url(#softGlow)" style="mix-blend-mode:multiply"/>
+
+    <rect width="1600" height="900" fill="url(#vig)"/>
+    <rect width="1600" height="900" filter="url(#paperGrain)" opacity="0.15" style="mix-blend-mode:overlay"/>
+  </g>
+</svg>

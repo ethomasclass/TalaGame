@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <!-- Clean flat shapes. No grain, no filters, no gradients. -->
+  <rect width="1600" height="900" fill="#F3BDA9"/>
+  <rect y="796" width="1600" height="104" fill="#C1553F"/>
+  <rect y="796" width="1600" height="10" fill="#E8845E"/>
+
+  <!-- ===================== BOY : blue hoodie ===================== -->
+  <g>
+    <ellipse cx="380" cy="838" rx="150" ry="20" fill="#8E3A33" opacity="0.30"/>
+    <!-- torso -->
+    <path d="M 302 830 C 296 690 318 602 356 572 L 404 572 C 442 602 464 690 458 830 Z" fill="#2E5FD9"/>
+    <!-- sleeves -->
+    <path d="M 330 594 C 296 616 280 700 282 792 L 330 792 C 326 706 336 636 356 606 Z" fill="#2A55C4"/>
+    <path d="M 430 594 C 464 616 480 700 478 792 L 430 792 C 434 706 424 636 404 606 Z" fill="#2A55C4"/>
+    <!-- pocket -->
+    <path d="M 320 712 L 440 712 L 446 774 L 314 774 Z" fill="#2750B0"/>
+    <!-- hood -->
+    <path d="M 326 548 C 348 596 412 596 434 548 C 448 578 436 612 380 612 C 324 612 312 578 326 548 Z" fill="#2750B0"/>
+    <!-- drawstrings -->
+    <path d="M 362 606 L 358 668" stroke="#EDE3D2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 398 606 L 404 660" stroke="#EDE3D2" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="357" cy="674" r="6" fill="#EDE3D2"/>
+    <circle cx="405" cy="666" r="6" fill="#EDE3D2"/>
+    <!-- neck -->
+    <path d="M 356 512 L 404 512 L 404 572 L 356 572 Z" fill="#B96D5E"/>
+    <!-- ears -->
+    <circle cx="272" cy="398" r="19" fill="#C4735F"/>
+    <circle cx="488" cy="398" r="19" fill="#C4735F"/>
+    <!-- face -->
+    <path d="M 380 266 C 452 266 488 320 488 386 C 488 456 448 508 380 508 C 312 508 272 456 272 386 C 272 320 308 266 380 266 Z" fill="#D98E77"/>
+    <!-- bowl-cut hair -->
+    <path d="M 380 238 C 462 238 504 296 504 376 L 470 376 C 466 338 430 318 380 318 C 330 318 294 338 290 376 L 256 376 C 256 296 298 238 380 238 Z" fill="#241A38"/>
+    <!-- brows -->
+    <path d="M 322 344 L 372 344 L 372 356 L 322 356 Z" fill="#241A38"/>
+    <path d="M 388 344 L 438 344 L 438 356 L 388 356 Z" fill="#241A38"/>
+    <!-- eyes -->
+    <circle cx="348" cy="396" r="15" fill="#241A38"/>
+    <circle cx="412" cy="396" r="15" fill="#241A38"/>
+    <circle cx="353" cy="391" r="5" fill="#FBF3E4"/>
+    <circle cx="417" cy="391" r="5" fill="#FBF3E4"/>
+    <!-- round glasses -->
+    <g fill="none" stroke="#241A38" stroke-width="7">
+      <circle cx="348" cy="396" r="35"/>
+      <circle cx="412" cy="396" r="35"/>
+      <path d="M 383 394 L 377 394"/>
+      <path d="M 313 390 L 276 384"/>
+      <path d="M 447 390 L 484 384"/>
+    </g>
+    <!-- nose + mouth -->
+    <path d="M 376 432 C 372 450 378 458 390 456" stroke="#B0604F" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 356 476 C 368 488 392 488 404 474" stroke="#8E3A33" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===================== MOTHER : teal sari ===================== -->
+  <g>
+    <ellipse cx="800" cy="838" rx="160" ry="20" fill="#8E3A33" opacity="0.30"/>
+    <!-- hair back mass -->
+    <path d="M 800 214 C 892 214 940 282 940 380 C 940 468 922 522 914 566 L 686 566 C 678 522 660 468 660 380 C 660 282 708 214 800 214 Z" fill="#241A38"/>
+    <!-- neck -->
+    <path d="M 776 470 L 824 470 L 826 560 L 774 560 Z" fill="#B96D5E"/>
+    <!-- torso : blouse -->
+    <path d="M 686 830 C 690 686 726 606 774 584 L 826 584 C 874 606 910 686 914 830 Z" fill="#1F4F4C"/>
+    <!-- sari drape over shoulder -->
+    <path d="M 826 584 C 860 620 886 720 892 830 L 918 830 C 912 716 884 610 838 582 Z" fill="#2E6B64"/>
+    <path d="M 834 596 C 864 632 886 726 892 830 L 906 830 C 900 730 878 638 848 594 Z" fill="#D9BE91"/>
+    <!-- arms -->
+    <path d="M 716 610 C 686 646 674 730 678 830 L 716 830 C 714 738 722 664 742 626 Z" fill="#1A4340"/>
+    <!-- ear -->
+    <circle cx="890" cy="396" r="17" fill="#C4735F"/>
+    <!-- face -->
+    <path d="M 800 258 C 862 258 894 312 894 376 C 894 448 856 500 800 500 C 744 500 706 448 706 376 C 706 312 738 258 800 258 Z" fill="#D98E77"/>
+    <!-- fringe / centre part -->
+    <path d="M 800 232 C 876 232 908 288 902 348 C 882 310 852 288 800 292 C 748 288 718 310 698 348 C 692 288 724 232 800 232 Z" fill="#241A38"/>
+    <!-- side sweep -->
+    <path d="M 704 322 C 686 380 684 452 694 520 C 664 462 656 372 674 316 Z" fill="#33254D"/>
+    <!-- bun -->
+    <path d="M 918 400 C 966 392 994 432 986 474 C 978 516 938 532 908 512 C 888 498 890 426 918 400 Z" fill="#241A38"/>
+    <!-- bindi -->
+    <circle cx="800" cy="326" r="8" fill="#C9524A"/>
+    <!-- brows -->
+    <path d="M 736 344 C 752 332 776 332 790 340" stroke="#241A38" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M 810 340 C 824 332 848 332 864 344" stroke="#241A38" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <!-- eyes -->
+    <path d="M 738 380 C 748 362 776 362 786 380 C 776 400 748 400 738 380 Z" fill="#FBF3E4"/>
+    <path d="M 814 380 C 824 362 852 362 862 380 C 852 400 824 400 814 380 Z" fill="#FBF3E4"/>
+    <circle cx="764" cy="380" r="13" fill="#241A38"/>
+    <circle cx="838" cy="380" r="13" fill="#241A38"/>
+    <circle cx="768" cy="375" r="4" fill="#FBF3E4"/>
+    <circle cx="842" cy="375" r="4" fill="#FBF3E4"/>
+    <!-- nose + smile -->
+    <path d="M 796 400 C 792 424 798 432 810 430" stroke="#B0604F" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 776 456 C 790 470 812 470 826 454" stroke="#8E3A33" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- earring -->
+    <circle cx="898" cy="418" r="7" fill="#E8B45C"/>
+    <path d="M 898 426 C 910 426 914 442 904 450 C 894 458 882 448 886 436 Z" fill="#E8B45C"/>
+  </g>
+
+  <!-- ===================== FATHER : red shirt ===================== -->
+  <g>
+    <ellipse cx="1220" cy="838" rx="160" ry="20" fill="#8E3A33" opacity="0.30"/>
+    <!-- neck -->
+    <path d="M 1196 496 L 1244 496 L 1246 586 L 1194 586 Z" fill="#B96D5E"/>
+    <!-- torso : shirt -->
+    <path d="M 1102 830 C 1098 692 1136 610 1192 586 L 1248 586 C 1304 610 1342 692 1338 830 Z" fill="#C9524A"/>
+    <!-- sleeves -->
+    <path d="M 1152 604 C 1112 634 1096 720 1098 830 L 1148 830 C 1146 726 1156 646 1180 614 Z" fill="#B34440"/>
+    <path d="M 1288 604 C 1328 634 1344 720 1342 830 L 1292 830 C 1294 726 1284 646 1260 614 Z" fill="#B34440"/>
+    <!-- collar -->
+    <path d="M 1192 586 L 1220 636 L 1170 618 Z" fill="#E0685C"/>
+    <path d="M 1248 586 L 1220 636 L 1270 618 Z" fill="#E0685C"/>
+    <!-- placket + buttons -->
+    <path d="M 1214 636 L 1226 636 L 1228 830 L 1212 830 Z" fill="#B34440"/>
+    <circle cx="1220" cy="686" r="6" fill="#8E3A33"/>
+    <circle cx="1221" cy="754" r="6" fill="#8E3A33"/>
+    <!-- ear -->
+    <circle cx="1316" cy="414" r="18" fill="#C4735F"/>
+    <!-- face -->
+    <path d="M 1220 286 C 1286 286 1316 340 1316 404 C 1316 478 1278 528 1220 528 C 1162 528 1124 478 1124 404 C 1124 340 1154 286 1220 286 Z" fill="#D98E77"/>
+    <!-- stubble -->
+    <path d="M 1136 428 C 1146 494 1178 528 1220 528 C 1262 528 1294 494 1304 428 C 1300 486 1272 516 1220 516 C 1168 516 1140 486 1136 428 Z" fill="#241A38" opacity="0.28"/>
+    <!-- big swept hair -->
+    <path d="M 1214 224 C 1324 224 1372 296 1366 400 C 1362 456 1346 496 1330 522 L 1296 504 C 1314 442 1312 372 1284 344 C 1254 312 1184 314 1152 350 C 1138 366 1130 384 1128 408 L 1096 400 C 1092 318 1134 224 1214 224 Z" fill="#241A38"/>
+    <path d="M 1148 316 C 1192 286 1264 290 1300 330 C 1256 306 1192 304 1148 316 Z" fill="#33254D"/>
+    <path d="M 1322 400 C 1334 442 1332 490 1322 520 L 1300 510 C 1312 474 1314 434 1306 402 Z" fill="#33254D"/>
+    <!-- brows -->
+    <path d="M 1152 366 C 1170 356 1194 358 1206 366" stroke="#241A38" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <path d="M 1234 366 C 1248 358 1272 356 1290 366" stroke="#241A38" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <!-- eyes -->
+    <ellipse cx="1180" cy="404" rx="15" ry="13" fill="#FBF3E4"/>
+    <ellipse cx="1262" cy="404" rx="15" ry="13" fill="#FBF3E4"/>
+    <circle cx="1180" cy="405" r="10" fill="#241A38"/>
+    <circle cx="1262" cy="405" r="10" fill="#241A38"/>
+    <!-- square glasses -->
+    <g fill="none" stroke="#241A38" stroke-width="7">
+      <rect x="1148" y="378" width="66" height="54" rx="18"/>
+      <rect x="1228" y="378" width="66" height="54" rx="18"/>
+      <path d="M 1214 400 L 1228 400"/>
+      <path d="M 1148 396 L 1120 392"/>
+      <path d="M 1294 396 L 1322 392"/>
+    </g>
+    <!-- nose -->
+    <path d="M 1214 442 C 1210 462 1216 470 1228 468" stroke="#B0604F" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- moustache -->
+    <path d="M 1160 478 C 1188 458 1208 470 1220 482 C 1232 470 1252 458 1280 478 C 1262 502 1232 500 1220 488 C 1208 500 1178 502 1160 478 Z" fill="#241A38"/>
+    <!-- mouth -->
+    <path d="M 1200 512 C 1210 522 1230 522 1240 512" stroke="#8E3A33" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
