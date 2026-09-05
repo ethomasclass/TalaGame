@@ -60,3 +60,25 @@ at the edge, pushed through an `feDisplacementMap` so no two are the same shape.
 **Rim light** on silhouettes is a gold copy of the figure drawn underneath at
 a small offset toward the light source. It aligns to any pose automatically,
 which hand-placed highlight paths do not.
+
+### Camera rule (decided after the three-quarter test)
+
+`scene-cooking.html` put Tala at three-quarter turn and the face broke —
+flat shapes cannot lie about depth in the nose, far eye and jaw all at
+once. The fix is structural, and it is the one Venba uses:
+
+- **Dialogue scenes: characters straight-on** (see `venba-style-test.svg`).
+  One drawing per character plus swappable mouth/brow/eye groups.
+- **Cooking scenes: top-down, no character on screen**
+  (`scene-cooking-topdown.html`). The player *is* the hands. The only hand
+  ever drawn is the cursor glove, which is UI, not anatomy.
+
+Animation in both is CSS keyframes on SVG groups. Always transform the
+parent of a textured (`filter="url(#rough)"`) group, never the group
+itself, or the grain shimmers frame to frame.
+
+Render a looping GIF with:
+
+```
+NODE_PATH=/opt/node22/lib/node_modules node tools/render-gif.js <in.html> <out.gif> 640 360 2.8 15
+```
