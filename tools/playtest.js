@@ -1,8 +1,8 @@
 // playtest.js [variant] — walks the whole build from a queue of decisions, screenshots each new screen, prints STATE
 const { chromium } = require('playwright'); const path=require('path'), fs=require('fs');
 const VARIANTS = {
-  main:  { choice:[1,1,2,2,3], cook:['A','A','A','A'], phone:[2,2,3,2,3] },   // invite, Mang Boy's, say nothing, sleep, wish: Bea stays
-  getup: { choice:[2,2,1,1,1], cook:['C','B','C','A','B'], phone:[3,1,1,1,1] },   // working, chain, say something, get up, wish: Lola
+  main:  { choice:[1,1,2,2,1,3], cook:['A','A','A','A'], phone:[2,2,3,2,3] },   // invite, Mang Boy's, say nothing, sleep, wire today, wish: Bea stays
+  getup: { choice:[2,2,1,1,2,1], cook:['C','B','C','A','B'], phone:[3,1,1,1,1] },   // working, chain, say something, get up, wire in three days, wish: Lola
 };
 (async()=>{
   const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
@@ -19,6 +19,7 @@ const VARIANTS = {
     if(s.mode==='end'){ await shot('end'); break; }
     if(s.mode==='pause'){ if(last!==`pause:${s.i}`){ await page.waitForTimeout(s.bg==='dawn'?5600:1200); await shot(s.bg==='dawn'?'sunrise':`estab-${s.bg}-b${s.i}`); last=`pause:${s.i}`; } await page.waitForTimeout(400); continue; }
     if(s.mode==='drag'){ if(last!==`drag:${s.i}:${await page.evaluate(()=>cookStep)}`){ const k=await page.evaluate(()=>drag&&drag.spec.kind); await page.waitForTimeout(k==='egg'?8500:900); await shot(`drag-${k}-b${s.i}`); await page.keyboard.press('Enter'); last=`drag:${s.i}:${await page.evaluate(()=>cookStep)}`; await page.waitForTimeout(900); } await page.waitForTimeout(300); continue; }
+    if(s.mode==='photo'){ if(last!==`photo:${s.i}`){ await shot(`photo-b${s.i}`); last=`photo:${s.i}`; } await page.keyboard.press('Enter'); await page.waitForTimeout(200); continue; }
     if(s.mode==='note'){ if(last!==`note:${s.i}`){ await shot(`note-${s.bg}-b${s.i}`); last=`note:${s.i}`; } await page.keyboard.press('Enter'); await page.waitForTimeout(200); continue; }
     if(s.mode==='debrief'){ await shot('debrief'); await page.keyboard.press('Enter'); await page.waitForTimeout(300); continue; }
     if(s.busy){ await page.waitForTimeout(400); continue; }

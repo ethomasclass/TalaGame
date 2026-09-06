@@ -1,5 +1,5 @@
 // ---------------- state (from the spec) ----------------
-const STATE = { mornings:[], honesty:0, invitedHannah:false, cook:{} };
+const STATE = { mornings:[], honesty:0, invitedHannah:false, cook:{}, wire:{} };
 const $ = id => document.getElementById(id);
 
 // ---------------- expressions + motion ----------------
@@ -11,15 +11,18 @@ const X = {
   pa:{ neutral:['brows-straight','eyes-open','mouth-neutral'], down:['brows-low','eyes-down','mouth-flat'], soft:['brows-straight','eyes-open','mouth-small-smile'] },
   hannah:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], curious:['brows-up','eyes-wide','mouth-o'], smile:['brows-up','eyes-open','mouth-smile'], flat:['brows-neutral','eyes-open','mouth-flat'] },
   ando:{ tired:['brows-neutral','eyes-tired','mouth-neutral'], up:['brows-up','eyes-open','mouth-small'], smile:['brows-neutral','eyes-tired','mouth-smile'] },
-  tita:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], warm:['brows-up','eyes-warm','mouth-smile'], talk:['brows-up','eyes-open','mouth-talk'] }
+  tita:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], warm:['brows-up','eyes-warm','mouth-smile'], talk:['brows-up','eyes-open','mouth-talk'] },
+  clerk:{ working:['brows-neutral','eyes-down','mouth-small'], up:['brows-up','eyes-open','mouth-neutral'],
+          talk:['brows-neutral','eyes-open','mouth-talk'], kind:['brows-up','eyes-open','mouth-smile'] }
 };
 // which layer's hooks an expression lands on
 const HOOKS = { dining:{tala:['x-tala','tala-'], ma:['x-ma','ma-'], pa:['x-pa','pa-']},
                 rest:{tala:['x-rtala','r-tala-'], ma:['x-rma','r-ma-']},
                 school:{tala:['x-stala','s-tala-'], hannah:['x-han','s-han-']},
                 kitchen:{pa:['x-kpa','k-pa-'], ando:['x-ando','k-ando-']},
-                hall:{tala:['x-htala','h-tala-'], ma:['x-hma','h-ma-'], tita:['x-tita','h-tita-'], hannah:['x-hhan','h-han-']} };
-const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'}, hall:{tala:'c-htala',ma:'c-hma',tita:'c-tita',hannah:'hall-hannah'} };
+                hall:{tala:['x-htala','h-tala-'], ma:['x-hma','h-ma-'], tita:['x-tita','h-tita-'], hannah:['x-hhan','h-han-']},
+                wire:{tala:['x-wtala','w-tala-'], pa:['x-wpa','w-pa-'], clerk:['x-clerk','w-clerk-']} };
+const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'}, hall:{tala:'c-htala',ma:'c-hma',tita:'c-tita',hannah:'hall-hannah'}, wire:{tala:'c-wtala',pa:'c-wpa',clerk:'c-clerk'} };
 let bg = 'dining';
 function setExpr(who, name){
   const h = HOOKS[bg] && HOOKS[bg][who]; if(!h) return;
@@ -40,9 +43,9 @@ function focus(who){
 }
 
 // ---------------- content ----------------
-const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando', tita:'Tita Baby'};
+const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando', tita:'Tita Cora', clerk:'The clerk'};
 const ROLES = {tala:'seventeen · two years here', ma:'Divina Ramos · runs the dining room', pa:'Rey Ramos · kitchen · was a pharmacist for eleven years', customer:'eats here maybe twice a year',
-               hannah:'third period · one desk over since September', ando:'cousin · twenty · landed today', tita:'the parish food committee'};
+               hannah:'third period · one desk over since September', ando:'cousin · twenty · landed today', tita:'Corazon Villaflor · the parish food committee', clerk:'Newark Avenue · does this two hundred times a week'};
 const met = new Set();
 // Tagalog and kitchen words a ninth grader can tap for a meaning. Only the first use on a line is marked.
 const TERMS = {
@@ -70,7 +73,11 @@ const HOT = {
            {x:400,y:200,t:'Third period. Human geography. A strange thing to study when you are the thing being studied.'} ],
   kitchen:[ {x:230,y:220,t:'The tickets. Table three always sends the pancit back with the liver picked out. They order it anyway.'},
             {x:60,y:400,t:'The walk-in. Ando stood inside it for a full minute on his first afternoon. Everything here is so big.'} ],
-  hall:[ {x:660,y:158,t:'Maligayang Pasko. Merry Christmas. The banner is older than the parish’s priest. Tita Baby brings it every year in a garment bag.'},
+  wire:[ {x:350,y:104,t:'The rate board. It was 53.10 on Monday. Nobody in this room controls that number, and everybody in this room watches it.'},
+         {x:1155,y:270,t:'The notice taped inside the glass. The fees are on it, in small print, in English only.'},
+         {x:640,y:592,t:'The bell. You ring it if nobody comes. Somebody always comes.'},
+         {x:238,y:624,t:'The form. Name, address, relationship to the person receiving. Tala has written “grandmother” in that box eleven times this year.'} ],
+  hall:[ {x:660,y:158,t:'Maligayang Pasko. Merry Christmas. The banner is older than the parish’s priest. Tita Cora brings it every year in a garment bag.'},
          {x:400,y:560,t:'Puto bumbong on banana leaf. Purple rice, steamed standing up. The smell in the cold is the whole point.'},
          {x:1050,y:560,t:'Bibingka. Salted egg and cheese on top, coals above and below. Lola’s always had a burnt spot on one side. On purpose.'} ]
 };
@@ -190,8 +197,8 @@ const beats = [
      who:'ma', pre:'(adding it up out loud)', text:'Fifty people. Two trays of bibingka is twenty pieces. And we only have six bamboo tubes.'},
   {bg:'dawn', who:'tala', text:'We could borrow tubes.'},
   {bg:'dawn', who:'ma', text:'From who?'},
-  {bg:'dawn', who:'tala', text:'Tita Baby.'},
-  {bg:'dawn', who:'ma', text:'…Yes. From Tita Baby.'},
+  {bg:'dawn', who:'tala', text:'Tita Cora.'},
+  {bg:'dawn', who:'ma', text:'…Yes. From Tita Cora.'},
   {bg:'dawn', stage:'Ma adds it up again, quieter this time. It comes out the same. They do not have enough.'},
   {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Sunday, December 16 · 5:30 a.m. · before opening'], bg:'ext-rest', pause:3000},
   {note:['Lola’s recipe card','Every dish in this game comes from one index card, written by hand by Tala’s grandmother.',
@@ -322,17 +329,59 @@ const beats = [
      aside:'That is the money that was set aside for the Christmas Eve ingredients. It is now the money that is going to the hospital.'},
   {bg:'dining', who:'pa', text:'And the puto bumbong?', expr:{pa:'neutral'}},
   {bg:'dining', who:'ma', text:'We will do the bibingka.', expr:{ma:'held',pa:'down'}},
-  {bg:'dining', who:'tala', text:'Tita Baby asked for both.', expr:{tala:'neutral'}},
+  {bg:'dining', who:'tala', text:'Tita Cora asked for both.', expr:{tala:'neutral'}},
   {bg:'dining', who:'ma', text:'Then we will see what the week does.', expr:{ma:'neutral',tala:'quiet'}},
-  {bg:'dining', stage:'Pa drives to the money transfer counter on Newark Avenue and wires it to the Philippines. It gets there the same day.', expr:{ma:'counting',pa:'down'}},
+
+  // ---- the counter. The one room where this family is the customer. ----
+  {estab:['The money transfer counter · Newark Avenue','Saturday, December 22 · 4:05 p.m.'], bg:'wire', pause:3200,
+     set: () => { $('drag-bills').setAttribute('hidden',''); $('wire-receipt').setAttribute('hidden',''); }},
+  {hud:['December 22','Seventh morning · Newark Avenue'], bg:'wire',
+     stage:'Pa did not want to come alone, so Tala came. There is a line of four people and everybody in it is holding an envelope.',
+     expr:{tala:'quiet',pa:'neutral',clerk:'working'}},
+  {bg:'wire', who:'pa', pre:'(sliding the form across to her)', text:'You do it. Your handwriting is better than mine.', expr:{pa:'neutral',tala:'neutral'},
+     aside:'Tala has been filling in this family’s forms since she was fifteen. Bank, school, doctor, this. She is better at it than either of her parents and everybody has agreed not to say so.'},
+  {bg:'wire', who:'clerk', text:'Next. Sending or receiving?', expr:{clerk:'up'}},
+  {bg:'wire', who:'pa', text:'Sending. Philippines.', expr:{pa:'neutral'}},
+  {bg:'wire', who:'clerk', pre:'(already typing)', text:'Batangas, Cebu, Manila?', expr:{clerk:'working'}},
+  {bg:'wire', who:'tala', text:'Batangas. San Juan, Batangas.', expr:{tala:'neutral'}},
+  {note:['How big is this, really?','Filipinos working in other countries send home around thirty-four billion dollars a year. That is close to a tenth of everything the entire Philippine economy produces.',
+         'It does not arrive in one piece. It arrives four hundred dollars at a time, at counters like this one, on a Saturday afternoon, from people who are about to go back to work.']},
+  {bg:'wire', drag:{kind:'bills', tip:'Pa counts it twice and puts it on the counter. <em>Drag the money into the tray under the glass.</em>'}},
+  {bg:'wire', who:'clerk', text:'Four hundred even.', expr:{clerk:'talk',pa:'neutral',tala:'quiet'}},
+  {bg:'wire', who:'clerk', text:'Today, or in three days? Today is fourteen dollars. Three days is five.', expr:{clerk:'up'}},
+  {bg:'wire', stage:'The hospital wants a deposit before they will do anything. Nobody has said out loud how long Lola can wait.', expr:{pa:'down',tala:'wince'}},
+  {bg:'wire', choice:[{text:'Today. Pay the fourteen.', set: () => { STATE.wire = {speed:'fast', fee:14}; }},
+                      {text:'Three days. Save the nine dollars.', set: () => { STATE.wire = {speed:'slow', fee:5}; }}], expr:{pa:'neutral'}},
+  {bg:'wire', stage: () => STATE.wire.speed === 'fast'
+     ? 'The receipt comes back through the tray. Four hundred dollars, plus fourteen to send it. At today’s rate that is 20,960 pesos in Lola’s hands tonight, and 414 dollars gone from the drawer at Pacing’s.'
+     : 'The receipt comes back through the tray. Four hundred dollars, plus five to send it. At today’s rate that is 20,960 pesos in Lola’s hands on the twenty-sixth, and 405 dollars gone from the drawer at Pacing’s.',
+     expr:{pa:'neutral',tala:'quiet',clerk:'working'}},
+  {bg:'wire', who:'clerk', pre:'(friendly, not looking up)', text:'You a nurse?', expr:{clerk:'kind',pa:'neutral'}},
+  {bg:'wire', who:'pa', text:'No.', expr:{pa:'down'}},
+  {bg:'wire', who:'clerk', text:'Everybody from back home is a nurse. My brother-in-law is a nurse. Twelve-hour shifts, Newark.', expr:{clerk:'talk'}},
+  {bg:'wire', who:'pa', text:'Not me.', expr:{pa:'down'}, aside:'That is all he says. Tala is standing right there and she knows the rest of the sentence.'},
+  {bg:'wire', stage:'The clerk goes back to his screen and calls the next person. It took four minutes.', expr:{clerk:'working',tala:'wince',pa:'down'}},
+  {bg:'wire', who:'tala', text:'Why did you not tell him?', expr:{tala:'neutral',pa:'down'}},
   {note:['What Pa did before','Rey Ramos was a licensed pharmacist in the Philippines for eleven years. He ran a whole pharmacy.',
          'His license does not count in the United States. To use it here he would have to retake years of school and exams the family cannot afford right now. So he cooks.']},
-  {bg:'dining', who:'pa', pre:'(back home, still in his coat)', text:'The man at the counter asked if I was a nurse. He said everyone from back home is a nurse.', expr:{pa:'down',ma:'neutral'}},
+  {bg:'wire', who:'pa', text:'Because then he asks why I am not doing it anymore.', expr:{pa:'down',tala:'quiet'}},
+  {bg:'wire', who:'tala', text:'You could just say it.', expr:{tala:'neutral'}},
+  {bg:'wire', who:'pa', pre:'(putting the receipt in his coat pocket)', text:'Anak. Go and wait by the door.', expr:{pa:'down',tala:'wince'}},
+  // ---- back upstairs ----
+  {hud:['December 22','Seventh morning · Back upstairs'], bg:'dining',
+     stage: () => STATE.wire.speed === 'fast'
+       ? 'Ma does not ask what the fee was. Pa tells her anyway, and she writes it in the book with everything else.'
+       : 'Ma does not ask what the fee was. When Pa says it will not land until the twenty-sixth, she is quiet for a second, then says that is fine, and writes it in the book.',
+     expr:{ma:'counting',pa:'down',tala:'quiet'}},
   {bg:'dining', who:'ma', text:'Rey.', expr:{ma:'held'}},
-  {bg:'dining', who:'pa', text:'I told him no. I did not tell him what I used to be.', expr:{pa:'down'}},
-  {bg:'dining', who:'tala', text:'Why not?', expr:{tala:'neutral'}},
-  {bg:'dining', who:'pa', text:'Because then he asks why I am not doing it anymore.', expr:{pa:'down'}},
+  {bg:'dining', who:'pa', text:'It is done. It is fine.', expr:{pa:'down'}},
   {bg:'dining', stage:'Ando offers his first week of pay. Pa says no. Ando puts it on the table anyway, and after a while Pa takes it.', expr:{pa:'soft',ma:'neutral'}},
+  // ---- the photo ----
+  {bg:'dining', stage:'Later. Tala gets the tin down for the bibingka. Lola’s card is where it always is, and something is stuck to the back of it.', expr:{tala:'quiet'}},
+  {photo:'Nanay — Simbang Gabi, 2015. She made two hundred that year and still would not sit down.'},
+  {bg:'dining', who:'tala', pre:'(to nobody)', text:'You are not allowed to be sick.', expr:{tala:'quiet'},
+     aside:'She has been sending money to this woman for two years. This is the first time all week she has looked at her face.'},
+  {bg:'dining', stage:'She props the polaroid against the sugar tin, where she can see it, and gets the clay pot out.', expr:{tala:'neutral',ma:'neutral',pa:'neutral'}},
   {bg:'cook', cook:'s4'},
   {bg:'dining', who:'pa', text: () => COOKS.s4.react[STATE.cook.out], expr:{pa:'soft',tala:'neutral',ma:'neutral'}},
   {bg:'dining', stage:'Later. There is a whole shelf missing in the walk-in fridge, because that money went to the hospital. Then the phone buzzes.', expr:{tala:'quiet',ma:'neutral',pa:'neutral'}},
@@ -343,7 +392,7 @@ const beats = [
   // ================= SCENE 5 : December 24 =================
   {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Monday, December 24 · 4:15 a.m.'], bg:'ext-rest', pause:3000},
   {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen',
-     stage:'Four in the morning and everyone is here. Pa, Ma, Ando, and two of Tita Baby’s nephews who got volunteered. Bamboo tubes steaming. Purple rice. The smell of it in the cold.', expr:{pa:'neutral',ando:'up'}},
+     stage:'Four in the morning and everyone is here. Pa, Ma, Ando, and two of Tita Cora’s nephews who got volunteered. Bamboo tubes steaming. Purple rice. The smell of it in the cold.', expr:{pa:'neutral',ando:'up'}},
   {bg:'kitchen', who:'ando', text:'Back home we started at three.', expr:{ando:'smile'}},
   {bg:'kitchen', who:'pa', text:'Back home the church was closer.', expr:{pa:'soft'}},
   {bg:'cook', cook:'s5'},
@@ -368,7 +417,7 @@ const beats = [
   {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}},
   {id:'tita', bg:'hall', who:'tita', text:'Your Lola made the puto bumbong for our parish back home. Everybody knew it there. Now they know it here too.', expr:{tita:'warm',ma:'held'}},
   {bg:'hall', show:{'hall-basket':true},
-     stage:'Then Tita Baby passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
+     stage:'Then Tita Cora passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
   {note:['What just happened','The family has been sending money home to Lola all year. This morning the neighborhood sent money back the other way.',
          'Ma is not embarrassed because they need help. She is embarrassed because everyone now knows they need help.']},
   {bg:'hall', who:'ma', pre:'(not looking at her, straightening a tray that is already straight)', tl:'Kumain ka na ba?', text:'Have you eaten?', expr:{ma:'held',tala:'quiet'},
@@ -400,7 +449,7 @@ const beats = [
 // ---------------- engine ----------------
 let i = -1, sel = 0, mode = 'title', busy = false, pauseTimer = 0;
 function endPause(){ if(mode !== 'pause') return; clearTimeout(pauseTimer); hud.hidden = false; $('estab').hidden = true; mode = 'say'; advance(); }
-const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen'), hall:$('hall'), dawn:$('dawn'), 'ext-rest':$('ext-rest'), 'ext-school':$('ext-school')};
+const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen'), hall:$('hall'), wire:$('wire'), dawn:$('dawn'), 'ext-rest':$('ext-rest'), 'ext-school':$('ext-school')};
 const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud');
 const txt = v => typeof v === 'function' ? v() : v;
 
@@ -410,13 +459,14 @@ function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
   const b = beats[i]; if(!b) return;
-  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
+  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = b.hud[0]; $('hud-sub').textContent = b.hud[1]; }
   if(b.set) b.set();
   if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
   $('dawn').classList.toggle('sunrise', !!b.sunrise);
   drawMarks();
   if(b.debrief) return debriefCard();
+  if(b.photo) return photoCard(b.photo);
   if(b.note) return noteCard(b);
   $('estab').hidden = !b.estab; if(b.estab){ $('estab-place').textContent = b.estab[0]; $('estab-when').textContent = b.estab[1]; }
   if(b.pause){ showBg(b.bg); mode = 'pause'; dlg.hidden = true; hud.hidden = true; clearTimeout(pauseTimer); pauseTimer = setTimeout(endPause, b.pause); return; }
@@ -429,11 +479,15 @@ function render(){
   if(b.expr) for(const k in b.expr) setExpr(k, b.expr[k]);
   $('aside').hidden = true; $('hot').innerHTML = '';
   if(b.cook){ mode = 'cook'; dlg.hidden = true; renderCook(COOKS[b.cook]); return; }
+  if(b.drag){ dlg.hidden = true; const tip = $('dragtip'); tip.innerHTML = b.drag.tip || ''; tip.hidden = !b.drag.tip;
+    startDrag(b.drag, () => { tip.hidden = true; mode = 'say'; advance(); }); return; }
   if(b.choice){ mode = 'choice'; dlg.hidden = true; renderChoice(b.choice); return; }
   mode = 'say'; dlg.hidden = false;
   const stage = txt(b.stage), who = txt(b.who);
-  if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = gloss(stage); focus(null); }
+  const av = $('who-av');
+  if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = gloss(stage); focus(null); av.hidden = true; }
   else {
+    av.className = 'av port av-' + who; av.hidden = false;
     const first = !met.has(who) && ROLES[who]; met.add(who);
     const tl = txt(b.tl);
     $('who').innerHTML = NAMES[who] + (first ? ` <span class="role">· ${ROLES[who]}</span>` : '')
@@ -496,6 +550,12 @@ const DRAGS = {
       $('vin-stream').setAttribute('opacity', over ? .9 : 0); $('sauce-vin').setAttribute('opacity', Math.min(.6, d.poured/9000)); },
     drop(d){ if(d.poured < 400) return false; return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
     key(d){ d.poured = 3500; return this.drop(d); } },
+  // the only drag outside the kitchen. The target is the pass tray under the glass.
+  bills:{ item:'drag-bills', home:[430,618], target:[960,606,120],
+    setup(){ $('wire-receipt').setAttribute('hidden',''); },
+    tick(){},
+    drop(d, inside){ if(!inside) return false; $('drag-bills').setAttribute('hidden',''); $('wire-receipt').removeAttribute('hidden'); return 'handed'; },
+    key(d){ return this.drop(d, true); } },
   tablea:{ item:'drag-tablea', home:[700,440], target:[470,385,130],
     setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); },
     tick(){}, drop(d, inside){ if(!inside) return false; $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; }, key(d){ return this.drop(d, true); } },
@@ -557,6 +617,7 @@ function confirmReply(){ const r = phoneData.replies[sel]; if(!r) return; STATE.
   setTimeout(tick, 700); }
 
 // -------- cards --------
+function photoCard(cap){ mode = 'photo'; dlg.hidden = true; $('photo').hidden = false; $('dim').classList.add('on'); $('pcap').textContent = cap; }
 function noteCard(b){ mode = 'note'; dlg.hidden = true; choices.hidden = true; showBg(b.bg || bg);
   if(b.expr) for(const k in b.expr) setExpr(k, b.expr[k]);
   $('note-tab').textContent = b.note[0];
@@ -573,7 +634,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -587,6 +648,7 @@ document.addEventListener('keydown', e => {
   else if(mode === 'inter'){ if(go){ $('inter').classList.remove('on'); i++; render(); } }
   else if(mode === 'debrief'){ if(go){ $('debrief').classList.remove('on'); i++; render(); } }
   else if(mode === 'note'){ if(go){ $('note').hidden = true; mode = 'say'; advance(); } }
+  else if(mode === 'photo'){ if(go){ $('photo').hidden = true; mode = 'say'; advance(); } }
   else if(mode === 'say'){ if(go) next(); else if(e.key === 'ArrowLeft') prev(); }
   else if(mode === 'drag'){ if(e.key === 'Enter' || e.key === ' ') dragKey(); }
   else if(mode === 'cook' || mode === 'choice'){
@@ -602,6 +664,7 @@ document.addEventListener('keydown', e => {
   }
   updateDev();
 });
+$('photo').addEventListener('click', () => { if(mode !== 'photo') return; $('photo').hidden = true; mode = 'say'; advance(); });
 $('title').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
 $('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
@@ -611,7 +674,7 @@ $('note').addEventListener('click', ev => { if(mode !== 'note') return;
   $('note').hidden = true; mode = 'say'; advance(); });
 $('panel').addEventListener('click', ev => { const t = ev.target.closest('.term'); if(t){ ev.stopPropagation(); const a = $('aside'); a.className = 'aside def'; a.innerHTML = `<b>${t.textContent}</b>${t.dataset.def}`; a.hidden = false; return; } next(); });
 $('hot').addEventListener('click', ev => { const c = ev.target.closest('circle[data-t]'); if(c && mode === 'say' && !looking){ ev.stopPropagation(); look(c.dataset.t); } });
-$('stage').addEventListener('click', e => { if(mode === 'note') return; if(mode === 'pause') return endPause(); if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
+$('stage').addEventListener('click', e => { if(mode === 'note' || mode === 'photo') return; if(mode === 'pause') return endPause(); if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
 choices.addEventListener('click', e => { const c = e.target.closest('.ch'); if(!c) return; pickChoice(Number(c.dataset.n)); mode === 'cook' ? confirmCook() : confirmChoice(); });
 $('replies').addEventListener('click', e => { const c = e.target.closest('.rp'); if(!c || busy) return; sel = Number(c.dataset.n); confirmReply(); });
 $('end').addEventListener('click', restart);

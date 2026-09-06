@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
 import re, pathlib, sys
-sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers"); avatars = importlib.import_module("avatars"); cooklayer = importlib.import_module("cook-layer")
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers"); avatars = importlib.import_module("avatars"); cooklayer = importlib.import_module("cook-layer"); s6 = importlib.import_module("scene6-layers")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -80,6 +80,8 @@ if 'batter-set' not in cook:
 assert 'batter-set' in cook and 'drag-egg' in cook
 # ---------------- scene 5 layers ----------------
 hall_svg = s5.hall(dining_defs)
+counter_svg = s6.counter(dining_defs)
+lola_svg = s6.LOLA
 dawn_svg = s5.dawn()
 if 'dish-puto' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s5.puto(cook) + '  <g id="dish-pancit" hidden>')
 assert 'dish-puto' in cook
@@ -164,7 +166,7 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   .cardwrap,.prompt,.estab,.alarmtxt,#dev,.hud{{pointer-events:none}}
   .cardscreen{{pointer-events:none}} .cardscreen.on{{pointer-events:auto}}
   #cook svg,#cook .overlay{{pointer-events:none}}
-  #drag-egg,#drag-vin,#drag-tube,#drag-tablea{{pointer-events:auto}}
+  #drag-egg,#drag-vin,#drag-tube,#drag-tablea,#drag-bills{{pointer-events:auto}}
   .estab{{position:absolute;left:44px;bottom:44px;z-index:7;background:rgba(18,12,10,.78);color:#ece7d6;padding:14px 22px 14px 18px;border-left:3px solid #dba748;border-radius:0 8px 8px 0;backdrop-filter:blur(3px)}}
   .estab .place{{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}}
   .estab .when{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-top:5px}}
@@ -184,6 +186,8 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   .tlline{{display:block;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.74em;line-height:1.35;
     color:#a8721f;margin:0 0 8px;padding-left:13px;border-left:2px solid rgba(168,114,31,.45)}}
   .aside{{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:19px;color:#6d5a3f;margin:8px 0 0;padding-left:14px;border-left:2px solid rgba(168,114,31,.45)}}
+  #panel{{display:flex;gap:18px;align-items:flex-start}} .ptext{{flex:1;min-width:0}}
+  .av.port{{width:68px;height:68px;margin-top:1px;border:2px solid rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.28)}}
   /* phone portraits */
 {avatar_css}  .av{{width:34px;height:34px;border-radius:50%;display:inline-block;vertical-align:middle;flex:0 0 auto;
     background-size:cover;background-position:center top;box-shadow:0 1px 2px rgba(0,0,0,.25)}}
@@ -205,6 +209,18 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     10%{{transform:translateX(-50%) translateY(0) rotate(-1.6deg)}}25%{{transform:translateX(-50%) translateY(-3px) rotate(1.6deg)}}
     40%{{transform:translateX(-50%) translateY(0) rotate(-1.2deg)}}55%{{transform:translateX(-50%) translateY(-2px) rotate(1deg)}}70%{{transform:translateX(-50%) translateY(0) rotate(-.5deg)}}}}
   #phone.buzz{{animation:buzz .55s ease-in-out 2}}
+  .dragtip{{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:8;pointer-events:none;
+    background:rgba(24,16,12,.84);color:#f4eeda;padding:13px 24px;border-radius:10px;max-width:596px;text-align:center;
+    font-family:"Fraunces",Georgia,serif;font-size:21px;line-height:1.35;box-shadow:0 18px 40px -18px rgba(0,0,0,.9)}}
+  .dragtip em{{color:#e8bd63;font-style:normal}}
+  /* the polaroid. Caveat is already embedded for the recipe card, so the caption is handwriting. */
+  .photo{{position:absolute;inset:0;z-index:9;display:grid;place-items:center;cursor:pointer}}
+  .pola{{background:#fbf8ee;padding:16px 16px 0;border-radius:3px;transform:rotate(-2.2deg);
+    box-shadow:0 3px 6px rgba(0,0,0,.4),0 34px 70px -24px rgba(0,0,0,.95);max-width:436px;animation:polain .5s cubic-bezier(.2,.9,.3,1)}}
+  @keyframes polain{{0%{{opacity:0;transform:rotate(-8deg) translateY(30px) scale(.94)}}100%{{opacity:1;transform:rotate(-2.2deg) translateY(0) scale(1)}}}}
+  .pimg{{line-height:0;background:#cfc9b4}} .pimg svg{{display:block;width:100%;height:auto}}
+  .pcap{{font-family:"Caveat",cursive;font-size:29px;line-height:1.15;color:#3b3327;padding:14px 6px 4px;min-height:34px}}
+  .padv{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.1em;color:#a49d8c;padding:0 6px 12px;text-align:right}}
   /* context cards : what a fourteen-year-old would not already know */
   .note{{position:absolute;left:0;right:0;bottom:0;padding:0 44px 30px;z-index:8;display:flex;justify-content:center}}
   .note-card{{background:#fbf6e8;border-radius:12px;max-width:720px;width:100%;overflow:hidden;cursor:pointer;
@@ -244,6 +260,7 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   <div class="layer" id="street" hidden>{street_svg}</div>
   <div class="layer" id="kitchen" hidden>{kitchen_svg}</div>
   <div class="layer" id="hall" hidden>{hall_svg}</div>
+  <div class="layer" id="wire" hidden>{counter_svg}</div>
   <div class="layer" id="ext-rest" hidden>{ext_rest_svg}</div>
   <div class="layer" id="ext-school" hidden>{ext_school_svg}</div>
   <div class="layer" id="dawn" hidden>{dawn_svg}</div>
@@ -257,14 +274,23 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     <div><span class="date" id="hud-date"></span><span class="sub" id="hud-sub"></span></div>
     <div class="marks" id="marks"></div>
   </div>
+  <div class="dragtip" id="dragtip" hidden></div>
+  <div class="photo" id="photo" hidden><div class="pola">
+    <div class="pimg">{lola_svg}</div>
+    <div class="pcap" id="pcap"></div>
+    <div class="padv">Tap to keep going</div>
+  </div></div>
   <div class="note" id="note" hidden><div class="note-card">
     <div class="note-tab" id="note-tab"></div><div class="note-body" id="note-body"></div>
     <p class="aside def" id="note-def" hidden></p>
     <div class="note-adv">Tap to keep going</div>
   </div></div>
   <div class="dlg" id="dlg"><div class="panel" id="panel">
-    <div class="who" id="who"></div><p class="line" id="line"></p><p class="aside" id="aside" hidden></p>
-    <div class="adv" id="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
+    <span class="av port" id="who-av" hidden></span>
+    <div class="ptext">
+      <div class="who" id="who"></div><p class="line" id="line"></p><p class="aside" id="aside" hidden></p>
+      <div class="adv" id="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
+    </div>
   </div></div>
   <div class="choices" id="choices" hidden></div>
   <div id="phone"><div class="screen">
