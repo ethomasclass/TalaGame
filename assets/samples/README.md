@@ -129,3 +129,33 @@ a cardigan and an apron over work clothes. The parol in the window carries
 the season. Skin tones vary slightly across the family, as they do in real
 families. Still worth a look from a Filipino colleague before anything
 ships, as the spec itself says.
+
+---
+
+## Scene 3: the restaurant dining room (`scene-restaurant.html`)
+
+Four tables, one occupied. Tala watches from the kitchen pass. The
+customer is seen from behind and never gets a face: she is unnamed in the
+spec, not Filipino, and not someone the story wants the player to
+connect with, so the straight-on grammar's one other legal view (a pure
+back view) is the right one for her.
+
+### Movement beyond the eyes
+
+Everything here is a transform on a group, no redraw, no sprite sheet:
+
+| Motion | How |
+|---|---|
+| Head nod | `rotate` about the neck on the head group, once every ~7s |
+| Pour | The arm+pitcher group rotates about the shoulder; the water stream fades in at the tilt |
+| Talking | Two mouth parts toggled with `steps()` while a line is on screen |
+| The customer leans back | Slow `rotate` about the chair base |
+| Tala shifts her weight | Small `translateX` + `rotate` on the whole figure |
+| Headlights across the wall | A blurred wedge translating across a clipped wall, every 11s |
+| Snow past the window | Circles falling inside the window clip on staggered delays |
+| Pendants | Opacity flicker on the light pools |
+
+Rule that makes this work: a character is built as body / head / arm
+groups from the start, so each can carry its own animation. The engine's
+`expr` system swaps face parts; a `motion` field on a beat would toggle
+these classes the same way.
