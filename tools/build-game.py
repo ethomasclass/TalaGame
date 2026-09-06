@@ -75,7 +75,7 @@ if 'batter-set' not in cook:
     cook = cook.replace('<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/>',
       '<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/><circle id="batter-set" cx="470" cy="385" r="96" fill="#e9cf96" opacity="0"/><circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/><g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>')
     # the draggable egg slice sits on the plate until picked up
-    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="800" cy="248" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="800" cy="248" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="800" cy="248" r="15" fill="#e8892b"/></g></g>
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="700" cy="440" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="700" cy="440" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="700" cy="440" r="15" fill="#e8892b"/></g></g>
   <g id="dish-pancit" hidden>''')
 assert 'batter-set' in cook and 'drag-egg' in cook
 # ---------------- scene 5 layers ----------------

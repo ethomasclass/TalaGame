@@ -292,15 +292,15 @@ let drag = null;
 function stagePoint(ev){ const r = $('stage').getBoundingClientRect(); const s = r.width / 1280; return {x:(ev.clientX - r.left)/s, y:(ev.clientY - r.top)/s}; }
 function startDrag(d){ mode = 'drag'; choices.hidden = true; $('cardwrap').classList.add('dragmode'); $('cursor').style.display = 'none';
   const item = $(d.item); item.removeAttribute('hidden'); item.style.transform = ''; $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0); $('batter-brown').setAttribute('opacity',0);
-  drag = {d, t0:performance.now(), held:false, dx:0, dy:0, x:800, y:248};
+  drag = {d, t0:performance.now(), held:false, dx:0, dy:0, x:700, y:440};
   const tick = () => { if(!drag) return; const el = performance.now() - drag.t0;
     $('batter-set').setAttribute('opacity', Math.min(1, Math.max(0, (el - 3000) / 4000)));
     $('batter-brown').setAttribute('opacity', Math.min(.9, Math.max(0, (el - 13000) / 7000)));
     requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   item.onpointerdown = ev => { const p = stagePoint(ev); drag.held = true; drag.dx = p.x - drag.x; drag.dy = p.y - drag.y; item.setPointerCapture(ev.pointerId); $('cook').classList.add('dragging'); };
-  item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-800}px, ${drag.y-248}px)`; };
+  item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-700}px, ${drag.y-440}px)`; };
   item.onpointerup = ev => { if(!drag || !drag.held) return; drag.held = false; $('cook').classList.remove('dragging'); const dist = Math.hypot(drag.x - d.target.x, drag.y - d.target.y);
-    if(dist <= d.target.r) dropEgg(); else { drag.x = 800; drag.y = 248; item.style.transform = ''; } };
+    if(dist <= d.target.r) dropEgg(); else { drag.x = 700; drag.y = 440; item.style.transform = ''; } };
 }
 function dropEgg(){ if(!drag) return; const el = performance.now() - drag.t0; const out = drag.d.windows.find(w => el < w[0])[1];
   $(drag.d.item).setAttribute('hidden',''); $('egg-on').removeAttribute('hidden'); $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
