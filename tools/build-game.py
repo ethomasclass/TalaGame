@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
 import re, pathlib, sys
-sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers")
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers"); cooklayer = importlib.import_module("cook-layer")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -128,6 +128,8 @@ _drags = ''.join(_re.findall(r'  <g id="drag-(?:egg|vin|tube|tablea)" hidden sty
 for _m in _re.findall(r'  <g id="drag-(?:egg|vin|tube|tablea)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook): cook = cook.replace(_m, '', 1)
 cook = cook.replace('</svg>', _drags + '</svg>', 1)
 assert cook.count('id="drag-egg"') == 1 and cook.count('id="drag-vin"') == 1 and cook.count('id="drag-tube"') == 1 and cook.count('id="drag-tablea"') == 1
+# the cooking layer is assembled cleanly from the base; everything above that touched `cook` is superseded
+cook = cooklayer.assemble(src)
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
