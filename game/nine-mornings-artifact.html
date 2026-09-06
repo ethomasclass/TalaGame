@@ -1929,6 +1929,7 @@
   <g filter="url(#h-rough)">
     <rect x="200" y="556" width="1120" height="30" rx="8" fill="url(#h-tableP)"/><rect x="200" y="556" width="1120" height="10" fill="#fff" opacity=".6"/>
     <rect x="220" y="586" width="1080" height="140" fill="#c2b28c"/>
+    <g id="hall-food">
     <!-- tray of puto bumbong on banana leaf -->
     <rect x="260" y="548" width="300" height="36" rx="6" fill="#8fae87"/><rect x="266" y="552" width="288" height="28" rx="4" fill="#4f8a4c"/>
     <g fill="#5a3a7c"><rect x="280" y="540" width="70" height="18" rx="9"/><rect x="360" y="538" width="70" height="18" rx="9"/><rect x="440" y="540" width="70" height="18" rx="9"/><rect x="320" y="556" width="70" height="18" rx="9"/><rect x="400" y="558" width="70" height="18" rx="9"/></g>
@@ -1938,6 +1939,7 @@
     <g fill="#e8c27a"><circle cx="950" cy="560" r="22"/><circle cx="1010" cy="558" r="22"/><circle cx="1070" cy="560" r="22"/><circle cx="1130" cy="558" r="22"/></g>
     <g fill="#e8892b"><circle cx="944" cy="556" r="6"/><circle cx="1016" cy="554" r="6"/><circle cx="1064" cy="556" r="6"/><circle cx="1136" cy="554" r="6"/></g>
     <g fill="#f7f1e2" opacity=".8"><circle cx="958" cy="566" r="4"/><circle cx="1002" cy="564" r="4"/><circle cx="1078" cy="566" r="4"/><circle cx="1124" cy="564" r="4"/></g>
+    </g>
     <!-- the basket -->
     <g id="hall-basket" hidden><ellipse cx="740" cy="576" rx="70" ry="22" fill="#000" opacity=".2"/><path d="M 680 540 C 680 520 800 520 800 540 L 792 576 C 792 588 688 588 688 576 Z" fill="#a8743e"/><path d="M 680 540 C 680 520 800 520 800 540 C 760 548 720 548 680 540 Z" fill="#8a5a2c"/>
       <g stroke="#6b4420" stroke-width="2" opacity=".6"><path d="M 690 552 L 790 552"/><path d="M 692 564 L 788 564"/></g>
@@ -2661,7 +2663,7 @@ const beats = [
   {hud:['December 16','First morning · 4:40 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'Cold, dark, breath visible. Tala walks to the parish with Ma. Pa stays behind to open the restaurant.', aside:'Lola told her once: nine mornings in a row, and you get a wish. She has not told anyone that is why she is up.'},
   {bg:'dawn', who:'ma', text:'Nine mornings is nine mornings. You do not start what you cannot finish.', pre:'(to the street, not to Tala)'},
   {bg:'dawn', stage:'Inside, the church is full of people she knows by face. After, everyone goes to the hall.'},
-  {hud:['December 16','First morning · The hall'], bg:'hall', show:{'hall-hannah':false,'hall-basket':false}, who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. So of course I thought of your mother.', expr:{tita:'warm',ma:'neutral',tala:'quiet'}},
+  {hud:['December 16','First morning · The hall'], bg:'hall', show:{'hall-hannah':false,'hall-basket':false,'hall-food':false}, who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. So of course I thought of your mother.', expr:{tita:'warm',ma:'neutral',tala:'quiet'}},
   {bg:'hall', who:'ma', text:'Tita, we have the dinner service that whole week.', expr:{ma:'held'}},
   {bg:'hall', who:'tita', text:'Nine mornings is nine mornings. It is only the last one I am asking for.', expr:{tita:'talk'}},
   {bg:'hall', who:'tita', text:'Bibingka and puto bumbong. For everyone. On the twenty-fourth.', expr:{tita:'warm'}},
@@ -2767,7 +2769,7 @@ const beats = [
   {bg:'cook', cook:'s5'},
   {bg:'kitchen', stage: () => COOKS.s5.react[STATE.cook.out], expr:{pa:'soft',ando:'smile'}},
   {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'They carry it three blocks to the parish hall, in trays on a hand cart. Mass ends. The hall fills.'},
-  {hud:['December 24','Ninth morning · The hall'], bg:'hall', show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false},
+  {hud:['December 24','Ninth morning · The hall'], bg:'hall', show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false, 'hall-food':true},
      stage: () => STATE.invitedHannah ? 'Hannah is standing at the door at five in the morning, in a coat that is not warm enough, holding her phone, not sure whether to come in.' : 'The block, in one room, at five in the morning. Everyone she knows by face.',
      expr:{tala:'quiet',ma:'neutral',tita:'neutral',hannah:'flat'}, goto: () => STATE.invitedHannah ? 'hannah' : 'tita'},
   {id:'hannah', bg:'hall', who:'hannah', text:'What’s the purple?', expr:{hannah:'curious',tala:'neutral'}},

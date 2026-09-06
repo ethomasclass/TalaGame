@@ -106,6 +106,7 @@ def hall(defs):
   <g filter="url(#rough)">
     <rect x="200" y="556" width="1120" height="30" rx="8" fill="url(#tableP)"/><rect x="200" y="556" width="1120" height="10" fill="#fff" opacity=".6"/>
     <rect x="220" y="586" width="1080" height="140" fill="#c2b28c"/>
+    <g id="hall-food">
     <!-- tray of puto bumbong on banana leaf -->
     <rect x="260" y="548" width="300" height="36" rx="6" fill="#8fae87"/><rect x="266" y="552" width="288" height="28" rx="4" fill="#4f8a4c"/>
     <g fill="#5a3a7c"><rect x="280" y="540" width="70" height="18" rx="9"/><rect x="360" y="538" width="70" height="18" rx="9"/><rect x="440" y="540" width="70" height="18" rx="9"/><rect x="320" y="556" width="70" height="18" rx="9"/><rect x="400" y="558" width="70" height="18" rx="9"/></g>
@@ -115,6 +116,7 @@ def hall(defs):
     <g fill="#e8c27a"><circle cx="950" cy="560" r="22"/><circle cx="1010" cy="558" r="22"/><circle cx="1070" cy="560" r="22"/><circle cx="1130" cy="558" r="22"/></g>
     <g fill="#e8892b"><circle cx="944" cy="556" r="6"/><circle cx="1016" cy="554" r="6"/><circle cx="1064" cy="556" r="6"/><circle cx="1136" cy="554" r="6"/></g>
     <g fill="#f7f1e2" opacity=".8"><circle cx="958" cy="566" r="4"/><circle cx="1002" cy="564" r="4"/><circle cx="1078" cy="566" r="4"/><circle cx="1124" cy="564" r="4"/></g>
+    </g>
     <!-- the basket -->
     <g id="hall-basket" hidden><ellipse cx="740" cy="576" rx="70" ry="22" fill="#000" opacity=".2"/><path d="M 680 540 C 680 520 800 520 800 540 L 792 576 C 792 588 688 588 688 576 Z" fill="#a8743e"/><path d="M 680 540 C 680 520 800 520 800 540 C 760 548 720 548 680 540 Z" fill="#8a5a2c"/>
       <g stroke="#6b4420" stroke-width="2" opacity=".6"><path d="M 690 552 L 790 552"/><path d="M 692 564 L 788 564"/></g>
@@ -138,7 +140,7 @@ def hall(defs):
     body = body.replace('  <g id="hall-chars"></g>', chars)
     svg = f'<svg width="1280" height="720" viewBox="0 0 1280 720">\n{d}\n{body}</svg>'
     svg = prefix_ids(svg, 'h-')
-    for k in ['x-hma-brows','x-hma-eyes','x-hma-mouth','x-htala-brows','x-htala-eyes','x-htala-mouth','x-tita-brows','x-tita-eyes','x-tita-mouth','x-hhan-brows','x-hhan-eyes','x-hhan-mouth','c-hma','c-htala','c-tita','hall-hannah','hall-basket']:
+    for k in ['x-hma-brows','x-hma-eyes','x-hma-mouth','x-htala-brows','x-htala-eyes','x-htala-mouth','x-tita-brows','x-tita-eyes','x-tita-mouth','x-hhan-brows','x-hhan-eyes','x-hhan-mouth','c-hma','c-htala','c-tita','hall-hannah','hall-basket','hall-food']:
         svg = svg.replace(f'id="h-{k}"', f'id="{k}"')
     return svg
 
@@ -188,7 +190,11 @@ def puto(cook_svg_src):
     steamer = svg[a:b]
     a = svg.index('  <!-- ===== bamboo tubes (bumbong), top-right, one already filled ===== -->'); b = svg.index('  <!-- ===== banana leaf, bottom-right ===== -->')
     tubes = svg[a:b]
-    grp = '  <g id="dish-puto" hidden>\n' + steamer + tubes + '  </g>\n'
+    inner = steamer + tubes
+    # the sample slices are not guaranteed to close every group they open ; balance them
+    opens = len(re.findall(r'<g[\s>]', inner)); closes = inner.count('</g>')
+    inner += '  </g>\n' * max(0, opens - closes)
+    grp = '  <g id="dish-puto" hidden>\n' + inner + '  </g>\n'
     # steamer needs its own pattern/clip/gradients from the sample defs
     d = svg[svg.index('  <defs>'):svg.index('  </defs>')+len('  </defs>')]
     need = ''
