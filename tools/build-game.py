@@ -71,6 +71,13 @@ if 'prop-eggs' not in cook:
     a=cook.index('  <!-- ===== salted egg, sliced, and a block of cheese ===== -->'); z=cook.index('  <!-- ===== banana leaf, bottom-right ===== -->')
     cook = cook[:a] + '  <g id="prop-eggs">\n' + cook[a:z] + '  </g>\n' + cook[z:]
 assert 'prop-eggs' in cook
+if 'batter-set' not in cook:
+    cook = cook.replace('<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/>',
+      '<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/><circle id="batter-set" cx="470" cy="385" r="96" fill="#e9cf96" opacity="0"/><circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/><g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>')
+    # the draggable egg slice sits on the plate until picked up
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-egg" hidden style="cursor:grab"><circle cx="800" cy="248" r="26" fill="#000" opacity=".2" transform="translate(4 6)"/><circle cx="800" cy="248" r="24" fill="#f7f1e2"/><circle cx="800" cy="248" r="13" fill="#e8892b"/></g>
+  <g id="dish-pancit" hidden>''')
+assert 'batter-set' in cook and 'drag-egg' in cook
 # ---------------- scene 5 layers ----------------
 hall_svg = s5.hall(dining_defs)
 dawn_svg = s5.dawn()
@@ -104,6 +111,11 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
   .layer.off{{visibility:hidden;pointer-events:none}}
+  #hot{{pointer-events:none}} #hot circle{{pointer-events:auto;cursor:pointer;fill:#fff3d6;fill-opacity:0;stroke:#fff3d6;stroke-opacity:.0}}
+  #hot .dot{{pointer-events:none;fill:#fff3d6;fill-opacity:.85;animation:hotpulse 2.2s ease-in-out infinite}} @keyframes hotpulse{{0%,100%{{r:4}}50%{{r:6}}}}
+  .line.look{{color:#54594a;font-style:italic}} .role{{color:#8d8873;font-weight:400;letter-spacing:.08em}}
+  .aside{{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:19px;color:#6d5a3f;margin:8px 0 0;padding-left:14px;border-left:2px solid rgba(168,114,31,.45)}}
+  .cardwrap.dragmode .card{{opacity:.45}} #cook.dragging{{cursor:grabbing}} #drag-egg{{transition:transform .08s linear}}
   html,body{{touch-action:manipulation;-webkit-tap-highlight-color:transparent}}
   .line{{font-size:27px}} .who{{font-size:13px}} .ch{{font-size:21px;padding:12px 16px}} .prompt{{font-size:22px}} .hud{{font-size:14px}}
   #phone{{width:470px}} .bub{{font-size:19px;padding:10px 14px;max-width:86%}} .rp{{font-size:16px;padding:10px 14px}} .ptop{{font-size:13px}} .cardscreen .hint{{font-size:14px}}
@@ -136,13 +148,14 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {cook}
 {alarm}
   <div class="alarmtxt" id="alarmtxt" hidden><div class="t">December 21 &middot; 4:10 a.m.</div><h2>The sixth morning.</h2><p>Four hours after close. The alarm. Nobody else is awake to see whether she gets up.</p></div>
+  <svg id="hot" class="layer" width="1280" height="720" viewBox="0 0 1280 720" style="z-index:5"></svg>
   <div class="vig"></div><div class="grain"></div><div id="dim"></div>
   <div class="hud" id="hud">
     <div><span class="date" id="hud-date"></span><span class="sub" id="hud-sub"></span></div>
     <div class="marks" id="marks"></div>
   </div>
   <div class="dlg" id="dlg"><div class="panel" id="panel">
-    <div class="who" id="who"></div><p class="line" id="line"></p>
+    <div class="who" id="who"></div><p class="line" id="line"></p><p class="aside" id="aside" hidden></p>
     <div class="adv" id="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
   </div></div>
   <div class="choices" id="choices" hidden></div>

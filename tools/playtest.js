@@ -18,9 +18,11 @@ const VARIANTS = {
     await page.waitForTimeout(120); const s=await st(); const key=`${s.mode}:${s.bg}:${s.i}`;
     if(s.mode==='end'){ await shot('end'); break; }
     if(s.mode==='pause'){ if(last!=='pause'){ await page.waitForTimeout(5600); await shot('sunrise'); last='pause'; } await page.waitForTimeout(400); continue; }
+    if(s.mode==='drag'){ if(last!=='drag'){ await page.waitForTimeout(8500); await shot('drag-egg-set'); await page.keyboard.press('Enter'); last='drag'; } await page.waitForTimeout(400); continue; }
     if(s.mode==='debrief'){ await shot('debrief'); await page.keyboard.press('Enter'); await page.waitForTimeout(300); continue; }
     if(s.busy){ await page.waitForTimeout(400); continue; }
-    if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key; }
+    if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key;
+      if(s.mode==='say' && s.bg==='dining' && s.i===39 && variant==='main'){ await page.click('#hot circle[data-t]'); await page.waitForTimeout(300); await shot('look-dining'); await page.keyboard.press('Enter'); await page.waitForTimeout(200); } }
     if(s.mode==='say'){ await page.keyboard.press('Enter'); }
     else if(s.mode==='inter'){ await page.keyboard.press('Enter'); }
     else if(s.mode==='choice'){ const c=q.choice.shift()||1; await page.keyboard.press(String(c)); await page.waitForTimeout(150); await shot(`chosen-${s.bg}-b${s.i}`); await page.keyboard.press('Enter'); }
