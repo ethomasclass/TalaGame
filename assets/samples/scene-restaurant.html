@@ -28,7 +28,7 @@
   .lean{transform-origin:1010px 700px;animation:lean 5.2s ease-in-out infinite}
   /* Tala shifts her weight in the doorway */
   @keyframes sway{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(3px) rotate(.6deg)}}
-  .sway{transform-origin:140px 340px;animation:sway 4.6s ease-in-out infinite}
+  .sway{transform-origin:140px 700px;animation:sway 4.6s ease-in-out infinite}
   /* headlights cross the wall every so often */
   @keyframes sweep{0%,72%{transform:translateX(-420px);opacity:0}76%{opacity:.55}92%{transform:translateX(560px);opacity:.5}96%,100%{transform:translateX(560px);opacity:0}}
   .sweep{animation:sweep 11s linear infinite}
@@ -202,6 +202,24 @@
 
     <g id="ma-mouth-open"><path d="M 128 268 C 140 264 160 264 172 268 C 168 286 132 286 128 268 Z" fill="#7e2f2b"/><path d="M 134 270 C 142 268 158 268 166 270 C 162 276 138 276 134 270 Z" fill="#fbf3e4" opacity=".9"/></g>
 
+    <g id="tala-lower">
+      <g filter="url(#rough)">
+        <!-- tee continues to the hip -->
+        <path d="M 22 400 L 258 400 L 252 470 L 28 470 Z" fill="url(#tee)"/>
+        <!-- apron, kitchen -->
+        <path d="M 62 330 C 70 318 92 314 112 314 L 168 314 C 188 314 210 318 218 330 L 226 560 C 226 572 212 578 140 578 C 68 578 54 572 54 560 Z" fill="#f1e5cc"/>
+        <path d="M 112 314 L 100 292" stroke="#cdb99a" stroke-width="6" stroke-linecap="round"/><path d="M 168 314 L 180 292" stroke="#cdb99a" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 54 400 L 226 400" stroke="#cdb99a" stroke-width="5" opacity=".7"/>
+        <path d="M 84 470 L 196 470 L 200 540 L 80 540 Z" fill="#e3d6bb"/>
+        <!-- jeans -->
+        <path d="M 70 560 L 130 560 L 126 690 L 78 690 Z" fill="#3b4a78"/><path d="M 150 560 L 210 560 L 202 690 L 154 690 Z" fill="#3b4a78"/>
+        <path d="M 78 600 L 124 600" stroke="#2c3860" stroke-width="3" opacity=".6"/><path d="M 156 600 L 202 600" stroke="#2c3860" stroke-width="3" opacity=".6"/>
+        <!-- sneakers -->
+        <path d="M 70 690 L 130 690 L 136 708 C 136 716 128 720 116 720 L 70 720 C 62 720 58 712 62 704 Z" fill="#e9e4dc"/>
+        <path d="M 150 690 L 210 690 L 218 704 C 222 712 218 720 210 720 L 164 720 C 152 720 144 716 144 708 Z" fill="#e9e4dc"/>
+        <path d="M 66 708 L 134 708" stroke="#b9b2a6" stroke-width="3"/><path d="M 146 708 L 216 708" stroke="#b9b2a6" stroke-width="3"/>
+      </g>
+    </g>
     <!-- ===== Ma, standing, front of house (local 300x520 ; head group nods about (150,300)) ===== -->
     <g id="ma-body">
       <g filter="url(#rough)">
@@ -279,8 +297,8 @@
   </g>
   <ellipse cx="565" cy="330" rx="180" ry="260" fill="url(#doorGlow)" filter="url(#soft)" opacity=".7" class="lamp"/>
   <!-- Tala in the doorway, watching -->
-  <g transform="translate(486 176) scale(0.56)"><g class="sway"><g class="breathe">
-    <use href="#tala-base"/>
+  <g transform="translate(487 118) scale(0.56)"><g class="sway"><g class="breathe">
+    <use href="#tala-lower"/><use href="#tala-base"/>
     <g filter="url(#roughFine)"><use href="#tala-brows-knit"/><g class="blink b" style="transform-origin:140px 168px"><use href="#tala-eyes-narrow"/></g><use href="#tala-mouth-pressed"/></g>
   </g></g></g>
   <!-- menu board -->
