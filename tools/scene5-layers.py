@@ -150,20 +150,24 @@ def dawn():
     # the two walkers become a toggled group ; add Tala alone with the tray ; add the sun and a sunrise wash
     a = svg.index('    <!-- the two of them, walking : foreground left, backlit by the door.'); b = svg.index('    <!-- cold haze -->')
     walkers = svg[a:b]
-    walkers = walkers.replace('    <g>\n      <ellipse cx="336" cy="556"', '    <g id="dawn-walk">\n      <ellipse cx="336" cy="556"')
+    # the walkers already carry id="dawn-walk" in the sample
     alone = r'''    <g id="dawn-tala" hidden>
       <ellipse cx="640" cy="600" rx="60" ry="10" fill="#000" opacity=".38"/>
+      <ellipse cx="640" cy="500" rx="120" ry="140" fill="#f0b268" opacity=".14" filter="url(#soft)"/>
       <g id="figTray">
-        <path d="M 606 598 C 598 540 606 484 622 456 L 658 456 C 674 486 682 540 674 598 Z"/>
-        <path d="M 622 456 C 618 428 630 410 640 410 C 651 410 662 428 658 456 Z"/>
-        <circle cx="640" cy="386" r="27"/>
-        <path d="M 613 372 C 619 346 661 346 667 374 C 665 398 655 408 640 408 C 623 408 615 394 613 372 Z"/>
-        <!-- arms forward, holding the tray -->
-        <path d="M 618 470 C 596 486 586 506 590 520 L 690 520 C 694 506 684 486 662 470 Z"/>
-        <rect x="574" y="516" width="132" height="14" rx="4"/>
+        <circle cx="640" cy="402" r="25"/><path d="M 616 392 C 618 374 662 374 664 392 C 656 386 624 386 616 392 Z"/>
+        <path d="M 660 392 C 678 398 684 420 678 440 C 674 450 664 448 662 438 C 662 424 658 410 656 400 Z"/>
+        <path d="M 632 426 L 648 426 L 648 437 L 632 437 Z"/>
+        <path d="M 606 436 C 596 470 594 500 596 527 L 684 527 C 686 500 684 470 674 436 Z"/>
+        <path d="M 606 440 C 592 470 588 494 596 512 L 612 512 C 608 494 610 470 618 448 Z"/><path d="M 674 440 C 688 470 692 494 684 512 L 668 512 C 672 494 670 470 662 448 Z"/>
+        <path d="M 574 512 L 706 512 L 702 527 L 578 527 Z"/><circle cx="600" cy="512" r="8"/><circle cx="680" cy="512" r="8"/>
+        <path d="M 610 527 L 608 590 L 630 590 L 634 527 Z"/><path d="M 646 527 L 650 590 L 672 590 L 670 527 Z"/>
+        <path d="M 604 588 L 632 588 L 636 597 L 600 597 Z"/><path d="M 646 588 L 676 588 L 680 597 L 644 597 Z"/>
       </g>
-      <use href="#figTray" x="4" y="-3" fill="#f5bf72" opacity=".55"/>
-      <use href="#figTray" fill="#0c0d15"/>
+      <g filter="url(#rough)">
+        <use href="#figTray" x="4" y="-2" fill="#f5bf72" opacity=".45"/>
+        <use href="#figTray" fill="#0c0d15"/>
+      </g>
     </g>
 '''
     svg = svg[:a] + walkers + alone + svg[b:]
