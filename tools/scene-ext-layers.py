@@ -41,7 +41,7 @@ def restaurant():
     <g transform="translate(680 470) scale(.4)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
   </g>
   <text x="640" y="372" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="38" fill="#fff3d6" letter-spacing="2">PACING’S</text>
-  <text x="640" y="392" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#fff3d6" letter-spacing="4" opacity=".9">FILIPINO KITCHEN · SINCE 2024</text>
+  <text x="640" y="326" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#e8c9a0" letter-spacing="4" opacity=".9">FILIPINO KITCHEN</text>
   <ellipse cx="640" cy="560" rx="420" ry="120" fill="url(#x-warm)" filter="url(#x-soft)"/>
   <!-- sidewalk, snow, road, a parked car -->
   <rect y="570" width="1280" height="50" fill="#5c5560"/><rect y="570" width="1280" height="6" fill="#8a8290" opacity=".6"/>

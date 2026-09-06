@@ -87,17 +87,17 @@ assert 'dish-puto' in cook
 ext_rest_svg = sx.restaurant(); ext_school_svg = sx.school()
 # draggable vinegar bottle, sauce overlay, draggable tube with a fill level
 if 'drag-vin' not in cook:
-    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-vin" hidden style="cursor:grab"><g class="hand">
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-vin" hidden style="cursor:grab"><g transform="translate(1040 560)"><g class="hand">
     <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
     <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
     <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
-  </g></g>
-  <g id="drag-tube" hidden style="cursor:grab"><g class="hand">
+  </g></g></g>
+  <g id="drag-tube" hidden style="cursor:grab"><g transform="translate(780 330)"><g class="hand">
     <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
     <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
     <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
     <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
-  </g></g>
+  </g></g></g>
   <g id="dish-pancit" hidden>''')
     cook = cook.replace('<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>', '<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>')
 assert 'drag-vin' in cook and 'drag-tube' in cook and 'sauce-vin' in cook
