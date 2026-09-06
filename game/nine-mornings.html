@@ -2289,39 +2289,6 @@
     <g id="vin-cane" filter="url(#td-rough)" transform="translate(1040 560)"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".22" transform="translate(6 8)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" opacity=".92"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
     <g id="vin-chain" filter="url(#td-rough)" transform="translate(1040 560)" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".22" transform="translate(6 8)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/><path d="M 30 -60 C 48 -60 48 -30 30 -30" stroke="#dfe3ea" stroke-width="8" fill="none"/></g>
   </g>
-  <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="700" cy="440" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="700" cy="440" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="700" cy="440" r="15" fill="#e8892b"/></g></g>
-  <defs>
-    <radialGradient id="p-potBody" cx="0.38" cy="0.35" r="0.75">
-      <stop offset="0%" stop-color="#93a2cc"/><stop offset="55%" stop-color="#5f6d9c"/><stop offset="100%" stop-color="#394570"/>
-    </radialGradient>
-    <radialGradient id="p-potIn" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#7d8fc2"/><stop offset="75%" stop-color="#4a5788"/><stop offset="100%" stop-color="#2f3960"/>
-    </radialGradient>
-    <radialGradient id="p-waterG" cx="0.4" cy="0.35" r="0.7">
-      <stop offset="0%" stop-color="#cfe6f4"/><stop offset="100%" stop-color="#8fb6d6"/>
-    </radialGradient>
-    <linearGradient id="p-bamboo" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d8c58f"/><stop offset="50%" stop-color="#b9a46b"/><stop offset="100%" stop-color="#8f7c4c"/></linearGradient>
-    <pattern id="p-holes" width="34" height="30" patternUnits="userSpaceOnUse" patternTransform="translate(6 4)">
-      <circle cx="10" cy="8" r="4.2" fill="#2a3358"/><circle cx="27" cy="23" r="4.2" fill="#2a3358"/>
-    </pattern>
-    <clipPath id="p-steamerClip"><circle cx="470" cy="385" r="118"/></clipPath>
-  </defs>
-  <g id="dish-puto" hidden>
-  <!-- ===== steamer pot, lid off ===== -->
-  <circle cx="486" cy="400" r="150" fill="#000" opacity=".30" filter="url(#td-mid)"/>
-  <g filter="url(#td-rough)">
-    <circle cx="470" cy="385" r="150" fill="url(#p-potBody)"/>
-    <circle cx="470" cy="385" r="132" fill="url(#p-potIn)"/>
-    <circle cx="470" cy="385" r="118" fill="url(#p-waterG)" class="water"/>
-    <!-- perforated steamer tray sitting in the water -->
-    <circle cx="470" cy="385" r="112" fill="#5567a0"/>
-    <circle cx="470" cy="385" r="112" fill="url(#p-holes)" clip-path="url(#p-steamerClip)"/>
-    <circle cx="470" cy="385" r="112" fill="none" stroke="#7d8fc2" stroke-width="5"/>
-    <!-- handles -->
-    <rect x="296" y="372" width="34" height="26" rx="12" fill="#2b3358"/><rect x="610" y="372" width="34" height="26" rx="12" fill="#2b3358"/>
-    <!-- rim highlight from top-left -->
-    <path d="M 340 320 C 366 272 424 240 476 238" stroke="#c4cfec" stroke-width="10" fill="none" stroke-linecap="round" opacity=".55"/>
-  </g>
   <!-- ===== bamboo tubes (bumbong), top-right, one already filled ===== -->
   <g filter="url(#td-rough)">
     <g transform="rotate(-18 780 220)">
@@ -2338,30 +2305,6 @@
     </g>
   </g>
 
-  </g>
-  <g id="drag-vin" hidden style="cursor:grab"><g transform="translate(1040 560)"><g class="hand">
-    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
-    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
-    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
-  </g></g></g>
-  <g id="drag-tube" hidden style="cursor:grab"><g transform="translate(780 330)"><g class="hand">
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
-    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
-    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
-  </g></g></g>
-  <g id="dish-pancit" hidden>
-    <g filter="url(#td-rough)">
-      <circle cx="470" cy="385" r="152" fill="#2e3140"/><circle cx="470" cy="385" r="136" fill="#1c1e28"/>
-      <circle cx="470" cy="385" r="118" fill="#e0b565"/>
-      <g stroke="#c9963f" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8">
-        <path d="M 372 372 C 410 330 470 350 500 320 C 530 300 560 330 566 366"/><path d="M 380 420 C 420 380 480 410 520 380 C 550 360 570 400 556 440"/>
-        <path d="M 400 460 C 440 430 500 470 540 448"/><path d="M 366 400 C 400 440 440 400 470 470"/><path d="M 470 290 C 490 330 460 360 500 420 C 520 450 480 470 450 480"/>
-      </g>
-      <g fill="#8fae87"><ellipse cx="430" cy="360" rx="14" ry="7" transform="rotate(-20 430 360)"/><ellipse cx="510" cy="420" rx="14" ry="7" transform="rotate(15 510 420)"/><ellipse cx="470" cy="450" rx="12" ry="6"/></g>
-      <g fill="#e07a4a"><ellipse cx="500" cy="350" rx="12" ry="7" transform="rotate(30 500 350)"/><ellipse cx="420" cy="430" rx="12" ry="7" transform="rotate(-25 420 430)"/></g>
-      <path d="M 622 385 L 700 385" stroke="#1c1e28" stroke-width="18" stroke-linecap="round"/>
-    </g>
   </g>
   <circle cx="470" cy="385" r="126" fill="none" stroke="#fff3d6" stroke-width="4" stroke-dasharray="14 12" class="target"/>
   <g fill="#fff8ee" filter="url(#td-puffblur)">
@@ -2397,6 +2340,63 @@
   <g filter="url(#td-rough)"><circle cx="1100" cy="420" r="66" fill="url(#td-bowlBlue)"/><circle cx="1100" cy="420" r="50" fill="url(#td-cream)"/><g fill="#fff" opacity=".9"><circle cx="1084" cy="408" r="5"/><circle cx="1112" cy="402" r="4"/><circle cx="1120" cy="432" r="5"/><circle cx="1092" cy="440" r="4"/><circle cx="1104" cy="420" r="3.5"/></g></g>
   <g filter="url(#td-rough)"><rect x="700" y="560" width="120" height="76" rx="12" fill="#000" opacity=".22" transform="translate(8 10)"/><rect x="700" y="560" width="120" height="76" rx="12" fill="url(#td-cream)"/><rect x="716" y="574" width="88" height="48" rx="6" fill="#f2d478"/><rect x="716" y="574" width="88" height="10" rx="4" fill="#fbe9a6"/></g>
 
+  <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="700" cy="440" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="700" cy="440" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="700" cy="440" r="15" fill="#e8892b"/></g></g>
+  <defs>
+    <radialGradient id="p-potBody" cx="0.38" cy="0.35" r="0.75">
+      <stop offset="0%" stop-color="#93a2cc"/><stop offset="55%" stop-color="#5f6d9c"/><stop offset="100%" stop-color="#394570"/>
+    </radialGradient>
+    <radialGradient id="p-potIn" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#7d8fc2"/><stop offset="75%" stop-color="#4a5788"/><stop offset="100%" stop-color="#2f3960"/>
+    </radialGradient>
+    <radialGradient id="p-waterG" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0%" stop-color="#cfe6f4"/><stop offset="100%" stop-color="#8fb6d6"/>
+    </radialGradient>
+    <linearGradient id="p-bamboo" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d8c58f"/><stop offset="50%" stop-color="#b9a46b"/><stop offset="100%" stop-color="#8f7c4c"/></linearGradient>
+    <pattern id="p-holes" width="34" height="30" patternUnits="userSpaceOnUse" patternTransform="translate(6 4)">
+      <circle cx="10" cy="8" r="4.2" fill="#2a3358"/><circle cx="27" cy="23" r="4.2" fill="#2a3358"/>
+    </pattern>
+    <clipPath id="p-steamerClip"><circle cx="470" cy="385" r="118"/></clipPath>
+  </defs>
+  <g id="dish-puto" hidden>
+  <!-- ===== steamer pot, lid off ===== -->
+  <circle cx="486" cy="400" r="150" fill="#000" opacity=".30" filter="url(#td-mid)"/>
+  <g filter="url(#td-rough)">
+    <circle cx="470" cy="385" r="150" fill="url(#p-potBody)"/>
+    <circle cx="470" cy="385" r="132" fill="url(#p-potIn)"/>
+    <circle cx="470" cy="385" r="118" fill="url(#p-waterG)" class="water"/>
+    <!-- perforated steamer tray sitting in the water -->
+    <circle cx="470" cy="385" r="112" fill="#5567a0"/>
+    <circle cx="470" cy="385" r="112" fill="url(#p-holes)" clip-path="url(#p-steamerClip)"/>
+    <circle cx="470" cy="385" r="112" fill="none" stroke="#7d8fc2" stroke-width="5"/>
+    <!-- handles -->
+    <rect x="296" y="372" width="34" height="26" rx="12" fill="#2b3358"/><rect x="610" y="372" width="34" height="26" rx="12" fill="#2b3358"/>
+    <!-- rim highlight from top-left -->
+    <path d="M 340 320 C 366 272 424 240 476 238" stroke="#c4cfec" stroke-width="10" fill="none" stroke-linecap="round" opacity=".55"/>
+  </g>
+  <g id="drag-vin" hidden style="cursor:grab"><g transform="translate(1040 560)"><g class="hand">
+    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
+    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
+    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+  </g></g></g>
+  <g id="drag-tube" hidden style="cursor:grab"><g transform="translate(780 330)"><g class="hand">
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
+    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
+    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
+  </g></g></g>
+  <g id="dish-pancit" hidden>
+    <g filter="url(#td-rough)">
+      <circle cx="470" cy="385" r="152" fill="#2e3140"/><circle cx="470" cy="385" r="136" fill="#1c1e28"/>
+      <circle cx="470" cy="385" r="118" fill="#e0b565"/>
+      <g stroke="#c9963f" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8">
+        <path d="M 372 372 C 410 330 470 350 500 320 C 530 300 560 330 566 366"/><path d="M 380 420 C 420 380 480 410 520 380 C 550 360 570 400 556 440"/>
+        <path d="M 400 460 C 440 430 500 470 540 448"/><path d="M 366 400 C 400 440 440 400 470 470"/><path d="M 470 290 C 490 330 460 360 500 420 C 520 450 480 470 450 480"/>
+      </g>
+      <g fill="#8fae87"><ellipse cx="430" cy="360" rx="14" ry="7" transform="rotate(-20 430 360)"/><ellipse cx="510" cy="420" rx="14" ry="7" transform="rotate(15 510 420)"/><ellipse cx="470" cy="450" rx="12" ry="6"/></g>
+      <g fill="#e07a4a"><ellipse cx="500" cy="350" rx="12" ry="7" transform="rotate(30 500 350)"/><ellipse cx="420" cy="430" rx="12" ry="7" transform="rotate(-25 420 430)"/></g>
+      <path d="M 622 385 L 700 385" stroke="#1c1e28" stroke-width="18" stroke-linecap="round"/>
+    </g>
+  </g>
 </svg>
     <div class="cardwrap" id="cardwrap"><div class="card">
       <div class="rules"></div><div class="margin"></div>

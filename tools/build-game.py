@@ -101,6 +101,12 @@ if 'drag-vin' not in cook:
   <g id="dish-pancit" hidden>''')
     cook = cook.replace('<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>', '<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>')
 assert 'drag-vin' in cook and 'drag-tube' in cook and 'sauce-vin' in cook
+# drag items draw above every prop
+import re as _re
+_drags = ''.join(_re.findall(r'  <g id="drag-(?:egg|vin|tube)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook))
+for _m in _re.findall(r'  <g id="drag-(?:egg|vin|tube)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook): cook = cook.replace(_m, '', 1)
+cook = cook.replace('</svg>', _drags + '</svg>', 1)
+assert cook.count('id="drag-egg"') == 1 and cook.count('id="drag-vin"') == 1 and cook.count('id="drag-tube"') == 1
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
