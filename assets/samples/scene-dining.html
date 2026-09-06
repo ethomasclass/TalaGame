@@ -1,0 +1,215 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#2a1a16;font-family:"Source Sans 3",sans-serif}
+  .stage{position:relative;width:1280px;height:720px;overflow:hidden;background:#2a1a16}
+  .art{position:absolute;inset:0} svg{display:block}
+
+  @keyframes blink{0%,91%{transform:scaleY(1)}94%{transform:scaleY(.06)}97%,100%{transform:scaleY(1)}}
+  .blink{animation:blink 5s ease-in-out infinite}
+  .blink.b{animation-delay:-1.7s;animation-duration:6.1s}.blink.c{animation-delay:-3.4s;animation-duration:5.6s}
+  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+  .breathe{animation:breathe 3.8s ease-in-out infinite}.breathe.b{animation-delay:-1.3s}.breathe.c{animation-delay:-2.6s}
+  @keyframes flicker{0%,100%{opacity:.5}50%{opacity:.62}}
+  .lamp{animation:flicker 2.4s ease-in-out infinite}
+
+  .hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:20px 26px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.11em;text-transform:uppercase;
+    color:rgba(255,236,210,.7);text-shadow:0 1px 6px rgba(0,0,0,.5);z-index:5}
+  .hud .date{color:#fff0d6}.hud .sub{color:rgba(255,236,210,.5);margin-left:12px}
+  .marks{display:flex;gap:6px;align-items:center}
+  .mk{width:9px;height:14px;border-radius:2px;border:1px solid rgba(255,236,210,.32)}
+  .mk.on{background:#e0a23c;border-color:#e0a23c;box-shadow:0 0 9px rgba(224,162,60,.65)}
+
+  .dlg{position:absolute;left:0;right:0;bottom:0;padding:0 44px 30px;z-index:5}
+  .panel{background:rgba(244,238,222,.965);border-radius:12px;padding:16px 24px 14px;max-width:860px;
+    box-shadow:0 2px 4px rgba(0,0,0,.35),0 26px 60px -22px rgba(0,0,0,.9)}
+  .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#a1462f;margin-bottom:7px}
+  .line{font-family:"Fraunces",Georgia,serif;font-size:22px;line-height:1.42;color:#262a1e;margin:0}
+  .line em{font-style:italic;color:#54594a}
+  .adv{display:flex;justify-content:flex-end;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:#8d8873}
+  .adv span{border:1px solid rgba(38,42,30,.22);border-radius:4px;padding:3px 7px;margin-left:6px}
+
+  .vig{position:absolute;inset:0;pointer-events:none;z-index:4;background:radial-gradient(ellipse at 50% 44%,transparent 42%,rgba(40,14,10,.55) 100%)}
+  .grain{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:.14;mix-blend-mode:overlay;filter:url(#grain)}
+</style></head><body>
+<div class="stage"><div class="art">
+<svg width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d46a4c"/><stop offset="16%" stop-color="#c1553f"/><stop offset="100%" stop-color="#8e3a33"/></linearGradient>
+    <linearGradient id="hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="60%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
+    <linearGradient id="skin" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e8a184"/><stop offset="55%" stop-color="#d98e77"/><stop offset="100%" stop-color="#b96d5e"/></linearGradient>
+    <linearGradient id="tee" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a6fe0"/><stop offset="100%" stop-color="#2748a8"/></linearGradient>
+    <linearGradient id="blouse" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#2e6b64"/><stop offset="60%" stop-color="#1f4f4c"/><stop offset="100%" stop-color="#143634"/></linearGradient>
+    <linearGradient id="shirt" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#d0574d"/><stop offset="60%" stop-color="#b3443f"/><stop offset="100%" stop-color="#7e2f2b"/></linearGradient>
+    <radialGradient id="lampGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffe0a4" stop-opacity=".9"/><stop offset="100%" stop-color="#ffc46a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="stairShade" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0%" stop-color="#5e4570" stop-opacity=".6"/><stop offset="70%" stop-color="#7b5a7c" stop-opacity=".3"/><stop offset="100%" stop-color="#8e6a86" stop-opacity=".1"/></linearGradient>
+    <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
+      <feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/>
+      <feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="roughFine" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/>
+      <feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="22"/></filter>
+    <filter id="mid"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="11"/><feColorMatrix type="saturate" values="0"/></filter>
+
+    <!-- ===== TALA (rig from expressions-tala, local 280x340) ===== -->
+    <g id="tala">
+      <g filter="url(#rough)">
+        <path d="M 218 120 C 258 150 268 230 252 300 C 246 322 226 330 216 314 C 204 280 214 200 206 150 Z" fill="url(#hair)"/>
+        <path d="M 140 34 C 220 34 256 96 254 176 C 252 232 244 262 238 292 L 42 292 C 36 262 28 232 26 176 C 24 96 60 34 140 34 Z" fill="url(#hair)"/>
+        <path d="M 10 400 C 24 316 78 284 112 278 L 168 278 C 202 284 256 316 270 400 Z" fill="url(#tee)"/>
+        <path d="M 116 250 L 164 250 L 168 290 L 112 290 Z" fill="#b96d5e"/>
+        <circle cx="48" cy="176" r="15" fill="#c4735f"/><circle cx="232" cy="176" r="15" fill="#c4735f"/>
+        <path d="M 140 66 C 200 66 228 114 228 172 C 228 238 192 280 140 280 C 88 280 52 238 52 172 C 52 114 80 66 140 66 Z" fill="url(#skin)"/>
+        <path d="M 140 44 C 214 44 246 100 240 158 C 226 122 202 104 158 108 C 130 92 96 102 68 132 C 54 148 46 166 44 186 C 30 116 62 44 140 44 Z" fill="url(#hair)"/>
+        <path d="M 74 78 C 100 60 140 58 168 70 C 140 66 104 70 78 88 Z" fill="#4a3a6c" opacity=".6"/>
+      </g>
+      <g filter="url(#roughFine)">
+        <ellipse cx="86" cy="204" rx="20" ry="11" fill="#c05b58" opacity=".24"/><ellipse cx="194" cy="204" rx="20" ry="11" fill="#c05b58" opacity=".24"/>
+        <path d="M 132 196 C 130 206 134 212 142 212 C 150 212 154 206 150 198" stroke="#b0604f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <g stroke="#1c1430" stroke-width="7" fill="none" stroke-linecap="round"><path d="M 84 138 C 98 134 118 134 130 138"/><path d="M 150 138 C 162 134 182 134 196 138"/></g>
+        <g class="blink" style="transform-origin:140px 168px">
+          <path d="M 82 168 C 92 152 122 152 132 168 C 122 186 92 186 82 168 Z" fill="#fbf3e4"/>
+          <path d="M 148 168 C 158 152 188 152 198 168 C 188 186 158 186 148 168 Z" fill="#fbf3e4"/>
+          <ellipse cx="108" cy="171" rx="11" ry="12" fill="#1c1430"/><ellipse cx="172" cy="171" rx="11" ry="12" fill="#1c1430"/>
+          <circle cx="112" cy="166" r="3.4" fill="#fbf3e4"/><circle cx="176" cy="166" r="3.4" fill="#fbf3e4"/>
+        </g>
+        <path d="M 128 238 C 134 242 146 242 152 238" stroke="#8e3a33" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- ===== MA (local 300x380, face centre (150,190)) ===== -->
+    <g id="ma">
+      <g filter="url(#rough)">
+        <path d="M 150 30 C 250 30 302 104 302 204 C 302 296 284 364 276 428 L 24 428 C 16 364 -2 296 -2 204 C -2 104 50 30 150 30 Z" fill="url(#hair)"/>
+        <path d="M -20 470 C -8 372 60 344 122 336 L 178 336 C 240 344 308 372 320 470 Z" fill="url(#blouse)"/>
+        <path d="M 178 336 C 212 374 236 440 242 470 L 296 470 C 290 420 248 356 188 334 Z" fill="#2e6b64"/>
+        <path d="M 184 348 C 216 386 238 440 244 470 L 266 470 C 260 430 234 380 200 344 Z" fill="#d9bE91" opacity=".55"/>
+        <path d="M 122 268 L 178 268 L 182 348 L 118 348 Z" fill="#b96d5e"/>
+        <path d="M 150 82 C 214 82 244 134 244 196 C 244 268 206 320 150 320 C 94 320 56 268 56 196 C 56 134 86 82 150 82 Z" fill="url(#skin)"/>
+        <path d="M 240 192 C 256 186 266 198 262 214 C 258 230 246 236 238 230 Z" fill="#c4735f"/>
+        <path d="M 150 60 C 228 60 258 112 252 170 C 234 134 202 112 150 116 C 98 112 66 134 48 170 C 42 112 72 60 150 60 Z" fill="url(#hair)"/>
+        <path d="M 56 140 C 36 192 32 268 42 334 C 14 280 4 196 22 134 Z" fill="#3a2b55" opacity=".85"/>
+        <path d="M 266 238 C 314 230 342 268 334 310 C 326 352 286 368 256 348 C 236 334 238 264 266 238 Z" fill="url(#hair)"/>
+        <g stroke="#4c3a6e" stroke-width="4" fill="none" opacity=".75" stroke-linecap="round"><path d="M 104 84 C 66 120 50 180 50 238"/><path d="M 196 82 C 234 118 252 178 250 230"/></g>
+      </g>
+      <g filter="url(#roughFine)">
+        <ellipse cx="92" cy="238" rx="30" ry="17" fill="#c05b58" opacity=".28"/><ellipse cx="208" cy="238" rx="30" ry="17" fill="#c05b58" opacity=".28"/>
+        <g stroke="#1c1430" stroke-width="9" fill="none" stroke-linecap="round"><path d="M 86 166 C 102 156 126 156 140 162"/><path d="M 162 162 C 176 156 200 156 216 166"/></g>
+        <g class="blink b" style="transform-origin:150px 198px">
+          <path d="M 88 198 C 98 182 126 182 136 198 C 126 216 98 216 88 198 Z" fill="#fbf3e4"/>
+          <path d="M 166 198 C 176 182 204 182 214 198 C 204 216 176 216 166 198 Z" fill="#fbf3e4"/>
+          <ellipse cx="116" cy="199" rx="12" ry="13" fill="#1c1430"/><ellipse cx="188" cy="199" rx="12" ry="13" fill="#1c1430"/>
+          <circle cx="120" cy="194" r="3.6" fill="#fbf3e4"/><circle cx="192" cy="194" r="3.6" fill="#fbf3e4"/>
+        </g>
+        <circle cx="150" cy="144" r="8" fill="#c9524a"/>
+        <path d="M 146 216 C 142 238 148 246 160 244" stroke="#b0604f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- mouth : level, held -->
+        <path d="M 126 272 C 138 276 162 276 174 272" stroke="#8e3a33" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <circle cx="250" cy="238" r="7" fill="#e8b45c"/><path d="M 250 246 C 262 246 266 262 256 270 C 246 278 234 268 238 256 Z" fill="#e8b45c"/>
+      </g>
+    </g>
+
+    <!-- ===== PA (local 300x380, face centre (150,200)) ===== -->
+    <g id="pa">
+      <g filter="url(#rough)">
+        <path d="M -20 470 C -10 372 62 340 122 330 L 178 330 C 238 340 310 372 320 470 Z" fill="url(#shirt)"/>
+        <path d="M 122 330 L 150 388 L 92 364 Z" fill="#e0685c"/><path d="M 178 330 L 150 388 L 208 364 Z" fill="#e0685c"/>
+        <path d="M 142 388 L 158 388 L 160 470 L 140 470 Z" fill="#7e2f2b" opacity=".7"/>
+        <path d="M 122 268 L 178 268 L 180 340 L 120 340 Z" fill="#b96d5e"/>
+        <circle cx="248" cy="214" r="17" fill="#c4735f"/><circle cx="52" cy="214" r="17" fill="#c4735f"/>
+        <path d="M 150 86 C 216 86 246 140 246 204 C 246 278 208 328 150 328 C 92 328 54 278 54 204 C 54 140 84 86 150 86 Z" fill="url(#skin)"/>
+        <path d="M 66 228 C 76 294 108 328 150 328 C 192 328 224 294 234 228 C 230 286 202 316 150 316 C 98 316 70 286 66 228 Z" fill="#241a38" opacity=".26"/>
+        <path d="M 144 24 C 254 24 302 96 296 200 C 292 256 276 296 260 322 L 226 304 C 244 242 242 172 214 144 C 184 112 114 114 82 150 C 68 166 60 184 58 208 L 26 200 C 22 118 64 24 144 24 Z" fill="url(#hair)"/>
+        <path d="M 78 116 C 122 86 194 90 230 130 C 186 106 122 104 78 116 Z" fill="#4a3a6c" opacity=".6"/>
+        <path d="M 252 200 C 264 242 262 290 252 320 L 230 310 C 242 274 244 234 236 202 Z" fill="#3a2b55" opacity=".8"/>
+      </g>
+      <g filter="url(#roughFine)">
+        <g stroke="#1c1430" stroke-width="10" fill="none" stroke-linecap="round"><path d="M 82 166 C 100 156 124 158 136 166"/><path d="M 164 166 C 178 158 202 156 220 166"/></g>
+        <g class="blink c" style="transform-origin:150px 204px">
+          <ellipse cx="110" cy="204" rx="15" ry="13" fill="#fbf3e4"/><ellipse cx="192" cy="204" rx="15" ry="13" fill="#fbf3e4"/>
+          <circle cx="110" cy="206" r="10" fill="#1c1430"/><circle cx="192" cy="206" r="10" fill="#1c1430"/>
+          <circle cx="114" cy="201" r="3" fill="#fbf3e4"/><circle cx="196" cy="201" r="3" fill="#fbf3e4"/>
+        </g>
+        <g fill="none" stroke="#1c1430" stroke-width="7"><rect x="78" y="178" width="66" height="54" rx="18"/><rect x="158" y="178" width="66" height="54" rx="18"/><path d="M 144 200 L 158 200"/><path d="M 78 196 L 52 192"/><path d="M 224 196 L 250 192"/></g>
+        <path d="M 144 242 C 140 262 146 270 158 268" stroke="#b0604f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M 90 278 C 118 258 138 270 150 282 C 162 270 182 258 210 278 C 192 302 162 300 150 288 C 138 300 108 302 90 278 Z" fill="#241a38"/>
+        <path d="M 130 314 C 140 320 160 320 170 314" stroke="#8e3a33" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+  </defs>
+
+  <!-- ===== room ===== -->
+  <rect width="1280" height="720" fill="url(#wall)"/>
+  <g opacity=".16" filter="url(#roughFine)" fill="#c97f82">
+    <rect x="96" y="0" width="6" height="560"/><rect x="190" y="0" width="4" height="560"/><rect x="282" y="0" width="7" height="560"/><rect x="376" y="0" width="4" height="560"/>
+    <rect x="470" y="0" width="6" height="560"/><rect x="564" y="0" width="4" height="560"/><rect x="658" y="0" width="7" height="560"/><rect x="752" y="0" width="4" height="560"/>
+    <rect x="846" y="0" width="6" height="560"/><rect x="940" y="0" width="4" height="560"/><rect x="1034" y="0" width="7" height="560"/><rect x="1128" y="0" width="4" height="560"/><rect x="1222" y="0" width="6" height="560"/>
+  </g>
+  <!-- window light, left -->
+  <g filter="url(#rough)"><rect x="36" y="50" width="200" height="250" rx="8" fill="#c58a72"/><rect x="50" y="64" width="172" height="222" rx="5" fill="#2a2f52"/><rect x="132" y="64" width="8" height="222" fill="#b4705e"/><rect x="50" y="170" width="172" height="8" fill="#b4705e"/></g>
+  <!-- stair shadow, right -->
+  <path d="M 1040 -20 L 1300 -20 L 1300 720 L 1180 720 Z" fill="url(#stairShade)" style="mix-blend-mode:multiply" filter="url(#mid)"/>
+  <g filter="url(#rough)"><path d="M 1080 -10 L 1300 -10 L 1300 160 Z" fill="#b87c86" opacity=".5"/></g>
+  <!-- hanging lamp over the table -->
+  <g filter="url(#roughFine)"><rect x="637" y="0" width="5" height="40" fill="#7a4a54"/><path d="M 584 40 L 696 40 L 672 92 L 608 92 Z" fill="#c9524a"/><path d="M 584 40 L 696 40 L 688 54 L 592 54 Z" fill="#e0685c"/></g>
+  <ellipse cx="640" cy="130" rx="190" ry="110" fill="url(#lampGlow)" filter="url(#soft)" class="lamp"/>
+  <!-- frames -->
+  <g filter="url(#rough)">
+    <rect x="300" y="110" width="150" height="196" rx="5" fill="#7e5a86"/><rect x="314" y="124" width="122" height="168" rx="3" fill="#5c4270"/>
+    <path d="M 375 156 C 402 156 414 176 414 202 C 414 230 398 246 375 246 C 352 246 336 230 336 202 C 336 176 348 156 375 156 Z" fill="#c58063"/>
+    <path d="M 375 150 C 406 150 418 170 416 190 C 404 174 390 168 375 170 C 360 168 346 174 334 190 C 332 170 344 150 375 150 Z" fill="#241a38"/>
+    <path d="M 330 292 L 330 262 C 330 244 352 236 375 236 C 398 236 420 244 420 262 L 420 292 Z" fill="#8e3a33"/>
+  </g>
+
+  <!-- ===== the family, straight on ===== -->
+  <ellipse cx="640" cy="470" rx="420" ry="120" fill="#9a5f72" opacity=".22" filter="url(#soft)" style="mix-blend-mode:multiply"/>
+  <g transform="translate(160 150) scale(1.02)"><g class="breathe"><use href="#tala"/></g></g>
+  <g transform="translate(800 92)"><g class="breathe c"><use href="#pa"/></g></g>
+  <g transform="translate(496 82) scale(1.02)"><g class="breathe b"><use href="#ma"/></g></g>
+
+  <!-- ===== table + the envelope ===== -->
+  <g filter="url(#rough)">
+    <rect x="-40" y="496" width="1360" height="260" fill="url(#table)"/>
+    <rect x="-40" y="496" width="1360" height="14" fill="#e8845e" opacity=".75"/>
+  </g>
+  <!-- money counted out, envelope, remittance slip --><g transform="translate(0 -62)">
+  <g transform="rotate(-6 620 600)" filter="url(#roughFine)">
+    <rect x="540" y="572" width="170" height="86" rx="4" fill="#000" opacity=".25" transform="translate(6 8)"/>
+    <rect x="540" y="572" width="170" height="86" rx="4" fill="#efe6d4"/>
+    <path d="M 540 572 L 625 626 L 710 572" stroke="#c9b9a0" stroke-width="2" fill="none"/>
+  </g>
+  <g filter="url(#roughFine)">
+    <g transform="rotate(4 760 604)"><rect x="700" y="582" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="700" y="582" width="120" height="52" rx="3" fill="#8fae87"/><rect x="712" y="592" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="760" cy="608" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
+    <g transform="rotate(-2 770 596)"><rect x="710" y="574" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="710" y="574" width="120" height="52" rx="3" fill="#98b58f"/><rect x="722" y="584" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="770" cy="600" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
+    <g transform="rotate(9 780 588)"><rect x="720" y="566" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="720" y="566" width="120" height="52" rx="3" fill="#a3bd9a"/><rect x="732" y="576" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="780" cy="592" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
+  </g>
+  <!-- Ma's hands on the envelope -->
+  <g filter="url(#rough)">
+    <path d="M 470 596 C 486 570 520 566 546 584 C 560 594 552 612 536 612 L 480 616 C 466 614 462 604 470 596 Z" fill="url(#skin)"/>
+    <path d="M 700 574 C 724 556 758 560 774 580 C 784 594 772 608 756 606 L 704 604 C 690 600 688 586 700 574 Z" fill="url(#skin)"/>
+  </g>
+  </g>
+  <!-- warm key light -->
+  <ellipse cx="200" cy="220" rx="300" ry="240" fill="#ffd9a0" opacity=".28" filter="url(#soft)" style="mix-blend-mode:screen"/>
+</svg></div>
+
+<div class="vig"></div><div class="grain"></div>
+<div class="hud">
+  <div><span class="date">December 22</span><span class="sub">Seventh morning &middot; After the call</span></div>
+  <div class="marks"><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk"></i><i class="mk"></i></div>
+</div>
+<div class="dlg"><div class="panel">
+  <div class="who">Ma</div>
+  <p class="line"><em>(counting, twice)</em> It is fine. We will do the bibingka with what we have.</p>
+  <div class="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
+</div></div>
+</div></body></html>

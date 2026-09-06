@@ -82,3 +82,36 @@ Render a looping GIF with:
 ```
 NODE_PATH=/opt/node22/lib/node_modules node tools/render-gif.js <in.html> <out.gif> 640 360 2.8 15
 ```
+
+---
+
+## The committed direction: straight-on faces, top-down cooking
+
+| File | What it is |
+|---|---|
+| `expressions-tala.html` | One head, four expressions. Only brows, eyes and mouth swap. |
+| `scene-dining.html` | Dialogue format: the family straight-on at the table, scene 4 "The envelope". |
+| `scene-cooking-topdown.html` | Cooking format: top-down, no character on screen, cursor glove as the only hand. |
+| `scene-cooking.html` | Kept as the counter-example: a three-quarter face, which is where flat shapes break. |
+
+### Rules of the grammar
+
+1. **Characters are drawn straight-on only.** No three-quarter, no profile.
+   A flat-shape face cannot describe depth in the nose, far eye and jaw at
+   once, so the turn is simply never drawn.
+2. **One base head per character, expression parts swap on top.** The
+   parts are named groups (`brows-*`, `eyes-*`, `mouth-*`) so a scene beat
+   can set an expression by class, not by redrawing.
+3. **Cooking is top-down with no character on screen.** The player is the
+   hands, and the only hand is a UI cursor glove. Drawn hands fail from
+   above for the same reason faces fail in three-quarter.
+4. **Animate the parent, not the textured group.** The `feDisplacementMap`
+   grain is applied to an inner group; motion goes on a wrapper. And keep
+   the SVG `transform` attribute and any CSS-animated `transform` on
+   different elements, because the CSS one replaces the attribute.
+
+### Idle life
+
+Every character in `scene-dining.html` blinks and breathes on its own
+offset. That, plus steam on any dish, is enough to keep a static scene from
+feeling like a slide. Reaction beats are an expression-part swap.
