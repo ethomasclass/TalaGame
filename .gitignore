@@ -1,0 +1,16 @@
+# node, from `npm i playwright` for the render and playtest scripts
+node_modules/
+package.json
+package-lock.json
+
+# credentials. Nothing with a key in it ever gets committed.
+.env
+.env.*
+*.key
+
+# scratch renders. The tracked set under assets/samples/ is the reviewed one;
+# these are throwaway passes from tools/playtest.js and the one-off shot scripts.
+assets/samples/tagalog/
+tools/.shot-*.js
+
+.DS_Store

@@ -177,6 +177,12 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   #hot{{pointer-events:none}} #hot circle{{pointer-events:auto;cursor:pointer;fill:#fff3d6;fill-opacity:0;stroke:#fff3d6;stroke-opacity:.0}}
   #hot .dot{{pointer-events:none;fill:#fff3d6;fill-opacity:.85;animation:hotpulse 2.2s ease-in-out infinite}} @keyframes hotpulse{{0%,100%{{r:4}}50%{{r:6}}}}
   .line.look{{color:#54594a;font-style:italic}} .role{{color:#8d8873;font-weight:400;letter-spacing:.08em}}
+  /* a line spoken in Tagalog: the Tagalog above in gold, the English under it at full reading size */
+  .lang{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;letter-spacing:.1em;color:#a8721f}}
+  /* the room goes down when we are hearing something we are not in */
+  #dim.soft{{background:rgba(20,10,8,.5)}}
+  .tlline{{display:block;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:.74em;line-height:1.35;
+    color:#a8721f;margin:0 0 8px;padding-left:13px;border-left:2px solid rgba(168,114,31,.45)}}
   .aside{{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:19px;color:#6d5a3f;margin:8px 0 0;padding-left:14px;border-left:2px solid rgba(168,114,31,.45)}}
   /* phone portraits */
 {avatar_css}  .av{{width:34px;height:34px;border-radius:50%;display:inline-block;vertical-align:middle;flex:0 0 auto;

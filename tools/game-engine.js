@@ -46,7 +46,7 @@ const ROLES = {tala:'seventeen · two years here', ma:'Divina Ramos · runs the 
 const met = new Set();
 // Tagalog and kitchen words a ninth grader can tap for a meaning. Only the first use on a line is marked.
 const TERMS = {
-  'Simbang Gabi':'nine early-morning masses before Christmas, December 16 to 24', 'Lola':'grandmother', 'lola':'grandmother', 'Tita':'auntie. Also any older woman you respect', 'Nanay':'Mom', 'anak':'child. What a parent calls you',
+  'Simbang Gabi':'nine early-morning masses before Christmas, December 16 to 24', 'Lola':'grandmother', 'lola':'grandmother', 'Tita':'auntie. Also any older woman you respect', 'Tito':'uncle. Also any older man you respect', 'Nanay':'Mom', 'anak':'child. What a parent calls you',
   'sinigang':'a sour soup, usually made with tamarind', 'pancit':'noodles', 'puto bumbong':'purple rice steamed in bamboo tubes', 'bibingka':'a rice cake baked in a clay pot with hot coals on top', 'adobo':'meat cooked slowly in soy sauce and vinegar',
   'parol':'a star lantern. Christmas in a window', 'balikbayan box':'the big cardboard box Filipino families ship across the ocean', 'remittance':'money sent home to family in another country', 'Mang':'a polite "Mr." for an older man',
   'po':'a small word that makes anything polite', 'niyog':'grated coconut', 'muscovado':'dark, raw sugar', 'malagkit':'sticky rice', 'pirurutong':'the purple rice', 'bumbong':'the bamboo tube', 'kaunti lang':'just a little',
@@ -239,13 +239,22 @@ const beats = [
          'Nobody interviewed him for a job. He is family, so there was already a job waiting. This is how most people on this block got here: one relative comes over, then helps the next one.']},
   {hud:['December 18','Third morning · Dinner service'], bg:'kitchen',
      stage:'Ando landed at two o’clock. By six he is tying on an apron.', expr:{pa:'neutral',ando:'tired'}},
-  {bg:'kitchen', who:'ando', text:'You got tall.', expr:{ando:'up'}},
-  {bg:'kitchen', who:'tala', text:'You got here.', expr:{ando:'smile'}},
-  {bg:'kitchen', who:'ando', text:'Everybody back home says hi. Everybody. It took the whole drive to the airport.', expr:{ando:'smile'}},
-  {bg:'kitchen', who:'ando', pre:'(looking into the walk-in fridge)', text:'Everything here is so big.', expr:{ando:'up'}},
+  {bg:'kitchen', who:'ando', tl:'Ang tangkad mo na. Bata ka pa noong huli kitang nakita.',
+     text:'You got so tall. You were a little kid the last time I saw you.', expr:{ando:'up'}},
+  {bg:'kitchen', who:'tala', tl:'Ikaw naman, ang payat mo.', text:'And you got skinny.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'ando', tl:'Kumusta raw kayong lahat. Lahat sila. Buong biyahe papuntang airport, iyon lang ang pinag-usapan.',
+     text:'Everybody back home says hi. Everybody. It took the whole drive to the airport.', expr:{ando:'smile'}},
+  {bg:'kitchen', stage:'Pa comes out of the walk-in with a case of chicken. Ando puts his shoulders back.', expr:{pa:'neutral',ando:'up'}},
+  {bg:'kitchen', who:'ando', pre:'(in English now, one word at a time)', text:'Tito. I can do the… the fryer. I am good on the fryer.', expr:{ando:'up'},
+     aside:'Nobody asked him to speak English. He is doing it on purpose, in a kitchen where everybody speaks Tagalog, because he has decided he is going to be ready.'},
   {bg:'kitchen', who:'pa', text:'You will get used to it. Hold the knife like this. Not like that.', expr:{pa:'neutral',ando:'tired'}},
-  {bg:'kitchen', who:'ando', text:'How long before I stop being tired?', expr:{ando:'tired'}},
-  {bg:'kitchen', who:'pa', pre:'(after a pause, turning back to the pan)', text:'I will let you know.', expr:{pa:'down',ando:'tired'}},
+  {bg:'kitchen', who:'ando', pre:'(looking into the walk-in fridge)', text:'Everything here is so… big.', expr:{ando:'up'},
+     aside:'In Tagalog, Ando talks fast and he is funny. In English he goes slow and picks every word one at a time, and he sounds like a smaller, simpler person. He is not one.'},
+  {bg:'kitchen', who:'ando', tl:'Tito. Gaano katagal bago mawala ang pagod?', text:'How long before I stop being tired?', expr:{ando:'tired'}},
+  {bg:'kitchen', who:'pa', pre:'(after a pause, turning back to the pan)', tl:'Sasabihin ko sa iyo.', text:'I will let you know.', expr:{pa:'down',ando:'tired'},
+     aside:'He asked that one in Tagalog. So did Pa.'},
+  {note:['Two languages in one kitchen','Almost everybody in this kitchen speaks Tagalog and English. Moving between them in the middle of a conversation is called code-switching, and nearly every bilingual person does it.',
+         'It is not random. People switch based on who they are talking to and how much they mean it. In this family, English is for customers and school. Tagalog is for each other.']},
   {bg:'cook', cook:'s2'},
   {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain'
      ? 'The adobo comes out thin and flat. Pa tastes it and does not say anything at all. Tala would rather he got mad.' : null,
@@ -270,7 +279,7 @@ const beats = [
   {bg:'rest', who:'ma', text:'Sinigang po. Sour soup, with tamarind. Very good with rice.', expr:{ma:'neutral'}, motion:{ma:['nod']}},
   {bg:'rest', who:'customer', text:'You know, if you are going to work here, you should really speak English.', expr:{tala:'wince'}},
   {bg:'rest', who:'ma', pre:'(calmly, already reaching for the water pitcher)', text:'Thank you, ma’am.', expr:{ma:'held'}, motion:{ma:['pour']},
-     aside:'Ma answered in English. She was already speaking English. Tala watches her mother decide, in about half a second, to let it go.'},
+     aside:'Ma has been speaking English at that table the whole time. She speaks English with customers all day, every day. The woman heard an accent and stopped listening to the words. Tala watches her mother decide, in about half a second, to let it go.'},
   {bg:'rest', choice:[{text:'Say something.', goto:'speak'}, {text:'Say nothing.', goto:'silent'}], expr:{tala:'wince'}},
   {id:'speak', bg:'rest', who:'tala', text:'She said it in English.', expr:{tala:'wince'}},
   {bg:'rest', who:'ma', text:'Tala. Go to the back, please. Table four needs bread.', expr:{ma:'neutral',tala:'quiet'}, motion:{ma:['nod']}},
@@ -281,7 +290,14 @@ const beats = [
   {bg:'rest', who:'ma', text:'I put it with the others. Then I refill the water.', expr:{ma:'held'}},
   {bg:'rest', who:'tala', text:'That is not fair.', expr:{tala:'wince'}},
   {bg:'rest', who:'ma', text:'No. But the restaurant has to open again tomorrow.', expr:{ma:'held'}},
-  {bg:'rest', stage:'Later, through the wall, Tala can hear her parents talking about the Christmas Eve order and what the ingredients will cost. They are using the flat, quiet voices people use when they do not want to be overheard.', expr:{tala:'quiet',ma:'neutral'}},
+  {bg:'rest', dim:true, stage:'Later, through the wall of the back office, Tala can hear her parents doing the numbers for the Christmas Eve order. Halfway through, they switch to Tagalog.', expr:{tala:'quiet',ma:'neutral'},
+     aside:'They only switch for two things. Church, and money.'},
+  {bg:'rest', dim:true, who:'ma', pre:'(through the wall)', offstage:true, tl:'Hindi tayo aabot sa renta ngayong buwan.', text:'We are not going to make rent this month.', expr:{ma:'counting'}},
+  {bg:'rest', dim:true, who:'pa', pre:'(through the wall)', offstage:true, tl:'Alam ko.', text:'I know.'},
+  {bg:'rest', dim:true, who:'ma', pre:'(through the wall)', offstage:true, tl:'At kailangan pa rin nating bilhin ang lahat para sa parokya.', text:'And we still have to buy everything for the parish.', expr:{ma:'counting'}},
+  {bg:'rest', dim:true, who:'pa', pre:'(through the wall, quieter)', offstage:true, tl:'Huwag mong sabihin sa bata.', text:'Do not tell the kid.'},
+  {bg:'rest', stage:'Tala is the kid. She is standing on the other side of the wall with a stack of menus, and she understood every word.', expr:{tala:'wince',ma:'neutral'},
+     aside:'They did not switch so she would not understand. She grew up in Tagalog. They switched because switching is how this family says <em>this part is not for you.</em>'},
   {note:['The menu problem','Half the menu is what Lola actually cooked. The other half has been changed over the years to match what customers will order.',
          'Every time the family changes a dish to sell more of it, the version on Lola’s card gets a little further away.']},
   {bg:'cook', cook:'s3'},
@@ -355,6 +371,15 @@ const beats = [
      stage:'Then Tita Baby passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
   {note:['What just happened','The family has been sending money home to Lola all year. This morning the neighborhood sent money back the other way.',
          'Ma is not embarrassed because they need help. She is embarrassed because everyone now knows they need help.']},
+  {bg:'hall', who:'ma', pre:'(not looking at her, straightening a tray that is already straight)', tl:'Kumain ka na ba?', text:'Have you eaten?', expr:{ma:'held',tala:'quiet'},
+     aside:'It is what she asks instead of the other thing.'},
+  {bg:'hall', who:'tala',
+     tl: () => STATE.honesty > 0 ? 'Opo, Ma.' : null,
+     text: () => STATE.honesty > 0 ? 'Yes, Ma.' : 'Yeah.',
+     expr:{tala:'quiet',ma:'held'},
+     aside: () => STATE.honesty > 0
+       ? 'She answered in Tagalog. It is one syllable longer than <em>yeah</em>, and it means she is still in the room.'
+       : 'She answered in English. Ma does not say anything about it. Ma noticed.'},
   {bg:'hall', stage:'And then Tala’s phone buzzes.', expr:{tala:'quiet'}},
   {note:['Why Bea would leave','The Philippines trains far more nurses than it can pay to keep. Many of them take jobs in other countries, where the pay can be several times higher.',
          'The clinic in Bea’s town has been short a nurse since August. Nobody has replaced her.']},
@@ -385,7 +410,7 @@ function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
   const b = beats[i]; if(!b) return;
-  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('dim').classList.remove('on'); phone.classList.remove('on'); $('inter').classList.remove('on');
+  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = b.hud[0]; $('hud-sub').textContent = b.hud[1]; }
   if(b.set) b.set();
   if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
@@ -400,6 +425,7 @@ function render(){
   if(b.phone) return doPhone(PHONES[b.phone]);
   if(b.alarm) return doAlarm();
   showBg(b.bg);
+  if(b.dim) $('dim').classList.add('soft');
   if(b.expr) for(const k in b.expr) setExpr(k, b.expr[k]);
   $('aside').hidden = true; $('hot').innerHTML = '';
   if(b.cook){ mode = 'cook'; dlg.hidden = true; renderCook(COOKS[b.cook]); return; }
@@ -409,9 +435,14 @@ function render(){
   if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = gloss(stage); focus(null); }
   else {
     const first = !met.has(who) && ROLES[who]; met.add(who);
-    $('who').innerHTML = NAMES[who] + (first ? ` <span class="role">· ${ROLES[who]}</span>` : ''); $('line').className = 'line';
-    const t = txt(b.text); $('line').innerHTML = gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t); focus(who);
-    if(bg === 'rest' && who === 'ma') talk('ma', Math.min(2600, 380 + t.length * 45));
+    const tl = txt(b.tl);
+    $('who').innerHTML = NAMES[who] + (first ? ` <span class="role">· ${ROLES[who]}</span>` : '')
+      + (tl ? ' <span class="lang">· in Tagalog</span>' : ''); $('line').className = 'line';
+    const t = txt(b.text);
+    // The Tagalog is what is said. The English under it is what the player reads. Never glossed twice.
+    $('line').innerHTML = (tl ? `<span class="tlline">${tl}</span>` : '') + gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t);
+    focus(who);
+    if(bg === 'rest' && who === 'ma' && !b.offstage) talk('ma', Math.min(2600, 380 + t.length * 45));
   }
   const aside = txt(b.aside); $('aside').className = 'aside'; $('aside').hidden = !aside; if(aside) $('aside').innerHTML = gloss(aside);
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
@@ -542,7 +573,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
