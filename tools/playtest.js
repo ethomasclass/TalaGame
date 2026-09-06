@@ -19,6 +19,7 @@ const VARIANTS = {
     if(s.mode==='end'){ await shot('end'); break; }
     if(s.mode==='pause'){ if(last!==`pause:${s.i}`){ await page.waitForTimeout(s.bg==='dawn'?5600:1200); await shot(s.bg==='dawn'?'sunrise':`estab-${s.bg}-b${s.i}`); last=`pause:${s.i}`; } await page.waitForTimeout(400); continue; }
     if(s.mode==='drag'){ if(last!==`drag:${s.i}:${await page.evaluate(()=>cookStep)}`){ const k=await page.evaluate(()=>drag&&drag.spec.kind); await page.waitForTimeout(k==='egg'?8500:900); await shot(`drag-${k}-b${s.i}`); await page.keyboard.press('Enter'); last=`drag:${s.i}:${await page.evaluate(()=>cookStep)}`; await page.waitForTimeout(900); } await page.waitForTimeout(300); continue; }
+    if(s.mode==='note'){ if(last!==`note:${s.i}`){ await shot(`note-${s.bg}-b${s.i}`); last=`note:${s.i}`; } await page.keyboard.press('Enter'); await page.waitForTimeout(200); continue; }
     if(s.mode==='debrief'){ await shot('debrief'); await page.keyboard.press('Enter'); await page.waitForTimeout(300); continue; }
     if(s.busy){ await page.waitForTimeout(400); continue; }
     if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key;

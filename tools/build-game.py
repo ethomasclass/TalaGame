@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
 import re, pathlib, sys
-sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers"); cooklayer = importlib.import_module("cook-layer")
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers"); avatars = importlib.import_module("avatars"); cooklayer = importlib.import_module("cook-layer")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -148,6 +148,7 @@ alarm = '''  <div class="layer" id="alarm" hidden>
 
 # ---------------- page ----------------
 head_css = src[src.index('  :root{--paper'):src.index('</style>')].replace('.line.stage{','.line.sd{')
+avatar_css = avatars.css()
 html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nine Mornings</title>
@@ -158,20 +159,60 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
   .layer.off{{visibility:hidden;pointer-events:none}}
+  /* Nothing that is not currently in play may take a pointer. opacity:0 does NOT stop hit-testing. */
+  #phone{{pointer-events:none}} #phone.on{{pointer-events:auto}}
+  .cardwrap,.prompt,.estab,.alarmtxt,#dev,.hud{{pointer-events:none}}
+  .cardscreen{{pointer-events:none}} .cardscreen.on{{pointer-events:auto}}
+  #cook svg,#cook .overlay{{pointer-events:none}}
+  #drag-egg,#drag-vin,#drag-tube,#drag-tablea{{pointer-events:auto}}
   .estab{{position:absolute;left:44px;bottom:44px;z-index:7;background:rgba(18,12,10,.78);color:#ece7d6;padding:14px 22px 14px 18px;border-left:3px solid #dba748;border-radius:0 8px 8px 0;backdrop-filter:blur(3px)}}
   .estab .place{{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}}
   .estab .when{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-top:5px}}
-  .term{{border-bottom:1px dotted rgba(168,114,31,.75);cursor:help}} .term:hover{{background:rgba(224,162,60,.18)}}
+  .term{{border-bottom:2px dotted rgba(168,114,31,.85);cursor:pointer;padding:2px 1px;margin:-2px -1px;border-radius:3px;
+    background:rgba(224,162,60,.10);-webkit-tap-highlight-color:transparent}}
+  .term:hover,.term:active{{background:rgba(224,162,60,.30)}}
+  .term::after{{content:"?";font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62em;vertical-align:super;color:#a8721f;margin-left:2px;font-weight:500}}
   .aside.def{{border-left-color:#2c6b62;color:#2c6b62;font-style:normal}} .aside.def b{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;color:#1f5049;margin-right:8px}}
   @keyframes fall{{0%{{transform:translate(0,-20px)}}100%{{transform:translate(14px,740px)}}}} #ext-rest .flake,#ext-school .flake{{animation:fall 9s linear infinite}}
   #hot{{pointer-events:none}} #hot circle{{pointer-events:auto;cursor:pointer;fill:#fff3d6;fill-opacity:0;stroke:#fff3d6;stroke-opacity:.0}}
   #hot .dot{{pointer-events:none;fill:#fff3d6;fill-opacity:.85;animation:hotpulse 2.2s ease-in-out infinite}} @keyframes hotpulse{{0%,100%{{r:4}}50%{{r:6}}}}
   .line.look{{color:#54594a;font-style:italic}} .role{{color:#8d8873;font-weight:400;letter-spacing:.08em}}
   .aside{{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:19px;color:#6d5a3f;margin:8px 0 0;padding-left:14px;border-left:2px solid rgba(168,114,31,.45)}}
+  /* phone portraits */
+{avatar_css}  .av{{width:34px;height:34px;border-radius:50%;display:inline-block;vertical-align:middle;flex:0 0 auto;
+    background-size:cover;background-position:center top;box-shadow:0 1px 2px rgba(0,0,0,.25)}}
+  .av.sm{{width:26px;height:26px}}
+  .ptop{{align-items:center}} .ptop .who-row{{display:flex;align-items:center;gap:10px}}
+  .ptop b{{font-size:17px;letter-spacing:0;text-transform:none;font-family:"Fraunces",Georgia,serif;font-weight:600}}
+  .ptop .sub{{font-size:10.5px;letter-spacing:.06em;color:#9a9484;text-transform:none;font-family:"IBM Plex Mono",ui-monospace,monospace}}
+  .bub-row{{display:flex;gap:8px;align-items:flex-end;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}}
+  .bub-row.in{{opacity:1;transform:none}}
+  .bub-row.me{{justify-content:flex-end}}
+  .bub-row .bub{{opacity:1;transform:none}}
+  .typing{{display:flex;align-items:center;gap:8px;padding:4px 0 2px}}
+  .typing .tlabel{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;color:#9a9484;letter-spacing:.04em}}
+  .typing .dots{{background:var(--bub-them);border-radius:14px;padding:9px 12px;display:inline-flex;gap:4px;align-items:center}}
+  .typing .dots i{{width:6px;height:6px;border-radius:50%;background:#8d8873;display:block;animation:tdot 1.2s ease-in-out infinite}}
+  .typing .dots i:nth-child(2){{animation-delay:.18s}} .typing .dots i:nth-child(3){{animation-delay:.36s}}
+  @keyframes tdot{{0%,60%,100%{{opacity:.3;transform:translateY(0)}}30%{{opacity:1;transform:translateY(-3px)}}}}
+  @keyframes buzz{{0%,100%{{transform:translateX(-50%) translateY(0) rotate(0)}}
+    10%{{transform:translateX(-50%) translateY(0) rotate(-1.6deg)}}25%{{transform:translateX(-50%) translateY(-3px) rotate(1.6deg)}}
+    40%{{transform:translateX(-50%) translateY(0) rotate(-1.2deg)}}55%{{transform:translateX(-50%) translateY(-2px) rotate(1deg)}}70%{{transform:translateX(-50%) translateY(0) rotate(-.5deg)}}}}
+  #phone.buzz{{animation:buzz .55s ease-in-out 2}}
+  /* context cards : what a fourteen-year-old would not already know */
+  .note{{position:absolute;left:0;right:0;bottom:0;padding:0 44px 30px;z-index:8;display:flex;justify-content:center}}
+  .note-card{{background:#fbf6e8;border-radius:12px;max-width:720px;width:100%;overflow:hidden;cursor:pointer;
+    box-shadow:0 2px 4px rgba(0,0,0,.35),0 26px 60px -22px rgba(0,0,0,.9);border-left:6px solid #2c6b62}}
+  .note-tab{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:#1f5049;background:#dfeae2;padding:9px 22px}}
+  .note-body{{font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:20px;line-height:1.5;color:#262a1e;padding:16px 22px 6px}}
+  .note-body p{{margin:0 0 10px;max-width:64ch}} .note-body p:last-child{{margin-bottom:0}}
+  #note-def{{margin:0 22px 4px}}
+  .note-adv{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.1em;color:#8d8873;padding:6px 22px 14px;text-align:right}}
   .cardwrap.dragmode .card{{opacity:.45}} #cook.dragging{{cursor:grabbing}} #drag-egg{{transition:transform .08s linear}}
   html,body{{touch-action:manipulation;-webkit-tap-highlight-color:transparent}}
   .line{{font-size:27px}} .who{{font-size:13px}} .ch{{font-size:21px;padding:12px 16px}} .prompt{{font-size:22px}} .hud{{font-size:14px}}
-  #phone{{width:470px}} .bub{{font-size:19px;padding:10px 14px;max-width:86%}} .rp{{font-size:16px;padding:10px 14px}} .ptop{{font-size:13px}} .cardscreen .hint{{font-size:14px}}
+  #phone{{width:470px;bottom:0}} .screen{{height:516px}} .bubs{{overflow-y:auto;justify-content:flex-end}} .bub{{font-size:19px;padding:10px 14px;max-width:86%}} .rp{{font-size:16px;padding:10px 14px}} .ptop{{font-size:13px}} .cardscreen .hint{{font-size:14px}}
   #rotate{{position:fixed;inset:0;z-index:99;display:none;place-items:center;background:#120c0a;color:#ece7d6;text-align:center;padding:32px;font-family:"Fraunces",Georgia,serif}}
   #rotate h2{{font-weight:600;font-size:28px;margin:0 0 10px}} #rotate p{{color:#bdb8a4;font-size:17px;margin:0;max-width:30ch}}
   #rotate svg{{width:72px;height:72px;margin-bottom:18px;animation:turn 2.4s ease-in-out infinite}}
@@ -210,14 +251,23 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     <div><span class="date" id="hud-date"></span><span class="sub" id="hud-sub"></span></div>
     <div class="marks" id="marks"></div>
   </div>
+  <div class="note" id="note" hidden><div class="note-card">
+    <div class="note-tab" id="note-tab"></div><div class="note-body" id="note-body"></div>
+    <p class="aside def" id="note-def" hidden></p>
+    <div class="note-adv">Tap to keep going</div>
+  </div></div>
   <div class="dlg" id="dlg"><div class="panel" id="panel">
     <div class="who" id="who"></div><p class="line" id="line"></p><p class="aside" id="aside" hidden></p>
     <div class="adv" id="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
   </div></div>
   <div class="choices" id="choices" hidden></div>
   <div id="phone"><div class="screen">
-    <div class="ptop"><b>Bea</b><span id="ptime"></span></div>
+    <div class="ptop">
+      <span class="who-row"><span class="av av-bea"></span><b>Bea</b><span class="sub">Batangas &middot; 13 hours ahead</span></span>
+      <span id="ptime"></span>
+    </div>
     <div class="bubs" id="bubs"></div>
+    <div class="typing" id="typing" hidden><span class="av av-bea sm"></span><span class="dots"><i></i><i></i><i></i></span><span class="tlabel">Bea is typing</span></div>
     <div class="replies" id="replies"></div>
   </div></div>
   <div class="cardscreen on" id="title">

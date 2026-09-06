@@ -163,138 +163,210 @@ const PHONES = {
 };
 
 const beats = [
-  // ---------- scene 1 : December 16 ----------
+  // ================= SCENE 1 : December 16 =================
   {estab:['The parish · four blocks from Pacing’s','Sunday, December 16 · 4:40 a.m. · first morning'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, pause:3200, set: () => { STATE.mornings = [1]; }},
-  {hud:['December 16','First morning · 4:40 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'Cold, dark, breath visible. Tala walks to the parish with Ma. Pa stays behind to open the restaurant.', aside:'Lola told her once: nine mornings in a row, and you get a wish. She has not told anyone that is why she is up.'},
-  {bg:'dawn', who:'ma', text:'Nine mornings is nine mornings. You do not start what you cannot finish.', pre:'(to the street, not to Tala)'},
-  {bg:'dawn', stage:'Inside, the church is full of people she knows by face. After, everyone goes to the hall.'},
-  {hud:['December 16','First morning · The hall'], bg:'hall', show:{'hall-hannah':false,'hall-basket':false,'hall-food':false}, who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. So of course I thought of your mother.', expr:{tita:'warm',ma:'neutral',tala:'quiet'}},
-  {bg:'hall', who:'ma', text:'Tita, we have the dinner service that whole week.', expr:{ma:'held'}},
-  {bg:'hall', who:'tita', text:'Nine mornings is nine mornings. It is only the last one I am asking for.', expr:{tita:'talk'}},
-  {bg:'hall', who:'tita', text:'Bibingka and puto bumbong. For everyone. On the twenty-fourth.', expr:{tita:'warm'}},
-  {bg:'hall', stage:'Ma says yes. There was never a way to say no. Not to Tita Baby, and not in this room.', expr:{ma:'held',tala:'quiet'}, aside:'Ma is smiling. Tala knows that smile. It is the one for customers.'},
-  {hud:['December 16','First morning · The walk home'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, who:'ma', pre:'(doing the math out loud)', text:'Forty people. Fifty. Two trays of bibingka is twenty pieces. The puto bumbong, we have six tubes.'},
-  {bg:'dawn', who:'tala', text:'We can borrow tubes.'},
+  {hud:['December 16','First morning · 4:40 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false},
+     stage:'It is cold and still dark. Tala is walking to church with her mother. Her father stayed behind to open the restaurant.'},
+  {note:['What is happening','Every December, Filipino Catholics go to church at dawn for nine mornings in a row. It is called Simbang Gabi. It starts on December 16 and ends on Christmas Eve.',
+         'There is an old belief that goes with it. If you make it to all nine, you get one wish.']},
+  {bg:'dawn', who:'tala', text:'Ma. If someone does all nine, do they really get the wish?'},
+  {bg:'dawn', who:'ma', text:'That is what my mother told me.'},
+  {bg:'dawn', who:'tala', text:'Did you ever do all nine?'},
+  {bg:'dawn', who:'ma', text:'Once. When I was your age.', aside:'Tala wants to say that she is going to do all nine. She does not say it. If she says it out loud, she has to finish it.'},
+  {bg:'dawn', who:'ma', text:'Nine mornings is nine mornings. Do not start what you cannot finish.'},
+  {bg:'dawn', stage:'Inside, the church is full. Tala knows almost every face, even if she does not know every name. Afterward, everyone goes to the parish hall for food.'},
+  {note:['Where the Ramos family is from','Tala was born in Batangas, a province in the Philippines. Her family moved to Jersey City two years ago, when she was fifteen.',
+         'Her grandmother, who everyone calls Lola, still lives in Batangas. So does her best friend Bea.']},
+  {hud:['December 16','First morning · The parish hall'], bg:'hall', show:{'hall-hannah':false,'hall-basket':false,'hall-food':false},
+     who:'tita', text:'Divina. Your mother made the puto bumbong for our parish back home. Everybody knows this.', expr:{tita:'warm',ma:'neutral',tala:'quiet'}},
+  {bg:'hall', who:'tita', text:'So I thought of you. Will you make it for the last morning? Bibingka and puto bumbong. For everyone.', expr:{tita:'talk'}},
+  {bg:'hall', who:'ma', text:'Tita, we have dinner service that whole week.', expr:{ma:'held'}},
+  {bg:'hall', who:'tita', text:'Nine mornings is nine mornings. It is only the last one I am asking for.', expr:{tita:'warm'}},
+  {bg:'hall', stage:'Ma says yes. She is standing in a room full of people who all heard the question. There was no way to say no.', expr:{ma:'held',tala:'quiet'},
+     aside:'Ma is smiling. Tala knows that smile. It is the one she uses on customers.'},
+  {note:['What Ma just agreed to','Food for about fifty people, cooked and carried to the hall by five in the morning on Christmas Eve. The family pays for all of it themselves.',
+         'It is an honor to be asked. It is also a week of work and a lot of money they do not really have.']},
+  {hud:['December 16','First morning · Walking home'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false},
+     who:'ma', pre:'(adding it up out loud)', text:'Fifty people. Two trays of bibingka is twenty pieces. And we only have six bamboo tubes.'},
+  {bg:'dawn', who:'tala', text:'We could borrow tubes.'},
   {bg:'dawn', who:'ma', text:'From who?'},
   {bg:'dawn', who:'tala', text:'Tita Baby.'},
-  {bg:'dawn', who:'ma', text:'…Yes. From Tita Baby.', aside:'It does not come out well. Ma does the math a second time, quieter, and it comes out the same.'},
+  {bg:'dawn', who:'ma', text:'…Yes. From Tita Baby.'},
+  {bg:'dawn', stage:'Ma adds it up again, quieter this time. It comes out the same. They do not have enough.'},
   {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Sunday, December 16 · 5:30 a.m. · before opening'], bg:'ext-rest', pause:3000},
+  {note:['Lola’s recipe card','Every dish in this game comes from one index card, written by hand by Tala’s grandmother.',
+         'The card got wet years ago. A little more of it is unreadable every time Tala takes it out. When a step is missing, she has to guess what her grandmother meant.']},
   {hud:['December 16','First morning · Before opening'], bg:'cook', cook:'s1'},
   {bg:'dining', stage: () => COOKS.s1.react[STATE.cook.out], expr:{pa:'soft',ma:'neutral',tala:'neutral'}},
-  {bg:'dining', who:'pa', text:'Your Lola made the nine every year. When she was your age. All nine.', expr:{pa:'soft'}},
-  {bg:'dining', who:'tala', text:'I know.', expr:{tala:'quiet'}, aside:'She does not say the rest. Nobody asks.'},
+  {bg:'dining', who:'pa', text:'Your Lola did the nine mornings every year. When she was your age, all nine.', expr:{pa:'soft'}},
+  {bg:'dining', who:'tala', text:'I know.', expr:{tala:'quiet'}, aside:'She is trying to do all nine too. She still has not told anybody.'},
   {bg:'dining', who:'ma', text:'Eat. We open at seven.', expr:{ma:'neutral'}},
   {phone:'s1'},
-  {inter:['December 18','Ando lands on a Tuesday','Third morning. A cousin lands in the afternoon and works that night.'], set: () => { for(const n of [2,3]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
-  // ---------- scene 2 : December 18 ----------
+  {inter:['December 18','Ando lands on a Tuesday','Third morning. Tala’s cousin flies in that afternoon and works that same night.'],
+     set: () => { for(const n of [2,3]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
+
+  // ================= SCENE 2 : December 18 =================
   {estab:['The high school · Jersey City','Tuesday, December 18 · third period'], bg:'ext-school', pause:3000},
-  {hud:['December 18','Third morning · Third period'], bg:'school', stage:'Third period. Hannah has sat one desk over since September. That is as far as it has gone.', expr:{tala:'quiet',hannah:'neutral'}},
+  {hud:['December 18','Third morning · Third period'], bg:'school',
+     stage:'Third period. Hannah has sat one desk away since September. They have never really talked.', expr:{tala:'quiet',hannah:'neutral'}},
   {bg:'school', who:'hannah', text:'Are you doing anything over break? My family is doing nothing. Aggressively nothing.', expr:{hannah:'curious'}},
   {bg:'school', who:'tala', text:'Working, mostly. My family has a restaurant.', expr:{tala:'neutral'}},
   {bg:'school', who:'hannah', text:'Wait. Which one?', expr:{hannah:'curious'}},
   {bg:'school', who:'tala', text:'Pacing’s. On Newark Avenue. The one with the red awning.', expr:{tala:'neutral'}},
-  {bg:'school', who:'hannah', text:'The one with the star in the window.', expr:{hannah:'smile'}},
-  {bg:'school', who:'tala', text:'That is a parol. It is a Christmas thing.', expr:{tala:'smile'}},
+  {bg:'school', who:'hannah', text:'The one with the star in the window!', expr:{hannah:'smile'}},
+  {bg:'school', who:'tala', text:'That is a parol. We put it up for Christmas.', expr:{tala:'smile'}},
   {bg:'school', choice:[{text:'Tell her about Simbang Gabi.', goto:'invite', set: () => { STATE.invitedHannah = true; }}, {text:'Leave it there.', goto:'working'}], expr:{tala:'neutral'}},
-  {id:'invite', bg:'school', who:'tala', text:'There is a thing at our church. Nine mornings in a row, at four a.m. The last one is the twenty-fourth. There is food after.', expr:{tala:'neutral',hannah:'curious'}},
+  {id:'invite', bg:'school', who:'tala', text:'There is a thing at our church. Nine mornings in a row, at four in the morning. The last one is Christmas Eve. There is food after.', expr:{tala:'neutral',hannah:'curious'}},
   {bg:'school', who:'hannah', text:'Four in the morning.', expr:{hannah:'flat'}},
   {bg:'school', who:'tala', text:'Four in the morning.', expr:{tala:'quiet'}},
-  {bg:'school', who:'hannah', text:'…What kind of food.', expr:{hannah:'curious',tala:'smile'}},
-  {bg:'school', who:'tala', text:'Come and see.', expr:{tala:'smile',hannah:'smile'}, goto:'vinegar'},
+  {bg:'school', who:'hannah', text:'…What kind of food?', expr:{hannah:'curious',tala:'smile'}},
+  {bg:'school', who:'tala', text:'Come and find out.', expr:{tala:'smile',hannah:'smile'}, goto:'vinegar'},
   {id:'working', bg:'school', who:'tala', text:'That is the whole break. Working.', expr:{tala:'quiet'}},
   {bg:'school', who:'hannah', text:'Oh. Cool.', expr:{hannah:'flat'}},
-  {bg:'school', stage:'It is not cool. They both know it. The bell goes.', expr:{tala:'quiet',hannah:'neutral'}},
-  {id:'vinegar', estab:['Pacing’s Filipino Kitchen · Newark Avenue','Tuesday, December 18 · 5:20 p.m., before service'], bg:'ext-rest', pause:3000},
-  {hud:['December 18','Third morning · Before service'], bg:'street', stage:'Pa is out of vinegar. The card says cane vinegar. Mang Boy’s has it, and lets the family run a tab. The chain store two blocks over is four dollars cheaper and does not have it.'},
-  {bg:'street', choice:[{text:'Mang Boy’s.', set: () => { STATE.cook = {vinegar:'cane'}; }}, {text:'The chain store.', set: () => { STATE.cook = {vinegar:'chain'}; }}]},
-  {bg:'street', stage: () => STATE.cook.vinegar === 'cane' ? 'Mang Boy asks about Lola before he asks what Tala needs. He writes the vinegar in the book under the family’s name. He does not say when to pay.' : 'The vinegar comes in a plastic jug. Four dollars cheaper. It is fine. It is vinegar.'},
-  {hud:['December 18','Third morning · Dinner service'], bg:'kitchen', stage:'Ando landed at two. By six he is tying an apron. Nobody interviewed him. He is family, so there was a job.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'school', stage:'It is not cool, and they both know it. Tala had a chance to invite her and did not take it. Then the bell rings.', expr:{tala:'quiet',hannah:'neutral'}},
+  {id:'vinegar', estab:['Pacing’s Filipino Kitchen · Newark Avenue','Tuesday, December 18 · 5:20 p.m. · before dinner service'], bg:'ext-rest', pause:3000},
+  {note:['Two stores, one block apart','Mang Boy’s is a small Filipino grocery. It carries the exact cane vinegar Lola’s recipe needs, and it lets the family buy now and pay at the end of the month.',
+         'The chain store is two blocks away. It is four dollars cheaper and does not carry it at all.',
+         'Stores like Mang Boy’s only exist because enough Filipino families live on this block to keep them open.']},
+  {hud:['December 18','Third morning · Before service'], bg:'street',
+     stage:'Pa is out of vinegar and service starts in forty minutes. Tala has to pick a store.'},
+  {bg:'street', choice:[{text:'Mang Boy’s. The right vinegar, on the tab.', set: () => { STATE.cook = {vinegar:'cane'}; }},
+                        {text:'The chain store. Four dollars cheaper.', set: () => { STATE.cook = {vinegar:'chain'}; }}]},
+  {bg:'street', stage: () => STATE.cook.vinegar === 'cane'
+     ? 'Mang Boy asks about Lola before he asks what she needs. He writes the vinegar in a notebook under the family’s name and does not say when to pay.'
+     : 'The vinegar comes in a big plastic jug. It is regular white vinegar, not cane. It was four dollars cheaper.'},
+  {note:['Who Ando is','Ando is Tala’s cousin. He is twenty. He flew in from Batangas this afternoon, on a ticket the family helped pay for.',
+         'Nobody interviewed him for a job. He is family, so there was already a job waiting. This is how most people on this block got here: one relative comes over, then helps the next one.']},
+  {hud:['December 18','Third morning · Dinner service'], bg:'kitchen',
+     stage:'Ando landed at two o’clock. By six he is tying on an apron.', expr:{pa:'neutral',ando:'tired'}},
   {bg:'kitchen', who:'ando', text:'You got tall.', expr:{ando:'up'}},
   {bg:'kitchen', who:'tala', text:'You got here.', expr:{ando:'smile'}},
-  {bg:'kitchen', who:'ando', text:'Everybody at home said hi. Everybody. It took the whole drive to the airport.', expr:{ando:'smile'}},
-  {bg:'kitchen', who:'ando', pre:'(looking at the walk-in)', text:'Everything here is so big.', expr:{ando:'up'}},
+  {bg:'kitchen', who:'ando', text:'Everybody back home says hi. Everybody. It took the whole drive to the airport.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'ando', pre:'(looking into the walk-in fridge)', text:'Everything here is so big.', expr:{ando:'up'}},
   {bg:'kitchen', who:'pa', text:'You will get used to it. Hold the knife like this. Not like that.', expr:{pa:'neutral',ando:'tired'}},
   {bg:'kitchen', who:'ando', text:'How long before I stop being tired?', expr:{ando:'tired'}},
-  {bg:'kitchen', who:'pa', pre:'(after a pause, going back to the pan)', text:'I will let you know.', expr:{pa:'down',ando:'tired'}},
+  {bg:'kitchen', who:'pa', pre:'(after a pause, turning back to the pan)', text:'I will let you know.', expr:{pa:'down',ando:'tired'}},
   {bg:'cook', cook:'s2'},
-  {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain' ? 'It comes out thin. Pa tastes it, and says nothing at all. That is worse than if he said something.' : null,
+  {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain'
+     ? 'The adobo comes out thin and flat. Pa tastes it and does not say anything at all. Tala would rather he got mad.' : null,
      who: () => STATE.cook.vinegar === 'chain' ? null : 'pa',
-     text: () => ({lola:'…Nanay’s. <em>He says it to the pot, and gives Ando the first plate.</em>', salty:'Too much soy. It is fine. Next time.', sour:'Sour. It is fine. Ando will eat it.'})[STATE.cook.out],
+     text: () => ({lola:'This is your Lola’s. <em>He says it to the pot, and gives Ando the first plate.</em>',
+                   salty:'Too much soy sauce. It is fine. Next time.', sour:'Too sour. It is fine. Ando will eat it.'})[STATE.cook.out],
      expr:{pa:'soft',ando:'smile'}},
-  {bg:'kitchen', who:'ando', text:'It smells like home.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'ando', text:'It smells like home in here.', expr:{ando:'smile'}},
   {bg:'kitchen', who:'pa', text:'That is the idea.', expr:{pa:'soft'}},
   {phone:'s2'},
-  {inter:['December 20','The slow night','Fifth morning. Four tables all night, and a customer with an opinion.'], set: () => { for(const n of [4,5]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
-  // ---------- scene 3 : December 20 ----------
+  {inter:['December 20','The slow night','Fifth morning. Four tables all night, and one customer with an opinion.'],
+     set: () => { for(const n of [4,5]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
+
+  // ================= SCENE 3 : December 20 =================
   {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Thursday, December 20 · 8:40 p.m.'], bg:'ext-rest', pause:3000},
-  {hud:['December 20','Fifth morning · The slow night'], bg:'rest', stage:'Four tables all night. You can see the room is wrong before anyone says so.', expr:{tala:'quiet',ma:'neutral'}},
-  {bg:'rest', who:'ma', pre:'(quietly, passing the door)', text:'Do not look at the door. Looking at the door does not bring anyone through it.', expr:{ma:'neutral',tala:'quiet'}},
-  {bg:'rest', who:'customer', text:'What is it, though? Like, what <em>is</em> it.'},
+  {note:['Why a slow night matters','Nobody in the family gets a paycheck. Whatever the restaurant makes that night is the money the family has.',
+         'Four tables in a whole evening does not cover the food, the rent, and the electricity. Ma and Pa both know this while they are smiling at people.']},
+  {hud:['December 20','Fifth morning · The slow night'], bg:'rest',
+     stage:'Four tables all night. Tala can tell the room is wrong before anybody says so.', expr:{tala:'quiet',ma:'neutral'}},
+  {bg:'rest', who:'ma', pre:'(quietly, as she passes)', text:'Do not stare at the door. Staring at it does not bring anybody through it.', expr:{ma:'neutral',tala:'quiet'}},
+  {bg:'rest', who:'customer', text:'What is it, though? Like, what <em>is</em> it?'},
   {bg:'rest', who:'ma', text:'Sinigang po. Sour soup, with tamarind. Very good with rice.', expr:{ma:'neutral'}, motion:{ma:['nod']}},
   {bg:'rest', who:'customer', text:'You know, if you are going to work here, you should really speak English.', expr:{tala:'wince'}},
-  {bg:'rest', who:'ma', pre:'(evenly, already reaching for the pitcher)', text:'Thank you, ma’am.', expr:{ma:'held'}, motion:{ma:['pour']}, aside:'She has heard it before. That is the part Tala cannot stand. Not that it was said. That Ma had somewhere to put it.'},
+  {bg:'rest', who:'ma', pre:'(calmly, already reaching for the water pitcher)', text:'Thank you, ma’am.', expr:{ma:'held'}, motion:{ma:['pour']},
+     aside:'Ma answered in English. She was already speaking English. Tala watches her mother decide, in about half a second, to let it go.'},
   {bg:'rest', choice:[{text:'Say something.', goto:'speak'}, {text:'Say nothing.', goto:'silent'}], expr:{tala:'wince'}},
   {id:'speak', bg:'rest', who:'tala', text:'She said it in English.', expr:{tala:'wince'}},
-  {bg:'rest', who:'ma', text:'Tala. The back, please. Table four needs bread.', expr:{ma:'neutral',tala:'quiet'}, motion:{ma:['nod']}},
-  {bg:'rest', stage:'There is no table four. Ma finishes the table herself. The tip is ordinary.', expr:{ma:'held'}, goto:'after'},
-  {id:'silent', bg:'rest', stage:'Tala goes back to the kitchen. The pitcher gets refilled twice more. The tip is ordinary.', expr:{tala:'quiet',ma:'held'}},
+  {bg:'rest', who:'ma', text:'Tala. Go to the back, please. Table four needs bread.', expr:{ma:'neutral',tala:'quiet'}, motion:{ma:['nod']}},
+  {bg:'rest', stage:'There is no table four. Ma finishes the table herself. The tip is normal.', expr:{ma:'held'}, goto:'after'},
+  {id:'silent', bg:'rest', stage:'Tala goes back to the kitchen and does not say anything. Ma refills that water twice more. The tip is normal.', expr:{tala:'quiet',ma:'held'}},
   {id:'after', bg:'rest', who:'ma', pre:'(later, in the back)', text:'You want to know what I do with it.', expr:{ma:'neutral',tala:'quiet'}},
   {bg:'rest', who:'tala', text:'Yes.', expr:{tala:'neutral'}},
   {bg:'rest', who:'ma', text:'I put it with the others. Then I refill the water.', expr:{ma:'held'}},
-  {bg:'rest', stage:'Later, through the wall, her parents talk about the ninth-morning order and what the ingredients cost. They use the flat voices people use when they do not want to be overheard.', expr:{tala:'quiet',ma:'neutral'}},
+  {bg:'rest', who:'tala', text:'That is not fair.', expr:{tala:'wince'}},
+  {bg:'rest', who:'ma', text:'No. But the restaurant has to open again tomorrow.', expr:{ma:'held'}},
+  {bg:'rest', stage:'Later, through the wall, Tala can hear her parents talking about the Christmas Eve order and what the ingredients will cost. They are using the flat, quiet voices people use when they do not want to be overheard.', expr:{tala:'quiet',ma:'neutral'}},
+  {note:['The menu problem','Half the menu is what Lola actually cooked. The other half has been changed over the years to match what customers will order.',
+         'Every time the family changes a dish to sell more of it, the version on Lola’s card gets a little further away.']},
   {bg:'cook', cook:'s3'},
   {bg:'rest', stage: () => COOKS.s3.react[STATE.cook.out], expr:{tala:'quiet'}},
   {phone:'s3'},
   {hud:['December 21','Sixth morning · 4:10 a.m.'], alarm:true},
-  {hud:['December 21','Sixth morning'], bg:'rest', stage: () => STATE.mornings.includes(6) ? 'Cold, dark, breath visible. The sixth. Ma is already at the door with her coat on. She does not ask.' : 'The alarm stops on its own. Five. In the morning Ma does not mention it. That is how Tala knows she noticed.', expr:{tala:'tired',ma:'neutral'}},
-  {inter:['December 22','The envelope','Seventh morning. Lola is back in the hospital, and the call came during prep.'], set: () => { if(!STATE.mornings.includes(7)) STATE.mornings.push(7); }},
-  // ---------- scene 4 : December 22 ----------
-  {estab:['The apartment above Pacing’s','Saturday, December 22 · 3:15 p.m., after the call'], bg:'ext-rest', pause:3000},
-  {hud:['December 22','Seventh morning · After the call'], bg:'dining', stage:'Nobody says the word decision. In this family it was never going to be one.', expr:{tala:'quiet',ma:'counting',pa:'down'}},
-  {bg:'dining', who:'ma', pre:'(counting, twice)', text:'It is fine. We will do the bibingka with what we have.', expr:{ma:'counting'}, aside:'She counts it twice because the first count was right, and she wanted it not to be.'},
+  {hud:['December 21','Sixth morning'], bg:'rest',
+     stage: () => STATE.mornings.includes(6)
+       ? 'Cold, dark, breath visible. That is six. Ma is already at the door with her coat on. She does not ask why Tala is up.'
+       : 'The alarm stops by itself. Five out of six. In the morning Ma does not mention it, which is how Tala knows her mother noticed.',
+     expr:{tala:'tired',ma:'neutral'}},
+  {inter:['December 22','The envelope','Seventh morning. Lola is back in the hospital, and the call came in the middle of prep.'],
+     set: () => { if(!STATE.mornings.includes(7)) STATE.mornings.push(7); }},
+
+  // ================= SCENE 4 : December 22 =================
+  {estab:['The apartment above Pacing’s','Saturday, December 22 · 3:15 p.m. · after the call'], bg:'ext-rest', pause:3000},
+  {note:['Sending money home','Millions of Filipinos work in other countries and send money back to their families every month. It is called a remittance.',
+         'For a lot of families back home, that money is how the lights stay on and how the hospital gets paid. The Ramos family sends money to Lola.']},
+  {hud:['December 22','Seventh morning · After the call'], bg:'dining',
+     stage:'Lola is in the hospital again. Nobody in this kitchen says the word decision, because there was never going to be one.', expr:{tala:'quiet',ma:'counting',pa:'down'}},
+  {bg:'dining', who:'ma', pre:'(counting the money, then counting it again)', text:'It is fine. We will do the bibingka with what we have.', expr:{ma:'counting'},
+     aside:'That is the money that was set aside for the Christmas Eve ingredients. It is now the money that is going to the hospital.'},
   {bg:'dining', who:'pa', text:'And the puto bumbong?', expr:{pa:'neutral'}},
   {bg:'dining', who:'ma', text:'We will do the bibingka.', expr:{ma:'held',pa:'down'}},
   {bg:'dining', who:'tala', text:'Tita Baby asked for both.', expr:{tala:'neutral'}},
   {bg:'dining', who:'ma', text:'Then we will see what the week does.', expr:{ma:'neutral',tala:'quiet'}},
-  {bg:'dining', stage:'Ma counts out the money that was set aside for the ninth-morning ingredients. Pa drives to the remittance counter on Newark Avenue and wires it home.', expr:{ma:'counting',pa:'down'}},
-  {bg:'dining', who:'pa', pre:'(back, coat still on)', text:'The man at the counter asked if I was a nurse. Everyone from home is a nurse, he said.', expr:{pa:'down',ma:'neutral'}},
+  {bg:'dining', stage:'Pa drives to the money transfer counter on Newark Avenue and wires it to the Philippines. It gets there the same day.', expr:{ma:'counting',pa:'down'}},
+  {note:['What Pa did before','Rey Ramos was a licensed pharmacist in the Philippines for eleven years. He ran a whole pharmacy.',
+         'His license does not count in the United States. To use it here he would have to retake years of school and exams the family cannot afford right now. So he cooks.']},
+  {bg:'dining', who:'pa', pre:'(back home, still in his coat)', text:'The man at the counter asked if I was a nurse. He said everyone from back home is a nurse.', expr:{pa:'down',ma:'neutral'}},
   {bg:'dining', who:'ma', text:'Rey.', expr:{ma:'held'}},
-  {bg:'dining', who:'pa', text:'I said no. I did not say what I was.', expr:{pa:'down'}, aside:'Eleven years behind a pharmacy counter. Here, the license is a piece of paper from somewhere else.'},
-  {bg:'dining', stage:'Ando offers his first week’s pay. Pa says no. Then Pa says yes.', expr:{pa:'soft',ma:'neutral'}},
+  {bg:'dining', who:'pa', text:'I told him no. I did not tell him what I used to be.', expr:{pa:'down'}},
+  {bg:'dining', who:'tala', text:'Why not?', expr:{tala:'neutral'}},
+  {bg:'dining', who:'pa', text:'Because then he asks why I am not doing it anymore.', expr:{pa:'down'}},
+  {bg:'dining', stage:'Ando offers his first week of pay. Pa says no. Ando puts it on the table anyway, and after a while Pa takes it.', expr:{pa:'soft',ma:'neutral'}},
   {bg:'cook', cook:'s4'},
   {bg:'dining', who:'pa', text: () => COOKS.s4.react[STATE.cook.out], expr:{pa:'soft',tala:'neutral',ma:'neutral'}},
-  {bg:'dining', stage:'Later. The walk-in is short one shelf. The phone buzzes.', expr:{tala:'quiet',ma:'neutral',pa:'neutral'}},
+  {bg:'dining', stage:'Later. There is a whole shelf missing in the walk-in fridge, because that money went to the hospital. Then the phone buzzes.', expr:{tala:'quiet',ma:'neutral',pa:'neutral'}},
   {phone:'s4'},
-  {inter:['December 24','The ninth dawn','4:15 a.m. The kitchen with everyone in it.'], set: () => { for(const n of [8,9]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); STATE.cook = {}; }},
-  // ---------- scene 5 : December 24 ----------
+  {inter:['December 24','The ninth dawn','4:15 a.m. Everyone is in the kitchen.'],
+     set: () => { for(const n of [8,9]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); STATE.cook = {}; }},
+
+  // ================= SCENE 5 : December 24 =================
   {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Monday, December 24 · 4:15 a.m.'], bg:'ext-rest', pause:3000},
-  {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen', stage:'Four in the morning, and everyone is in it. Pa, Ma, Ando, and Tita Baby’s two nephews, who were volunteered. Bamboo tubes steaming. Purple rice. The smell in the cold.', expr:{pa:'neutral',ando:'up'}},
-  {bg:'kitchen', who:'ando', text:'At home we did this at three.', expr:{ando:'smile'}},
-  {bg:'kitchen', who:'pa', text:'At home the church was closer.', expr:{pa:'soft'}},
+  {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen',
+     stage:'Four in the morning and everyone is here. Pa, Ma, Ando, and two of Tita Baby’s nephews who got volunteered. Bamboo tubes steaming. Purple rice. The smell of it in the cold.', expr:{pa:'neutral',ando:'up'}},
+  {bg:'kitchen', who:'ando', text:'Back home we started at three.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'pa', text:'Back home the church was closer.', expr:{pa:'soft'}},
   {bg:'cook', cook:'s5'},
   {bg:'kitchen', stage: () => COOKS.s5.react[STATE.cook.out], expr:{pa:'soft',ando:'smile'}},
-  {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'They carry it three blocks to the parish hall, in trays on a hand cart. Mass ends. The hall fills.'},
-  {hud:['December 24','Ninth morning · The hall'], bg:'hall', show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false, 'hall-food':true},
-     stage: () => STATE.invitedHannah ? 'Hannah is standing at the door at five in the morning, in a coat that is not warm enough, holding her phone, not sure whether to come in.' : 'The block, in one room, at five in the morning. Everyone she knows by face.',
+  {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false},
+     stage:'They push it three blocks to the parish hall on a hand cart. Mass ends. The hall fills up.'},
+  {hud:['December 24','Ninth morning · The parish hall'], bg:'hall',
+     show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false, 'hall-food':true},
+     stage: () => STATE.invitedHannah
+       ? 'Hannah is standing at the door at five in the morning, in a coat that is not warm enough, holding her phone, not sure if she is allowed to come in.'
+       : 'The whole block is in one room at five in the morning. Tala knows every face here.',
      expr:{tala:'quiet',ma:'neutral',tita:'neutral',hannah:'flat'}, goto: () => STATE.invitedHannah ? 'hannah' : 'tita'},
-  {id:'hannah', bg:'hall', who:'hannah', text:'What’s the purple?', expr:{hannah:'curious',tala:'neutral'}},
+  {id:'hannah', bg:'hall', who:'hannah', text:'What is the purple one?', expr:{hannah:'curious',tala:'neutral'}},
   {bg:'hall', who:'tala', text:'Rice. It grows that color.', expr:{tala:'smile'}},
-  {bg:'hall', who:'hannah', text:'That’s a lie.', expr:{hannah:'flat'}},
-  {bg:'hall', who:'tala', text:'It’s not.', expr:{tala:'neutral'}},
-  {bg:'hall', stage:'Hannah eats it, thinks about it, and takes another.', expr:{hannah:'smile',tala:'smile'}},
+  {bg:'hall', who:'hannah', text:'That is a lie.', expr:{hannah:'flat'}},
+  {bg:'hall', who:'tala', text:'It is not.', expr:{tala:'neutral'}},
+  {bg:'hall', stage:'Hannah eats it, thinks about it, and takes another one.', expr:{hannah:'smile',tala:'smile'}},
   {bg:'hall', who:'hannah', text:'Do you do this every year?', expr:{hannah:'curious'}},
   {bg:'hall', who:'tala', text:'Every year. This is the first one here.', expr:{tala:'neutral'}},
-  {bg:'hall', who:'hannah', text:'It is a lot of work for four in the morning.', expr:{hannah:'neutral'}},
-  {bg:'hall', who:'tala', text:'That is the point.', expr:{tala:'smile'}},
+  {bg:'hall', who:'hannah', text:'That is a lot of work for four in the morning.', expr:{hannah:'neutral'}},
+  {bg:'hall', who:'tala', text:'That is kind of the point.', expr:{tala:'smile'}},
   {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}},
-  {id:'tita', bg:'hall', who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. Now they know it here.', expr:{tita:'warm',ma:'held'}},
-  {bg:'hall', show:{'hall-basket':true}, stage:'Then Tita Baby passes the basket for Lola without asking the family first. The block gives. Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
-  {bg:'hall', stage:'And then the phone buzzes.', expr:{tala:'quiet'}},
+  {id:'tita', bg:'hall', who:'tita', text:'Your Lola made the puto bumbong for our parish back home. Everybody knew it there. Now they know it here too.', expr:{tita:'warm',ma:'held'}},
+  {bg:'hall', show:{'hall-basket':true},
+     stage:'Then Tita Baby passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
+  {note:['What just happened','The family has been sending money home to Lola all year. This morning the neighborhood sent money back the other way.',
+         'Ma is not embarrassed because they need help. She is embarrassed because everyone now knows they need help.']},
+  {bg:'hall', stage:'And then Tala’s phone buzzes.', expr:{tala:'quiet'}},
+  {note:['Why Bea would leave','The Philippines trains far more nurses than it can pay to keep. Many of them take jobs in other countries, where the pay can be several times higher.',
+         'The clinic in Bea’s town has been short a nurse since August. Nobody has replaced her.']},
   {phone:'s5'},
   {hud:['December 24','Ninth morning · Outside'], bg:'dawn', show:{'dawn-walk':false,'dawn-tala':true},
-     stage: () => STATE.mornings.length === 9 ? 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Nine marks. Lola said nine mornings, one wish.' : 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Eight of nine. Lola said nine. She makes the wish anyway, and does not know if it counts.'},
-  {bg:'dawn', choice:[ {text:'That Lola gets better.', set: () => { STATE.wish = 'lola'; }}, {text:'That the restaurant makes it through the year.', set: () => { STATE.wish = 'restaurant'; }},
-                       {text:'That Bea stays.', set: () => { STATE.wish = 'bea'; }}, {text:'That I could go back, just for a week.', set: () => { STATE.wish = 'back'; }} ]},
+     stage: () => STATE.mornings.length === 9
+       ? 'The hall is emptying out. Tala steps outside with a tray she is supposed to be returning. Nine marks. Lola said nine mornings, one wish.'
+       : 'The hall is emptying out. Tala steps outside with a tray she is supposed to be returning. She made eight of the nine. Lola said nine. She makes the wish anyway, and she does not know if it counts.'},
+  {bg:'dawn', choice:[ {text:'That Lola gets better.', set: () => { STATE.wish = 'lola'; }},
+                       {text:'That the restaurant makes it through the year.', set: () => { STATE.wish = 'restaurant'; }},
+                       {text:'That Bea stays.', set: () => { STATE.wish = 'bea'; }},
+                       {text:'That I could go back, just for a week.', set: () => { STATE.wish = 'back'; }} ]},
   {bg:'dawn', pause:6500, sunrise:true},
   {debrief:true},
   {end:true}
@@ -313,13 +385,14 @@ function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
   const b = beats[i]; if(!b) return;
-  choices.hidden = true; choices.className = 'choices'; $('dim').classList.remove('on'); phone.classList.remove('on'); $('inter').classList.remove('on');
+  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('dim').classList.remove('on'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = b.hud[0]; $('hud-sub').textContent = b.hud[1]; }
   if(b.set) b.set();
   if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
   $('dawn').classList.toggle('sunrise', !!b.sunrise);
   drawMarks();
   if(b.debrief) return debriefCard();
+  if(b.note) return noteCard(b);
   $('estab').hidden = !b.estab; if(b.estab){ $('estab-place').textContent = b.estab[0]; $('estab-when').textContent = b.estab[1]; }
   if(b.pause){ showBg(b.bg); mode = 'pause'; dlg.hidden = true; hud.hidden = true; clearTimeout(pauseTimer); pauseTimer = setTimeout(endPause, b.pause); return; }
   if(b.end)   return endCard();
@@ -419,20 +492,45 @@ function dragKey(){ if(!drag) return; const out = drag.K.key(drag); if(out) fini
 function doAlarm(){ showBg('alarm'); mode = 'choice'; dlg.hidden = true;
   renderChoice([ {text:'Get up.', set: () => { if(!STATE.mornings.includes(6)) STATE.mornings.push(6); }}, {text:'Sleep.'} ]); }
 
-// -------- phone --------
-let phoneData = null;
-function doPhone(p){ phoneData = p; mode = 'phone'; dlg.hidden = true; $('dim').classList.add('on'); $('ptime').textContent = p.time;
-  const bubs = $('bubs'); bubs.innerHTML = ''; $('replies').innerHTML = ''; phone.classList.add('on'); busy = true;
-  let k = 0; const tick = () => { if(k < p.lines.length){ const l = p.lines[k++]; if(typeof l === 'string') addBub('them', l); else addBub('me', l.text); setTimeout(tick, 650); } else { showReplies(); busy = false; } };
-  setTimeout(tick, 500); }
-function addBub(cls, text){ const d = document.createElement('div'); d.className = 'bub '+cls; d.textContent = text; $('bubs').appendChild(d); requestAnimationFrame(() => d.classList.add('in')); }
+// -------- phone : a real thread. Bea gets a contact photo; Tala gets one too, so
+// there is never a question of who is talking. --------
+let phoneData = null, typeTimer = 0;
+function doPhone(p){ phoneData = p; mode = 'phone'; dlg.hidden = true; $('note').hidden = true; $('dim').classList.add('on'); $('ptime').textContent = p.time;
+  $('bubs').innerHTML = ''; $('replies').innerHTML = ''; $('typing').hidden = true;
+  phone.classList.add('on'); phone.classList.remove('buzz'); void phone.offsetWidth; phone.classList.add('buzz'); busy = true;
+  let k = 0;
+  const tick = () => {
+    if(k >= p.lines.length){ $('typing').hidden = true; showReplies(); busy = false; return; }
+    const l = p.lines[k++];
+    if(typeof l !== 'string'){ addBub('me', l.text); setTimeout(tick, 700); return; }   // Tala's own line, already sent
+    $('typing').hidden = false; scrollThread();
+    typeTimer = setTimeout(() => { $('typing').hidden = true; addBub('them', l); setTimeout(tick, 420); }, Math.min(1600, 420 + l.length * 22));
+  };
+  setTimeout(tick, 900); }
+function addBub(cls, text){
+  const row = document.createElement('div'); row.className = 'bub-row ' + cls;
+  const av = document.createElement('span'); av.className = 'av sm ' + (cls === 'me' ? 'av-tala' : 'av-bea');
+  const b = document.createElement('div'); b.className = 'bub ' + cls; b.textContent = text;
+  if(cls === 'me'){ row.append(b, av); } else { row.append(av, b); }
+  $('bubs').appendChild(row); requestAnimationFrame(() => { row.classList.add('in'); scrollThread(); }); }
+function scrollThread(){ const el = $('bubs'); el.scrollTop = el.scrollHeight; }
 function showReplies(){ sel = 0; $('replies').innerHTML = phoneData.replies.map((r,n) => `<div class="rp${n===sel?' sel':''}" data-n="${n}"><b>${n+1}</b>${r.text}</div>`).join(''); }
 function confirmReply(){ const r = phoneData.replies[sel]; if(!r) return; STATE.honesty += r.honesty; $('replies').innerHTML = ''; addBub('me', r.text); busy = true;
   const after = typeof r.after === 'function' ? r.after(STATE.honesty) : r.after;
-  let k = 0; const tick = () => { if(k < after.length){ addBub('them', after[k++]); setTimeout(tick, 700); } else { setTimeout(() => { busy = false; mode = 'say'; advance(); }, 900); } };
-  setTimeout(tick, 600); }
+  let k = 0;
+  const tick = () => {
+    if(k >= after.length){ $('typing').hidden = true; setTimeout(() => { busy = false; mode = 'say'; advance(); }, 1000); return; }
+    const l = after[k++]; $('typing').hidden = false; scrollThread();
+    typeTimer = setTimeout(() => { $('typing').hidden = true; addBub('them', l); setTimeout(tick, 380); }, Math.min(1500, 400 + l.length * 22));
+  };
+  setTimeout(tick, 700); }
 
 // -------- cards --------
+function noteCard(b){ mode = 'note'; dlg.hidden = true; choices.hidden = true; showBg(b.bg || bg);
+  if(b.expr) for(const k in b.expr) setExpr(k, b.expr[k]);
+  $('note-tab').textContent = b.note[0];
+  $('note-body').innerHTML = b.note.slice(1).map(t => `<p>${gloss(t)}</p>`).join(''); $('note-def').hidden = true;
+  $('note').hidden = false; $('hot').innerHTML = ''; }
 function debriefCard(){ mode = 'debrief'; dlg.hidden = true; $('dim').classList.add('on'); $('debrief').classList.add('on'); }
 function interCard(d){ mode = 'inter'; dlg.hidden = true; $('inter-e').textContent = d[0]; $('inter-h').textContent = d[1]; $('inter-p').textContent = d[2]; $('inter').classList.add('on'); }
 function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on');
@@ -444,7 +542,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); $('estab').hidden = true; STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -457,6 +555,7 @@ document.addEventListener('keydown', e => {
   else if(mode === 'pause'){ if(go) endPause(); }
   else if(mode === 'inter'){ if(go){ $('inter').classList.remove('on'); i++; render(); } }
   else if(mode === 'debrief'){ if(go){ $('debrief').classList.remove('on'); i++; render(); } }
+  else if(mode === 'note'){ if(go){ $('note').hidden = true; mode = 'say'; advance(); } }
   else if(mode === 'say'){ if(go) next(); else if(e.key === 'ArrowLeft') prev(); }
   else if(mode === 'drag'){ if(e.key === 'Enter' || e.key === ' ') dragKey(); }
   else if(mode === 'cook' || mode === 'choice'){
@@ -475,9 +574,13 @@ document.addEventListener('keydown', e => {
 $('title').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
 $('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
+$('note').addEventListener('click', ev => { if(mode !== 'note') return;
+  const t = ev.target.closest('.term');
+  if(t){ const d = $('note-def'); d.className = 'aside def'; d.innerHTML = `<b>${t.textContent}</b>${t.dataset.def}`; d.hidden = false; return; }
+  $('note').hidden = true; mode = 'say'; advance(); });
 $('panel').addEventListener('click', ev => { const t = ev.target.closest('.term'); if(t){ ev.stopPropagation(); const a = $('aside'); a.className = 'aside def'; a.innerHTML = `<b>${t.textContent}</b>${t.dataset.def}`; a.hidden = false; return; } next(); });
 $('hot').addEventListener('click', ev => { const c = ev.target.closest('circle[data-t]'); if(c && mode === 'say' && !looking){ ev.stopPropagation(); look(c.dataset.t); } });
-$('stage').addEventListener('click', e => { if(mode === 'pause') return endPause(); if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
+$('stage').addEventListener('click', e => { if(mode === 'note') return; if(mode === 'pause') return endPause(); if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
 choices.addEventListener('click', e => { const c = e.target.closest('.ch'); if(!c) return; pickChoice(Number(c.dataset.n)); mode === 'cook' ? confirmCook() : confirmChoice(); });
 $('replies').addEventListener('click', e => { const c = e.target.closest('.rp'); if(!c || busy) return; sel = Number(c.dataset.n); confirmReply(); });
 $('end').addEventListener('click', restart);
