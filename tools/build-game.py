@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
 import re, pathlib, sys
-sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers")
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers"); sx = importlib.import_module("scene-ext-layers")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -83,6 +83,24 @@ hall_svg = s5.hall(dining_defs)
 dawn_svg = s5.dawn()
 if 'dish-puto' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s5.puto(cook) + '  <g id="dish-pancit" hidden>')
 assert 'dish-puto' in cook
+# ---------------- establishing shots ----------------
+ext_rest_svg = sx.restaurant(); ext_school_svg = sx.school()
+# draggable vinegar bottle, sauce overlay, draggable tube with a fill level
+if 'drag-vin' not in cook:
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-vin" hidden style="cursor:grab"><g class="hand">
+    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
+    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
+    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+  </g></g>
+  <g id="drag-tube" hidden style="cursor:grab"><g class="hand">
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
+    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
+    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
+  </g></g>
+  <g id="dish-pancit" hidden>''')
+    cook = cook.replace('<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>', '<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>')
+assert 'drag-vin' in cook and 'drag-tube' in cook and 'sauce-vin' in cook
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
@@ -111,6 +129,12 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
   .layer.off{{visibility:hidden;pointer-events:none}}
+  .estab{{position:absolute;left:44px;bottom:44px;z-index:7;background:rgba(18,12,10,.78);color:#ece7d6;padding:14px 22px 14px 18px;border-left:3px solid #dba748;border-radius:0 8px 8px 0;backdrop-filter:blur(3px)}}
+  .estab .place{{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}}
+  .estab .when{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-top:5px}}
+  .term{{border-bottom:1px dotted rgba(168,114,31,.75);cursor:help}} .term:hover{{background:rgba(224,162,60,.18)}}
+  .aside.def{{border-left-color:#2c6b62;color:#2c6b62;font-style:normal}} .aside.def b{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;color:#1f5049;margin-right:8px}}
+  @keyframes fall{{0%{{transform:translate(0,-20px)}}100%{{transform:translate(14px,740px)}}}} #ext-rest .flake,#ext-school .flake{{animation:fall 9s linear infinite}}
   #hot{{pointer-events:none}} #hot circle{{pointer-events:auto;cursor:pointer;fill:#fff3d6;fill-opacity:0;stroke:#fff3d6;stroke-opacity:.0}}
   #hot .dot{{pointer-events:none;fill:#fff3d6;fill-opacity:.85;animation:hotpulse 2.2s ease-in-out infinite}} @keyframes hotpulse{{0%,100%{{r:4}}50%{{r:6}}}}
   .line.look{{color:#54594a;font-style:italic}} .role{{color:#8d8873;font-weight:400;letter-spacing:.08em}}
@@ -144,9 +168,12 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   <div class="layer" id="street" hidden>{street_svg}</div>
   <div class="layer" id="kitchen" hidden>{kitchen_svg}</div>
   <div class="layer" id="hall" hidden>{hall_svg}</div>
+  <div class="layer" id="ext-rest" hidden>{ext_rest_svg}</div>
+  <div class="layer" id="ext-school" hidden>{ext_school_svg}</div>
   <div class="layer" id="dawn" hidden>{dawn_svg}</div>
 {cook}
 {alarm}
+  <div class="estab" id="estab" hidden><div class="place" id="estab-place"></div><div class="when" id="estab-when"></div></div>
   <div class="alarmtxt" id="alarmtxt" hidden><div class="t">December 21 &middot; 4:10 a.m.</div><h2>The sixth morning.</h2><p>Four hours after close. The alarm. Nobody else is awake to see whether she gets up.</p></div>
   <svg id="hot" class="layer" width="1280" height="720" viewBox="0 0 1280 720" style="z-index:5"></svg>
   <div class="vig"></div><div class="grain"></div><div id="dim"></div>

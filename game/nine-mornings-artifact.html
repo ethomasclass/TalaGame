@@ -148,6 +148,12 @@
 
   .choices.mid{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}
   .layer.off{visibility:hidden;pointer-events:none}
+  .estab{position:absolute;left:44px;bottom:44px;z-index:7;background:rgba(18,12,10,.78);color:#ece7d6;padding:14px 22px 14px 18px;border-left:3px solid #dba748;border-radius:0 8px 8px 0;backdrop-filter:blur(3px)}
+  .estab .place{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;letter-spacing:-.01em}
+  .estab .when{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-top:5px}
+  .term{border-bottom:1px dotted rgba(168,114,31,.75);cursor:help} .term:hover{background:rgba(224,162,60,.18)}
+  .aside.def{border-left-color:#2c6b62;color:#2c6b62;font-style:normal} .aside.def b{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;color:#1f5049;margin-right:8px}
+  @keyframes fall{0%{transform:translate(0,-20px)}100%{transform:translate(14px,740px)}} #ext-rest .flake,#ext-school .flake{animation:fall 9s linear infinite}
   #hot{pointer-events:none} #hot circle{pointer-events:auto;cursor:pointer;fill:#fff3d6;fill-opacity:0;stroke:#fff3d6;stroke-opacity:.0}
   #hot .dot{pointer-events:none;fill:#fff3d6;fill-opacity:.85;animation:hotpulse 2.2s ease-in-out infinite} @keyframes hotpulse{0%,100%{r:4}50%{r:6}}
   .line.look{color:#54594a;font-style:italic} .role{color:#8d8873;font-weight:400;letter-spacing:.08em}
@@ -1938,6 +1944,90 @@
       <g fill="#8fae87"><rect x="706" y="512" width="34" height="18" rx="2" transform="rotate(-12 723 521)"/><rect x="736" y="508" width="34" height="18" rx="2" transform="rotate(8 753 517)"/><rect x="722" y="500" width="34" height="18" rx="2" transform="rotate(-4 739 509)"/></g></g>
   </g>
 </svg></div>
+  <div class="layer" id="ext-rest" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
+
+    <linearGradient id="x-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1b1e38"/><stop offset="70%" stop-color="#3a2f52"/><stop offset="100%" stop-color="#6b4256"/></linearGradient>
+    <linearGradient id="x-brick" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#7a4a44"/><stop offset="100%" stop-color="#4e2e2e"/></linearGradient>
+    <linearGradient id="x-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
+    <radialGradient id="x-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#x-sky)"/>
+  <g fill="#e8e2ff"><circle cx="120" cy="60" r="1.6" opacity=".5"/><circle cx="420" cy="90" r="1.3" opacity=".4"/><circle cx="900" cy="50" r="1.5" opacity=".45"/><circle cx="1180" cy="110" r="1.4" opacity=".4"/></g>
+  <!-- neighbours -->
+  <g filter="url(#x-rough)"><rect x="-20" y="150" width="300" height="420" fill="#3f3448"/><rect x="1000" y="130" width="300" height="440" fill="#463a4e"/>
+    <g fill="#2a2234"><rect x="30" y="190" width="60" height="80" rx="3"/><rect x="150" y="190" width="60" height="80" rx="3"/><rect x="30" y="310" width="60" height="80" rx="3"/><rect x="150" y="310" width="60" height="80" rx="3"/><rect x="1050" y="180" width="60" height="80" rx="3"/><rect x="1170" y="180" width="60" height="80" rx="3"/><rect x="1050" y="300" width="60" height="80" rx="3"/><rect x="1170" y="300" width="60" height="80" rx="3"/></g>
+    <g fill="#f4c65a" opacity=".5"><rect x="156" y="196" width="48" height="68" rx="2"/><rect x="1176" y="306" width="48" height="68" rx="2"/></g></g>
+  <!-- the building : restaurant below, the apartment above -->
+  <g filter="url(#x-rough)">
+    <rect x="280" y="110" width="720" height="460" fill="url(#x-brick)"/>
+    <g stroke="#3a2222" stroke-width="1.5" opacity=".35" fill="none"><path d="M 280 150 L 1000 150"/><path d="M 280 190 L 1000 190"/><path d="M 280 230 L 1000 230"/><path d="M 280 270 L 1000 270"/><path d="M 280 310 L 1000 310"/><path d="M 280 350 L 1000 350"/></g>
+    <!-- apartment windows, the family's, lit -->
+    <g><rect x="340" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="348" y="178" width="94" height="114" rx="2" fill="#ffd79b"/><rect x="393" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="348" y="232" width="94" height="6" fill="#5a3a3a"/>
+       <rect x="585" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="593" y="178" width="94" height="114" rx="2" fill="#ffd79b"/><rect x="638" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="593" y="232" width="94" height="6" fill="#5a3a3a"/>
+       <rect x="830" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="838" y="178" width="94" height="114" rx="2" fill="#5a4a7a"/><rect x="883" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="838" y="232" width="94" height="6" fill="#5a3a3a"/></g>
+    <!-- parol in the middle apartment window -->
+    <g transform="translate(640 236) scale(.36)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
+    <!-- awning + sign -->
+    <rect x="300" y="330" width="680" height="64" fill="#c9524a"/><rect x="300" y="386" width="680" height="10" fill="#f4c65a"/>
+    <g fill="#a63e3e" opacity=".6"><rect x="340" y="330" width="30" height="64"/><rect x="420" y="330" width="30" height="64"/><rect x="500" y="330" width="30" height="64"/><rect x="580" y="330" width="30" height="64"/><rect x="660" y="330" width="30" height="64"/><rect x="740" y="330" width="30" height="64"/><rect x="820" y="330" width="30" height="64"/><rect x="900" y="330" width="30" height="64"/></g>
+    <!-- the front : big window, door -->
+    <rect x="320" y="400" width="400" height="170" fill="#5a2a26"/><rect x="332" y="412" width="376" height="146" fill="#ffd79b"/>
+    <rect x="760" y="400" width="200" height="170" fill="#5a2a26"/><rect x="772" y="412" width="176" height="158" fill="#ffd79b" opacity=".9"/><rect x="866" y="470" width="12" height="40" rx="4" fill="#3a2a2a"/>
+    <!-- inside the window : tables, a menu board, people -->
+    <g fill="#c1553f" opacity=".85"><rect x="360" y="500" width="120" height="14" rx="4"/><rect x="540" y="500" width="120" height="14" rx="4"/></g>
+    <g fill="#2b2222" opacity=".8"><rect x="600" y="430" width="90" height="50" rx="3"/></g>
+    <g><circle cx="390" cy="480" r="14" fill="#241a38"/><path d="M 372 520 C 374 498 406 498 408 520 Z" fill="#2c6b62"/><circle cx="450" cy="484" r="13" fill="#3a3444"/><path d="M 434 520 C 436 500 464 500 466 520 Z" fill="#7e2f2b"/></g>
+    <g transform="translate(680 470) scale(.4)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
+  </g>
+  <text x="640" y="372" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="38" fill="#fff3d6" letter-spacing="2">PACING’S</text>
+  <text x="640" y="392" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#fff3d6" letter-spacing="4" opacity=".9">FILIPINO KITCHEN · SINCE 2024</text>
+  <ellipse cx="640" cy="560" rx="420" ry="120" fill="url(#x-warm)" filter="url(#x-soft)"/>
+  <!-- sidewalk, snow, road, a parked car -->
+  <rect y="570" width="1280" height="50" fill="#5c5560"/><rect y="570" width="1280" height="6" fill="#8a8290" opacity=".6"/>
+  <g fill="#e9eef7" opacity=".85" filter="url(#x-fine)"><path d="M -10 616 C 120 610 240 624 380 616 C 520 608 640 624 780 618 C 920 612 1060 626 1290 616 L 1290 632 L -10 632 Z"/></g>
+  <rect y="620" width="1280" height="100" fill="url(#x-road)"/>
+  <g filter="url(#x-rough)" transform="translate(1000 600)"><rect x="-120" y="-56" width="240" height="60" rx="16" fill="#3b4a78"/><path d="M -80 -56 C -70 -90 70 -90 80 -56 Z" fill="#2b3550"/><rect x="-62" y="-84" width="124" height="28" rx="6" fill="#9fb8e8" opacity=".6"/><circle cx="-80" cy="8" r="16" fill="#1a1a22"/><circle cx="80" cy="8" r="16" fill="#1a1a22"/><rect x="-124" y="-34" width="14" height="10" rx="3" fill="#ffd79b"/></g>
+  <g filter="url(#x-fine)" fill="#e9eef7"><path d="M 880 548 C 940 540 980 546 1120 544 L 1120 552 L 880 556 Z" opacity=".9"/></g>
+  <!-- snow -->
+  <g fill="#e8ecf6" opacity=".8"><circle class="flake" cx="100" cy="0" r="2" style="animation-delay:-1s"/><circle class="flake" cx="300" cy="0" r="2.4" style="animation-delay:-3.2s"/><circle class="flake" cx="500" cy="0" r="1.8" style="animation-delay:-5s"/><circle class="flake" cx="700" cy="0" r="2.2" style="animation-delay:-2.1s"/><circle class="flake" cx="900" cy="0" r="1.6" style="animation-delay:-4.4s"/><circle class="flake" cx="1100" cy="0" r="2" style="animation-delay:-0.4s"/><circle class="flake" cx="200" cy="0" r="1.5" style="animation-delay:-2.8s"/><circle class="flake" cx="620" cy="0" r="2.1" style="animation-delay:-5.6s"/><circle class="flake" cx="1000" cy="0" r="1.7" style="animation-delay:-1.6s"/><circle class="flake" cx="820" cy="0" r="2.3" style="animation-delay:-3.9s"/></g>
+</svg></div>
+  <div class="layer" id="ext-school" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
+
+    <linearGradient id="x-daysky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9aa6b4"/><stop offset="100%" stop-color="#d9dde0"/></linearGradient>
+    <linearGradient id="x-tan" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#c9b48e"/><stop offset="100%" stop-color="#9a8462"/></linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#x-daysky)"/>
+  <!-- the school : long, brick-tan, flat roof, many windows -->
+  <g filter="url(#x-rough)">
+    <rect x="60" y="180" width="1160" height="360" fill="url(#x-tan)"/><rect x="60" y="170" width="1160" height="16" fill="#7a6a4e"/>
+    <rect x="500" y="110" width="280" height="80" fill="#b8a27c"/><rect x="500" y="100" width="280" height="14" fill="#7a6a4e"/>
+    <g fill="#5a6c8a" opacity=".9">
+      <rect x="110" y="220" width="70" height="90" rx="3"/><rect x="220" y="220" width="70" height="90" rx="3"/><rect x="330" y="220" width="70" height="90" rx="3"/><rect x="880" y="220" width="70" height="90" rx="3"/><rect x="990" y="220" width="70" height="90" rx="3"/><rect x="1100" y="220" width="70" height="90" rx="3"/>
+      <rect x="110" y="350" width="70" height="90" rx="3"/><rect x="220" y="350" width="70" height="90" rx="3"/><rect x="330" y="350" width="70" height="90" rx="3"/><rect x="880" y="350" width="70" height="90" rx="3"/><rect x="990" y="350" width="70" height="90" rx="3"/><rect x="1100" y="350" width="70" height="90" rx="3"/>
+    </g>
+    <g fill="#f4e6c8" opacity=".6"><rect x="226" y="226" width="58" height="78" rx="2"/><rect x="996" y="356" width="58" height="78" rx="2"/></g>
+    <!-- entrance -->
+    <rect x="540" y="330" width="200" height="210" fill="#3a3d4a"/><rect x="552" y="342" width="84" height="198" fill="#9fb8e8" opacity=".55"/><rect x="644" y="342" width="84" height="198" fill="#9fb8e8" opacity=".55"/>
+    <rect x="520" y="300" width="240" height="30" fill="#7a6a4e"/>
+    <!-- flagpole -->
+    <rect x="300" y="60" width="5" height="480" fill="#8a8a90"/><rect x="305" y="70" width="60" height="36" fill="#b23a48"/><rect x="305" y="70" width="26" height="20" fill="#2f4a8a"/><g stroke="#f4f4f4" stroke-width="2"><path d="M 331 78 L 365 78"/><path d="M 331 86 L 365 86"/><path d="M 305 94 L 365 94"/><path d="M 305 102 L 365 102"/></g>
+  </g>
+  <text x="640" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="18" fill="#3a3d4a" letter-spacing="8" opacity=".85">HIGH SCHOOL</text>
+  <!-- steps, sidewalk, snow, a bus -->
+  <g filter="url(#x-rough)"><rect x="480" y="540" width="320" height="14" fill="#8a8480"/><rect x="460" y="554" width="360" height="14" fill="#7a746f"/></g>
+  <rect y="568" width="1280" height="50" fill="#8e8a90"/><rect y="618" width="1280" height="102" fill="#4a4550"/>
+  <g fill="#e9eef7" opacity=".9" filter="url(#x-fine)"><path d="M -10 614 C 120 608 240 622 380 614 C 520 606 640 622 780 616 C 920 610 1060 624 1290 614 L 1290 630 L -10 630 Z"/><path d="M 60 176 L 1220 176 L 1220 190 L 60 190 Z" opacity=".8"/></g>
+  <g filter="url(#x-rough)" transform="translate(1060 596)"><rect x="-150" y="-70" width="300" height="76" rx="10" fill="#f2b632"/><g fill="#2b2f3a" opacity=".8"><rect x="-130" y="-56" width="44" height="34" rx="3"/><rect x="-76" y="-56" width="44" height="34" rx="3"/><rect x="-22" y="-56" width="44" height="34" rx="3"/><rect x="32" y="-56" width="44" height="34" rx="3"/><rect x="86" y="-56" width="44" height="34" rx="3"/></g><rect x="-150" y="-12" width="300" height="8" fill="#2b2f3a"/><circle cx="-100" cy="10" r="16" fill="#1a1a22"/><circle cx="100" cy="10" r="16" fill="#1a1a22"/></g>
+  <g fill="#e8ecf6" opacity=".8"><circle class="flake" cx="100" cy="0" r="2" style="animation-delay:-1s"/><circle class="flake" cx="400" cy="0" r="2.4" style="animation-delay:-3.2s"/><circle class="flake" cx="700" cy="0" r="1.8" style="animation-delay:-5s"/><circle class="flake" cx="1000" cy="0" r="2.2" style="animation-delay:-2.1s"/><circle class="flake" cx="1200" cy="0" r="1.6" style="animation-delay:-4.4s"/><circle class="flake" cx="250" cy="0" r="1.5" style="animation-delay:-2.8s"/><circle class="flake" cx="850" cy="0" r="2.1" style="animation-delay:-5.6s"/></g>
+</svg></div>
   <div class="layer" id="dawn" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
     <defs>
       <linearGradient id="d-sunsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff9a5a" stop-opacity=".15"/><stop offset="55%" stop-color="#ffb070" stop-opacity=".45"/><stop offset="100%" stop-color="#ffd9a0" stop-opacity=".7"/></linearGradient>
@@ -2178,7 +2268,7 @@
       <g fill="#d9944e" opacity=".7"><ellipse cx="412" cy="342" rx="22" ry="12" transform="rotate(-20 412 342)"/><ellipse cx="512" cy="338" rx="20" ry="11" transform="rotate(25 512 338)"/><ellipse cx="432" cy="418" rx="24" ry="12" transform="rotate(10 432 418)"/></g>
       <g fill="#6b8a3e"><path d="M 470 380 C 480 366 496 366 502 380 C 496 394 480 394 470 380 Z"/><path d="M 380 400 C 390 388 404 388 410 400 C 404 412 390 412 380 400 Z"/></g>
       <g fill="#1c1430"><circle cx="460" cy="360" r="3"/><circle cx="486" cy="404" r="3"/><circle cx="408" cy="388" r="3"/><circle cx="540" cy="380" r="3"/></g>
-      <ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>
+      <ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>
       <rect x="296" y="372" width="34" height="26" rx="12" fill="#2b3358"/><rect x="610" y="372" width="34" height="26" rx="12" fill="#2b3358"/>
     </g>
     <!-- garlic, bay, peppercorns on the counter -->
@@ -2246,6 +2336,17 @@
   </g>
 
   </g>
+  <g id="drag-vin" hidden style="cursor:grab"><g class="hand">
+    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
+    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
+    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+  </g></g>
+  <g id="drag-tube" hidden style="cursor:grab"><g class="hand">
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
+    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
+    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
+    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
+  </g></g>
   <g id="dish-pancit" hidden>
     <g filter="url(#td-rough)">
       <circle cx="470" cy="385" r="152" fill="#2e3140"/><circle cx="470" cy="385" r="136" fill="#1c1e28"/>
@@ -2328,6 +2429,7 @@
     </svg>
   </div>
 
+  <div class="estab" id="estab" hidden><div class="place" id="estab-place"></div><div class="when" id="estab-when"></div></div>
   <div class="alarmtxt" id="alarmtxt" hidden><div class="t">December 21 &middot; 4:10 a.m.</div><h2>The sixth morning.</h2><p>Four hours after close. The alarm. Nobody else is awake to see whether she gets up.</p></div>
   <svg id="hot" class="layer" width="1280" height="720" viewBox="0 0 1280 720" style="z-index:5"></svg>
   <div class="vig"></div><div class="grain"></div><div id="dim"></div>
@@ -2416,37 +2518,51 @@ function focus(who){
 
 // ---------------- content ----------------
 const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando', tita:'Tita Baby'};
-const ROLES = {tala:'seventeen · two years here', ma:'Divina Ramos · front of house', pa:'Rey Ramos · kitchen · a pharmacist for eleven years', customer:'eats here maybe twice a year',
-               hannah:'third period · one desk over since September', ando:'cousin · twenty · landed today', tita:'parish food committee'};
+const ROLES = {tala:'seventeen · two years here', ma:'Divina Ramos · runs the dining room', pa:'Rey Ramos · kitchen · was a pharmacist for eleven years', customer:'eats here maybe twice a year',
+               hannah:'third period · one desk over since September', ando:'cousin · twenty · landed today', tita:'the parish food committee'};
 const met = new Set();
-// things you can look at, per room. Optional, never advances the story.
+// Tagalog and kitchen words a ninth grader can tap for a meaning. Only the first use on a line is marked.
+const TERMS = {
+  'Simbang Gabi':'nine early-morning masses before Christmas, December 16 to 24', 'Lola':'grandmother', 'lola':'grandmother', 'Tita':'auntie. Also any older woman you respect', 'Nanay':'Mom', 'anak':'child. What a parent calls you',
+  'sinigang':'a sour soup, usually made with tamarind', 'pancit':'noodles', 'puto bumbong':'purple rice steamed in bamboo tubes', 'bibingka':'a rice cake baked in a clay pot with hot coals on top', 'adobo':'meat cooked slowly in soy sauce and vinegar',
+  'parol':'a star lantern. Christmas in a window', 'balikbayan box':'the big cardboard box Filipino families ship across the ocean', 'remittance':'money sent home to family in another country', 'Mang':'a polite "Mr." for an older man',
+  'po':'a small word that makes anything polite', 'niyog':'grated coconut', 'muscovado':'dark, raw sugar', 'malagkit':'sticky rice', 'pirurutong':'the purple rice', 'bumbong':'the bamboo tube', 'kaunti lang':'just a little',
+  'walk-in':'a refrigerator big enough to walk into', 'the pass':'the counter where plates go from the kitchen to the dining room', 'run a tab':'buy now and pay at the end of the month', 'cane vinegar':'vinegar made from sugarcane. Milder than the white kind'
+};
+function gloss(html){ if(!html) return html; let out = html;
+  for(const t of Object.keys(TERMS).sort((a,b) => b.length - a.length)){
+    const re = new RegExp('(^|[^\\w>])(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')(?![\\w])(?![^<]*>)');
+    if(re.test(out)) out = out.replace(re, (m, pre, w) => `${pre}<span class="term" data-def="${TERMS[t]}">${w}</span>`); }
+  return out; }
+// things you can look at, per room. Optional. Never moves the story.
 const HOT = {
-  dining:[ {x:132,y:170,t:'The parol. Lola sent it the first December, folded flat in a balikbayan box, with a note that said it was for the window and not for keeping in the box.'},
+  dining:[ {x:132,y:170,t:'The parol. Lola sent it the first December, folded flat in a balikbayan box. The note said it was for the window, not for keeping in the box.'},
            {x:375,y:210,t:'The photo. Lola Pacing, before she was anybody’s lola. Ma says she is not smiling because the photographer told her not to.'},
-           {x:640,y:60,t:'The lamp came with the apartment. Pa rewired it the second week. He does not talk about the other thing, but he can fix anything.'},
-           {x:625,y:600,t:'The envelope. Remittance receipts go in the drawer under the register. There are a lot of them.'} ],
+           {x:640,y:60,t:'The lamp came with the apartment. Pa rewired it the second week. He can fix anything. He does not talk about the other thing.'},
+           {x:625,y:600,t:'The envelope. The remittance receipts go in the drawer under the register. There are a lot of them.'} ],
   rest:[ {x:180,y:220,t:'Same parol as home. Ma says one window is not enough for a whole December.'},
          {x:815,y:150,t:'The menu. Half of it is what Lola cooked. The other half is what sells. The two halves are not the same size anymore.'},
          {x:250,y:520,t:'Table two. Nobody, all night.'} ],
-  school:[ {x:830,y:130,t:'The map on the wall. There is a pin in Jersey City and a pin in Batangas, and Tala has never told anyone the second one is hers.'},
-           {x:400,y:200,t:'Third period. Human geography, which is a strange thing to study when you are the thing being studied.'} ],
+  school:[ {x:830,y:130,t:'The map on the wall. There is a pin in Jersey City and a pin in Batangas. Tala has never told anyone the second pin is hers.'},
+           {x:400,y:200,t:'Third period. Human geography. A strange thing to study when you are the thing being studied.'} ],
   kitchen:[ {x:230,y:220,t:'The tickets. Table three always sends the pancit back with the liver picked out. They order it anyway.'},
-            {x:60,y:400,t:'The walk-in. Ando stood in it for a full minute on his first afternoon. Everything here is so big.'} ],
-  hall:[ {x:660,y:158,t:'Maligayang Pasko. The banner is older than the parish’s current priest. Tita Baby brings it every year in a garment bag.'},
+            {x:60,y:400,t:'The walk-in. Ando stood inside it for a full minute on his first afternoon. Everything here is so big.'} ],
+  hall:[ {x:660,y:158,t:'Maligayang Pasko. Merry Christmas. The banner is older than the parish’s priest. Tita Baby brings it every year in a garment bag.'},
          {x:400,y:560,t:'Puto bumbong on banana leaf. Purple rice, steamed standing up. The smell in the cold is the whole point.'},
-         {x:1050,y:560,t:'Bibingka. Salted egg and cheese on top, coals above and below. Lola’s had a scorch mark on one side, always, on purpose.'} ]
+         {x:1050,y:560,t:'Bibingka. Salted egg and cheese on top, coals above and below. Lola’s always had a burnt spot on one side. On purpose.'} ]
 };
 let looking = false;
 function drawHot(){ const svg = $('hot'); svg.innerHTML = ''; const list = (mode === 'say' && !looking) ? (HOT[bg] || []) : [];
   for(const h of list){ svg.insertAdjacentHTML('beforeend', `<circle cx="${h.x}" cy="${h.y}" r="34" data-t="${h.t.replace(/"/g,'&quot;')}"></circle><circle class="dot" cx="${h.x}" cy="${h.y}" r="4"></circle>`); } }
-function look(text){ looking = true; $('who').innerHTML = 'Tala <span class="role">· looking</span>'; $('line').className = 'line look'; $('line').innerHTML = text; $('aside').hidden = true; drawHot(); }
+function look(text){ looking = true; $('who').innerHTML = 'Tala <span class="role">· looking</span>'; $('line').className = 'line look'; $('line').innerHTML = gloss(text); $('aside').hidden = true; drawHot(); }
 function unlook(){ looking = false; render(); }
+
 const COOKS = {
   s5:{ dish:'puto', multi:true,
-       steps:[ {prompt:'<b>Step 3</b>The worst-kept part of the card. <em>How full did she mean?</em>', options:[{k:'A',text:'Loosely. Do not pack it.',hit:true},{k:'B',text:'Packed tight, so it holds.',hit:false},{k:'C',text:'To the top, and press it down.',hit:false}]},
-               {prompt:'<b>Step 4</b>Steam standing up, for <em>how long?</em>', options:[{k:'A',text:'Until the tube whistles. About ten.',hit:true},{k:'B',text:'Twenty, to be safe.',hit:false},{k:'C',text:'Five. They are thin.',hit:false}]},
+       steps:[ {drag:{kind:'tube'}, prompt:'<b>Step 3</b>The worst-kept part of the card. Scoop rice into the tube, then stand it in the steamer. <em>Once, or more than once?</em>'},
+               {prompt:'<b>Step 4</b>Steam it standing up. <em>For how long?</em>', options:[{k:'A',text:'Until the tube whistles. About ten minutes.',hit:true},{k:'B',text:'Twenty minutes, to be safe.',hit:false},{k:'C',text:'Five minutes. They are thin.',hit:false}]},
                {prompt:'<b>Step 5</b>Turn it out onto <em>what?</em>', options:[{k:'A',text:'Banana leaf.',hit:true},{k:'B',text:'A plate.',hit:false},{k:'C',text:'Foil, to keep it warm.',hit:false}]},
-               {prompt:'<b>Step 6</b>Muscovado and niyog. <em>How much?</em>', options:[{k:'A',text:'Generous. Always generous.',hit:true},{k:'B',text:'A little. It is for the whole parish.',hit:false},{k:'C',text:'Sugar only. Coconut is extra.',hit:false}]} ],
+               {prompt:'<b>Step 6</b>Muscovado and niyog. <em>How much?</em>', options:[{k:'A',text:'A lot. Always a lot.',hit:true},{k:'B',text:'A little. It is for the whole parish.',hit:false},{k:'C',text:'Sugar only. Coconut is extra.',hit:false}]} ],
        cardFor: n => `<h2>Puto Bumbong</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
          <li>Soak the pirurutong with malagkit, <span class="f2">1 part to 3. Overnight.</span></li>
          <li class="f1">Drain, but keep it wet.</li>
@@ -2454,49 +2570,42 @@ const COOKS = {
          <li class="${n===1?'':'f2'}">Steam standing up, <span class="${n===1?'now':''}"><span class="gap">&nbsp;</span></span> minutes.</li>
          <li class="${n===2?'':'f3'}">Turn out onto <span class="${n===2?'now':''}"><span class="gap">&nbsp;</span></span>. Butter while hot.</li>
          <li class="${n===3?'':'f3'}">Muscovado and niyog, <span class="${n===3?'now':''}"><span class="gap">&nbsp;</span></span>.</li></ol>`,
-       react:{ lola:'It is Lola’s. Nobody says so, and everybody knows.', close:'It is close. Close enough that Ma looks at the tray a second time and does not say anything.', off:'It is not hers. It is what the neighborhood eats this morning, and nobody says a word against it.' } },
-  s2:{ dish:'adobo', prompt:'<b>Step 3</b>The card is missing the ratio, and the bay leaf is gone with the water. <em>Soy to vinegar, how much of each?</em>',
+       react:{ lola:'It is Lola’s. Nobody says so. Everybody knows.', close:'It is close. Close enough that Ma looks at the tray a second time and does not say anything.', off:'It is not hers. It is what the neighborhood eats this morning, and nobody says a word against it.' } },
+  s2:{ dish:'adobo', drag:{kind:'vinegar'},
+       prompt:'<b>Step 3</b>The card is missing how much vinegar. The bay leaf line is gone with the water. <em>Hold the bottle over the pot and pour. You decide when to stop.</em>',
        card:`<h2>Adobong Manok</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
          <li>Chicken thighs, skin on. Dry them first or they will not brown.</li>
-         <li>Brown in the pot, then take them out. Garlic in the same oil, a whole head.</li>
-         <li>Put the chicken back. Soy and vinegar, <span class="now"><span class="gap">&nbsp;</span></span>, and do not stir until it boils.</li>
+         <li>Brown them in the pot, then take them out. Garlic in the same oil. A whole head.</li>
+         <li>Put the chicken back. Soy and vinegar, <span class="now"><span class="gap">&nbsp;</span></span>. Do not stir until it boils.</li>
          <li class="f1">Peppercorns, cracked. <span class="f2 gone">Bay leaf, two.</span></li>
-         <li class="f1">Lid on, low fire, <span class="f2">until the sauce is thick and the house smells right.</span></li></ol>`,
-       options:[ {k:'A', text:'Equal parts.', out:'lola'}, {k:'B', text:'Two soy to one vinegar.', out:'salty'}, {k:'C', text:'One soy to two vinegar.', out:'sour'} ],
+         <li class="f1">Lid on. Low fire, <span class="f2">until the sauce is thick and the house smells right.</span></li></ol>`,
        react:{} },
-  s3:{ dish:'pancit', prompt:'<b>Step 3</b>Lola’s pancit has two things in it the family stopped stocking, because customers pick them out. <em>Her way, or the way it sells?</em>',
+  s3:{ dish:'pancit', prompt:'<b>Step 3</b>Lola’s pancit has two things in it that the family stopped buying, because customers pick them out. <em>Her way, or the way it sells?</em>',
        card:`<h2>Pancit Bihon</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
-         <li>Soak the bihon. <span class="f1">Not too long or it breaks.</span></li>
-         <li>Garlic, onion, then the pork. <span class="f1">Let it brown, do not hurry it.</span></li>
+         <li>Soak the bihon. <span class="f1">Not too long, or it breaks.</span></li>
+         <li>Garlic, onion, then the pork. <span class="f1">Let it brown. Do not rush it.</span></li>
          <li><span class="now">The liver, sliced thin, and the dried shrimp.</span> <span class="f2">Do not skip these. They are the taste.</span></li>
          <li class="f1">Cabbage, carrots, the beans. <span class="f2">Soy and calamansi at the end.</span></li>
          <li class="f2">Noodles last. Toss, do not stir. <span class="f3">It should be a little dry.</span></li></ol>`,
        options:[ {k:'A', text:'Her way. Liver and dried shrimp in, like the card says.', out:'lola'},
-                 {k:'B', text:'The way it sells. Chicken, cabbage, no liver.', out:'sells'},
+                 {k:'B', text:'The way it sells. Chicken and cabbage. No liver.', out:'sells'},
                  {k:'C', text:'Halfway. Shrimp in, liver out.', out:'half'} ],
        react:{ lola:'Pa tastes it at the pass. <em>Hm.</em> That is Nanay’s. Table three will pick it out. Send it anyway.',
                sells:'Pa tastes it at the pass, and nods, and that is all.',
                half:'Pa tastes it at the pass. Half of her is still better than none. Send it.' } },
-  s4:{ dish:'bibingka', prompt:'<b>Step 4</b>The step before the salted egg is gone entirely. Watch the top. <em>Drag the egg on when you think she would have.</em>',
+  s4:{ dish:'bibingka', drag:{kind:'egg', windows:[[6500,'sank'],[14000,'lola'],[Infinity,'late']]},
+       prompt:'<b>Step 4</b>The step before the salted egg is gone. Watch the top of the batter. <em>Drag the egg on when you think she would have.</em>',
        card:`<h2>Bibingka</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
-         <li>Rice flour, coconut milk, sugar, eggs. <span class="f1">Beat until it is smooth and a little thin.</span></li>
+         <li>Rice flour, coconut milk, sugar, eggs. <span class="f1">Beat it until it is smooth and a little thin.</span></li>
          <li class="f1">Line the clay pot with banana leaf. <span class="f2">Do not oil it.</span></li>
          <li>Pour. Coals under, coals on the lid.</li>
          <li><span class="now gone">When the top has set but is still pale</span> <span class="gap">&nbsp;</span></li>
          <li>Lay the salted egg on top. Cheese after. Butter, sugar, niyog when it comes out.</li></ol>`,
-       drag:{ item:'drag-egg', target:{x:470,y:385,r:130}, windows:[[6500,'sank'],[14000,'lola'],[Infinity,'late']] },
-       options:[ {k:'A', text:'Put the salted egg in with the batter at the start.', out:'sank'},
-                 {k:'B', text:'When the top has set but is still pale, lay the egg on.', out:'lola'},
-                 {k:'C', text:'After it has baked through, on the way out of the pot.', out:'late'} ],
        react:{ lola:'…That is how she did it. <em>He says it to the pot, and does not say anything else for a while.</em>',
                sank:'The egg sank. <em>He looks at it a moment.</em> It is fine. It is still bibingka.',
                late:'Next time, earlier, so it goes into the top. <em>He eats a piece anyway.</em> It is fine.' } }
 };
 const PHONES = {
-  s5:{ time:'5:31 a.m.', lines:['i got in','the nursing program. singapore. they said yes','tala i’m going to be a nurse','say something'],
-       replies:[ {text:'congratulate her', honesty:0, after: h => h>0 ? ['thank you','i was so scared to tell you','you’re the first person i told'] : ['thanks','ok i have to go, mum’s calling','talk later']},
-                 {text:'ask who’s left at home now', honesty:0, after: h => h>0 ? ['…','i know','i know, tala. i’ve been thinking about it since august','i don’t know what else to do'] : ['wow','ok','i thought you’d be happy for me']},
-                 {text:'tell her the truth about how you feel', honesty:0, after: h => h>0 ? ['i know','i know. me too','i miss you. that’s all it is','come home for something. anything. eventually'] : ['you never told me anything all week and now this','i don’t know what to do with that','i have to go']} ] },
   s2:{ time:'11:24 p.m.',
        lines:['is ando there yet', {me:true, text:'he’s been here 6 hours and he’s already on the fryer'}, 'lol of course', 'that’s 3 from our street this year', 'the clinic still hasn’t replaced nurse ligaya btw. since august'],
        replies:[ {text:'somebody will come', honesty:-1, after:['maybe','my mum says the same thing']},
@@ -2510,82 +2619,117 @@ const PHONES = {
        lines:['your mum called mine','we went to see lola. she’s ok, she was complaining about the food which is a good sign','she said thank you for the money. she cried a bit','i didn’t know you sent that much'],
        replies:[ {text:'it’s nothing', honesty:-1, after:['ok','tell your mum thank you from lola. she said it twice']},
                  {text:'it was the christmas order money', honesty:+1, after:['tala','the parish order?','…she doesn’t know that, does she']},
-                 {text:'don’t tell my mum i told you', honesty:0, after:['i won’t','you know you can tell me things']} ] }
+                 {text:'don’t tell my mum i told you', honesty:0, after:['i won’t','you know you can tell me things']} ] },
+  s5:{ time:'5:31 a.m.', lines:['i got in','the nursing program. singapore. they said yes','tala i’m going to be a nurse','say something'],
+       replies:[ {text:'congratulate her', honesty:0, after: h => h>0 ? ['thank you','i was so scared to tell you','you’re the first person i told'] : ['thanks','ok i have to go, mum’s calling','talk later']},
+                 {text:'ask who’s left at home now', honesty:0, after: h => h>0 ? ['…','i know','i know, tala. i’ve been thinking about it since august','i don’t know what else to do'] : ['wow','ok','i thought you’d be happy for me']},
+                 {text:'tell her the truth about how you feel', honesty:0, after: h => h>0 ? ['i know','i know. me too','i miss you. that’s all it is','come home for something. anything. eventually'] : ['you never told me anything all week and now this','i don’t know what to do with that','i have to go']} ] }
 };
 
 const beats = [
-  // ---------- scene 2 ----------
-  {hud:['December 18','Third morning · Third period'], bg:'school', stage:'Third period. Hannah has sat one desk over since September, which is as far as it has gone.', expr:{tala:'quiet',hannah:'neutral'}},
-  {bg:'school', who:'hannah', text:'Are you doing anything for the break? My family’s doing nothing. Aggressively nothing.', expr:{hannah:'curious'}},
-  {bg:'school', choice:[{text:'Tell her about Simbang Gabi.', goto:'invite', set: () => { STATE.invitedHannah = true; }}, {text:'Say you’re working.', goto:'working'}], expr:{tala:'neutral'}},
-  {id:'invite', bg:'school', who:'tala', text:'There’s a thing at our church. Nine mornings, four a.m. The last one’s the twenty-fourth. There’s food after.', expr:{tala:'neutral',hannah:'curious'}},
+  // ---------- scene 2 : December 18 ----------
+  {estab:['The high school · Jersey City','Tuesday, December 18 · third period'], bg:'ext-school', pause:3000},
+  {hud:['December 18','Third morning · Third period'], bg:'school', stage:'Third period. Hannah has sat one desk over since September. That is as far as it has gone.', expr:{tala:'quiet',hannah:'neutral'}},
+  {bg:'school', who:'hannah', text:'Are you doing anything over break? My family is doing nothing. Aggressively nothing.', expr:{hannah:'curious'}},
+  {bg:'school', who:'tala', text:'Working, mostly. My family has a restaurant.', expr:{tala:'neutral'}},
+  {bg:'school', who:'hannah', text:'Wait. Which one?', expr:{hannah:'curious'}},
+  {bg:'school', who:'tala', text:'Pacing’s. On Newark Avenue. The one with the red awning.', expr:{tala:'neutral'}},
+  {bg:'school', who:'hannah', text:'The one with the star in the window.', expr:{hannah:'smile'}},
+  {bg:'school', who:'tala', text:'That is a parol. It is a Christmas thing.', expr:{tala:'smile'}},
+  {bg:'school', choice:[{text:'Tell her about Simbang Gabi.', goto:'invite', set: () => { STATE.invitedHannah = true; }}, {text:'Leave it there.', goto:'working'}], expr:{tala:'neutral'}},
+  {id:'invite', bg:'school', who:'tala', text:'There is a thing at our church. Nine mornings in a row, at four a.m. The last one is the twenty-fourth. There is food after.', expr:{tala:'neutral',hannah:'curious'}},
   {bg:'school', who:'hannah', text:'Four in the morning.', expr:{hannah:'flat'}},
   {bg:'school', who:'tala', text:'Four in the morning.', expr:{tala:'quiet'}},
-  {bg:'school', who:'hannah', text:'…What kind of food.', expr:{hannah:'curious',tala:'smile'}, goto:'vinegar'},
-  {id:'working', bg:'school', who:'tala', text:'Working. The restaurant.', expr:{tala:'quiet'}},
+  {bg:'school', who:'hannah', text:'…What kind of food.', expr:{hannah:'curious',tala:'smile'}},
+  {bg:'school', who:'tala', text:'Come and see.', expr:{tala:'smile',hannah:'smile'}, goto:'vinegar'},
+  {id:'working', bg:'school', who:'tala', text:'That is the whole break. Working.', expr:{tala:'quiet'}},
   {bg:'school', who:'hannah', text:'Oh. Cool.', expr:{hannah:'flat'}},
-  {bg:'school', stage:'It is not cool, and they both know it, and the bell goes.', expr:{tala:'quiet',hannah:'neutral'}},
-  {id:'vinegar', hud:['December 18','Third morning · Before service'], bg:'street', stage:'Pa is out of vinegar. The card says cane vinegar. Mang Boy’s has it, and lets the family run a tab. The chain two blocks over is four dollars cheaper and has none of it.'},
+  {bg:'school', stage:'It is not cool. They both know it. The bell goes.', expr:{tala:'quiet',hannah:'neutral'}},
+  {id:'vinegar', estab:['Pacing’s Filipino Kitchen · Newark Avenue','Tuesday, December 18 · 5:20 p.m., before service'], bg:'ext-rest', pause:3000},
+  {hud:['December 18','Third morning · Before service'], bg:'street', stage:'Pa is out of vinegar. The card says cane vinegar. Mang Boy’s has it, and lets the family run a tab. The chain store two blocks over is four dollars cheaper and does not have it.'},
   {bg:'street', choice:[{text:'Mang Boy’s.', set: () => { STATE.cook = {vinegar:'cane'}; }}, {text:'The chain store.', set: () => { STATE.cook = {vinegar:'chain'}; }}]},
-  {hud:['December 18','Third morning · Dinner service'], bg:'kitchen', stage:'Ando landed at two. By six he is tying an apron. Nobody interviewed him.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'street', stage: () => STATE.cook.vinegar === 'cane' ? 'Mang Boy asks about Lola before he asks what Tala needs. He writes the vinegar in the book under the family’s name. He does not say when to pay.' : 'The vinegar comes in a plastic jug. Four dollars cheaper. It is fine. It is vinegar.'},
+  {hud:['December 18','Third morning · Dinner service'], bg:'kitchen', stage:'Ando landed at two. By six he is tying an apron. Nobody interviewed him. He is family, so there was a job.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'kitchen', who:'ando', text:'You got tall.', expr:{ando:'up'}},
+  {bg:'kitchen', who:'tala', text:'You got here.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'ando', text:'Everybody at home said hi. Everybody. It took the whole drive to the airport.', expr:{ando:'smile'}},
   {bg:'kitchen', who:'ando', pre:'(looking at the walk-in)', text:'Everything here is so big.', expr:{ando:'up'}},
-  {bg:'kitchen', who:'pa', text:'You will get used to it. Hold the knife like this, not like that.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'kitchen', who:'pa', text:'You will get used to it. Hold the knife like this. Not like that.', expr:{pa:'neutral',ando:'tired'}},
   {bg:'kitchen', who:'ando', text:'How long before I stop being tired?', expr:{ando:'tired'}},
   {bg:'kitchen', who:'pa', pre:'(after a pause, going back to the pan)', text:'I will let you know.', expr:{pa:'down',ando:'tired'}},
   {bg:'cook', cook:'s2'},
-  {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain' ? 'It comes out thin. Pa tastes it, and says nothing at all, which is worse than if he said something.' : null,
+  {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain' ? 'It comes out thin. Pa tastes it, and says nothing at all. That is worse than if he said something.' : null,
      who: () => STATE.cook.vinegar === 'chain' ? null : 'pa',
      text: () => ({lola:'…Nanay’s. <em>He says it to the pot, and gives Ando the first plate.</em>', salty:'Too much soy. It is fine. Next time.', sour:'Sour. It is fine. Ando will eat it.'})[STATE.cook.out],
      expr:{pa:'soft',ando:'smile'}},
+  {bg:'kitchen', who:'ando', text:'It smells like home.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'pa', text:'That is the idea.', expr:{pa:'soft'}},
   {phone:'s2'},
   {inter:['December 20','The slow night','Fifth morning. Four tables all night, and a customer with an opinion.'], set: () => { for(const n of [4,5]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
-  // ---------- scene 3 ----------
-  {hud:['December 20','Fifth morning · The slow night'], bg:'rest', stage:'Four tables all night. You can see the room is wrong before anyone says it.', expr:{tala:'quiet',ma:'neutral'}},
+  // ---------- scene 3 : December 20 ----------
+  {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Thursday, December 20 · 8:40 p.m.'], bg:'ext-rest', pause:3000},
+  {hud:['December 20','Fifth morning · The slow night'], bg:'rest', stage:'Four tables all night. You can see the room is wrong before anyone says so.', expr:{tala:'quiet',ma:'neutral'}},
+  {bg:'rest', who:'ma', pre:'(quietly, passing the door)', text:'Do not look at the door. Looking at the door does not bring anyone through it.', expr:{ma:'neutral',tala:'quiet'}},
   {bg:'rest', who:'customer', text:'What is it, though? Like, what <em>is</em> it.'},
-  {bg:'rest', who:'ma', text:'Sinigang po. Sour soup, tamarind. Very good with rice.', expr:{ma:'neutral'}, motion:{ma:['nod']}},
-  {bg:'rest', who:'customer', text:'You know if you’re going to work here you should really speak English.', expr:{tala:'wince'}},
-  {bg:'rest', who:'ma', pre:'(evenly, already reaching for the pitcher)', text:'Thank you, ma’am.', expr:{ma:'held'}, motion:{ma:['pour']}, aside:'She has heard it before. That is the part Tala cannot stand: not that it was said, but that Ma had somewhere to put it.'},
+  {bg:'rest', who:'ma', text:'Sinigang po. Sour soup, with tamarind. Very good with rice.', expr:{ma:'neutral'}, motion:{ma:['nod']}},
+  {bg:'rest', who:'customer', text:'You know, if you are going to work here, you should really speak English.', expr:{tala:'wince'}},
+  {bg:'rest', who:'ma', pre:'(evenly, already reaching for the pitcher)', text:'Thank you, ma’am.', expr:{ma:'held'}, motion:{ma:['pour']}, aside:'She has heard it before. That is the part Tala cannot stand. Not that it was said. That Ma had somewhere to put it.'},
   {bg:'rest', choice:[{text:'Say something.', goto:'speak'}, {text:'Say nothing.', goto:'silent'}], expr:{tala:'wince'}},
-  {id:'speak', bg:'rest', who:'tala', text:'It’s sinigang. She said.', expr:{tala:'wince'}},
+  {id:'speak', bg:'rest', who:'tala', text:'She said it in English.', expr:{tala:'wince'}},
   {bg:'rest', who:'ma', text:'Tala. The back, please. Table four needs bread.', expr:{ma:'neutral',tala:'quiet'}, motion:{ma:['nod']}},
-  {bg:'rest', stage:'Ma finishes the table herself. The tip is ordinary.', expr:{ma:'held'}, goto:'after'},
+  {bg:'rest', stage:'There is no table four. Ma finishes the table herself. The tip is ordinary.', expr:{ma:'held'}, goto:'after'},
   {id:'silent', bg:'rest', stage:'Tala goes back to the kitchen. The pitcher gets refilled twice more. The tip is ordinary.', expr:{tala:'quiet',ma:'held'}},
-  {id:'after', bg:'rest', stage:'Later, through the wall, her parents are talking about the ninth-morning order and what the ingredients cost, in the flat voices people use when they do not want to be overheard.', expr:{tala:'quiet',ma:'neutral'}},
+  {id:'after', bg:'rest', who:'ma', pre:'(later, in the back)', text:'You want to know what I do with it.', expr:{ma:'neutral',tala:'quiet'}},
+  {bg:'rest', who:'tala', text:'Yes.', expr:{tala:'neutral'}},
+  {bg:'rest', who:'ma', text:'I put it with the others. Then I refill the water.', expr:{ma:'held'}},
+  {bg:'rest', stage:'Later, through the wall, her parents talk about the ninth-morning order and what the ingredients cost. They use the flat voices people use when they do not want to be overheard.', expr:{tala:'quiet',ma:'neutral'}},
   {bg:'cook', cook:'s3'},
   {bg:'rest', stage: () => COOKS.s3.react[STATE.cook.out], expr:{tala:'quiet'}},
   {phone:'s3'},
   {hud:['December 21','Sixth morning · 4:10 a.m.'], alarm:true},
-  {hud:['December 21','Sixth morning'], bg:'rest', stage: () => STATE.mornings.includes(6) ? 'Cold, dark, breath visible. The sixth. Ma is already at the door with her coat on, and does not ask.' : 'The alarm stops on its own. Five. In the morning Ma does not mention it, which is how Tala knows she noticed.', expr:{tala:'tired',ma:'neutral'}},
+  {hud:['December 21','Sixth morning'], bg:'rest', stage: () => STATE.mornings.includes(6) ? 'Cold, dark, breath visible. The sixth. Ma is already at the door with her coat on. She does not ask.' : 'The alarm stops on its own. Five. In the morning Ma does not mention it. That is how Tala knows she noticed.', expr:{tala:'tired',ma:'neutral'}},
   {inter:['December 22','The envelope','Seventh morning. Lola is back in the hospital, and the call came during prep.'], set: () => { if(!STATE.mornings.includes(7)) STATE.mornings.push(7); }},
-  // ---------- scene 4 ----------
-  {hud:['December 22','Seventh morning · After the call'], bg:'dining', stage:'Nobody says the word decision, because in this family it was never going to be one.', expr:{tala:'quiet',ma:'counting',pa:'down'}},
-  {bg:'dining', who:'ma', pre:'(counting, twice)', text:'It is fine. We will do the bibingka with what we have.', expr:{ma:'counting'}, aside:'She counts it twice because the first count was right and she wanted it not to be.'},
+  // ---------- scene 4 : December 22 ----------
+  {estab:['The apartment above Pacing’s','Saturday, December 22 · 3:15 p.m., after the call'], bg:'ext-rest', pause:3000},
+  {hud:['December 22','Seventh morning · After the call'], bg:'dining', stage:'Nobody says the word decision. In this family it was never going to be one.', expr:{tala:'quiet',ma:'counting',pa:'down'}},
+  {bg:'dining', who:'ma', pre:'(counting, twice)', text:'It is fine. We will do the bibingka with what we have.', expr:{ma:'counting'}, aside:'She counts it twice because the first count was right, and she wanted it not to be.'},
   {bg:'dining', who:'pa', text:'And the puto bumbong?', expr:{pa:'neutral'}},
   {bg:'dining', who:'ma', text:'We will do the bibingka.', expr:{ma:'held',pa:'down'}},
   {bg:'dining', who:'tala', text:'Tita Baby asked for both.', expr:{tala:'neutral'}},
   {bg:'dining', who:'ma', text:'Then we will see what the week does.', expr:{ma:'neutral',tala:'quiet'}},
   {bg:'dining', stage:'Ma counts out the money that was set aside for the ninth-morning ingredients. Pa drives to the remittance counter on Newark Avenue and wires it home.', expr:{ma:'counting',pa:'down'}},
-  {bg:'dining', stage:'Ando offers his first week’s pay. Pa refuses. Then Pa accepts.', expr:{pa:'soft',ma:'neutral'}},
+  {bg:'dining', who:'pa', pre:'(back, coat still on)', text:'The man at the counter asked if I was a nurse. Everyone from home is a nurse, he said.', expr:{pa:'down',ma:'neutral'}},
+  {bg:'dining', who:'ma', text:'Rey.', expr:{ma:'held'}},
+  {bg:'dining', who:'pa', text:'I said no. I did not say what I was.', expr:{pa:'down'}, aside:'Eleven years behind a pharmacy counter. Here, the license is a piece of paper from somewhere else.'},
+  {bg:'dining', stage:'Ando offers his first week’s pay. Pa says no. Then Pa says yes.', expr:{pa:'soft',ma:'neutral'}},
   {bg:'cook', cook:'s4'},
   {bg:'dining', who:'pa', text: () => COOKS.s4.react[STATE.cook.out], expr:{pa:'soft',tala:'neutral',ma:'neutral'}},
   {bg:'dining', stage:'Later. The walk-in is short one shelf. The phone buzzes.', expr:{tala:'quiet',ma:'neutral',pa:'neutral'}},
   {phone:'s4'},
   {inter:['December 24','The ninth dawn','4:15 a.m. The kitchen with everyone in it.'], set: () => { for(const n of [8,9]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); STATE.cook = {}; }},
-  // ---------- scene 5 ----------
-  {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen', stage:'Four in the morning, and everyone in it: Pa, Ma, Ando, Tita Baby’s two nephews who were volunteered. Bamboo tubes steaming. Purple rice. The smell in the cold.', expr:{pa:'neutral',ando:'up'}},
+  // ---------- scene 5 : December 24 ----------
+  {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Monday, December 24 · 4:15 a.m.'], bg:'ext-rest', pause:3000},
+  {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen', stage:'Four in the morning, and everyone is in it. Pa, Ma, Ando, and Tita Baby’s two nephews, who were volunteered. Bamboo tubes steaming. Purple rice. The smell in the cold.', expr:{pa:'neutral',ando:'up'}},
+  {bg:'kitchen', who:'ando', text:'At home we did this at three.', expr:{ando:'smile'}},
+  {bg:'kitchen', who:'pa', text:'At home the church was closer.', expr:{pa:'soft'}},
   {bg:'cook', cook:'s5'},
   {bg:'kitchen', stage: () => COOKS.s5.react[STATE.cook.out], expr:{pa:'soft',ando:'smile'}},
-  {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'They carry it three blocks to the parish hall in trays on a hand cart. Mass ends. The hall fills.'},
+  {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'They carry it three blocks to the parish hall, in trays on a hand cart. Mass ends. The hall fills.'},
   {hud:['December 24','Ninth morning · The hall'], bg:'hall', show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false},
-     stage: () => STATE.invitedHannah ? 'Hannah is standing at the door at five in the morning in a coat that is not warm enough, holding her phone, not sure whether to come in.' : 'The block, in one room, at five in the morning. Everyone she knows by face.',
-     expr:{tala:'quiet',ma:'neutral',tita:'neutral',hannah:'flat'}, goto: () => STATE.invitedHannah ? 'hannah' : 'basket'},
+     stage: () => STATE.invitedHannah ? 'Hannah is standing at the door at five in the morning, in a coat that is not warm enough, holding her phone, not sure whether to come in.' : 'The block, in one room, at five in the morning. Everyone she knows by face.',
+     expr:{tala:'quiet',ma:'neutral',tita:'neutral',hannah:'flat'}, goto: () => STATE.invitedHannah ? 'hannah' : 'tita'},
   {id:'hannah', bg:'hall', who:'hannah', text:'What’s the purple?', expr:{hannah:'curious',tala:'neutral'}},
   {bg:'hall', who:'tala', text:'Rice. It grows that color.', expr:{tala:'smile'}},
   {bg:'hall', who:'hannah', text:'That’s a lie.', expr:{hannah:'flat'}},
   {bg:'hall', who:'tala', text:'It’s not.', expr:{tala:'neutral'}},
   {bg:'hall', stage:'Hannah eats it, thinks about it, and takes another.', expr:{hannah:'smile',tala:'smile'}},
-  {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}, goto:'basket'},
-  {id:'basket', bg:'hall', show:{'hall-basket':true}, stage:'Then Tita Baby passes the basket for Lola without asking the family first, and the block gives, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
+  {bg:'hall', who:'hannah', text:'Do you do this every year?', expr:{hannah:'curious'}},
+  {bg:'hall', who:'tala', text:'Every year. This is the first one here.', expr:{tala:'neutral'}},
+  {bg:'hall', who:'hannah', text:'It is a lot of work for four in the morning.', expr:{hannah:'neutral'}},
+  {bg:'hall', who:'tala', text:'That is the point.', expr:{tala:'smile'}},
+  {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}},
+  {id:'tita', bg:'hall', who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. Now they know it here.', expr:{tita:'warm',ma:'held'}},
+  {bg:'hall', show:{'hall-basket':true}, stage:'Then Tita Baby passes the basket for Lola without asking the family first. The block gives. Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
   {bg:'hall', stage:'And then the phone buzzes.', expr:{tala:'quiet'}},
   {phone:'s5'},
   {hud:['December 24','Ninth morning · Outside'], bg:'dawn', show:{'dawn-walk':false,'dawn-tala':true},
@@ -2598,8 +2742,9 @@ const beats = [
 ];
 
 // ---------------- engine ----------------
-let i = -1, sel = 0, mode = 'title', busy = false;
-const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen'), hall:$('hall'), dawn:$('dawn')};
+let i = -1, sel = 0, mode = 'title', busy = false, pauseTimer = 0;
+function endPause(){ if(mode !== 'pause') return; clearTimeout(pauseTimer); hud.hidden = false; $('estab').hidden = true; mode = 'say'; advance(); }
+const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen'), hall:$('hall'), dawn:$('dawn'), 'ext-rest':$('ext-rest'), 'ext-school':$('ext-school')};
 const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud');
 const txt = v => typeof v === 'function' ? v() : v;
 
@@ -2616,7 +2761,8 @@ function render(){
   $('dawn').classList.toggle('sunrise', !!b.sunrise);
   drawMarks();
   if(b.debrief) return debriefCard();
-  if(b.pause){ showBg(b.bg); mode = 'pause'; dlg.hidden = true; hud.hidden = true; setTimeout(() => { hud.hidden = false; mode = 'say'; advance(); }, b.pause); return; }
+  $('estab').hidden = !b.estab; if(b.estab){ $('estab-place').textContent = b.estab[0]; $('estab-when').textContent = b.estab[1]; }
+  if(b.pause){ showBg(b.bg); mode = 'pause'; dlg.hidden = true; hud.hidden = true; clearTimeout(pauseTimer); pauseTimer = setTimeout(endPause, b.pause); return; }
   if(b.end)   return endCard();
   if(b.inter) return interCard(b.inter);
   if(b.phone) return doPhone(PHONES[b.phone]);
@@ -2628,14 +2774,14 @@ function render(){
   if(b.choice){ mode = 'choice'; dlg.hidden = true; renderChoice(b.choice); return; }
   mode = 'say'; dlg.hidden = false;
   const stage = txt(b.stage), who = txt(b.who);
-  if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = stage; focus(null); }
+  if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = gloss(stage); focus(null); }
   else {
     const first = !met.has(who) && ROLES[who]; met.add(who);
     $('who').innerHTML = NAMES[who] + (first ? ` <span class="role">· ${ROLES[who]}</span>` : ''); $('line').className = 'line';
-    const t = txt(b.text); $('line').innerHTML = (b.pre ? `<em>${b.pre}</em> ` : '') + t; focus(who);
+    const t = txt(b.text); $('line').innerHTML = gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t); focus(who);
     if(bg === 'rest' && who === 'ma') talk('ma', Math.min(2600, 380 + t.length * 45));
   }
-  const aside = txt(b.aside); $('aside').hidden = !aside; if(aside) $('aside').innerHTML = aside;
+  const aside = txt(b.aside); $('aside').className = 'aside'; $('aside').hidden = !aside; if(aside) $('aside').innerHTML = gloss(aside);
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
   drawHot();
 }
@@ -2652,41 +2798,61 @@ function confirmChoice(){ const o = choiceData[sel]; if(o.set) o.set(); mode = '
 // -------- cooking --------
 let cookData = null, cookStep = 0, cookHits = 0;
 function renderCook(c){ cookData = c; sel = 1; if(!c._step){ cookStep = 0; cookHits = 0; }
-  const step = c.multi ? c.steps[cookStep] : c;
+  const step = c.multi ? c.steps[cookStep] : c; mode = 'cook';
   $('cardwrap').querySelector('.cbody').innerHTML = c.multi ? c.cardFor(cookStep) : c.card; $('cookprompt').innerHTML = step.prompt;
   c = Object.assign({}, c, {options: step.options});  cookData = Object.assign(cookData, {options: step.options});
   for(const d of ['pancit','adobo','puto']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
   const eggs = $('prop-eggs'); if(c.dish === 'bibingka') eggs.removeAttribute('hidden'); else eggs.setAttribute('hidden','');
   const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
-  if(c.drag){ startDrag(c.drag); return; }
-  choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
+  if(step.drag){ startDrag(step.drag, (out, at) => {
+      if(c.multi){ if(out === 'loose') cookHits++; cookStep++; cookData._step = true; mode = 'cook'; renderCook(cookData); return; }
+      STATE.cook = Object.assign({}, STATE.cook, {scene:c.dish, choice:'drag', at, out}); mode = 'say'; advance(); }); return; }
+  choices.innerHTML = step.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }
 
-// -------- drag step : the batter sets while you hold the egg --------
-let drag = null;
-function stagePoint(ev){ const r = $('stage').getBoundingClientRect(); const s = r.width / 1280; return {x:(ev.clientX - r.left)/s, y:(ev.clientY - r.top)/s}; }
-function startDrag(d){ mode = 'drag'; choices.hidden = true; $('cardwrap').classList.add('dragmode'); $('cursor').style.display = 'none';
-  const item = $(d.item); item.removeAttribute('hidden'); item.style.transform = ''; $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0); $('batter-brown').setAttribute('opacity',0);
-  drag = {d, t0:performance.now(), held:false, dx:0, dy:0, x:700, y:440};
-  const tick = () => { if(!drag) return; const el = performance.now() - drag.t0;
-    $('batter-set').setAttribute('opacity', Math.min(1, Math.max(0, (el - 3000) / 4000)));
-    $('batter-brown').setAttribute('opacity', Math.min(.9, Math.max(0, (el - 13000) / 7000)));
-    requestAnimationFrame(tick); }; requestAnimationFrame(tick);
-  item.onpointerdown = ev => { const p = stagePoint(ev); drag.held = true; drag.dx = p.x - drag.x; drag.dy = p.y - drag.y; item.setPointerCapture(ev.pointerId); $('cook').classList.add('dragging'); };
-  item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-700}px, ${drag.y-440}px)`; };
-  item.onpointerup = ev => { if(!drag || !drag.held) return; drag.held = false; $('cook').classList.remove('dragging'); const dist = Math.hypot(drag.x - d.target.x, drag.y - d.target.y);
-    if(dist <= d.target.r) dropEgg(); else { drag.x = 700; drag.y = 440; item.style.transform = ''; } };
-}
-function dropEgg(){ if(!drag) return; const el = performance.now() - drag.t0; const out = drag.d.windows.find(w => el < w[0])[1];
-  $(drag.d.item).setAttribute('hidden',''); $('egg-on').removeAttribute('hidden'); $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
-  STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:'drag', at:Math.round(el/100)/10, out}); drag = null; mode = 'say'; setTimeout(advance, 700); }
-function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,236],[980,300]]; const [x,y] = spots[sel]; cur.style.left = (x-24)+'px'; cur.style.top = (y-30)+'px'; }
+function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,236],[980,300]]; const [x,y] = spots[sel] || spots[0]; cur.style.left = (x-24)+'px'; cur.style.top = (y-30)+'px'; }
 function confirmCook(){ const o = cookData.options[sel];
   if(cookData.multi){ if(o.hit) cookHits++; cookStep++;
     if(cookStep < cookData.steps.length){ cookData._step = true; renderCook(cookData); return; }
     STATE.cook = {scene:cookData.dish, hits:cookHits, out: cookHits === 4 ? 'lola' : cookHits >= 2 ? 'close' : 'off'}; delete cookData._step; mode = 'say'; advance(); return; }
   STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:o.k, out:o.out}); mode = 'say'; advance(); }
 
+// -------- drag steps : egg (timing), vinegar (pour), tube (scoop, then stand it up) --------
+let drag = null;
+function stagePoint(ev){ const r = $('stage').getBoundingClientRect(); const s = r.width / 1280; return {x:(ev.clientX - r.left)/s, y:(ev.clientY - r.top)/s}; }
+const DRAGS = {
+  egg:{ item:'drag-egg', home:[700,440], target:[470,385,130],
+    setup(){ $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0); $('batter-brown').setAttribute('opacity',0); },
+    tick(el){ $('batter-set').setAttribute('opacity', Math.min(1, Math.max(0, (el-3000)/4000))); $('batter-brown').setAttribute('opacity', Math.min(.9, Math.max(0, (el-13000)/7000))); },
+    drop(d, inside){ if(!inside) return false; const el = performance.now() - d.t0; $('egg-on').removeAttribute('hidden'); return d.spec.windows.find(w => el < w[0])[1]; },
+    key(d){ return this.drop(d, true); } },
+  vinegar:{ item:'drag-vin', home:[1040,560], target:[470,385,150],
+    setup(d){ const chain = STATE.cook.vinegar === 'chain'; $('drag-vin').querySelector('.cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('drag-vin').querySelector('.chain')[chain?'removeAttribute':'setAttribute']('hidden','');
+      $('vin-cane').setAttribute('hidden',''); $('vin-chain').setAttribute('hidden',''); $('sauce-vin').setAttribute('opacity',0); d.poured = 0; d.last = performance.now(); },
+    tick(el, d){ const now = performance.now(); const over = d.held && Math.hypot(d.x - 470, d.y - 385) <= 150; if(over) d.poured += now - d.last; d.last = now;
+      $('vin-stream').setAttribute('opacity', over ? .9 : 0); $('sauce-vin').setAttribute('opacity', Math.min(.6, d.poured/9000)); },
+    drop(d){ if(d.poured < 400) return false; return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
+    key(d){ d.poured = 3500; return this.drop(d); } },
+  tube:{ item:'drag-tube', home:[780,330], target:[470,385,130],
+    setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); },
+    tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 100; if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(156, 60 + 48*(d.scoops-1))); } d.inBowl = inBowl; },
+    drop(d, inside){ if(!inside || d.scoops === 0) return false; return d.scoops === 1 ? 'loose' : 'packed'; },
+    key(d){ d.scoops = 1; $('tube-fill').setAttribute('width', 60); return 'loose'; } }
+};
+function startDrag(spec, onDone){ const K = DRAGS[spec.kind]; mode = 'drag'; choices.hidden = true; $('cardwrap').classList.add('dragmode'); $('cursor').style.display = 'none';
+  const item = $(K.item); item.removeAttribute('hidden'); item.style.transform = '';
+  drag = {spec, K, onDone, t0:performance.now(), held:false, dx:0, dy:0, x:K.home[0], y:K.home[1]}; K.setup(drag);
+  const tick = () => { if(!drag) return; K.tick(performance.now() - drag.t0, drag); requestAnimationFrame(tick); }; requestAnimationFrame(tick);
+  item.onpointerdown = ev => { const p = stagePoint(ev); drag.held = true; drag.dx = p.x - drag.x; drag.dy = p.y - drag.y; item.setPointerCapture(ev.pointerId); $('cook').classList.add('dragging'); };
+  item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-K.home[0]}px, ${drag.y-K.home[1]}px)`; };
+  item.onpointerup = ev => { if(!drag || !drag.held) return; drag.held = false; $('cook').classList.remove('dragging');
+    const inside = Math.hypot(drag.x - K.target[0], drag.y - K.target[1]) <= K.target[2]; const out = K.drop(drag, inside);
+    if(out) finishDrag(out); else { drag.x = K.home[0]; drag.y = K.home[1]; item.style.transform = ''; if(spec.kind === 'vinegar') $('vin-stream').setAttribute('opacity', 0); } };
+}
+function finishDrag(out){ if(!drag) return; const d = drag; $(d.K.item).setAttribute('hidden',''); $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
+  if(d.spec.kind === 'vinegar'){ const chain = STATE.cook.vinegar === 'chain'; $(chain ? 'vin-chain' : 'vin-cane').removeAttribute('hidden'); }
+  const at = Math.round((performance.now() - d.t0)/100)/10; drag = null; setTimeout(() => d.onDone(out, at), 600); }
+function dragKey(){ if(!drag) return; const out = drag.K.key(drag); if(out) finishDrag(out); }
 // -------- alarm --------
 function doAlarm(){ showBg('alarm'); mode = 'choice'; dlg.hidden = true;
   renderChoice([ {text:'Get up.', set: () => { if(!STATE.mornings.includes(6)) STATE.mornings.push(6); }}, {text:'Sleep.'} ]); }
@@ -2716,7 +2882,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); $('estab').hidden = true; STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -2726,10 +2892,11 @@ document.addEventListener('keydown', e => {
   if(e.key === 'r' || e.key === 'R'){ restart(); return; }
   const go = e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight';
   if(mode === 'title'){ if(go) start(); }
+  else if(mode === 'pause'){ if(go) endPause(); }
   else if(mode === 'inter'){ if(go){ $('inter').classList.remove('on'); i++; render(); } }
   else if(mode === 'debrief'){ if(go){ $('debrief').classList.remove('on'); i++; render(); } }
   else if(mode === 'say'){ if(go) next(); else if(e.key === 'ArrowLeft') prev(); }
-  else if(mode === 'drag'){ if(e.key === 'Enter' || e.key === ' ') dropEgg(); }
+  else if(mode === 'drag'){ if(e.key === 'Enter' || e.key === ' ') dragKey(); }
   else if(mode === 'cook' || mode === 'choice'){
     const n = choices.children.length;
     if(e.key === 'ArrowDown') pickChoice((sel+1)%n); else if(e.key === 'ArrowUp') pickChoice((sel+n-1)%n);
@@ -2746,9 +2913,9 @@ document.addEventListener('keydown', e => {
 $('title').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
 $('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
-$('panel').addEventListener('click', next);
+$('panel').addEventListener('click', ev => { const t = ev.target.closest('.term'); if(t){ ev.stopPropagation(); const a = $('aside'); a.className = 'aside def'; a.innerHTML = `<b>${t.textContent}</b>${t.dataset.def}`; a.hidden = false; return; } next(); });
 $('hot').addEventListener('click', ev => { const c = ev.target.closest('circle[data-t]'); if(c && mode === 'say' && !looking){ ev.stopPropagation(); look(c.dataset.t); } });
-$('stage').addEventListener('click', e => { if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
+$('stage').addEventListener('click', e => { if(mode === 'pause') return endPause(); if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
 choices.addEventListener('click', e => { const c = e.target.closest('.ch'); if(!c) return; pickChoice(Number(c.dataset.n)); mode === 'cook' ? confirmCook() : confirmChoice(); });
 $('replies').addEventListener('click', e => { const c = e.target.closest('.rp'); if(!c || busy) return; sel = Number(c.dataset.n); confirmReply(); });
 $('end').addEventListener('click', restart);
