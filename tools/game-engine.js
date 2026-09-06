@@ -42,7 +42,7 @@ function focus(who){
 // ---------------- content ----------------
 const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando', tita:'Tita Baby'};
 const ROLES = {tala:'seventeen · two years here', ma:'Divina Ramos · front of house', pa:'Rey Ramos · kitchen · a pharmacist for eleven years', customer:'eats here maybe twice a year',
-               hannah:'third period · not Filipino', ando:'cousin · twenty · landed today', tita:'parish food committee'};
+               hannah:'third period · one desk over since September', ando:'cousin · twenty · landed today', tita:'parish food committee'};
 const met = new Set();
 // things you can look at, per room. Optional, never advances the story.
 const HOT = {
@@ -102,7 +102,7 @@ const COOKS = {
        react:{ lola:'Pa tastes it at the pass. <em>Hm.</em> That is Nanay’s. Table three will pick it out. Send it anyway.',
                sells:'Pa tastes it at the pass, and nods, and that is all.',
                half:'Pa tastes it at the pass. Half of her is still better than none. Send it.' } },
-  s4:{ dish:'bibingka', prompt:'<b>Step 4</b>The step before the salted egg is gone entirely. <em>When did she put the egg on?</em>',
+  s4:{ dish:'bibingka', prompt:'<b>Step 4</b>The step before the salted egg is gone entirely. Watch the top. <em>Drag the egg on when you think she would have.</em>',
        card:`<h2>Bibingka</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
          <li>Rice flour, coconut milk, sugar, eggs. <span class="f1">Beat until it is smooth and a little thin.</span></li>
          <li class="f1">Line the clay pot with banana leaf. <span class="f2">Do not oil it.</span></li>
@@ -372,7 +372,7 @@ $('title').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
 $('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
 $('panel').addEventListener('click', next);
-$('hot').addEventListener('click', ev => { const c = ev.target.closest('circle[data-t]'); if(c && mode === 'say' && !looking) look(c.dataset.t); });
+$('hot').addEventListener('click', ev => { const c = ev.target.closest('circle[data-t]'); if(c && mode === 'say' && !looking){ ev.stopPropagation(); look(c.dataset.t); } });
 $('stage').addEventListener('click', e => { if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
 choices.addEventListener('click', e => { const c = e.target.closest('.ch'); if(!c) return; pickChoice(Number(c.dataset.n)); mode === 'cook' ? confirmCook() : confirmChoice(); });
 $('replies').addEventListener('click', e => { const c = e.target.closest('.rp'); if(!c || busy) return; sel = Number(c.dataset.n); confirmReply(); });
