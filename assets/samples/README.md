@@ -90,6 +90,7 @@ NODE_PATH=/opt/node22/lib/node_modules node tools/render-gif.js <in.html> <out.g
 | File | What it is |
 |---|---|
 | `expressions-tala.html` | One head, four expressions. Only brows, eyes and mouth swap. |
+| `cast-ramos.html` | The cast: Tala, Divina (Ma) and Rey (Pa), straight-on, in one style. |
 | `scene-dining.html` | Dialogue format: the family straight-on at the table, scene 4 "The envelope". |
 | `scene-cooking-topdown.html` | Cooking format: top-down, no character on screen, cursor glove as the only hand. |
 | `scene-cooking.html` | Kept as the counter-example: a three-quarter face, which is where flat shapes break. |
@@ -115,3 +116,16 @@ NODE_PATH=/opt/node22/lib/node_modules node tools/render-gif.js <in.html> <out.g
 Every character in `scene-dining.html` blinks and breathes on its own
 offset. That, plus steam on any dish, is enough to keep a static scene from
 feeling like a slide. Reaction beats are an expression-part swap.
+
+### Cast note
+
+Ma and Pa were first drawn inside the Venba probe and inherited its Tamil
+signifiers (bindi, sari, heavy moustache, a sharp bridge-line nose). Those
+were wrong for Divina and Rey Ramos and have been redrawn: rounder, fuller
+faces with a soft broad nose drawn as an underside only; hair pulled back
+into a low bun for front of house; thin rectangular frames, receding
+hairline and grey temples for a man of fifty; small hoops and a thin cross;
+a cardigan and an apron over work clothes. The parol in the window carries
+the season. Skin tones vary slightly across the family, as they do in real
+families. Still worth a look from a Filipino colleague before anything
+ships, as the spec itself says.

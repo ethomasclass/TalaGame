@@ -1,40 +1,15 @@
 <!doctype html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
 <style>
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:#2a1a16;font-family:"Source Sans 3",sans-serif}
-  .stage{position:relative;width:1280px;height:720px;overflow:hidden;background:#2a1a16}
-  .art{position:absolute;inset:0} svg{display:block}
-
-  @keyframes blink{0%,91%{transform:scaleY(1)}94%{transform:scaleY(.06)}97%,100%{transform:scaleY(1)}}
-  .blink{animation:blink 5s ease-in-out infinite}
-  .blink.b{animation-delay:-1.7s;animation-duration:6.1s}.blink.c{animation-delay:-3.4s;animation-duration:5.6s}
-  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
-  .breathe{animation:breathe 3.8s ease-in-out infinite}.breathe.b{animation-delay:-1.3s}.breathe.c{animation-delay:-2.6s}
-  @keyframes flicker{0%,100%{opacity:.5}50%{opacity:.62}}
-  .lamp{animation:flicker 2.4s ease-in-out infinite}
-
-  .hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:20px 26px;
-    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.11em;text-transform:uppercase;
-    color:rgba(255,236,210,.7);text-shadow:0 1px 6px rgba(0,0,0,.5);z-index:5}
-  .hud .date{color:#fff0d6}.hud .sub{color:rgba(255,236,210,.5);margin-left:12px}
-  .marks{display:flex;gap:6px;align-items:center}
-  .mk{width:9px;height:14px;border-radius:2px;border:1px solid rgba(255,236,210,.32)}
-  .mk.on{background:#e0a23c;border-color:#e0a23c;box-shadow:0 0 9px rgba(224,162,60,.65)}
-
-  .dlg{position:absolute;left:0;right:0;bottom:0;padding:0 44px 30px;z-index:5}
-  .panel{background:rgba(244,238,222,.965);border-radius:12px;padding:16px 24px 14px;max-width:860px;
-    box-shadow:0 2px 4px rgba(0,0,0,.35),0 26px 60px -22px rgba(0,0,0,.9)}
-  .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#a1462f;margin-bottom:7px}
-  .line{font-family:"Fraunces",Georgia,serif;font-size:22px;line-height:1.42;color:#262a1e;margin:0}
-  .line em{font-style:italic;color:#54594a}
-  .adv{display:flex;justify-content:flex-end;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:#8d8873}
-  .adv span{border:1px solid rgba(38,42,30,.22);border-radius:4px;padding:3px 7px;margin-left:6px}
-
-  .vig{position:absolute;inset:0;pointer-events:none;z-index:4;background:radial-gradient(ellipse at 50% 44%,transparent 42%,rgba(40,14,10,.55) 100%)}
-  .grain{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:.14;mix-blend-mode:overlay;filter:url(#grain)}
-</style></head><body>
-<div class="stage"><div class="art">
+  *{box-sizing:border-box} html,body{margin:0;padding:0}
+  .stage{position:relative;width:1280px;height:720px;overflow:hidden;background:linear-gradient(160deg,#f7d3bf 0%,#eeb8a6 55%,#d9979a 100%)}
+  svg{display:block;position:absolute;inset:0}
+  .lbl{position:absolute;top:596px;width:360px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5a2e2a}
+  .lbl b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:24px;letter-spacing:0;text-transform:none;color:#3a1c18;margin-bottom:5px}
+  .lbl span{display:block;color:rgba(90,46,42,.6);font-size:11px;text-transform:none;letter-spacing:.02em;margin-top:5px;font-family:"Fraunces",serif;font-style:italic}
+  .title{position:absolute;top:26px;left:34px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(90,46,42,.7)} .title b{color:#3a1c18;font-weight:500}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.13;mix-blend-mode:overlay;filter:url(#grain)}
+</style></head><body><div class="stage">
 <svg width="1280" height="720" viewBox="0 0 1280 720">
   <defs>
     <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
@@ -171,82 +146,14 @@
       </g>
     </g>
   </defs>
-
-  <!-- ===== room ===== -->
-  <rect width="1280" height="720" fill="url(#wall)"/>
-  <g opacity=".16" filter="url(#roughFine)" fill="#c97f82">
-    <rect x="96" y="0" width="6" height="560"/><rect x="190" y="0" width="4" height="560"/><rect x="282" y="0" width="7" height="560"/><rect x="376" y="0" width="4" height="560"/>
-    <rect x="470" y="0" width="6" height="560"/><rect x="564" y="0" width="4" height="560"/><rect x="658" y="0" width="7" height="560"/><rect x="752" y="0" width="4" height="560"/>
-    <rect x="846" y="0" width="6" height="560"/><rect x="940" y="0" width="4" height="560"/><rect x="1034" y="0" width="7" height="560"/><rect x="1128" y="0" width="4" height="560"/><rect x="1222" y="0" width="6" height="560"/>
-  </g>
-  <!-- window light, left -->
-  <g filter="url(#rough)"><rect x="36" y="50" width="200" height="250" rx="8" fill="#c58a72"/><rect x="50" y="64" width="172" height="222" rx="5" fill="#2a2f52"/><rect x="132" y="64" width="8" height="222" fill="#b4705e"/><rect x="50" y="170" width="172" height="8" fill="#b4705e"/></g>
-  <!-- parol in the window : December, Simbang Gabi -->
-  <g transform="translate(136 168)">
-    <circle r="86" fill="#ffd27a" opacity=".55" filter="url(#mid)"/>
-    <g filter="url(#roughFine)">
-      <path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/>
-      <path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/>
-      <circle r="12" fill="#fff4d2"/>
-      <g stroke="#7a2e22" stroke-width="2" opacity=".7" fill="none"><path d="M 0 -66 L 0 28"/><path d="M 63 -20 L -39 54"/><path d="M -63 -20 L 39 54"/><path d="M 17 -22 L -27 9"/><path d="M -17 -22 L 27 9"/></g>
-      <path d="M -22 40 L -30 96 M -12 44 L -14 98 M 12 44 L 14 98 M 22 40 L 30 96" stroke="#f4c65a" stroke-width="3" stroke-linecap="round"/>
-      <path d="M -2 -66 L 2 -66 L 2 -110 L -2 -110 Z" fill="#7a4a54"/>
-    </g>
-  </g>
-  <!-- stair shadow, right -->
-  <path d="M 1040 -20 L 1300 -20 L 1300 720 L 1180 720 Z" fill="url(#stairShade)" style="mix-blend-mode:multiply" filter="url(#mid)"/>
-  <g filter="url(#rough)"><path d="M 1080 -10 L 1300 -10 L 1300 160 Z" fill="#b87c86" opacity=".5"/></g>
-  <!-- hanging lamp over the table -->
-  <g filter="url(#roughFine)"><rect x="637" y="0" width="5" height="40" fill="#7a4a54"/><path d="M 584 40 L 696 40 L 672 92 L 608 92 Z" fill="#c9524a"/><path d="M 584 40 L 696 40 L 688 54 L 592 54 Z" fill="#e0685c"/></g>
-  <ellipse cx="640" cy="130" rx="190" ry="110" fill="url(#lampGlow)" filter="url(#soft)" class="lamp"/>
-  <!-- frames -->
-  <g filter="url(#rough)">
-    <rect x="300" y="110" width="150" height="196" rx="5" fill="#7e5a86"/><rect x="314" y="124" width="122" height="168" rx="3" fill="#5c4270"/>
-    <path d="M 375 156 C 402 156 414 176 414 202 C 414 230 398 246 375 246 C 352 246 336 230 336 202 C 336 176 348 156 375 156 Z" fill="#c58063"/>
-    <path d="M 375 150 C 406 150 418 170 416 190 C 404 174 390 168 375 170 C 360 168 346 174 334 190 C 332 170 344 150 375 150 Z" fill="#241a38"/>
-    <path d="M 330 292 L 330 262 C 330 244 352 236 375 236 C 398 236 420 244 420 262 L 420 292 Z" fill="#8e3a33"/>
-  </g>
-
-  <!-- ===== the family, straight on ===== -->
-  <ellipse cx="640" cy="470" rx="420" ry="120" fill="#9a5f72" opacity=".22" filter="url(#soft)" style="mix-blend-mode:multiply"/>
-  <g transform="translate(160 150) scale(1.02)"><g class="breathe"><use href="#tala"/></g></g>
-  <g transform="translate(800 92)"><g class="breathe c"><use href="#pa"/></g></g>
-  <g transform="translate(496 82) scale(1.02)"><g class="breathe b"><use href="#ma"/></g></g>
-
-  <!-- ===== table + the envelope ===== -->
-  <g filter="url(#rough)">
-    <rect x="-40" y="496" width="1360" height="260" fill="url(#table)"/>
-    <rect x="-40" y="496" width="1360" height="14" fill="#e8845e" opacity=".75"/>
-  </g>
-  <!-- money counted out, envelope, remittance slip --><g transform="translate(0 -62)">
-  <g transform="rotate(-6 620 600)" filter="url(#roughFine)">
-    <rect x="540" y="572" width="170" height="86" rx="4" fill="#000" opacity=".25" transform="translate(6 8)"/>
-    <rect x="540" y="572" width="170" height="86" rx="4" fill="#efe6d4"/>
-    <path d="M 540 572 L 625 626 L 710 572" stroke="#c9b9a0" stroke-width="2" fill="none"/>
-  </g>
-  <g filter="url(#roughFine)">
-    <g transform="rotate(4 760 604)"><rect x="700" y="582" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="700" y="582" width="120" height="52" rx="3" fill="#8fae87"/><rect x="712" y="592" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="760" cy="608" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
-    <g transform="rotate(-2 770 596)"><rect x="710" y="574" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="710" y="574" width="120" height="52" rx="3" fill="#98b58f"/><rect x="722" y="584" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="770" cy="600" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
-    <g transform="rotate(9 780 588)"><rect x="720" y="566" width="120" height="52" rx="3" fill="#000" opacity=".22" transform="translate(4 6)"/><rect x="720" y="566" width="120" height="52" rx="3" fill="#a3bd9a"/><rect x="732" y="576" width="96" height="32" rx="2" fill="none" stroke="#5c7d58" stroke-width="2"/><circle cx="780" cy="592" r="11" fill="none" stroke="#5c7d58" stroke-width="2"/></g>
-  </g>
-  <!-- Ma's hands on the envelope -->
-  <g filter="url(#rough)">
-    <path d="M 470 596 C 486 570 520 566 546 584 C 560 594 552 612 536 612 L 480 616 C 466 614 462 604 470 596 Z" fill="url(#skin)"/>
-    <path d="M 700 574 C 724 556 758 560 774 580 C 784 594 772 608 756 606 L 704 604 C 690 600 688 586 700 574 Z" fill="url(#skin)"/>
-  </g>
-  </g>
-  <!-- warm key light -->
-  <ellipse cx="200" cy="220" rx="300" ry="240" fill="#ffd9a0" opacity=".28" filter="url(#soft)" style="mix-blend-mode:screen"/>
-</svg></div>
-
-<div class="vig"></div><div class="grain"></div>
-<div class="hud">
-  <div><span class="date">December 22</span><span class="sub">Seventh morning &middot; After the call</span></div>
-  <div class="marks"><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk on"></i><i class="mk"></i><i class="mk"></i></div>
-</div>
-<div class="dlg"><div class="panel">
-  <div class="who">Ma</div>
-  <p class="line"><em>(counting, twice)</em> It is fine. We will do the bibingka with what we have.</p>
-  <div class="adv"><span>&larr; &rarr;</span><span>Enter</span></div>
-</div></div>
+  <ellipse cx="240" cy="140" rx="380" ry="260" fill="#ffe0c0" opacity=".45" filter="url(#soft)" style="mix-blend-mode:screen"/>
+  <g transform="translate(90 200) scale(1.06)"><ellipse cx="140" cy="360" rx="130" ry="16" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/><use href="#tala"/></g>
+  <g transform="translate(470 152) scale(1.0)"><ellipse cx="150" cy="420" rx="150" ry="18" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/><use href="#ma"/></g>
+  <g transform="translate(840 150) scale(1.0)"><ellipse cx="150" cy="420" rx="150" ry="18" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/><use href="#pa"/></g>
+</svg>
+<div class="grain"></div>
+<div class="title"><b>The Ramos family</b> &nbsp;&middot;&nbsp; straight-on cast &nbsp;&middot;&nbsp; Jersey City, December</div>
+<div class="lbl" style="left:60px"><b>Tala</b>Player, 17<span>Two years here. Works the kitchen after school.</span></div>
+<div class="lbl" style="left:440px"><b>Divina &middot; Ma</b>Front of house<span>Remembers every regular's order. Absorbs the room.</span></div>
+<div class="lbl" style="left:810px"><b>Rey &middot; Pa</b>Kitchen<span>A pharmacist for eleven years. Cooks now.</span></div>
 </div></body></html>
