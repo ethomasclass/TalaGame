@@ -1,7 +1,7 @@
 # Nine Mornings — playable slice
 
 `nine-mornings.html` is a single self-contained file: open it in a browser.
-It runs scenes 2 to 5 (December 18 to 24) end to end, then the wish and
+It runs all five scenes (December 16 to 24) end to end, then the wish and
 the debrief, with the three mechanics from the spec wired to real state.
 `nine-mornings-artifact.html` is the same page without the document
 wrapper, for publishing.
@@ -33,16 +33,33 @@ wrapper, for publishing.
 | State | Written in | Read in |
 |---|---|---|
 | `invitedHannah` | scene 2, third period | scene 5: Hannah at the door, the purple exchange |
+| `honesty` (first write) | scene 1, the first Bea thread | — |
 | `mornings` | scene 3, the alarm | the counter, the wish's framing, the end card |
 | `honesty` | every Bea thread | scene 5: whether Bea's last reply is warm or hollow |
 | `cook` | each cooking beat | the next line from whoever tastes it |
 | `wish` | scene 5 | the end card only. Never judged. |
 
+## The cooking steps
+
+| Scene | Dish | Step | How it is played |
+|---|---|---|---|
+| 1 | Tsokolate | drag, then one chip | The tutorial. Drag the tablea into the pot; pick how long to whisk. |
+| 2 | Adobo | pour | Hold the vinegar over the pot; when you stop is the ratio. |
+| 3 | Pancit | three chips | Lola's way, the way it sells, or halfway. |
+| 4 | Bibingka | timed drag | The batter sets while you hold the egg. |
+| 5 | Puto bumbong | scoop drag, then three chips | Scoop once for loose; then steam, turn out, top. |
+
+Nothing is scored on screen. Every outcome is a different dish and a
+different line from whoever tastes it.
+
 ## Build
 
 Run `python3 tools/build-game.py`. It assembles both builds from
-`game/base-layers.html` (the frozen dining and cooking layers),
-`tools/scene2-layers.py`, `tools/scene5-layers.py` and the sample sheets; character rigs and backgrounds are
+`game/base-layers.html` (the frozen dining and cooking base scenes),
+`tools/cook-layer.py` (the cooking layer: base plus an overlay of every
+dish dressing and draggable, each checked for balanced groups),
+`tools/scene2-layers.py`, `tools/scene5-layers.py`,
+`tools/scene-ext-layers.py` and the sample sheets; character rigs and backgrounds are
 inlined SVG, and Caveat is embedded as base64. `tools/playtest.js [main|getup]` walks the whole build from a queue of
 decisions with Playwright, screenshots every screen to
 `assets/samples/playtest/`, and prints the final `STATE`. Both variants
