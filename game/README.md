@@ -1,8 +1,10 @@
 # Nine Mornings — playable slice
 
 `nine-mornings.html` is a single self-contained file: open it in a browser.
-It runs scene 4, "The envelope", end to end with the three mechanics from
-the spec wired to real state.
+It runs scenes 2 to 5 (December 18 to 24) end to end, then the wish and
+the debrief, with the three mechanics from the spec wired to real state.
+`nine-mornings-artifact.html` is the same page without the document
+wrapper, for publishing.
 
 | Key | Does |
 |---|---|
@@ -26,10 +28,22 @@ the spec wired to real state.
   adjusts `STATE.honesty` silently, and Bea's follow-up depends on the reply.
 - The end card reads the state back so you can see it took.
 
+## What carries across scenes
+
+| State | Written in | Read in |
+|---|---|---|
+| `invitedHannah` | scene 2, third period | scene 5: Hannah at the door, the purple exchange |
+| `mornings` | scene 3, the alarm | the counter, the wish's framing, the end card |
+| `honesty` | every Bea thread | scene 5: whether Bea's last reply is warm or hollow |
+| `cook` | each cooking beat | the next line from whoever tastes it |
+| `wish` | scene 5 | the end card only. Never judged. |
+
 ## Build
 
-The file is assembled by the Python block in the session history from the
-sample sheets (`assets/samples/*.html`); character rigs and backgrounds are
-inlined SVG, and Caveat is embedded as base64. `tools/playtest.js` drives it
-through every state with Playwright and screenshots each one to
-`assets/samples/playtest/`.
+Run `python3 tools/build-game.py`. It assembles both builds from
+`game/base-layers.html` (the frozen dining and cooking layers),
+`tools/scene2-layers.py`, `tools/scene5-layers.py` and the sample sheets; character rigs and backgrounds are
+inlined SVG, and Caveat is embedded as base64. `tools/playtest.js [main|getup]` walks the whole build from a queue of
+decisions with Playwright, screenshots every screen to
+`assets/samples/playtest/`, and prints the final `STATE`. Both variants
+must end with `errors: none`.
