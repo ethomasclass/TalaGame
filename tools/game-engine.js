@@ -89,8 +89,8 @@ const beats = [
   {bg:'cook', cook:'s3'},
   {bg:'rest', stage: () => COOKS.s3.react[STATE.cook.out], expr:{tala:'quiet'}},
   {phone:'s3'},
-  {alarm:true},
-  {bg:'rest', stage: () => STATE.mornings.includes(6) ? 'Cold, dark, breath visible. The sixth. Ma is already at the door with her coat on, and does not ask.' : 'The alarm stops on its own. Five. In the morning Ma does not mention it, which is how Tala knows she noticed.', expr:{tala:'tired',ma:'neutral'}},
+  {hud:['December 21','Sixth morning · 4:10 a.m.'], alarm:true},
+  {hud:['December 21','Sixth morning'], bg:'rest', stage: () => STATE.mornings.includes(6) ? 'Cold, dark, breath visible. The sixth. Ma is already at the door with her coat on, and does not ask.' : 'The alarm stops on its own. Five. In the morning Ma does not mention it, which is how Tala knows she noticed.', expr:{tala:'tired',ma:'neutral'}},
   {inter:['December 22','The envelope','Seventh morning. Lola is back in the hospital, and the call came during prep.'], set: () => { if(!STATE.mornings.includes(7)) STATE.mornings.push(7); }},
   // ---------- scene 4 ----------
   {hud:['December 22','Seventh morning · After the call'], bg:'dining', stage:'Nobody says the word decision, because in this family it was never going to be one.', expr:{tala:'quiet',ma:'counting',pa:'down'}},
@@ -115,7 +115,7 @@ const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud')
 const txt = v => typeof v === 'function' ? v() : v;
 
 function drawMarks(){ $('marks').innerHTML = [1,2,3,4,5,6,7,8,9].map(n => `<i class="mk${STATE.mornings.includes(n)?' on':''}"></i>`).join(''); }
-function showBg(which){ for(const k in layers) layers[k].hidden = (k !== which); bg = which; hud.classList.toggle('dark', which==='cook'); $('alarmtxt').hidden = which !== 'alarm'; }
+function showBg(which){ for(const k in layers){ layers[k].hidden = false; layers[k].classList.toggle('off', k !== which); } bg = which; hud.classList.toggle('dark', which==='cook'); $('alarmtxt').hidden = which !== 'alarm'; }
 function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
@@ -133,7 +133,7 @@ function render(){
   if(b.cook){ mode = 'cook'; dlg.hidden = true; renderCook(COOKS[b.cook]); return; }
   if(b.choice){ mode = 'choice'; dlg.hidden = true; renderChoice(b.choice); return; }
   mode = 'say'; dlg.hidden = false;
-  if(b.stage){ $('who').textContent = ''; $('line').className = 'line stage'; $('line').innerHTML = txt(b.stage); focus(null); }
+  if(b.stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = txt(b.stage); focus(null); }
   else {
     $('who').textContent = NAMES[b.who]; $('line').className = 'line';
     const t = txt(b.text); $('line').innerHTML = (b.pre ? `<em>${b.pre}</em> ` : '') + t; focus(b.who);
@@ -155,7 +155,7 @@ function confirmChoice(){ const o = choiceData[sel]; if(o.set) o.set(); mode = '
 let cookData = null;
 function renderCook(c){ cookData = c; sel = 1;
   $('cardwrap').querySelector('.cbody').innerHTML = c.card; $('cookprompt').innerHTML = c.prompt;
-  $('dish-pancit').hidden = c.dish !== 'pancit';
+  const dp = $('dish-pancit'); if(c.dish === 'pancit') dp.removeAttribute('hidden'); else dp.setAttribute('hidden','');
   choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }
 function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,236],[980,300]]; const [x,y] = spots[sel]; cur.style.left = (x-24)+'px'; cur.style.top = (y-30)+'px'; }

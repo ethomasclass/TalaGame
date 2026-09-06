@@ -11,12 +11,12 @@ def prefix_ids(svg, pre):
     return svg
 
 # ---------------- dining layer (scene 4) ----------------
-src = open(G/'nine-mornings.html').read()          # previous build carries the assembled dining + cook layers
+src = open(G/'base-layers.html').read()            # frozen dining + cook layers from the first build
 dining = src[src.index('  <div class="layer" id="dining">'):src.index('  <!-- ================= COOKING ================= -->')]
 cook   = src[src.index('  <div class="layer" id="cook" hidden>'):src.index('  <div class="vig"></div>')]
 # cook : add a pancit dressing on top of the bibingka pot (a wok ring + noodles), toggled by id
 cook = cook.replace('<div class="cardwrap"><div class="card">', '<div class="cardwrap" id="cardwrap"><div class="card">')
-cook = cook.replace('  <circle cx="470" cy="385" r="126" fill="none" stroke="#fff3d6" stroke-width="4" stroke-dasharray="14 12" class="target"/>',
+if 'dish-pancit' not in cook: cook = cook.replace('  <circle cx="470" cy="385" r="126" fill="none" stroke="#fff3d6" stroke-width="4" stroke-dasharray="14 12" class="target"/>',
 '''  <g id="dish-pancit" hidden>
     <g filter="url(#td-rough)">
       <circle cx="470" cy="385" r="152" fill="#2e3140"/><circle cx="470" cy="385" r="136" fill="#1c1e28"/>
@@ -76,7 +76,7 @@ alarm = '''  <div class="layer" id="alarm" hidden>
 '''
 
 # ---------------- page ----------------
-head_css = src[src.index('  :root{--paper'):src.index('</style>')]
+head_css = src[src.index('  :root{--paper'):src.index('</style>')].replace('.line.stage{','.line.sd{')
 html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nine Mornings</title>
@@ -86,6 +86,7 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {head_css}
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
+  .layer.off{{visibility:hidden;pointer-events:none}}
   .alarmtxt{{position:absolute;left:44px;top:70px;z-index:7;color:#ece7d6;font-family:"Fraunces",Georgia,serif}}
   .alarmtxt .t{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-bottom:10px}}
   .alarmtxt h2{{font-weight:600;font-size:40px;margin:0 0 8px;letter-spacing:-.01em}}
