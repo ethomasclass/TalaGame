@@ -101,12 +101,33 @@ if 'drag-vin' not in cook:
   <g id="dish-pancit" hidden>''')
     cook = cook.replace('<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>', '<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>')
 assert 'drag-vin' in cook and 'drag-tube' in cook and 'sauce-vin' in cook
+# tsokolate : a pot of hot chocolate, the batirol, tablea on a saucer, a mug
+if 'dish-tsokolate' not in cook:
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="dish-tsokolate" hidden>
+    <g filter="url(#td-rough)">
+      <circle cx="470" cy="385" r="152" fill="url(#td-potBody)"/><circle cx="470" cy="385" r="132" fill="#2a1a14"/>
+      <circle cx="470" cy="385" r="120" fill="#4a2a1c"/><circle id="tsok-froth" cx="470" cy="385" r="120" fill="#7a5238" opacity="0"/>
+      <g id="tsok-bubbles" opacity="0" fill="#a8785a"><circle cx="420" cy="350" r="6"/><circle cx="500" cy="340" r="5"/><circle cx="530" cy="400" r="7"/><circle cx="440" cy="430" r="5"/><circle cx="480" cy="395" r="4"/><circle cx="400" cy="400" r="4"/></g>
+      <ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>
+      <rect x="296" y="372" width="34" height="26" rx="12" fill="#2b3358"/><rect x="610" y="372" width="34" height="26" rx="12" fill="#2b3358"/>
+      <!-- batirol, the wooden whisk, resting across the rim -->
+      <g transform="rotate(-38 560 300)"><rect x="470" y="292" width="200" height="14" rx="7" fill="#7a4a2a"/><rect x="462" y="280" width="40" height="40" rx="8" fill="#5a3418"/><g stroke="#3a2010" stroke-width="2" opacity=".6"><path d="M 470 288 L 470 312"/><path d="M 480 284 L 480 316"/><path d="M 490 288 L 490 312"/></g></g>
+    </g>
+    <!-- saucer of tablea, top-right ; the mug -->
+    <g filter="url(#td-rough)"><ellipse cx="800" cy="236" rx="80" ry="50" fill="#000" opacity=".22" transform="translate(8 10)"/><ellipse cx="800" cy="236" rx="80" ry="50" fill="url(#td-cream)"/>
+      <g fill="#3a2010"><circle cx="770" cy="228" r="18"/><circle cx="822" cy="244" r="18"/></g><g fill="#5a3418" opacity=".8"><circle cx="770" cy="228" r="10"/><circle cx="822" cy="244" r="10"/></g></g>
+    <g filter="url(#td-rough)" transform="translate(960 470)"><ellipse cx="0" cy="6" rx="52" ry="52" fill="#000" opacity=".22" transform="translate(8 10)"/><circle r="50" fill="#e9dfc8"/><circle r="38" fill="#3a2010"/><path d="M 50 -10 C 76 -10 76 24 50 24" stroke="#e9dfc8" stroke-width="10" fill="none"/></g>
+  </g>
+  <g id="dish-pancit" hidden>''')
+    cook = cook.replace('  <g id="dish-pancit" hidden>', '''  <g id="drag-tablea" hidden style="cursor:grab"><g transform="translate(700 440)"><g class="hand"><circle r="26" fill="#000" opacity=".25" transform="translate(6 12)"/><circle r="24" fill="#3a2010" stroke="#fff3d6" stroke-width="3"/><circle r="13" fill="#5a3418"/></g></g></g>
+  <g id="dish-pancit" hidden>''', 1)
+assert 'dish-tsokolate' in cook and 'drag-tablea' in cook
 # drag items draw above every prop
 import re as _re
-_drags = ''.join(_re.findall(r'  <g id="drag-(?:egg|vin|tube)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook))
-for _m in _re.findall(r'  <g id="drag-(?:egg|vin|tube)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook): cook = cook.replace(_m, '', 1)
+_drags = ''.join(_re.findall(r'  <g id="drag-(?:egg|vin|tube|tablea)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook))
+for _m in _re.findall(r'  <g id="drag-(?:egg|vin|tube|tablea)" hidden style="cursor:grab">[\s\S]*?\n  </g>\n', cook): cook = cook.replace(_m, '', 1)
 cook = cook.replace('</svg>', _drags + '</svg>', 1)
-assert cook.count('id="drag-egg"') == 1 and cook.count('id="drag-vin"') == 1 and cook.count('id="drag-tube"') == 1
+assert cook.count('id="drag-egg"') == 1 and cook.count('id="drag-vin"') == 1 and cook.count('id="drag-tube"') == 1 and cook.count('id="drag-tablea"') == 1
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
@@ -198,8 +219,8 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     <div class="replies" id="replies"></div>
   </div></div>
   <div class="cardscreen on" id="title">
-    <div><div class="eyebrow">Nine Mornings &middot; playable slice &middot; scenes 2 to 4</div><h1>Nine Mornings</h1>
-    <p>December 18. Third morning. A cousin lands on a Tuesday and works Tuesday night.</p>
+    <div><div class="eyebrow">A narrative cooking game &middot; forty minutes</div><h1>Nine Mornings</h1>
+    <p>Tala has nine dawns to make all nine masses, one recipe card she can barely read, and a best friend six thousand miles away who is about to become the next person to leave.</p>
     <div class="tap">Tap to begin &nbsp;&middot;&nbsp; tap the text to advance &nbsp;&middot;&nbsp; tap a choice to pick it</div>
     <div class="hint"><span>Enter</span> to begin &nbsp;&middot;&nbsp; <span>&larr; &rarr;</span> advance &nbsp;&middot;&nbsp; <span>&uarr; &darr;</span> choose &nbsp;&middot;&nbsp; <span>D</span> dev state</div></div>
   </div>

@@ -1,5 +1,5 @@
 // ---------------- state (from the spec) ----------------
-const STATE = { mornings:[1,2,3], honesty:0, invitedHannah:false, cook:{} };
+const STATE = { mornings:[], honesty:0, invitedHannah:false, cook:{} };
 const $ = id => document.getElementById(id);
 
 // ---------------- expressions + motion ----------------
@@ -81,6 +81,15 @@ function look(text){ looking = true; $('who').innerHTML = 'Tala <span class="rol
 function unlook(){ looking = false; render(); }
 
 const COOKS = {
+  s1:{ dish:'tsokolate', multi:true,
+       steps:[ {drag:{kind:'tablea'}, prompt:'<b>Step 2</b>Lola’s card, almost all of it still there. <em>Drag the tablea into the pot.</em>'},
+               {prompt:'<b>Step 3</b>One word is smudged. Whisk with the batirol until it is <em>what?</em>', options:[{k:'A',text:'Frothy. A little foam on top.',hit:true},{k:'B',text:'Boiling.',hit:false},{k:'C',text:'Just melted. Then stop.',hit:false}]} ],
+       cardFor: n => `<h2>Tsokolate</h2><div class="by">Lola Pacing &mdash; para kay Divina</div><ol>
+         <li>Water in the small pot. Not milk yet. <span class="f1">Milk makes it lazy.</span></li>
+         <li>Two tablea. <span class="${n===0?'now':''}">Drop them in.</span> Low fire.</li>
+         <li>Whisk with the batirol until it is <span class="${n===1?'now':''}"><span class="gap">&nbsp;</span></span>. Then a little milk. Then whisk again.</li>
+         <li>Pan de sal on the side. <span class="f1">Dip it. Do not be polite about it.</span></li></ol>`,
+       react:{ lola:'Frothy, the way she made it. Pa dips the pan de sal without looking up, which is the highest mark he gives.', close:'It is tsokolate. It is fine. Pa dips the pan de sal anyway.', off:'It is tsokolate. Pa dips the pan de sal anyway.' } },
   s5:{ dish:'puto', multi:true,
        steps:[ {drag:{kind:'tube'}, prompt:'<b>Step 3</b>The worst-kept part of the card. Scoop rice into the tube, then stand it in the steamer. <em>Once, or more than once?</em>'},
                {prompt:'<b>Step 4</b>Steam it standing up. <em>For how long?</em>', options:[{k:'A',text:'Until the tube whistles. About ten minutes.',hit:true},{k:'B',text:'Twenty minutes, to be safe.',hit:false},{k:'C',text:'Five minutes. They are thin.',hit:false}]},
@@ -129,6 +138,10 @@ const COOKS = {
                late:'Next time, earlier, so it goes into the top. <em>He eats a piece anyway.</em> It is fine.' } }
 };
 const PHONES = {
+  s1:{ time:'5:52 a.m.', lines:['did you go??', {me:true, text:'just got back. you can see your breath inside the church here'}, 'ours was at 4. lola came, she walked the whole way', 'she asked if you were going too. i said obviously'],
+       replies:[ {text:'obviously', honesty:0, after:['ok good','she’ll be happy','she said the puto bumbong was better last year btw. don’t tell her i told you']},
+                 {text:'tell her i’m doing all nine', honesty:+1, after:['all nine??','ok','i’ll tell her. she’s going to cry']},
+                 {text:'don’t tell her. i’ll probably miss one', honesty:-1, after:['i won’t','you won’t though','you never miss anything']} ] },
   s2:{ time:'11:24 p.m.',
        lines:['is ando there yet', {me:true, text:'he’s been here 6 hours and he’s already on the fryer'}, 'lol of course', 'that’s 3 from our street this year', 'the clinic still hasn’t replaced nurse ligaya btw. since august'],
        replies:[ {text:'somebody will come', honesty:-1, after:['maybe','my mum says the same thing']},
@@ -150,6 +163,29 @@ const PHONES = {
 };
 
 const beats = [
+  // ---------- scene 1 : December 16 ----------
+  {estab:['The parish · four blocks from Pacing’s','Sunday, December 16 · 4:40 a.m. · first morning'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, pause:3200, set: () => { STATE.mornings = [1]; }},
+  {hud:['December 16','First morning · 4:40 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'Cold, dark, breath visible. Tala walks to the parish with Ma. Pa stays behind to open the restaurant.', aside:'Lola told her once: nine mornings in a row, and you get a wish. She has not told anyone that is why she is up.'},
+  {bg:'dawn', who:'ma', text:'Nine mornings is nine mornings. You do not start what you cannot finish.', pre:'(to the street, not to Tala)'},
+  {bg:'dawn', stage:'Inside, the church is full of people she knows by face. After, everyone goes to the hall.'},
+  {hud:['December 16','First morning · The hall'], bg:'hall', show:{'hall-hannah':false,'hall-basket':false}, who:'tita', text:'Your Lola made the puto bumbong for our parish at home. Everybody knows this. So of course I thought of your mother.', expr:{tita:'warm',ma:'neutral',tala:'quiet'}},
+  {bg:'hall', who:'ma', text:'Tita, we have the dinner service that whole week.', expr:{ma:'held'}},
+  {bg:'hall', who:'tita', text:'Nine mornings is nine mornings. It is only the last one I am asking for.', expr:{tita:'talk'}},
+  {bg:'hall', who:'tita', text:'Bibingka and puto bumbong. For everyone. On the twenty-fourth.', expr:{tita:'warm'}},
+  {bg:'hall', stage:'Ma says yes. There was never a way to say no. Not to Tita Baby, and not in this room.', expr:{ma:'held',tala:'quiet'}, aside:'Ma is smiling. Tala knows that smile. It is the one for customers.'},
+  {hud:['December 16','First morning · The walk home'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, who:'ma', pre:'(doing the math out loud)', text:'Forty people. Fifty. Two trays of bibingka is twenty pieces. The puto bumbong, we have six tubes.'},
+  {bg:'dawn', who:'tala', text:'We can borrow tubes.'},
+  {bg:'dawn', who:'ma', text:'From who?'},
+  {bg:'dawn', who:'tala', text:'Tita Baby.'},
+  {bg:'dawn', who:'ma', text:'…Yes. From Tita Baby.', aside:'It does not come out well. Ma does the math a second time, quieter, and it comes out the same.'},
+  {estab:['Pacing’s Filipino Kitchen · Newark Avenue','Sunday, December 16 · 5:30 a.m. · before opening'], bg:'ext-rest', pause:3000},
+  {hud:['December 16','First morning · Before opening'], bg:'cook', cook:'s1'},
+  {bg:'dining', stage: () => COOKS.s1.react[STATE.cook.out], expr:{pa:'soft',ma:'neutral',tala:'neutral'}},
+  {bg:'dining', who:'pa', text:'Your Lola made the nine every year. When she was your age. All nine.', expr:{pa:'soft'}},
+  {bg:'dining', who:'tala', text:'I know.', expr:{tala:'quiet'}, aside:'She does not say the rest. Nobody asks.'},
+  {bg:'dining', who:'ma', text:'Eat. We open at seven.', expr:{ma:'neutral'}},
+  {phone:'s1'},
+  {inter:['December 18','Ando lands on a Tuesday','Third morning. A cousin lands in the afternoon and works that night.'], set: () => { for(const n of [2,3]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
   // ---------- scene 2 : December 18 ----------
   {estab:['The high school · Jersey City','Tuesday, December 18 · third period'], bg:'ext-school', pause:3000},
   {hud:['December 18','Third morning · Third period'], bg:'school', stage:'Third period. Hannah has sat one desk over since September. That is as far as it has gone.', expr:{tala:'quiet',hannah:'neutral'}},
@@ -324,11 +360,11 @@ function renderCook(c){ cookData = c; sel = 1; if(!c._step){ cookStep = 0; cookH
   const step = c.multi ? c.steps[cookStep] : c; mode = 'cook';
   $('cardwrap').querySelector('.cbody').innerHTML = c.multi ? c.cardFor(cookStep) : c.card; $('cookprompt').innerHTML = step.prompt;
   c = Object.assign({}, c, {options: step.options});  cookData = Object.assign(cookData, {options: step.options});
-  for(const d of ['pancit','adobo','puto']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
+  for(const d of ['pancit','adobo','puto','tsokolate']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
   const eggs = $('prop-eggs'); if(c.dish === 'bibingka') eggs.removeAttribute('hidden'); else eggs.setAttribute('hidden','');
   const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
   if(step.drag){ startDrag(step.drag, (out, at) => {
-      if(c.multi){ if(out === 'loose') cookHits++; cookStep++; cookData._step = true; mode = 'cook'; renderCook(cookData); return; }
+      if(c.multi){ if(out === 'loose' || out === 'in') cookHits++; cookStep++; cookData._step = true; mode = 'cook'; renderCook(cookData); return; }
       STATE.cook = Object.assign({}, STATE.cook, {scene:c.dish, choice:'drag', at, out}); mode = 'say'; advance(); }); return; }
   choices.innerHTML = step.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }
@@ -337,7 +373,7 @@ function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,23
 function confirmCook(){ const o = cookData.options[sel];
   if(cookData.multi){ if(o.hit) cookHits++; cookStep++;
     if(cookStep < cookData.steps.length){ cookData._step = true; renderCook(cookData); return; }
-    STATE.cook = {scene:cookData.dish, hits:cookHits, out: cookHits === 4 ? 'lola' : cookHits >= 2 ? 'close' : 'off'}; delete cookData._step; mode = 'say'; advance(); return; }
+    const n = cookData.steps.length; STATE.cook = {scene:cookData.dish, hits:cookHits, out: cookHits === n ? 'lola' : cookHits >= Math.ceil(n/2) ? 'close' : 'off'}; delete cookData._step; mode = 'say'; advance(); return; }
   STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:o.k, out:o.out}); mode = 'say'; advance(); }
 
 // -------- drag steps : egg (timing), vinegar (pour), tube (scoop, then stand it up) --------
@@ -356,6 +392,9 @@ const DRAGS = {
       $('vin-stream').setAttribute('opacity', over ? .9 : 0); $('sauce-vin').setAttribute('opacity', Math.min(.6, d.poured/9000)); },
     drop(d){ if(d.poured < 400) return false; return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
     key(d){ d.poured = 3500; return this.drop(d); } },
+  tablea:{ item:'drag-tablea', home:[700,440], target:[470,385,130],
+    setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); },
+    tick(){}, drop(d, inside){ if(!inside) return false; $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; }, key(d){ return this.drop(d, true); } },
   tube:{ item:'drag-tube', home:[780,330], target:[470,385,130],
     setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); },
     tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 100; if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(156, 60 + 48*(d.scoops-1))); } d.inBowl = inBowl; },
@@ -405,7 +444,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); $('estab').hidden = true; STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); $('estab').hidden = true; STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -445,4 +484,4 @@ $('end').addEventListener('click', restart);
 
 // -------- fit the 1280x720 stage to the window --------
 function fit(){ const s = Math.min(innerWidth/1280, innerHeight/720); const st = $('stage').style; st.transform = `scale(${s})`; st.left = ((innerWidth-1280*s)/2)+'px'; st.top = ((innerHeight-720*s)/2)+'px'; }
-addEventListener('resize', fit); fit(); drawMarks(); showBg('school'); dlg.hidden = true;
+addEventListener('resize', fit); fit(); drawMarks(); showBg('dawn'); dlg.hidden = true;
