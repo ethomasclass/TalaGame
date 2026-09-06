@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
 import re, pathlib, sys
-sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers")
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers"); s5 = importlib.import_module("scene5-layers")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -67,6 +67,11 @@ kitchen_svg = s2.kitchen(dining_defs)
 street_svg  = s2.street()
 if 'dish-adobo' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s2.ADOBO + '  <g id="dish-pancit" hidden>')
 assert 'dish-adobo' in cook
+# ---------------- scene 5 layers ----------------
+hall_svg = s5.hall(dining_defs)
+dawn_svg = s5.dawn()
+if 'dish-puto' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s5.puto(cook) + '  <g id="dish-pancit" hidden>')
+assert 'dish-puto' in cook
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
@@ -95,6 +100,10 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
   .layer.off{{visibility:hidden;pointer-events:none}}
+  .dq{{font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.5;color:#d8d2c0;padding-left:24px;margin:0 0 26px}} .dq li{{margin-bottom:14px}}
+  #sunrise{{opacity:0;transition:opacity 4s ease}} #sun{{transform:translateY(120px);transition:transform 4.5s ease-out}}
+  #dawn.sunrise #sunrise{{opacity:1}} #dawn.sunrise #sun{{transform:translateY(-40px)}}
+  #dawn.sunrise svg{{filter:saturate(1.15) brightness(1.08);transition:filter 4s ease}}
   .alarmtxt{{position:absolute;left:44px;top:70px;z-index:7;color:#ece7d6;font-family:"Fraunces",Georgia,serif}}
   .alarmtxt .t{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-bottom:10px}}
   .alarmtxt h2{{font-weight:600;font-size:40px;margin:0 0 8px;letter-spacing:-.01em}}
@@ -108,6 +117,8 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   <div class="layer" id="school" hidden>{school_svg}</div>
   <div class="layer" id="street" hidden>{street_svg}</div>
   <div class="layer" id="kitchen" hidden>{kitchen_svg}</div>
+  <div class="layer" id="hall" hidden>{hall_svg}</div>
+  <div class="layer" id="dawn" hidden>{dawn_svg}</div>
 {cook}
 {alarm}
   <div class="alarmtxt" id="alarmtxt" hidden><div class="t">December 21 &middot; 4:10 a.m.</div><h2>The sixth morning.</h2><p>Four hours after close. The alarm. Nobody else is awake to see whether she gets up.</p></div>
@@ -134,6 +145,16 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   </div>
   <div class="cardscreen" id="inter">
     <div><div class="eyebrow" id="inter-e"></div><h1 id="inter-h"></h1><p id="inter-p"></p><div class="hint" id="inter-hint">&nbsp;</div></div>
+  </div>
+  <div class="cardscreen" id="debrief">
+    <div style="max-width:760px;text-align:left"><div class="eyebrow">Debrief</div><h1 style="font-size:40px">Before you close the laptop</h1>
+    <ol class="dq">
+      <li>The Ramos family shows up twice in the data: as workers the United States gained, and as workers the Philippines lost. Both numbers are true. Which one describes what actually happened to them?</li>
+      <li>Rey Ramos was a licensed pharmacist for eleven years. He cooks now, and he is good at it. What did the Philippines lose when he left, and what did the United States fail to gain?</li>
+      <li>The money the Ramoses wired home helped pay for the nursing program that is taking Bea out of her town. Are remittances holding that place together or hollowing it out? Argue the side you did not pick.</li>
+      <li>Show of hands on the four wishes. Why did the room split the way it did?</li>
+    </ol>
+    <div class="tap">Tap to continue</div><div class="hint"><span>Enter</span> to continue</div></div>
   </div>
   <div class="cardscreen" id="end">
     <div><div class="eyebrow">End of slice</div><h1 id="end-h"></h1><p id="end-p"></p>

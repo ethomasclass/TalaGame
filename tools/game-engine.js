@@ -10,14 +10,16 @@ const X = {
        counting:['brows-knit','eyes-down','mouth-pressed'], warm:['brows-up','eyes-warm','mouth-smile'] },
   pa:{ neutral:['brows-straight','eyes-open','mouth-neutral'], down:['brows-low','eyes-down','mouth-flat'], soft:['brows-straight','eyes-open','mouth-small-smile'] },
   hannah:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], curious:['brows-up','eyes-wide','mouth-o'], smile:['brows-up','eyes-open','mouth-smile'], flat:['brows-neutral','eyes-open','mouth-flat'] },
-  ando:{ tired:['brows-neutral','eyes-tired','mouth-neutral'], up:['brows-up','eyes-open','mouth-small'], smile:['brows-neutral','eyes-tired','mouth-smile'] }
+  ando:{ tired:['brows-neutral','eyes-tired','mouth-neutral'], up:['brows-up','eyes-open','mouth-small'], smile:['brows-neutral','eyes-tired','mouth-smile'] },
+  tita:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], warm:['brows-up','eyes-warm','mouth-smile'], talk:['brows-up','eyes-open','mouth-talk'] }
 };
 // which layer's hooks an expression lands on
 const HOOKS = { dining:{tala:['x-tala','tala-'], ma:['x-ma','ma-'], pa:['x-pa','pa-']},
                 rest:{tala:['x-rtala','r-tala-'], ma:['x-rma','r-ma-']},
                 school:{tala:['x-stala','s-tala-'], hannah:['x-han','s-han-']},
-                kitchen:{pa:['x-kpa','k-pa-'], ando:['x-ando','k-ando-']} };
-const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'} };
+                kitchen:{pa:['x-kpa','k-pa-'], ando:['x-ando','k-ando-']},
+                hall:{tala:['x-htala','h-tala-'], ma:['x-hma','h-ma-'], tita:['x-tita','h-tita-'], hannah:['x-hhan','h-han-']} };
+const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'}, hall:{tala:'c-htala',ma:'c-hma',tita:'c-tita',hannah:'hall-hannah'} };
 let bg = 'dining';
 function setExpr(who, name){
   const h = HOOKS[bg] && HOOKS[bg][who]; if(!h) return;
@@ -38,8 +40,21 @@ function focus(who){
 }
 
 // ---------------- content ----------------
-const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando'};
+const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando', tita:'Tita Baby'};
 const COOKS = {
+  s5:{ dish:'puto', multi:true,
+       steps:[ {prompt:'<b>Step 3</b>The worst-kept part of the card. <em>How full did she mean?</em>', options:[{k:'A',text:'Loosely. Do not pack it.',hit:true},{k:'B',text:'Packed tight, so it holds.',hit:false},{k:'C',text:'To the top, and press it down.',hit:false}]},
+               {prompt:'<b>Step 4</b>Steam standing up, for <em>how long?</em>', options:[{k:'A',text:'Until the tube whistles. About ten.',hit:true},{k:'B',text:'Twenty, to be safe.',hit:false},{k:'C',text:'Five. They are thin.',hit:false}]},
+               {prompt:'<b>Step 5</b>Turn it out onto <em>what?</em>', options:[{k:'A',text:'Banana leaf.',hit:true},{k:'B',text:'A plate.',hit:false},{k:'C',text:'Foil, to keep it warm.',hit:false}]},
+               {prompt:'<b>Step 6</b>Muscovado and niyog. <em>How much?</em>', options:[{k:'A',text:'Generous. Always generous.',hit:true},{k:'B',text:'A little. It is for the whole parish.',hit:false},{k:'C',text:'Sugar only. Coconut is extra.',hit:false}]} ],
+       cardFor: n => `<h2>Puto Bumbong</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
+         <li>Soak the pirurutong with malagkit, <span class="f2">1 part to 3. Overnight.</span></li>
+         <li class="f1">Drain, but keep it wet.</li>
+         <li class="${n===0?'':'f2'}">Fill the bumbong <span class="${n===0?'now':''}"><span class="gap">&nbsp;</span></span>.</li>
+         <li class="${n===1?'':'f2'}">Steam standing up, <span class="${n===1?'now':''}"><span class="gap">&nbsp;</span></span> minutes.</li>
+         <li class="${n===2?'':'f3'}">Turn out onto <span class="${n===2?'now':''}"><span class="gap">&nbsp;</span></span>. Butter while hot.</li>
+         <li class="${n===3?'':'f3'}">Muscovado and niyog, <span class="${n===3?'now':''}"><span class="gap">&nbsp;</span></span>.</li></ol>`,
+       react:{ lola:'It is Lola’s. Nobody says so, and everybody knows.', close:'It is close. Close enough that Ma looks at the tray a second time and does not say anything.', off:'It is not hers. It is what the neighborhood eats this morning, and nobody says a word against it.' } },
   s2:{ dish:'adobo', prompt:'<b>Step 3</b>The card is missing the ratio, and the bay leaf is gone with the water. <em>Soy to vinegar, how much of each?</em>',
        card:`<h2>Adobong Manok</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
          <li>Chicken thighs, skin on. Dry them first or they will not brown.</li>
@@ -77,6 +92,10 @@ const COOKS = {
                late:'Next time, earlier, so it goes into the top. <em>He eats a piece anyway.</em> It is fine.' } }
 };
 const PHONES = {
+  s5:{ time:'5:31 a.m.', lines:['i got in','the nursing program. singapore. they said yes','tala i’m going to be a nurse','say something'],
+       replies:[ {text:'congratulate her', honesty:0, after: h => h>0 ? ['thank you','i was so scared to tell you','you’re the first person i told'] : ['thanks','ok i have to go, mum’s calling','talk later']},
+                 {text:'ask who’s left at home now', honesty:0, after: h => h>0 ? ['…','i know','i know, tala. i’ve been thinking about it since august','i don’t know what else to do'] : ['wow','ok','i thought you’d be happy for me']},
+                 {text:'tell her the truth about how you feel', honesty:0, after: h => h>0 ? ['i know','i know. me too','i miss you. that’s all it is','come home for something. anything. eventually'] : ['you never told me anything all week and now this','i don’t know what to do with that','i have to go']} ] },
   s2:{ time:'11:24 p.m.',
        lines:['is ando there yet', {me:true, text:'he’s been here 6 hours and he’s already on the fryer'}, 'lol of course', 'that’s 3 from our street this year', 'the clinic still hasn’t replaced nurse ligaya btw. since august'],
        replies:[ {text:'somebody will come', honesty:-1, after:['maybe','my mum says the same thing']},
@@ -150,12 +169,36 @@ const beats = [
   {bg:'dining', who:'pa', text: () => COOKS.s4.react[STATE.cook.out], expr:{pa:'soft',tala:'neutral',ma:'neutral'}},
   {bg:'dining', stage:'Later. The walk-in is short one shelf. The phone buzzes.', expr:{tala:'quiet',ma:'neutral',pa:'neutral'}},
   {phone:'s4'},
+  {inter:['December 24','The ninth dawn','4:15 a.m. The kitchen with everyone in it.'], set: () => { for(const n of [8,9]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); STATE.cook = {}; }},
+  // ---------- scene 5 ----------
+  {hud:['December 24','Ninth morning · 4:15 a.m.'], bg:'kitchen', stage:'Four in the morning, and everyone in it: Pa, Ma, Ando, Tita Baby’s two nephews who were volunteered. Bamboo tubes steaming. Purple rice. The smell in the cold.', expr:{pa:'neutral',ando:'up'}},
+  {bg:'cook', cook:'s5'},
+  {bg:'kitchen', stage: () => COOKS.s5.react[STATE.cook.out], expr:{pa:'soft',ando:'smile'}},
+  {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false}, stage:'They carry it three blocks to the parish hall in trays on a hand cart. Mass ends. The hall fills.'},
+  {hud:['December 24','Ninth morning · The hall'], bg:'hall', show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false},
+     stage: () => STATE.invitedHannah ? 'Hannah is standing at the door at five in the morning in a coat that is not warm enough, holding her phone, not sure whether to come in.' : 'The block, in one room, at five in the morning. Everyone she knows by face.',
+     expr:{tala:'quiet',ma:'neutral',tita:'neutral',hannah:'flat'}, goto: () => STATE.invitedHannah ? 'hannah' : 'basket'},
+  {id:'hannah', bg:'hall', who:'hannah', text:'What’s the purple?', expr:{hannah:'curious',tala:'neutral'}},
+  {bg:'hall', who:'tala', text:'Rice. It grows that color.', expr:{tala:'smile'}},
+  {bg:'hall', who:'hannah', text:'That’s a lie.', expr:{hannah:'flat'}},
+  {bg:'hall', who:'tala', text:'It’s not.', expr:{tala:'neutral'}},
+  {bg:'hall', stage:'Hannah eats it, thinks about it, and takes another.', expr:{hannah:'smile',tala:'smile'}},
+  {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}, goto:'basket'},
+  {id:'basket', bg:'hall', show:{'hall-basket':true}, stage:'Then Tita Baby passes the basket for Lola without asking the family first, and the block gives, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
+  {bg:'hall', stage:'And then the phone buzzes.', expr:{tala:'quiet'}},
+  {phone:'s5'},
+  {hud:['December 24','Ninth morning · Outside'], bg:'dawn', show:{'dawn-walk':false,'dawn-tala':true},
+     stage: () => STATE.mornings.length === 9 ? 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Nine marks. Lola said nine mornings, one wish.' : 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Eight of nine. Lola said nine. She makes the wish anyway, and does not know if it counts.'},
+  {bg:'dawn', choice:[ {text:'That Lola gets better.', set: () => { STATE.wish = 'lola'; }}, {text:'That the restaurant makes it through the year.', set: () => { STATE.wish = 'restaurant'; }},
+                       {text:'That Bea stays.', set: () => { STATE.wish = 'bea'; }}, {text:'That I could go back, just for a week.', set: () => { STATE.wish = 'back'; }} ]},
+  {bg:'dawn', pause:5200, sunrise:true},
+  {debrief:true},
   {end:true}
 ];
 
 // ---------------- engine ----------------
 let i = -1, sel = 0, mode = 'title', busy = false;
-const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen')};
+const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen'), hall:$('hall'), dawn:$('dawn')};
 const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud');
 const txt = v => typeof v === 'function' ? v() : v;
 
@@ -168,7 +211,11 @@ function render(){
   choices.hidden = true; choices.className = 'choices'; $('dim').classList.remove('on'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = b.hud[0]; $('hud-sub').textContent = b.hud[1]; }
   if(b.set) b.set();
+  if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
+  $('dawn').classList.toggle('sunrise', !!b.sunrise);
   drawMarks();
+  if(b.debrief) return debriefCard();
+  if(b.pause){ showBg(b.bg); mode = 'pause'; dlg.hidden = true; hud.hidden = true; setTimeout(() => { hud.hidden = false; mode = 'say'; advance(); }, b.pause); return; }
   if(b.end)   return endCard();
   if(b.inter) return interCard(b.inter);
   if(b.phone) return doPhone(PHONES[b.phone]);
@@ -187,7 +234,7 @@ function render(){
   }
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
 }
-function advance(){ const b = beats[i]; if(b && b.goto){ i = findBeat(b.goto); } else { i++; } render(); }
+function advance(){ const b = beats[i]; const g = b && txt(b.goto); if(g){ i = findBeat(g); } else { i++; } render(); }
 function next(){ if(busy) return; if(mode !== 'say') return; advance(); }
 function prev(){ if(mode !== 'say' || i <= 0) return; i--; render(); }
 
@@ -198,15 +245,21 @@ function renderChoice(list){ choiceData = list; sel = 0; choices.classList.add('
 function confirmChoice(){ const o = choiceData[sel]; if(o.set) o.set(); mode = 'say'; if(o.goto){ i = findBeat(o.goto); render(); } else advance(); }
 
 // -------- cooking --------
-let cookData = null;
-function renderCook(c){ cookData = c; sel = 1;
-  $('cardwrap').querySelector('.cbody').innerHTML = c.card; $('cookprompt').innerHTML = c.prompt;
-  for(const d of ['pancit','adobo']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
+let cookData = null, cookStep = 0, cookHits = 0;
+function renderCook(c){ cookData = c; sel = 1; if(!c._step){ cookStep = 0; cookHits = 0; }
+  const step = c.multi ? c.steps[cookStep] : c;
+  $('cardwrap').querySelector('.cbody').innerHTML = c.multi ? c.cardFor(cookStep) : c.card; $('cookprompt').innerHTML = step.prompt;
+  c = Object.assign({}, c, {options: step.options});  cookData = Object.assign(cookData, {options: step.options});
+  for(const d of ['pancit','adobo','puto']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
   const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
   choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }
 function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,236],[980,300]]; const [x,y] = spots[sel]; cur.style.left = (x-24)+'px'; cur.style.top = (y-30)+'px'; }
-function confirmCook(){ const o = cookData.options[sel]; STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:o.k, out:o.out}); mode = 'say'; advance(); }
+function confirmCook(){ const o = cookData.options[sel];
+  if(cookData.multi){ if(o.hit) cookHits++; cookStep++;
+    if(cookStep < cookData.steps.length){ cookData._step = true; renderCook(cookData); return; }
+    STATE.cook = {scene:cookData.dish, hits:cookHits, out: cookHits === 4 ? 'lola' : cookHits >= 2 ? 'close' : 'off'}; delete cookData._step; mode = 'say'; advance(); return; }
+  STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:o.k, out:o.out}); mode = 'say'; advance(); }
 
 // -------- alarm --------
 function doAlarm(){ showBg('alarm'); mode = 'choice'; dlg.hidden = true;
@@ -221,19 +274,23 @@ function doPhone(p){ phoneData = p; mode = 'phone'; dlg.hidden = true; $('dim').
 function addBub(cls, text){ const d = document.createElement('div'); d.className = 'bub '+cls; d.textContent = text; $('bubs').appendChild(d); requestAnimationFrame(() => d.classList.add('in')); }
 function showReplies(){ sel = 0; $('replies').innerHTML = phoneData.replies.map((r,n) => `<div class="rp${n===sel?' sel':''}" data-n="${n}"><b>${n+1}</b>${r.text}</div>`).join(''); }
 function confirmReply(){ const r = phoneData.replies[sel]; if(!r) return; STATE.honesty += r.honesty; $('replies').innerHTML = ''; addBub('me', r.text); busy = true;
-  let k = 0; const tick = () => { if(k < r.after.length){ addBub('them', r.after[k++]); setTimeout(tick, 700); } else { setTimeout(() => { busy = false; mode = 'say'; advance(); }, 900); } };
+  const after = typeof r.after === 'function' ? r.after(STATE.honesty) : r.after;
+  let k = 0; const tick = () => { if(k < after.length){ addBub('them', after[k++]); setTimeout(tick, 700); } else { setTimeout(() => { busy = false; mode = 'say'; advance(); }, 900); } };
   setTimeout(tick, 600); }
 
 // -------- cards --------
+function debriefCard(){ mode = 'debrief'; dlg.hidden = true; $('dim').classList.add('on'); $('debrief').classList.add('on'); }
 function interCard(d){ mode = 'inter'; dlg.hidden = true; $('inter-e').textContent = d[0]; $('inter-h').textContent = d[1]; $('inter-p').textContent = d[2]; $('inter').classList.add('on'); }
 function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on');
   const h = STATE.honesty; const tone = h > 0 ? 'mostly honest' : h < 0 ? 'mostly protective' : 'somewhere in between';
-  const kept = STATE.mornings.filter(n => n <= 7).length;
-  $('end-h').textContent = kept === 7 ? 'Seven of seven' : `${kept} of the first seven`;
+  const kept = STATE.mornings.length; const W = {lola:'that Lola gets better', restaurant:'that the restaurant makes it through the year', bea:'that Bea stays', back:'to go back, just for a week'};
+  $('end-h').textContent = kept === 9 ? 'Nine mornings' : 'Eight of nine';
+  $('end-p').innerHTML = `Tala wished ${W[STATE.wish] || '…'}. The game does not say whether it comes true.<br><br>${STATE.invitedHannah ? 'Hannah came.' : 'Hannah was not asked.'} The puto bumbong was ${ {lola:'Lola’s', close:'close to Lola’s', off:'not Lola’s'}[STATE.cook.out] }. What Tala told Bea all week was ${tone}.`;
+  $('end').classList.add('on'); return;
   $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -244,6 +301,7 @@ document.addEventListener('keydown', e => {
   const go = e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight';
   if(mode === 'title'){ if(go) start(); }
   else if(mode === 'inter'){ if(go){ $('inter').classList.remove('on'); i++; render(); } }
+  else if(mode === 'debrief'){ if(go){ $('debrief').classList.remove('on'); i++; render(); } }
   else if(mode === 'say'){ if(go) next(); else if(e.key === 'ArrowLeft') prev(); }
   else if(mode === 'cook' || mode === 'choice'){
     const n = choices.children.length;
@@ -260,6 +318,7 @@ document.addEventListener('keydown', e => {
 });
 $('title').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
+$('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
 $('panel').addEventListener('click', next);
 $('stage').addEventListener('click', e => { if(mode === 'say' && !e.target.closest('.panel,.choices,#phone,.cardscreen')) next(); });
 choices.addEventListener('click', e => { const c = e.target.closest('.ch'); if(!c) return; pickChoice(Number(c.dataset.n)); mode === 'cook' ? confirmCook() : confirmChoice(); });

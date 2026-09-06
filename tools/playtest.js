@@ -1,8 +1,8 @@
 // playtest.js [variant] — walks the whole build from a queue of decisions, screenshots each new screen, prints STATE
 const { chromium } = require('playwright'); const path=require('path'), fs=require('fs');
 const VARIANTS = {
-  main:  { choice:[1,1,2,1], cook:['A','A','B'], phone:[2,3,2] },   // invite, Mang Boy's, say nothing, sleep
-  getup: { choice:[2,2,1,1], cook:['B','B','B'], phone:[1,1,1] },   // working, chain, say something, get up
+  main:  { choice:[1,1,2,2,3], cook:['A','A','B','A','A','A','A'], phone:[2,3,2,3] },   // invite, Mang Boy's, say nothing, sleep, wish: Bea stays
+  getup: { choice:[2,2,1,1,1], cook:['B','B','B','B','C','A','B'], phone:[1,1,1,1] },   // working, chain, say something, get up, wish: Lola
 };
 (async()=>{
   const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
@@ -17,6 +17,8 @@ const VARIANTS = {
   for(let step=0; step<400; step++){
     await page.waitForTimeout(120); const s=await st(); const key=`${s.mode}:${s.bg}:${s.i}`;
     if(s.mode==='end'){ await shot('end'); break; }
+    if(s.mode==='pause'){ if(last!=='pause'){ await page.waitForTimeout(3600); await shot('sunrise'); last='pause'; } await page.waitForTimeout(400); continue; }
+    if(s.mode==='debrief'){ await shot('debrief'); await page.keyboard.press('Enter'); await page.waitForTimeout(300); continue; }
     if(s.busy){ await page.waitForTimeout(400); continue; }
     if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key; }
     if(s.mode==='say'){ await page.keyboard.press('Enter'); }
