@@ -25,7 +25,7 @@
   .talk .m-a{animation:talk .28s steps(1,end) infinite}.talk .m-b{animation:talkB .28s steps(1,end) infinite}
   /* the customer leans back into the chair */
   @keyframes lean{0%,100%{transform:rotate(0)}50%{transform:rotate(-1.8deg) translateY(2px)}}
-  .lean{transform-origin:1110px 700px;animation:lean 5.2s ease-in-out infinite}
+  .lean{transform-origin:1010px 700px;animation:lean 5.2s ease-in-out infinite}
   /* Tala shifts her weight in the doorway */
   @keyframes sway{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(3px) rotate(.6deg)}}
   .sway{transform-origin:140px 340px;animation:sway 4.6s ease-in-out infinite}
@@ -347,7 +347,7 @@
   </g>
   <ellipse cx="1100" cy="300" rx="170" ry="140" fill="url(#pendant)" filter="url(#mid)" class="lamp"/>
   <!-- the customer, from behind, foreground right : nobody the story needs a face for -->
-  <g class="lean" transform="translate(100 0)">
+  <g transform="translate(100 0)"><g class="lean">
     <g filter="url(#rough)">
       <path d="M 850 720 C 856 600 910 560 1010 556 C 1110 560 1164 600 1170 720 Z" fill="url(#coat)"/>
       <path d="M 940 590 C 960 566 1060 566 1080 590 C 1064 606 956 606 940 590 Z" fill="#b7404a"/>
@@ -356,7 +356,7 @@
       <path d="M 992 560 C 1000 600 1010 640 1006 690 C 1020 640 1030 600 1030 560 Z" fill="#8b6238"/>
       <path d="M 1010 574 C 1030 574 1040 590 1036 608 C 1032 626 1000 630 990 612 C 984 596 992 574 1010 574 Z" fill="#6e4c2a"/>
     </g>
-  </g>
+  </g></g>
   <ellipse cx="1110" cy="716" rx="200" ry="40" fill="#000" opacity=".4" filter="url(#soft)"/>
 </svg></div>
 <div class="vig"></div><div class="grain"></div>
