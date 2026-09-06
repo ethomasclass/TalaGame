@@ -1,0 +1,206 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box} html,body{margin:0;padding:0}
+  .stage{position:relative;width:1280px;height:720px;overflow:hidden;background:linear-gradient(160deg,#f7d3bf 0%,#eeb8a6 55%,#d9979a 100%)}
+  svg{display:block;position:absolute;inset:0}
+  .lbl{position:absolute;top:586px;width:300px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5a2e2a}
+  .lbl b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:22px;letter-spacing:0;text-transform:none;color:#3a1c18;margin-bottom:6px}
+  .lbl span{color:rgba(90,46,42,.6);font-size:11px}
+  .title{position:absolute;top:26px;left:34px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(90,46,42,.7)} .title b{color:#3a1c18;font-weight:500}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.13;mix-blend-mode:overlay;filter:url(#grain)}
+</style></head><body><div class="stage">
+<svg width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d46a4c"/><stop offset="16%" stop-color="#c1553f"/><stop offset="100%" stop-color="#8e3a33"/></linearGradient>
+    <linearGradient id="hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="60%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
+    <linearGradient id="skin" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e8a184"/><stop offset="55%" stop-color="#d98e77"/><stop offset="100%" stop-color="#b96d5e"/></linearGradient>
+    <linearGradient id="tee" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a6fe0"/><stop offset="100%" stop-color="#2748a8"/></linearGradient>
+    <linearGradient id="blouse" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#2e6b64"/><stop offset="60%" stop-color="#1f4f4c"/><stop offset="100%" stop-color="#143634"/></linearGradient>
+    <linearGradient id="shirt" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#d0574d"/><stop offset="60%" stop-color="#b3443f"/><stop offset="100%" stop-color="#7e2f2b"/></linearGradient>
+    <radialGradient id="lampGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffe0a4" stop-opacity=".9"/><stop offset="100%" stop-color="#ffc46a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="stairShade" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0%" stop-color="#5e4570" stop-opacity=".6"/><stop offset="70%" stop-color="#7b5a7c" stop-opacity=".3"/><stop offset="100%" stop-color="#8e6a86" stop-opacity=".1"/></linearGradient>
+    <linearGradient id="skinMa" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e2ab84"/><stop offset="55%" stop-color="#d49a76"/><stop offset="100%" stop-color="#b5785a"/></linearGradient>
+    <linearGradient id="skinPa" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#d59a70"/><stop offset="55%" stop-color="#c58a64"/><stop offset="100%" stop-color="#a26a4a"/></linearGradient>
+    <linearGradient id="cardigan" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="#3a7a70"/><stop offset="100%" stop-color="#1f4f4c"/></linearGradient>
+    <linearGradient id="apron" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="#f1e5cc"/><stop offset="100%" stop-color="#cdb99a"/></linearGradient>
+    <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
+      <feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/>
+      <feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="roughFine" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/>
+      <feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="22"/></filter>
+    <filter id="mid"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="11"/><feColorMatrix type="saturate" values="0"/></filter>
+
+    <!-- ===== TALA (rig from expressions-tala, local 280x340) ===== -->
+    <g id="tala">
+      <g filter="url(#rough)">
+        <path d="M 218 120 C 258 150 268 230 252 300 C 246 322 226 330 216 314 C 204 280 214 200 206 150 Z" fill="url(#hair)"/>
+        <path d="M 140 34 C 220 34 256 96 254 176 C 252 232 244 262 238 292 L 42 292 C 36 262 28 232 26 176 C 24 96 60 34 140 34 Z" fill="url(#hair)"/>
+        <path d="M 10 400 C 24 316 78 284 112 278 L 168 278 C 202 284 256 316 270 400 Z" fill="url(#tee)"/>
+        <path d="M 116 250 L 164 250 L 168 290 L 112 290 Z" fill="#b96d5e"/>
+        <circle cx="48" cy="176" r="15" fill="#c4735f"/><circle cx="232" cy="176" r="15" fill="#c4735f"/>
+        <path d="M 140 66 C 200 66 228 114 228 172 C 228 238 192 280 140 280 C 88 280 52 238 52 172 C 52 114 80 66 140 66 Z" fill="url(#skin)"/>
+        <path d="M 140 44 C 214 44 246 100 240 158 C 226 122 202 104 158 108 C 130 92 96 102 68 132 C 54 148 46 166 44 186 C 30 116 62 44 140 44 Z" fill="url(#hair)"/>
+        <path d="M 74 78 C 100 60 140 58 168 70 C 140 66 104 70 78 88 Z" fill="#4a3a6c" opacity=".6"/>
+      </g>
+      <g filter="url(#roughFine)">
+        <ellipse cx="86" cy="204" rx="20" ry="11" fill="#c05b58" opacity=".24"/><ellipse cx="194" cy="204" rx="20" ry="11" fill="#c05b58" opacity=".24"/>
+        <path d="M 132 196 C 130 206 134 212 142 212 C 150 212 154 206 150 198" stroke="#b0604f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <g stroke="#1c1430" stroke-width="7" fill="none" stroke-linecap="round"><path d="M 84 138 C 98 134 118 134 130 138"/><path d="M 150 138 C 162 134 182 134 196 138"/></g>
+        <g class="blink" style="transform-origin:140px 168px">
+          <path d="M 82 168 C 92 152 122 152 132 168 C 122 186 92 186 82 168 Z" fill="#fbf3e4"/>
+          <path d="M 148 168 C 158 152 188 152 198 168 C 188 186 158 186 148 168 Z" fill="#fbf3e4"/>
+          <ellipse cx="108" cy="171" rx="11" ry="12" fill="#1c1430"/><ellipse cx="172" cy="171" rx="11" ry="12" fill="#1c1430"/>
+          <circle cx="112" cy="166" r="3.4" fill="#fbf3e4"/><circle cx="176" cy="166" r="3.4" fill="#fbf3e4"/>
+        </g>
+        <path d="M 128 238 C 134 242 146 242 152 238" stroke="#8e3a33" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- ===== MA : Divina Ramos, front of house. Local 300x380, face centre (150,196). ===== -->
+    <g id="ma-base">
+      <g filter="url(#rough)">
+        <!-- hair pulled back : low bun peeks out behind the neck -->
+        <ellipse cx="150" cy="268" rx="66" ry="26" fill="url(#hair)"/>
+        <path d="M 150 40 C 232 40 268 100 266 176 C 264 212 258 236 252 256 L 48 256 C 42 236 36 212 34 176 C 32 100 68 40 150 40 Z" fill="url(#hair)"/>
+        <!-- polo under a cardigan -->
+        <path d="M -20 470 C -8 372 60 344 122 336 L 178 336 C 240 344 308 372 320 470 Z" fill="#7e2f2b"/>
+        <path d="M -20 470 C -8 372 60 344 122 336 L 136 470 Z" fill="url(#cardigan)"/>
+        <path d="M 320 470 C 308 372 240 344 178 336 L 164 470 Z" fill="url(#cardigan)"/>
+        <path d="M 122 336 L 150 372 L 178 336 L 168 334 L 150 356 L 132 334 Z" fill="#a54a44"/>
+        <path d="M 122 268 L 178 268 L 182 348 L 118 348 Z" fill="#b8805c"/>
+        <circle cx="56" cy="198" r="15" fill="#c4885f"/><circle cx="244" cy="198" r="15" fill="#c4885f"/>
+        <!-- face : rounder, fuller cheeks -->
+        <path d="M 150 84 C 210 84 244 130 244 192 C 244 264 206 320 150 320 C 94 320 56 264 56 192 C 56 130 90 84 150 84 Z" fill="url(#skinMa)"/>
+        <!-- hairline, soft centre part, pulled back -->
+        <path d="M 150 62 C 222 62 254 108 250 162 C 236 130 206 112 176 114 C 168 102 132 102 124 114 C 94 112 64 130 50 162 C 46 108 78 62 150 62 Z" fill="url(#hair)"/>
+        <path d="M 150 66 L 150 108" stroke="#4a3a6c" stroke-width="3" opacity=".7"/>
+        <!-- loose strand : she has been working -->
+        <path d="M 62 150 C 50 190 54 232 66 262" stroke="#261c3c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <g filter="url(#roughFine)">
+        <ellipse cx="96" cy="236" rx="26" ry="14" fill="#c05b58" opacity=".22"/><ellipse cx="204" cy="236" rx="26" ry="14" fill="#c05b58" opacity=".22"/>
+        <path d="M 96 210 C 106 216 124 216 136 210" stroke="#a8604f" stroke-width="2" fill="none" opacity=".5" stroke-linecap="round"/>
+        <path d="M 164 210 C 176 216 194 216 204 210" stroke="#a8604f" stroke-width="2" fill="none" opacity=".5" stroke-linecap="round"/>
+        <!-- nose : soft, broad, underside only -->
+        <path d="M 138 226 C 136 236 141 242 150 242 C 159 242 164 236 162 228" stroke="#b07052" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <!-- small gold hoops, thin chain -->
+        <circle cx="56" cy="216" r="6" fill="none" stroke="#e8b45c" stroke-width="2.5"/><circle cx="244" cy="216" r="6" fill="none" stroke="#e8b45c" stroke-width="2.5"/>
+        <path d="M 126 348 C 136 362 164 362 174 348" stroke="#e8b45c" stroke-width="1.6" fill="none"/>
+        <rect x="148" y="356" width="4" height="12" fill="#e8b45c"/><rect x="144" y="359" width="12" height="4" fill="#e8b45c"/>
+      </g>
+    </g>
+
+    <!-- ===== PA : Rey Ramos, kitchen. Local 300x380, face centre (150,206). ===== -->
+    <g id="pa">
+      <g filter="url(#rough)">
+        <path d="M -20 470 C -10 372 62 340 122 330 L 178 330 C 238 340 310 372 320 470 Z" fill="#55606e"/>
+        <!-- apron bib -->
+        <path d="M 96 470 L 96 372 C 96 360 108 356 120 356 L 180 356 C 192 356 204 360 204 372 L 204 470 Z" fill="url(#apron)"/>
+        <path d="M 120 356 L 108 330" stroke="#cdb99a" stroke-width="6" stroke-linecap="round"/><path d="M 180 356 L 192 330" stroke="#cdb99a" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 122 268 L 178 268 L 180 340 L 120 340 Z" fill="#a8704e"/>
+        <circle cx="52" cy="216" r="17" fill="#b8805c"/><circle cx="248" cy="216" r="17" fill="#b8805c"/>
+        <!-- face : squarer, fuller -->
+        <path d="M 150 92 C 214 92 246 138 246 202 C 246 272 214 330 150 330 C 86 330 54 272 54 202 C 54 138 86 92 150 92 Z" fill="url(#skinPa)"/>
+        <!-- light stubble -->
+        <path d="M 62 236 C 70 296 104 330 150 330 C 196 330 230 296 238 236 C 232 290 200 318 150 318 C 100 318 68 290 62 236 Z" fill="#241a38" opacity=".13"/>
+        <!-- short hair, side part, corners receding, grey at the temples -->
+        <path d="M 150 62 C 212 62 246 104 246 166 C 240 140 224 120 200 112 C 186 110 168 118 150 122 C 132 118 114 110 100 112 C 76 120 60 140 54 166 C 52 108 88 62 150 62 Z" fill="url(#hair)"/>
+        <path d="M 120 68 C 114 82 108 96 104 110" stroke="#4a3a6c" stroke-width="3" opacity=".7"/>
+        <path d="M 58 156 C 60 144 66 132 76 122" stroke="#9a94ab" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85"/>
+        <path d="M 242 156 C 240 144 234 132 224 122" stroke="#9a94ab" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85"/>
+      </g>
+      <g filter="url(#roughFine)">
+        <g stroke="#1c1430" stroke-width="8" fill="none" stroke-linecap="round"><path d="M 88 178 C 104 172 126 172 138 176"/><path d="M 162 176 C 174 172 196 172 212 178"/></g>
+        <g class="blink c" style="transform-origin:150px 208px">
+          <ellipse cx="111" cy="208" rx="15" ry="12" fill="#fbf3e4"/><ellipse cx="189" cy="208" rx="15" ry="12" fill="#fbf3e4"/>
+          <circle cx="111" cy="209" r="9.5" fill="#1c1430"/><circle cx="189" cy="209" r="9.5" fill="#1c1430"/>
+          <circle cx="115" cy="204" r="3" fill="#fbf3e4"/><circle cx="193" cy="204" r="3" fill="#fbf3e4"/>
+        </g>
+        <path d="M 96 224 C 104 230 118 230 128 224" stroke="#a8604f" stroke-width="2.2" fill="none" opacity=".55" stroke-linecap="round"/>
+        <path d="M 172 224 C 182 230 196 230 204 224" stroke="#a8604f" stroke-width="2.2" fill="none" opacity=".55" stroke-linecap="round"/>
+        <!-- thin rectangular frames -->
+        <g fill="none" stroke="#2b2f3a" stroke-width="4"><rect x="82" y="186" width="60" height="44" rx="8"/><rect x="158" y="186" width="60" height="44" rx="8"/><path d="M 142 206 L 158 206"/><path d="M 82 202 L 56 198"/><path d="M 218 202 L 244 198"/></g>
+        <!-- nose : broad, soft -->
+        <path d="M 136 236 C 134 248 139 254 150 254 C 161 254 166 248 164 238" stroke="#a8663f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <!-- mouth : neutral, small -->
+        <path d="M 130 288 C 140 294 160 294 170 288" stroke="#8e3a33" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- ===== Ma expression parts (local coords of #ma-base) ===== -->
+    <g id="ma-brows-soft" stroke="#1c1430" stroke-width="6" fill="none" stroke-linecap="round"><path d="M 96 168 C 108 160 126 160 138 166"/><path d="M 162 166 C 174 160 192 160 204 168"/></g>
+    <g id="ma-brows-knit" stroke="#1c1430" stroke-width="6" fill="none" stroke-linecap="round"><path d="M 98 166 C 112 164 128 168 138 174"/><path d="M 162 174 C 172 168 188 164 202 166"/></g>
+    <g id="ma-brows-up" stroke="#1c1430" stroke-width="6" fill="none" stroke-linecap="round"><path d="M 96 162 C 108 152 126 152 138 160"/><path d="M 162 160 C 174 152 192 152 204 162"/></g>
+    <g id="ma-eyes-open">
+      <path d="M 92 196 C 100 180 128 180 138 196 C 128 214 100 214 92 196 Z" fill="#fbf3e4"/><path d="M 162 196 C 172 180 200 180 208 196 C 200 214 172 214 162 196 Z" fill="#fbf3e4"/>
+      <ellipse cx="115" cy="197" rx="12" ry="12" fill="#1c1430"/><ellipse cx="185" cy="197" rx="12" ry="12" fill="#1c1430"/>
+      <circle cx="119" cy="192" r="3.4" fill="#fbf3e4"/><circle cx="189" cy="192" r="3.4" fill="#fbf3e4"/>
+    </g>
+    <!-- the polite one : eyes exactly neutral, lower lids a touch tighter -->
+    <g id="ma-eyes-held">
+      <path d="M 92 196 C 100 180 128 180 138 196 C 128 210 100 210 92 196 Z" fill="#fbf3e4"/><path d="M 162 196 C 172 180 200 180 208 196 C 200 210 172 210 162 196 Z" fill="#fbf3e4"/>
+      <ellipse cx="115" cy="196" rx="12" ry="11" fill="#1c1430"/><ellipse cx="185" cy="196" rx="12" ry="11" fill="#1c1430"/>
+      <circle cx="119" cy="191" r="3.2" fill="#fbf3e4"/><circle cx="189" cy="191" r="3.2" fill="#fbf3e4"/>
+      <path d="M 94 206 C 104 212 126 212 136 206" stroke="#a8604f" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8"/>
+      <path d="M 164 206 C 174 212 196 212 206 206" stroke="#a8604f" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8"/>
+    </g>
+    <!-- looking down at the money -->
+    <g id="ma-eyes-down">
+      <path d="M 92 196 C 100 180 128 180 138 196 C 128 214 100 214 92 196 Z" fill="#fbf3e4"/><path d="M 162 196 C 172 180 200 180 208 196 C 200 214 172 214 162 196 Z" fill="#fbf3e4"/>
+      <ellipse cx="115" cy="204" rx="12" ry="10" fill="#1c1430"/><ellipse cx="185" cy="204" rx="12" ry="10" fill="#1c1430"/>
+      <path d="M 90 196 C 100 178 128 178 140 196 L 140 190 C 128 176 100 176 90 190 Z" fill="#d49a76"/>
+      <path d="M 160 196 C 172 178 200 178 210 196 L 210 190 C 200 176 172 176 160 190 Z" fill="#d49a76"/>
+      <path d="M 92 194 C 102 184 128 184 138 194" stroke="#a8604f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M 162 194 C 172 184 198 184 208 194" stroke="#a8604f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="ma-eyes-warm">
+      <path d="M 92 198 C 100 186 128 186 138 198 C 128 208 100 208 92 198 Z" fill="#fbf3e4"/><path d="M 162 198 C 172 186 200 186 208 198 C 200 208 172 208 162 198 Z" fill="#fbf3e4"/>
+      <ellipse cx="115" cy="197" rx="11" ry="9" fill="#1c1430"/><ellipse cx="185" cy="197" rx="11" ry="9" fill="#1c1430"/>
+      <circle cx="119" cy="193" r="3" fill="#fbf3e4"/><circle cx="189" cy="193" r="3" fill="#fbf3e4"/>
+      <path d="M 92 210 C 102 216 128 216 138 210" stroke="#a8604f" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M 162 210 C 172 216 198 216 208 210" stroke="#a8604f" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".7"/>
+    </g>
+    <g id="ma-mouth-level"><path d="M 126 272 C 138 268 162 268 174 272 C 162 284 138 284 126 272 Z" fill="#a5473f"/><path d="M 126 272 C 138 276 162 276 174 272" stroke="#7e2f2b" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+    <!-- the polite smile : corners up, not much else -->
+    <g id="ma-mouth-polite"><path d="M 124 270 C 138 266 162 266 176 270 C 166 282 134 282 124 270 Z" fill="#a5473f"/><path d="M 124 270 C 138 278 162 278 176 270" stroke="#7e2f2b" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+    <g id="ma-mouth-pressed"><path d="M 128 274 C 140 271 160 271 172 274" stroke="#7e2f2b" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M 124 272 C 126 278 128 280 130 278" stroke="#7e2f2b" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/><path d="M 176 272 C 174 278 172 280 170 278" stroke="#7e2f2b" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/></g>
+    <g id="ma-mouth-smile"><path d="M 120 266 C 134 288 166 288 180 264" stroke="#7e2f2b" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M 126 270 C 138 282 162 282 174 268 Z" fill="#fbf3e4" opacity=".9"/></g>
+  </defs>
+  <ellipse cx="200" cy="120" rx="360" ry="260" fill="#ffe0c0" opacity=".45" filter="url(#soft)" style="mix-blend-mode:screen"/>
+  <g transform="translate(28 132) scale(0.86)">
+    <ellipse cx="150" cy="420" rx="140" ry="16" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/>
+    <use href="#ma-base"/>
+    <g filter="url(#roughFine)"><use href="#ma-brows-soft"/><use href="#ma-eyes-open"/><use href="#ma-mouth-level"/></g>
+  </g>
+  <g transform="translate(348 132) scale(0.86)">
+    <ellipse cx="150" cy="420" rx="140" ry="16" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/>
+    <use href="#ma-base"/>
+    <g filter="url(#roughFine)"><use href="#ma-brows-soft"/><use href="#ma-eyes-held"/><use href="#ma-mouth-polite"/></g>
+  </g>
+  <g transform="translate(668 132) scale(0.86)">
+    <ellipse cx="150" cy="420" rx="140" ry="16" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/>
+    <use href="#ma-base"/>
+    <g filter="url(#roughFine)"><use href="#ma-brows-knit"/><use href="#ma-eyes-down"/><use href="#ma-mouth-pressed"/></g>
+  </g>
+  <g transform="translate(988 132) scale(0.86)">
+    <ellipse cx="150" cy="420" rx="140" ry="16" fill="#7a2e2e" opacity=".22" filter="url(#soft)"/>
+    <use href="#ma-base"/>
+    <g filter="url(#roughFine)"><use href="#ma-brows-up"/><use href="#ma-eyes-warm"/><use href="#ma-mouth-smile"/></g>
+  </g>
+</svg>
+<div class="grain"></div>
+<div class="title"><b>Divina</b> &nbsp;&middot;&nbsp; one head, four expressions</div>
+<div class="lbl" style="left:10px"><b>Neutral</b>the dining room<br><span>brows-soft · eyes-open · mouth-level</span></div>
+<div class="lbl" style="left:330px"><b>"Thank you, ma'am"</b>scene 3<br><span>brows-soft · eyes-held · mouth-polite</span></div>
+<div class="lbl" style="left:650px"><b>Counting, twice</b>scene 4<br><span>brows-knit · eyes-down · mouth-pressed</span></div>
+<div class="lbl" style="left:970px"><b>With Tala</b>scene 5, the hall<br><span>brows-up · eyes-warm · mouth-smile</span></div>
+</div></body></html>
