@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Assemble game/nine-mornings.html (and the artifact variant) from the sample sheets."""
-import re, pathlib
+import re, pathlib, sys
+sys.path.insert(0,"tools"); import importlib; s2 = importlib.import_module("scene2-layers")
 S = pathlib.Path('assets/samples'); G = pathlib.Path('game'); G.mkdir(exist_ok=True)
 FONT = open('assets/fonts/caveat-embed.css').read()
 
@@ -59,6 +60,13 @@ rcss = rcss.replace('.breathe{animation:breathe 3.8s ease-in-out infinite}\n', '
 rcss = rcss.replace('@keyframes flicker{0%,100%{opacity:.62}50%{opacity:.74}} .lamp{animation:flicker 2.2s ease-in-out infinite}', '.r-lamp{animation:flicker 2.2s ease-in-out infinite}')
 rsvg = rsvg.replace('class="lamp"', 'class="r-lamp"')
 
+# ---------------- scene 2 layers ----------------
+dining_defs = dining[dining.index('      <defs>'):dining.index('      </defs>')+len('      </defs>')].replace('      <defs>','  <defs>').replace('      </defs>','  </defs>')
+school_svg  = s2.school(dining_defs)
+kitchen_svg = s2.kitchen(dining_defs)
+street_svg  = s2.street()
+if 'dish-adobo' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s2.ADOBO + '  <g id="dish-pancit" hidden>')
+assert 'dish-adobo' in cook
 # ---------------- alarm layer ----------------
 alarm = '''  <div class="layer" id="alarm" hidden>
     <svg width="1280" height="720" viewBox="0 0 1280 720">
@@ -97,6 +105,9 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   <div class="layer" id="rest" hidden>
 {rsvg}
   </div>
+  <div class="layer" id="school" hidden>{school_svg}</div>
+  <div class="layer" id="street" hidden>{street_svg}</div>
+  <div class="layer" id="kitchen" hidden>{kitchen_svg}</div>
 {cook}
 {alarm}
   <div class="alarmtxt" id="alarmtxt" hidden><div class="t">December 21 &middot; 4:10 a.m.</div><h2>The sixth morning.</h2><p>Four hours after close. The alarm. Nobody else is awake to see whether she gets up.</p></div>
@@ -116,8 +127,8 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     <div class="replies" id="replies"></div>
   </div></div>
   <div class="cardscreen on" id="title">
-    <div><div class="eyebrow">Nine Mornings &middot; playable slice</div><h1>The slow night</h1>
-    <p>December 20. Fifth morning. Four tables all night, and a customer with an opinion. Then the envelope, two days later.</p>
+    <div><div class="eyebrow">Nine Mornings &middot; playable slice &middot; scenes 2 to 4</div><h1>Nine Mornings</h1>
+    <p>December 18. Third morning. A cousin lands on a Tuesday and works Tuesday night.</p>
     <div class="tap">Tap to begin &nbsp;&middot;&nbsp; tap the text to advance &nbsp;&middot;&nbsp; tap a choice to pick it</div>
     <div class="hint"><span>Enter</span> to begin &nbsp;&middot;&nbsp; <span>&larr; &rarr;</span> advance &nbsp;&middot;&nbsp; <span>&uarr; &darr;</span> choose &nbsp;&middot;&nbsp; <span>D</span> dev state</div></div>
   </div>

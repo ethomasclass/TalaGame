@@ -1,25 +1,30 @@
-// playtest.js [getup|sleep] — drives scene 3 then scene 4, screenshots key states, prints STATE
+// playtest.js [variant] — walks the whole build from a queue of decisions, screenshots each new screen, prints STATE
 const { chromium } = require('playwright'); const path=require('path'), fs=require('fs');
+const VARIANTS = {
+  main:  { choice:[1,1,2,1], cook:['A','A','B'], phone:[2,3,2] },   // invite, Mang Boy's, say nothing, sleep
+  getup: { choice:[2,2,1,1], cook:['B','B','B'], phone:[1,1,1] },   // working, chain, say something, get up
+};
 (async()=>{
-  const variant=process.argv[2]||'sleep'; const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
+  const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
   const browser=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});
   const page=await browser.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1});
   const errors=[]; page.on('pageerror',e=>errors.push('pageerror: '+e.message)); page.on('console',m=>{ if(m.type()==='error'&&!/ERR_CONNECTION|net::/.test(m.text())) errors.push('console: '+m.text()); });
   await page.goto('file://'+path.resolve('game/nine-mornings.html'),{waitUntil:'networkidle'});
   await page.evaluate(()=>document.fonts&&document.fonts.ready); await page.waitForTimeout(300);
-  const shot=async n=>{ if(variant!=='sleep') return; await page.waitForTimeout(250); await page.screenshot({path:`${out}/${n}.png`}); };
-  const key=async(k,n=1)=>{ for(let j=0;j<n;j++){ await page.keyboard.press(k); await page.waitForTimeout(80);} };
-  await shot('s3-01-title'); await key('Enter'); await shot('s3-02-room');
-  await key('Enter',2); await page.waitForTimeout(900); await shot('s3-03-ma-sinigang');
-  await key('Enter'); await shot('s3-04-customer-line'); await key('Enter'); await page.waitForTimeout(1200); await shot('s3-05-thankyou-pour');
-  await key('Enter'); await shot('s3-06-choice'); await key('1'); await key('Enter'); await shot('s3-07-tala-speaks');
-  await key('Enter',3); await shot('s3-08-after'); await key('Enter'); await shot('s3-09-cook-pancit');
-  await key('1'); await key('Enter'); await shot('s3-10-pa-reacts'); await key('Enter'); await page.waitForTimeout(1800); await shot('s3-11-phone');
-  await key('3'); await key('Enter'); await page.waitForTimeout(4200); await shot('s3-12-alarm');
-  await key(variant==='getup'?'1':'2'); await key('Enter'); await shot('s3-13-morning');
-  await key('Enter'); await shot('s3-14-inter'); await key('Enter'); await shot('s4-01');
-  await key('Enter',8); await shot('s4-cook'); await key('2'); await key('Enter'); await key('Enter',2); await page.waitForTimeout(3600);
-  await key('2'); await key('Enter'); await page.waitForTimeout(4200); await shot('s4-end');
+  const st=async()=>page.evaluate(()=>({mode,bg,i,busy}));
+  let n=0, last=''; const shot=async(tag)=>{ if(variant!=='main') return; n++; await page.waitForTimeout(300); await page.screenshot({path:`${out}/${String(n).padStart(2,'0')}-${tag}.png`}); };
+  await shot('title'); await page.keyboard.press('Enter');
+  for(let step=0; step<400; step++){
+    await page.waitForTimeout(120); const s=await st(); const key=`${s.mode}:${s.bg}:${s.i}`;
+    if(s.mode==='end'){ await shot('end'); break; }
+    if(s.busy){ await page.waitForTimeout(400); continue; }
+    if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key; }
+    if(s.mode==='say'){ await page.keyboard.press('Enter'); }
+    else if(s.mode==='inter'){ await page.keyboard.press('Enter'); }
+    else if(s.mode==='choice'){ const c=q.choice.shift()||1; await page.keyboard.press(String(c)); await page.waitForTimeout(150); await shot(`chosen-${s.bg}-b${s.i}`); await page.keyboard.press('Enter'); }
+    else if(s.mode==='cook'){ const c=q.cook.shift()||'A'; await page.keyboard.press(String('ABC'.indexOf(c)+1)); await page.waitForTimeout(150); await shot(`cook-${s.i}`); await page.keyboard.press('Enter'); }
+    else if(s.mode==='phone'){ const rs=await page.evaluate(()=>document.querySelectorAll('#replies .rp').length); if(!rs){ await page.waitForTimeout(400); continue; } const c=q.phone.shift()||1; await page.keyboard.press(String(c)); await page.waitForTimeout(150); await shot(`phone-${s.i}`); await page.keyboard.press('Enter'); await page.waitForTimeout(600); }
+  }
   const state=await page.evaluate(()=>JSON.stringify(STATE)); const m=await page.evaluate(()=>mode);
-  console.log(variant,'STATE',state,'mode',m); console.log('errors:',errors.length?errors:'none'); await browser.close();
+  console.log(variant,'STATE',state,'mode',m,'shots',n); console.log('errors:',errors.length?errors:'none'); await browser.close();
 })();

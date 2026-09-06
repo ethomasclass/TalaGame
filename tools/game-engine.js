@@ -1,5 +1,5 @@
 // ---------------- state (from the spec) ----------------
-const STATE = { mornings:[1,2,3,4,5], honesty:0, invitedHannah:false, cook:{} };
+const STATE = { mornings:[1,2,3], honesty:0, invitedHannah:false, cook:{} };
 const $ = id => document.getElementById(id);
 
 // ---------------- expressions + motion ----------------
@@ -8,11 +8,16 @@ const X = {
          wince:['brows-knit','eyes-narrow','mouth-pressed'], tired:['brows-flat','eyes-heavy','mouth-small'], smile:['brows-up','eyes-squint','mouth-smile'] },
   ma:{ neutral:['brows-soft','eyes-open','mouth-level'], held:['brows-soft','eyes-held','mouth-polite'],
        counting:['brows-knit','eyes-down','mouth-pressed'], warm:['brows-up','eyes-warm','mouth-smile'] },
-  pa:{ neutral:['brows-straight','eyes-open','mouth-neutral'], down:['brows-low','eyes-down','mouth-flat'], soft:['brows-straight','eyes-open','mouth-small-smile'] }
+  pa:{ neutral:['brows-straight','eyes-open','mouth-neutral'], down:['brows-low','eyes-down','mouth-flat'], soft:['brows-straight','eyes-open','mouth-small-smile'] },
+  hannah:{ neutral:['brows-neutral','eyes-open','mouth-neutral'], curious:['brows-up','eyes-wide','mouth-o'], smile:['brows-up','eyes-open','mouth-smile'], flat:['brows-neutral','eyes-open','mouth-flat'] },
+  ando:{ tired:['brows-neutral','eyes-tired','mouth-neutral'], up:['brows-up','eyes-open','mouth-small'], smile:['brows-neutral','eyes-tired','mouth-smile'] }
 };
 // which layer's hooks an expression lands on
 const HOOKS = { dining:{tala:['x-tala','tala-'], ma:['x-ma','ma-'], pa:['x-pa','pa-']},
-                rest:{tala:['x-rtala','r-tala-'], ma:['x-rma','r-ma-']} };
+                rest:{tala:['x-rtala','r-tala-'], ma:['x-rma','r-ma-']},
+                school:{tala:['x-stala','s-tala-'], hannah:['x-han','s-han-']},
+                kitchen:{pa:['x-kpa','k-pa-'], ando:['x-ando','k-ando-']} };
+const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'} };
 let bg = 'dining';
 function setExpr(who, name){
   const h = HOOKS[bg] && HOOKS[bg][who]; if(!h) return;
@@ -27,13 +32,23 @@ function motion(who, names){
 let talkTimer = 0;
 function talk(who, ms){ const el = $('talk-r'+who); clearTimeout(talkTimer); if(!el) return; el.classList.add('talking'); talkTimer = setTimeout(() => el.classList.remove('talking'), ms); }
 function focus(who){
-  for(const c of ['tala','ma','pa']){ const el = $('c-'+c); if(!el) continue;
-    el.classList.toggle('speaking', who===c); el.classList.toggle('quiet', !!who && who!==c && who!=='customer'); }
+  const m = CHARS[bg] || {};
+  for(const c in m){ const el = $(m[c]); if(!el) continue;
+    el.classList.toggle('speaking', who===c); el.classList.toggle('quiet', !!who && who!==c && m[who]!==undefined); }
 }
 
 // ---------------- content ----------------
-const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer'};
+const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa', customer:'Customer', hannah:'Hannah', ando:'Ando'};
 const COOKS = {
+  s2:{ dish:'adobo', prompt:'<b>Step 3</b>The card is missing the ratio, and the bay leaf is gone with the water. <em>Soy to vinegar, how much of each?</em>',
+       card:`<h2>Adobong Manok</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
+         <li>Chicken thighs, skin on. Dry them first or they will not brown.</li>
+         <li>Brown in the pot, then take them out. Garlic in the same oil, a whole head.</li>
+         <li>Put the chicken back. Soy and vinegar, <span class="now"><span class="gap">&nbsp;</span></span>, and do not stir until it boils.</li>
+         <li class="f1">Peppercorns, cracked. <span class="f2 gone">Bay leaf, two.</span></li>
+         <li class="f1">Lid on, low fire, <span class="f2">until the sauce is thick and the house smells right.</span></li></ol>`,
+       options:[ {k:'A', text:'Equal parts.', out:'lola'}, {k:'B', text:'Two soy to one vinegar.', out:'salty'}, {k:'C', text:'One soy to two vinegar.', out:'sour'} ],
+       react:{} },
   s3:{ dish:'pancit', prompt:'<b>Step 3</b>Lola’s pancit has two things in it the family stopped stocking, because customers pick them out. <em>Her way, or the way it sells?</em>',
        card:`<h2>Pancit Bihon</h2><div class="by f1">Lola Pacing &mdash; para kay Divina</div><ol>
          <li>Soak the bihon. <span class="f1">Not too long or it breaks.</span></li>
@@ -62,6 +77,11 @@ const COOKS = {
                late:'Next time, earlier, so it goes into the top. <em>He eats a piece anyway.</em> It is fine.' } }
 };
 const PHONES = {
+  s2:{ time:'11:24 p.m.',
+       lines:['is ando there yet', {me:true, text:'he’s been here 6 hours and he’s already on the fryer'}, 'lol of course', 'that’s 3 from our street this year', 'the clinic still hasn’t replaced nurse ligaya btw. since august'],
+       replies:[ {text:'somebody will come', honesty:-1, after:['maybe','my mum says the same thing']},
+                 {text:'nobody’s coming, bea', honesty:+1, after:['…','yeah','i know']},
+                 {text:'did you see the thing tita posted', honesty:0, after:['lol yes','ok but for real though','nobody’s coming are they']} ] },
   s3:{ time:'12:58 a.m.', lines:['how was tonight'],
        replies:[ {text:'fine, busy', honesty:-1, after:['tala','you always say fine']},
                  {text:'four tables', honesty:0, after:['four??','is that bad. that sounds bad','is your mum ok']},
@@ -74,6 +94,31 @@ const PHONES = {
 };
 
 const beats = [
+  // ---------- scene 2 ----------
+  {hud:['December 18','Third morning · Third period'], bg:'school', stage:'Third period. Hannah has sat one desk over since September, which is as far as it has gone.', expr:{tala:'quiet',hannah:'neutral'}},
+  {bg:'school', who:'hannah', text:'Are you doing anything for the break? My family’s doing nothing. Aggressively nothing.', expr:{hannah:'curious'}},
+  {bg:'school', choice:[{text:'Tell her about Simbang Gabi.', goto:'invite', set: () => { STATE.invitedHannah = true; }}, {text:'Say you’re working.', goto:'working'}], expr:{tala:'neutral'}},
+  {id:'invite', bg:'school', who:'tala', text:'There’s a thing at our church. Nine mornings, four a.m. The last one’s the twenty-fourth. There’s food after.', expr:{tala:'neutral',hannah:'curious'}},
+  {bg:'school', who:'hannah', text:'Four in the morning.', expr:{hannah:'flat'}},
+  {bg:'school', who:'tala', text:'Four in the morning.', expr:{tala:'quiet'}},
+  {bg:'school', who:'hannah', text:'…What kind of food.', expr:{hannah:'curious',tala:'smile'}, goto:'vinegar'},
+  {id:'working', bg:'school', who:'tala', text:'Working. The restaurant.', expr:{tala:'quiet'}},
+  {bg:'school', who:'hannah', text:'Oh. Cool.', expr:{hannah:'flat'}},
+  {bg:'school', stage:'It is not cool, and they both know it, and the bell goes.', expr:{tala:'quiet',hannah:'neutral'}},
+  {id:'vinegar', hud:['December 18','Third morning · Before service'], bg:'street', stage:'Pa is out of vinegar. The card says cane vinegar. Mang Boy’s has it, and lets the family run a tab. The chain two blocks over is four dollars cheaper and has none of it.'},
+  {bg:'street', choice:[{text:'Mang Boy’s.', set: () => { STATE.cook = {vinegar:'cane'}; }}, {text:'The chain store.', set: () => { STATE.cook = {vinegar:'chain'}; }}]},
+  {hud:['December 18','Third morning · Dinner service'], bg:'kitchen', stage:'Ando landed at two. By six he is tying an apron. Nobody interviewed him.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'kitchen', who:'ando', pre:'(looking at the walk-in)', text:'Everything here is so big.', expr:{ando:'up'}},
+  {bg:'kitchen', who:'pa', text:'You will get used to it. Hold the knife like this, not like that.', expr:{pa:'neutral',ando:'tired'}},
+  {bg:'kitchen', who:'ando', text:'How long before I stop being tired?', expr:{ando:'tired'}},
+  {bg:'kitchen', who:'pa', pre:'(after a pause, going back to the pan)', text:'I will let you know.', expr:{pa:'down',ando:'tired'}},
+  {bg:'cook', cook:'s2'},
+  {bg:'kitchen', stage: () => STATE.cook.vinegar === 'chain' ? 'It comes out thin. Pa tastes it, and says nothing at all, which is worse than if he said something.' : null,
+     who: () => STATE.cook.vinegar === 'chain' ? null : 'pa',
+     text: () => ({lola:'…Nanay’s. <em>He says it to the pot, and gives Ando the first plate.</em>', salty:'Too much soy. It is fine. Next time.', sour:'Sour. It is fine. Ando will eat it.'})[STATE.cook.out],
+     expr:{pa:'soft',ando:'smile'}},
+  {phone:'s2'},
+  {inter:['December 20','The slow night','Fifth morning. Four tables all night, and a customer with an opinion.'], set: () => { for(const n of [4,5]) if(!STATE.mornings.includes(n)) STATE.mornings.push(n); STATE.mornings.sort((a,b)=>a-b); }},
   // ---------- scene 3 ----------
   {hud:['December 20','Fifth morning · The slow night'], bg:'rest', stage:'Four tables all night. You can see the room is wrong before anyone says it.', expr:{tala:'quiet',ma:'neutral'}},
   {bg:'rest', who:'customer', text:'What is it, though? Like, what <em>is</em> it.'},
@@ -110,7 +155,7 @@ const beats = [
 
 // ---------------- engine ----------------
 let i = -1, sel = 0, mode = 'title', busy = false;
-const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm')};
+const layers = {dining:$('dining'), rest:$('rest'), cook:$('cook'), alarm:$('alarm'), school:$('school'), street:$('street'), kitchen:$('kitchen')};
 const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud');
 const txt = v => typeof v === 'function' ? v() : v;
 
@@ -133,11 +178,12 @@ function render(){
   if(b.cook){ mode = 'cook'; dlg.hidden = true; renderCook(COOKS[b.cook]); return; }
   if(b.choice){ mode = 'choice'; dlg.hidden = true; renderChoice(b.choice); return; }
   mode = 'say'; dlg.hidden = false;
-  if(b.stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = txt(b.stage); focus(null); }
+  const stage = txt(b.stage), who = txt(b.who);
+  if(stage){ $('who').textContent = ''; $('line').className = 'line sd'; $('line').innerHTML = stage; focus(null); }
   else {
-    $('who').textContent = NAMES[b.who]; $('line').className = 'line';
-    const t = txt(b.text); $('line').innerHTML = (b.pre ? `<em>${b.pre}</em> ` : '') + t; focus(b.who);
-    if(bg === 'rest' && b.who === 'ma') talk('ma', Math.min(2600, 380 + t.length * 45));
+    $('who').textContent = NAMES[who]; $('line').className = 'line';
+    const t = txt(b.text); $('line').innerHTML = (b.pre ? `<em>${b.pre}</em> ` : '') + t; focus(who);
+    if(bg === 'rest' && who === 'ma') talk('ma', Math.min(2600, 380 + t.length * 45));
   }
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
 }
@@ -155,11 +201,12 @@ function confirmChoice(){ const o = choiceData[sel]; if(o.set) o.set(); mode = '
 let cookData = null;
 function renderCook(c){ cookData = c; sel = 1;
   $('cardwrap').querySelector('.cbody').innerHTML = c.card; $('cookprompt').innerHTML = c.prompt;
-  const dp = $('dish-pancit'); if(c.dish === 'pancit') dp.removeAttribute('hidden'); else dp.setAttribute('hidden','');
+  for(const d of ['pancit','adobo']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
+  const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
   choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }
 function moveCursor(){ const cur = $('cursor'); const spots = [[400,560],[760,236],[980,300]]; const [x,y] = spots[sel]; cur.style.left = (x-24)+'px'; cur.style.top = (y-30)+'px'; }
-function confirmCook(){ const o = cookData.options[sel]; STATE.cook = {scene:cookData.dish, choice:o.k, out:o.out}; mode = 'say'; advance(); }
+function confirmCook(){ const o = cookData.options[sel]; STATE.cook = Object.assign({}, STATE.cook, {scene:cookData.dish, choice:o.k, out:o.out}); mode = 'say'; advance(); }
 
 // -------- alarm --------
 function doAlarm(){ showBg('alarm'); mode = 'choice'; dlg.hidden = true;
@@ -169,12 +216,12 @@ function doAlarm(){ showBg('alarm'); mode = 'choice'; dlg.hidden = true;
 let phoneData = null;
 function doPhone(p){ phoneData = p; mode = 'phone'; dlg.hidden = true; $('dim').classList.add('on'); $('ptime').textContent = p.time;
   const bubs = $('bubs'); bubs.innerHTML = ''; $('replies').innerHTML = ''; phone.classList.add('on'); busy = true;
-  let k = 0; const tick = () => { if(k < p.lines.length){ addBub('them', p.lines[k++]); setTimeout(tick, 650); } else { showReplies(); busy = false; } };
+  let k = 0; const tick = () => { if(k < p.lines.length){ const l = p.lines[k++]; if(typeof l === 'string') addBub('them', l); else addBub('me', l.text); setTimeout(tick, 650); } else { showReplies(); busy = false; } };
   setTimeout(tick, 500); }
 function addBub(cls, text){ const d = document.createElement('div'); d.className = 'bub '+cls; d.textContent = text; $('bubs').appendChild(d); requestAnimationFrame(() => d.classList.add('in')); }
 function showReplies(){ sel = 0; $('replies').innerHTML = phoneData.replies.map((r,n) => `<div class="rp${n===sel?' sel':''}" data-n="${n}"><b>${n+1}</b>${r.text}</div>`).join(''); }
 function confirmReply(){ const r = phoneData.replies[sel]; if(!r) return; STATE.honesty += r.honesty; $('replies').innerHTML = ''; addBub('me', r.text); busy = true;
-  let k = 0; const tick = () => { if(k < r.after.length){ addBub('them', r.after[k++]); setTimeout(tick, 700); } else { busy = false; mode = 'say'; setTimeout(() => { advance(); }, 900); } };
+  let k = 0; const tick = () => { if(k < r.after.length){ addBub('them', r.after[k++]); setTimeout(tick, 700); } else { setTimeout(() => { busy = false; mode = 'say'; advance(); }, 900); } };
   setTimeout(tick, 600); }
 
 // -------- cards --------
@@ -183,10 +230,10 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   const h = STATE.honesty; const tone = h > 0 ? 'mostly honest' : h < 0 ? 'mostly protective' : 'somewhere in between';
   const kept = STATE.mornings.filter(n => n <= 7).length;
   $('end-h').textContent = kept === 7 ? 'Seven of seven' : `${kept} of the first seven`;
-  $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
+  $('end-p').innerHTML = `${kept === 7 ? 'Every morning so far.' : 'One morning missed, and nobody said anything.'} ${STATE.invitedHannah ? 'Hannah knows about the twenty-fourth.' : 'Hannah does not know about the twenty-fourth.'} The bibingka came out ${STATE.cook.out === 'lola' ? 'the way Lola made it' : 'a little different, and nobody said a word'}. What you have told Bea was ${tone}.<br><br>Two mornings to go.`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ STATE.mornings = [1,2,3,4,5]; STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('rest'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
+function restart(){ STATE.mornings = [1,2,3]; STATE.invitedHannah = false; STATE.honesty = 0; STATE.cook = {}; i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('school'); dlg.hidden = true; $('dim').classList.remove('on'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -221,4 +268,4 @@ $('end').addEventListener('click', restart);
 
 // -------- fit the 1280x720 stage to the window --------
 function fit(){ const s = Math.min(innerWidth/1280, innerHeight/720); const st = $('stage').style; st.transform = `scale(${s})`; st.left = ((innerWidth-1280*s)/2)+'px'; st.top = ((innerHeight-720*s)/2)+'px'; }
-addEventListener('resize', fit); fit(); drawMarks(); showBg('rest'); dlg.hidden = true;
+addEventListener('resize', fit); fit(); drawMarks(); showBg('school'); dlg.hidden = true;
