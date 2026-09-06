@@ -17,7 +17,7 @@ const VARIANTS = {
   for(let step=0; step<400; step++){
     await page.waitForTimeout(120); const s=await st(); const key=`${s.mode}:${s.bg}:${s.i}`;
     if(s.mode==='end'){ await shot('end'); break; }
-    if(s.mode==='pause'){ if(last!=='pause'){ await page.waitForTimeout(3600); await shot('sunrise'); last='pause'; } await page.waitForTimeout(400); continue; }
+    if(s.mode==='pause'){ if(last!=='pause'){ await page.waitForTimeout(5600); await shot('sunrise'); last='pause'; } await page.waitForTimeout(400); continue; }
     if(s.mode==='debrief'){ await shot('debrief'); await page.keyboard.press('Enter'); await page.waitForTimeout(300); continue; }
     if(s.busy){ await page.waitForTimeout(400); continue; }
     if(key!==last){ if(['choice','cook','phone','inter'].includes(s.mode)||s.mode==='say'&&/^(say)/.test(s.mode)) await shot(`${s.mode}-${s.bg}-b${s.i}`); last=key; }

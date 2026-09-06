@@ -191,7 +191,7 @@ const beats = [
      stage: () => STATE.mornings.length === 9 ? 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Nine marks. Lola said nine mornings, one wish.' : 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Eight of nine. Lola said nine. She makes the wish anyway, and does not know if it counts.'},
   {bg:'dawn', choice:[ {text:'That Lola gets better.', set: () => { STATE.wish = 'lola'; }}, {text:'That the restaurant makes it through the year.', set: () => { STATE.wish = 'restaurant'; }},
                        {text:'That Bea stays.', set: () => { STATE.wish = 'bea'; }}, {text:'That I could go back, just for a week.', set: () => { STATE.wish = 'back'; }} ]},
-  {bg:'dawn', pause:5200, sunrise:true},
+  {bg:'dawn', pause:6500, sunrise:true},
   {debrief:true},
   {end:true}
 ];
@@ -251,6 +251,7 @@ function renderCook(c){ cookData = c; sel = 1; if(!c._step){ cookStep = 0; cookH
   $('cardwrap').querySelector('.cbody').innerHTML = c.multi ? c.cardFor(cookStep) : c.card; $('cookprompt').innerHTML = step.prompt;
   c = Object.assign({}, c, {options: step.options});  cookData = Object.assign(cookData, {options: step.options});
   for(const d of ['pancit','adobo','puto']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
+  const eggs = $('prop-eggs'); if(c.dish === 'bibingka') eggs.removeAttribute('hidden'); else eggs.setAttribute('hidden','');
   const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
   choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }

@@ -63,7 +63,7 @@ TITA = r'''
 '''
 
 def hall(defs):
-    d = defs.replace('  </defs>', TITA + '  </defs>')
+    d = defs.replace('  </defs>', s2.HANNAH + TITA + '  </defs>')
     body = r'''
   <defs>
     <linearGradient id="wallP" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#efe3c2"/><stop offset="100%" stop-color="#cbb98c"/></linearGradient>
@@ -165,14 +165,18 @@ def dawn():
     </g>
 '''
     svg = svg[:a] + walkers + alone + svg[b:]
+    svg = svg.replace('    <defs>', '''    <defs>
+      <linearGradient id="sunsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff9a5a" stop-opacity=".15"/><stop offset="55%" stop-color="#ffb070" stop-opacity=".45"/><stop offset="100%" stop-color="#ffd9a0" stop-opacity=".7"/></linearGradient>''', 1)
     svg = svg.replace('    <rect width="1280" height="720" fill="url(#sky)"/>',
       '''    <rect width="1280" height="720" fill="url(#sky)"/>
     <g id="sunrise">
-      <circle id="sun" cx="640" cy="520" r="54" fill="#ffd27a"/>
       <rect id="sunwash" width="1280" height="720" fill="url(#dawnGlow)"/>
+      <rect id="sunwash2" width="1280" height="720" fill="url(#sunsky)" style="mix-blend-mode:screen"/>
+      <circle id="sunhalo" cx="900" cy="372" r="150" fill="#ffc46a" opacity=".55" filter="url(#soft)"/>
+      <circle id="sun" cx="900" cy="372" r="52" fill="#ffe2a0"/>
     </g>''')
     svg = prefix_ids(svg, 'd-')
-    for k in ['dawn-walk','dawn-tala','sunrise','sun','sunwash']:
+    for k in ['dawn-walk','dawn-tala','sunrise','sun','sunwash','sunwash2','sunhalo']:
         svg = svg.replace(f'id="d-{k}"', f'id="{k}"')
     return svg
 

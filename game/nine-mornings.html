@@ -150,9 +150,19 @@
 
   .choices.mid{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}
   .layer.off{visibility:hidden;pointer-events:none}
+  html,body{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .line{font-size:27px} .who{font-size:13px} .ch{font-size:21px;padding:12px 16px} .prompt{font-size:22px} .hud{font-size:14px}
+  #phone{width:470px} .bub{font-size:19px;padding:10px 14px;max-width:86%} .rp{font-size:16px;padding:10px 14px} .ptop{font-size:13px} .cardscreen .hint{font-size:14px}
+  #rotate{position:fixed;inset:0;z-index:99;display:none;place-items:center;background:#120c0a;color:#ece7d6;text-align:center;padding:32px;font-family:"Fraunces",Georgia,serif}
+  #rotate h2{font-weight:600;font-size:28px;margin:0 0 10px} #rotate p{color:#bdb8a4;font-size:17px;margin:0;max-width:30ch}
+  #rotate svg{width:72px;height:72px;margin-bottom:18px;animation:turn 2.4s ease-in-out infinite}
+  @keyframes turn{0%,20%{transform:rotate(0)}50%,70%{transform:rotate(90deg)}100%{transform:rotate(90deg)}}
+  @media (orientation:portrait) and (max-width:900px){#rotate{display:grid}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .cardscreen .tap{display:none} @media (pointer:coarse){.cardscreen .hint{display:none}.cardscreen .tap{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px;letter-spacing:.1em;color:#8d8873}}
   .dq{font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.5;color:#d8d2c0;padding-left:24px;margin:0 0 26px} .dq li{margin-bottom:14px}
-  #sunrise{opacity:0;transition:opacity 4s ease} #sun{transform:translateY(120px);transition:transform 4.5s ease-out}
-  #dawn.sunrise #sunrise{opacity:1} #dawn.sunrise #sun{transform:translateY(-40px)}
+  #sunrise{opacity:0;transition:opacity 4.5s ease} #sun,#sunhalo{transform:translateY(150px);transition:transform 5.5s ease-out}
+  #dawn.sunrise #sunrise{opacity:1} #dawn.sunrise #sun,#dawn.sunrise #sunhalo{transform:translateY(0)}
   #dawn.sunrise svg{filter:saturate(1.15) brightness(1.08);transition:filter 4s ease}
   .alarmtxt{position:absolute;left:44px;top:70px;z-index:7;color:#ece7d6;font-family:"Fraunces",Georgia,serif}
   .alarmtxt .t{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-bottom:10px}
@@ -1760,6 +1770,44 @@
     <g id="h-pa-mouth-small-smile"><path d="M 128 286 C 140 298 160 298 172 284" stroke="#8e3a33" stroke-width="5" fill="none" stroke-linecap="round"/></g>
 
 
+    <!-- ===== HANNAH : classmate. Local 280x340, face centre (140,170). ===== -->
+    <linearGradient id="h-hairH" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#a45a34"/><stop offset="60%" stop-color="#7e3f24"/><stop offset="100%" stop-color="#5a2b18"/></linearGradient>
+    <linearGradient id="h-skinH" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#f3d2b6"/><stop offset="55%" stop-color="#e8bc9c"/><stop offset="100%" stop-color="#c9977a"/></linearGradient>
+    <linearGradient id="h-hoodieH" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#6f8b7a"/><stop offset="100%" stop-color="#3f5a4c"/></linearGradient>
+    <g id="h-han-base">
+      <g filter="url(#h-rough)">
+        <path d="M 140 30 C 226 30 262 96 258 186 C 256 236 248 266 240 296 C 232 306 220 300 222 288 C 228 250 226 220 214 196 C 212 236 216 270 208 300 L 72 300 C 64 270 68 236 66 196 C 54 220 52 250 58 288 C 60 300 48 306 40 296 C 32 266 24 236 22 186 C 18 96 54 30 140 30 Z" fill="url(#h-hairH)"/>
+        <path d="M 10 400 C 24 316 78 284 112 278 L 168 278 C 202 284 256 316 270 400 Z" fill="url(#h-hoodieH)"/>
+        <path d="M 96 292 C 110 306 170 306 184 292 C 190 306 176 318 140 318 C 104 318 90 306 96 292 Z" fill="#33483d"/>
+        <path d="M 116 250 L 164 250 L 168 290 L 112 290 Z" fill="#c9977a"/>
+        <circle cx="48" cy="176" r="15" fill="#d9a888"/><circle cx="232" cy="176" r="15" fill="#d9a888"/>
+        <path d="M 140 66 C 200 66 228 114 228 172 C 228 238 192 280 140 280 C 88 280 52 238 52 172 C 52 114 80 66 140 66 Z" fill="url(#h-skinH)"/>
+        <path d="M 140 44 C 200 44 236 84 238 140 C 224 112 200 98 172 100 C 156 84 122 86 106 104 C 82 104 62 120 46 148 C 44 92 78 44 140 44 Z" fill="url(#h-hairH)"/>
+        <path d="M 60 96 C 84 74 114 68 140 72 C 110 74 84 86 66 106 Z" fill="#c47a4e" opacity=".55"/>
+      </g>
+      <g filter="url(#h-roughFine)">
+        <g fill="#b9764f" opacity=".55"><circle cx="92" cy="206" r="2.2"/><circle cx="104" cy="214" r="2"/><circle cx="84" cy="218" r="1.8"/><circle cx="188" cy="206" r="2.2"/><circle cx="176" cy="214" r="2"/><circle cx="196" cy="218" r="1.8"/><circle cx="132" cy="212" r="1.6"/><circle cx="150" cy="210" r="1.6"/></g>
+        <ellipse cx="86" cy="204" rx="18" ry="10" fill="#d4736a" opacity=".2"/><ellipse cx="194" cy="204" rx="18" ry="10" fill="#d4736a" opacity=".2"/>
+        <path d="M 134 196 C 132 206 136 212 143 212 C 150 212 154 206 151 198" stroke="#c07a5e" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g id="h-han-brows-neutral" stroke="#6b3f2a" stroke-width="6" fill="none" stroke-linecap="round"><path d="M 86 140 C 98 132 118 132 130 138"/><path d="M 150 138 C 162 132 182 132 194 140"/></g>
+    <g id="h-han-brows-up" stroke="#6b3f2a" stroke-width="6" fill="none" stroke-linecap="round"><path d="M 86 132 C 98 122 118 122 130 130"/><path d="M 150 130 C 162 122 182 122 194 132"/></g>
+    <g id="h-han-eyes-open">
+      <path d="M 82 168 C 92 152 122 152 132 168 C 122 186 92 186 82 168 Z" fill="#fbf3e4"/><path d="M 148 168 C 158 152 188 152 198 168 C 188 186 158 186 148 168 Z" fill="#fbf3e4"/>
+      <ellipse cx="108" cy="169" rx="11" ry="12" fill="#3a2a1e"/><ellipse cx="172" cy="169" rx="11" ry="12" fill="#3a2a1e"/>
+      <circle cx="112" cy="164" r="3.4" fill="#fbf3e4"/><circle cx="176" cy="164" r="3.4" fill="#fbf3e4"/>
+    </g>
+    <g id="h-han-eyes-wide">
+      <path d="M 80 168 C 90 148 124 148 134 168 C 124 190 90 190 80 168 Z" fill="#fbf3e4"/><path d="M 146 168 C 156 148 190 148 200 168 C 190 190 156 190 146 168 Z" fill="#fbf3e4"/>
+      <ellipse cx="108" cy="169" rx="12" ry="13" fill="#3a2a1e"/><ellipse cx="172" cy="169" rx="12" ry="13" fill="#3a2a1e"/>
+      <circle cx="112" cy="163" r="3.6" fill="#fbf3e4"/><circle cx="176" cy="163" r="3.6" fill="#fbf3e4"/>
+    </g>
+    <path id="h-han-mouth-neutral" d="M 124 236 C 132 241 148 241 156 236" stroke="#a5574a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <g id="h-han-mouth-o"><path d="M 130 230 C 138 226 146 226 152 230 C 150 244 132 244 130 230 Z" fill="#8e3a33"/></g>
+    <g id="h-han-mouth-smile"><path d="M 116 232 C 128 250 152 250 164 230" stroke="#a5574a" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M 122 236 C 132 246 148 246 158 234 Z" fill="#fbf3e4" opacity=".9"/></g>
+    <path id="h-han-mouth-flat" d="M 126 238 C 134 238 148 238 156 238" stroke="#a5574a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
     <!-- ===== TITA BABY : parish food committee. Local 300x380, face centre (150,200). ===== -->
     <linearGradient id="h-skinT" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e6b08c"/><stop offset="55%" stop-color="#d59c78"/><stop offset="100%" stop-color="#b57c5e"/></linearGradient>
     <linearGradient id="h-hairT" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#5a5464"/><stop offset="60%" stop-color="#3a3444"/><stop offset="100%" stop-color="#2a2530"/></linearGradient>
@@ -1814,7 +1862,7 @@
         <path d="M 152 680 L 214 680 L 222 702 C 226 710 222 718 214 718 L 168 718 C 156 718 148 714 148 706 Z" fill="#3a2a22"/>
         <!-- hands + phone, held at the chest -->
         <rect x="118" y="330" width="44" height="72" rx="8" fill="#1c1c20"/><rect x="123" y="336" width="34" height="58" rx="5" fill="#cfe0f6"/>
-        <path d="M 100 372 C 96 356 108 348 120 356 L 122 398 C 108 402 98 392 100 372 Z" fill="url(#skinH)"/><path d="M 180 372 C 184 356 172 348 160 356 L 158 398 C 172 402 182 392 180 372 Z" fill="url(#skinH)"/>
+        <path d="M 100 372 C 96 356 108 348 120 356 L 122 398 C 108 402 98 392 100 372 Z" fill="url(#h-skinH)"/><path d="M 180 372 C 184 356 172 348 160 356 L 158 398 C 172 402 182 392 180 372 Z" fill="url(#h-skinH)"/>
       </g>
     </g>
   </defs>
@@ -1832,8 +1880,8 @@
   <g filter="url(#h-rough)"><rect x="40" y="90" width="230" height="470" fill="#5a4a3a"/><rect x="56" y="106" width="198" height="454" fill="#2b3558"/><rect x="56" y="106" width="198" height="454" fill="url(#h-coldP)"/></g>
   <g id="hall-hannah" hidden>
     <g transform="translate(58 132) scale(0.62)"><g class="breathe b">
-      <use href="#h-han-lower"/><use href="#han-base"/>
-      <g filter="url(#h-roughFine)"><use id="x-hhan-brows" href="#han-brows-neutral"/><g class="blink b" style="transform-origin:140px 168px"><use id="x-hhan-eyes" href="#han-eyes-open"/></g><use id="x-hhan-mouth" href="#han-mouth-flat"/></g>
+      <use href="#h-han-lower"/><use href="#h-han-base"/>
+      <g filter="url(#h-roughFine)"><use id="x-hhan-brows" href="#h-han-brows-neutral"/><g class="blink b" style="transform-origin:140px 168px"><use id="x-hhan-eyes" href="#h-han-eyes-open"/></g><use id="x-hhan-mouth" href="#h-han-mouth-flat"/></g>
     </g></g>
   </g>
   <!-- banner + parol string -->
@@ -1890,6 +1938,7 @@
 </svg></div>
   <div class="layer" id="dawn" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
     <defs>
+      <linearGradient id="d-sunsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff9a5a" stop-opacity=".15"/><stop offset="55%" stop-color="#ffb070" stop-opacity=".45"/><stop offset="100%" stop-color="#ffd9a0" stop-opacity=".7"/></linearGradient>
       <linearGradient id="d-sky" x1="0" y1="0" x2="0.15" y2="1">
         <stop offset="0%"   stop-color="#141a2e"/>
         <stop offset="34%"  stop-color="#26243f"/>
@@ -1927,8 +1976,10 @@
 
     <rect width="1280" height="720" fill="url(#d-sky)"/>
     <g id="sunrise">
-      <circle id="sun" cx="640" cy="520" r="54" fill="#ffd27a"/>
       <rect id="sunwash" width="1280" height="720" fill="url(#d-dawnGlow)"/>
+      <rect id="sunwash2" width="1280" height="720" fill="url(#d-sunsky)" style="mix-blend-mode:screen"/>
+      <circle id="sunhalo" cx="900" cy="372" r="150" fill="#ffc46a" opacity=".55" filter="url(#d-soft)"/>
+      <circle id="sun" cx="900" cy="372" r="52" fill="#ffe2a0"/>
     </g>
     <ellipse cx="640" cy="560" rx="640" ry="230" fill="url(#d-dawnGlow)"/>
 
@@ -2215,12 +2266,14 @@
   <!-- ===== coconut milk, top-left ===== -->
   <circle cx="170" cy="190" r="92" fill="#000" opacity=".26" filter="url(#td-mid)" transform="translate(10 12)"/>
   <g filter="url(#td-rough)"><circle cx="170" cy="190" r="92" fill="url(#td-bowlBlue)"/><circle cx="170" cy="190" r="72" fill="url(#td-cream)"/><path d="M 118 132 C 132 112 158 100 186 102" stroke="#b6c2e6" stroke-width="7" fill="none" stroke-linecap="round" opacity=".5"/><path d="M 214 136 L 262 76" stroke="#3b3550" stroke-width="10" stroke-linecap="round"/><ellipse cx="206" cy="150" rx="16" ry="11" fill="#3b3550" transform="rotate(-40 206 150)"/></g>
+  <g id="prop-eggs">
   <!-- ===== salted egg, sliced, and a block of cheese ===== -->
   <ellipse cx="800" cy="236" rx="96" ry="58" fill="#000" opacity=".24" filter="url(#td-mid)" transform="translate(8 10)"/>
   <g filter="url(#td-rough)">
     <ellipse cx="800" cy="236" rx="96" ry="58" fill="url(#td-cream)"/>
     <g><circle cx="756" cy="226" r="20" fill="#f7f1e2"/><circle cx="756" cy="226" r="11" fill="#e8892b"/><circle cx="800" cy="248" r="20" fill="#f7f1e2"/><circle cx="800" cy="248" r="11" fill="#e8892b"/><circle cx="844" cy="228" r="20" fill="#f7f1e2"/><circle cx="844" cy="228" r="11" fill="#e8892b"/></g>
     <g transform="rotate(-12 960 300)"><rect x="910" y="278" width="100" height="46" rx="6" fill="#000" opacity=".22" transform="translate(6 8)"/><rect x="910" y="278" width="100" height="46" rx="6" fill="#f2c85a"/><rect x="910" y="278" width="100" height="10" rx="4" fill="#fbe08a"/></g>
+  </g>
   </g>
   <!-- ===== banana leaf, bottom-right ===== -->
   <g filter="url(#td-rough)">
@@ -2509,7 +2562,7 @@ const beats = [
      stage: () => STATE.mornings.length === 9 ? 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Nine marks. Lola said nine mornings, one wish.' : 'The hall is emptying. Tala steps outside with the tray she is supposed to be returning. Eight of nine. Lola said nine. She makes the wish anyway, and does not know if it counts.'},
   {bg:'dawn', choice:[ {text:'That Lola gets better.', set: () => { STATE.wish = 'lola'; }}, {text:'That the restaurant makes it through the year.', set: () => { STATE.wish = 'restaurant'; }},
                        {text:'That Bea stays.', set: () => { STATE.wish = 'bea'; }}, {text:'That I could go back, just for a week.', set: () => { STATE.wish = 'back'; }} ]},
-  {bg:'dawn', pause:5200, sunrise:true},
+  {bg:'dawn', pause:6500, sunrise:true},
   {debrief:true},
   {end:true}
 ];
@@ -2569,6 +2622,7 @@ function renderCook(c){ cookData = c; sel = 1; if(!c._step){ cookStep = 0; cookH
   $('cardwrap').querySelector('.cbody').innerHTML = c.multi ? c.cardFor(cookStep) : c.card; $('cookprompt').innerHTML = step.prompt;
   c = Object.assign({}, c, {options: step.options});  cookData = Object.assign(cookData, {options: step.options});
   for(const d of ['pancit','adobo','puto']){ const el = $('dish-'+d); if(c.dish === d) el.removeAttribute('hidden'); else el.setAttribute('hidden',''); }
+  const eggs = $('prop-eggs'); if(c.dish === 'bibingka') eggs.removeAttribute('hidden'); else eggs.setAttribute('hidden','');
   const chain = STATE.cook.vinegar === 'chain'; $('vin-cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('vin-chain')[chain?'removeAttribute':'setAttribute']('hidden','');
   choices.innerHTML = c.options.map((o,n) => `<div class="ch${n===sel?' sel':''}" data-n="${n}"><b>${o.k}</b>${o.text}</div>`).join('');
   choices.hidden = false; moveCursor(); }

@@ -67,6 +67,10 @@ kitchen_svg = s2.kitchen(dining_defs)
 street_svg  = s2.street()
 if 'dish-adobo' not in cook: cook = cook.replace('  <g id="dish-pancit" hidden>', s2.ADOBO + '  <g id="dish-pancit" hidden>')
 assert 'dish-adobo' in cook
+if 'prop-eggs' not in cook:
+    a=cook.index('  <!-- ===== salted egg, sliced, and a block of cheese ===== -->'); z=cook.index('  <!-- ===== banana leaf, bottom-right ===== -->')
+    cook = cook[:a] + '  <g id="prop-eggs">\n' + cook[a:z] + '  </g>\n' + cook[z:]
+assert 'prop-eggs' in cook
 # ---------------- scene 5 layers ----------------
 hall_svg = s5.hall(dining_defs)
 dawn_svg = s5.dawn()
@@ -100,9 +104,19 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 {rcss}
   .choices.mid{{right:auto;left:50%;bottom:120px;transform:translateX(-50%);width:520px}}
   .layer.off{{visibility:hidden;pointer-events:none}}
+  html,body{{touch-action:manipulation;-webkit-tap-highlight-color:transparent}}
+  .line{{font-size:27px}} .who{{font-size:13px}} .ch{{font-size:21px;padding:12px 16px}} .prompt{{font-size:22px}} .hud{{font-size:14px}}
+  #phone{{width:470px}} .bub{{font-size:19px;padding:10px 14px;max-width:86%}} .rp{{font-size:16px;padding:10px 14px}} .ptop{{font-size:13px}} .cardscreen .hint{{font-size:14px}}
+  #rotate{{position:fixed;inset:0;z-index:99;display:none;place-items:center;background:#120c0a;color:#ece7d6;text-align:center;padding:32px;font-family:"Fraunces",Georgia,serif}}
+  #rotate h2{{font-weight:600;font-size:28px;margin:0 0 10px}} #rotate p{{color:#bdb8a4;font-size:17px;margin:0;max-width:30ch}}
+  #rotate svg{{width:72px;height:72px;margin-bottom:18px;animation:turn 2.4s ease-in-out infinite}}
+  @keyframes turn{{0%,20%{{transform:rotate(0)}}50%,70%{{transform:rotate(90deg)}}100%{{transform:rotate(90deg)}}}}
+  @media (orientation:portrait) and (max-width:900px){{#rotate{{display:grid}}}}
+  @media (prefers-reduced-motion:reduce){{*{{animation:none!important;transition:none!important}}}}
+  .cardscreen .tap{{display:none}} @media (pointer:coarse){{.cardscreen .hint{{display:none}}.cardscreen .tap{{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px;letter-spacing:.1em;color:#8d8873}}}}
   .dq{{font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.5;color:#d8d2c0;padding-left:24px;margin:0 0 26px}} .dq li{{margin-bottom:14px}}
-  #sunrise{{opacity:0;transition:opacity 4s ease}} #sun{{transform:translateY(120px);transition:transform 4.5s ease-out}}
-  #dawn.sunrise #sunrise{{opacity:1}} #dawn.sunrise #sun{{transform:translateY(-40px)}}
+  #sunrise{{opacity:0;transition:opacity 4.5s ease}} #sun,#sunhalo{{transform:translateY(150px);transition:transform 5.5s ease-out}}
+  #dawn.sunrise #sunrise{{opacity:1}} #dawn.sunrise #sun,#dawn.sunrise #sunhalo{{transform:translateY(0)}}
   #dawn.sunrise svg{{filter:saturate(1.15) brightness(1.08);transition:filter 4s ease}}
   .alarmtxt{{position:absolute;left:44px;top:70px;z-index:7;color:#ece7d6;font-family:"Fraunces",Georgia,serif}}
   .alarmtxt .t{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#dba748;margin-bottom:10px}}
