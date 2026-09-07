@@ -101,6 +101,12 @@ AVATARS = {
                    shirt='#8b8f96', lip='#a86a62', blush='#c99a90', fringe='side', mouth='flat'),
   'clerk': face(bg=('#8aab7e','#5d8659','#3d5f42'), hair=DARK, skin=OLIVE, shirt='#3f6fa8', lip='#8a4a3e', blush='#c0705c',
                 fringe='crop', long_hair=False, mouth='level'),
+  # the two shopkeepers on the block who speak
+  'mangboy': face(bg=('#d9a86a','#b87a3e','#8a5426'), hair=GREY, skin=OLIVE, shirt='#7a3a34', lip='#8a4a3e', blush='#c0705c',
+                  fringe='crop', long_hair=False, glasses='#4a3a2a', mouth='smile'),
+  'ocampo':  face(bg=('#e0a8c0','#c07a9c','#8e5070'), hair=GREY, skin=OLIVE, shirt='#4f8a7a', lip='#a8354f', blush='#c9607e',
+                  fringe='back', bun=True, earrings='#e0b04a', mouth='level',
+                  streak='M 28 50 C 36 36 50 30 64 31 C 48 34 36 42 29 56 Z'),
 }
 
 def css():

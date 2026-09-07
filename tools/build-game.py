@@ -210,6 +210,13 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     10%{{transform:translateX(-50%) translateY(0) rotate(-1.6deg)}}25%{{transform:translateX(-50%) translateY(-3px) rotate(1.6deg)}}
     40%{{transform:translateX(-50%) translateY(0) rotate(-1.2deg)}}55%{{transform:translateX(-50%) translateY(-2px) rotate(1deg)}}70%{{transform:translateX(-50%) translateY(0) rotate(-.5deg)}}}}
   #phone.buzz{{animation:buzz .55s ease-in-out 2}}
+  /* the camera push-in. CSS transform on the layer wrapper only - never on the SVG inside it. */
+  .layer{{transition:transform .85s cubic-bezier(.3,.8,.3,1)}}
+  /* how long each stop on the block costs */
+  .ch .mins{{float:right;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7em;letter-spacing:.08em;color:#a8721f;padding-left:14px}}
+  /* hotspots you have already read */
+  #hot .dot.seen{{fill-opacity:.3;animation:none}}
+  .tally{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62em;letter-spacing:.1em;color:#8d8873;white-space:nowrap}}
   .dragtip{{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:8;pointer-events:none;
     background:rgba(24,16,12,.84);color:#f4eeda;padding:13px 24px;border-radius:10px;max-width:596px;text-align:center;
     font-family:"Fraunces",Georgia,serif;font-size:21px;line-height:1.35;box-shadow:0 18px 40px -18px rgba(0,0,0,.9)}}

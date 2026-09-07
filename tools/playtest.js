@@ -1,8 +1,8 @@
 // playtest.js [variant] — walks the whole build from a queue of decisions, screenshots each new screen, prints STATE
 const { chromium } = require('playwright'); const path=require('path'), fs=require('fs');
 const VARIANTS = {
-  main:  { choice:[1,1,2,2,1,3], cook:['A','A','A','A'], phone:[2,2,3,2,3] },   // invite, Mang Boy's, say nothing, sleep, wire today, wish: Bea stays
-  getup: { choice:[2,2,1,1,2,1], cook:['C','B','C','A','B'], phone:[3,1,1,1,1] },   // working, chain, say something, get up, wire in three days, wish: Lola
+  main:  { choice:[1, 1,2,1, 2,2,1,3], cook:['A','A','A','A'], phone:[2,2,3,2,3] },   // invite | errand: Mang Boy's, salon, back | say nothing, sleep, wire today, wish: Bea stays
+  getup: { choice:[2, 2,1,1,1, 1,1,2,1], cook:['C','B','C','A','B'], phone:[3,1,1,1,1] },   // working | errand: chain, panaderia, salon, back | say something, get up, wire in three days, wish: Lola
 };
 (async()=>{
   const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
