@@ -111,7 +111,7 @@ def counter(defs):
     <rect x="150" y="596" width="180" height="58" rx="4" fill="#f4f0e2"/>
     <g stroke="#a9a396" stroke-width="3" opacity=".75"><path d="M 166 616 L 300 616"/><path d="M 166 632 L 266 632"/></g>
     <path d="M 344 600 L 396 646" stroke="#2b3358" stroke-width="9" stroke-linecap="round"/>
-    <g fill="#c9c3ae"><ellipse cx="640" cy="602" rx="34" ry="12"/><path d="M 610 602 C 610 578 670 578 670 602 Z" fill="#b9b3a0"/><rect x="636" y="574" width="8" height="10" rx="3"/></g>
+    <g fill="#c9c3ae"><ellipse cx="1184" cy="604" rx="34" ry="12"/><path d="M 1154 604 C 1154 580 1214 580 1214 604 Z" fill="#b9b3a0"/><rect x="1180" y="576" width="8" height="10" rx="3"/></g>
   </g>
   <!-- the cash, and the receipt that comes back. Drawn last so they sit on the counter. -->
   <g id="wire-receipt" hidden filter="url(#roughFine)" transform="translate(1012 556) rotate(-5)">

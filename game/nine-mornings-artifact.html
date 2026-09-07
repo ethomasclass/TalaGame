@@ -151,6 +151,7 @@
   /* Nothing that is not currently in play may take a pointer. opacity:0 does NOT stop hit-testing. */
   #phone{pointer-events:none} #phone.on{pointer-events:auto}
   .cardwrap,.prompt,.estab,.alarmtxt,#dev,.hud{pointer-events:none}
+  .dlg{pointer-events:none} .panel{pointer-events:auto}
   .cardscreen{pointer-events:none} .cardscreen.on{pointer-events:auto}
   #cook svg,#cook .overlay{pointer-events:none}
   #drag-egg,#drag-vin,#drag-tube,#drag-tablea,#drag-bills{pointer-events:auto}
@@ -1229,53 +1230,117 @@
     <linearGradient id="v-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
     <radialGradient id="v-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
     <radialGradient id="v-cold" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#eaf6ff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfe0ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="v-tv" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#8fd0ff" stop-opacity=".8"/><stop offset="100%" stop-color="#5a8fd0" stop-opacity="0"/></radialGradient>
     <filter id="v-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
     <filter id="v-roughFine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
     <filter id="v-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="v-mid"><feGaussianBlur stdDeviation="8"/></filter>
   </defs>
   <rect width="1280" height="720" fill="url(#v-sky)"/>
   <g fill="#e8e2ff"><circle cx="180" cy="72" r="1.6" opacity=".5"/><circle cx="520" cy="58" r="1.4" opacity=".45"/><circle cx="1180" cy="66" r="1.6" opacity=".4"/></g>
-  <!-- buildings -->
-  <g filter="url(#v-rough)"><rect x="-20" y="120" width="640" height="420" fill="#5b3b3e"/><rect x="620" y="140" width="680" height="400" fill="#3f4256"/>
-    <g fill="#2c1e24" opacity=".8"><rect x="60" y="150" width="60" height="80" rx="4"/><rect x="180" y="150" width="60" height="80" rx="4"/><rect x="300" y="150" width="60" height="80" rx="4"/><rect x="420" y="150" width="60" height="80" rx="4"/></g>
-    <g fill="#f4c65a" opacity=".55"><rect x="190" y="160" width="40" height="60" rx="3"/><rect x="430" y="160" width="40" height="60" rx="3"/></g>
-    <g fill="#262838" opacity=".8"><rect x="700" y="170" width="70" height="80" rx="4"/><rect x="840" y="170" width="70" height="80" rx="4"/><rect x="980" y="170" width="70" height="80" rx="4"/><rect x="1120" y="170" width="70" height="80" rx="4"/></g>
+  <rect y="470" width="1280" height="250" fill="url(#v-road)"/>
+  <g transform="translate(0 -58)">
+  <!-- apartments over the shops. People live above all of this. -->
+  <g filter="url(#v-rough)"><rect x="-20" y="110" width="940" height="380" fill="#5b3b3e"/><rect x="920" y="150" width="380" height="340" fill="#3f4256"/>
+    <g fill="#2c1e24" opacity=".8"><rect x="40" y="140" width="56" height="76" rx="4"/><rect x="150" y="140" width="56" height="76" rx="4"/><rect x="260" y="140" width="56" height="76" rx="4"/><rect x="370" y="140" width="56" height="76" rx="4"/><rect x="480" y="140" width="56" height="76" rx="4"/><rect x="590" y="140" width="56" height="76" rx="4"/><rect x="700" y="140" width="56" height="76" rx="4"/><rect x="810" y="140" width="56" height="76" rx="4"/></g>
+    <g fill="#f4c65a" opacity=".55"><rect x="158" y="150" width="40" height="56" rx="3"/><rect x="488" y="150" width="40" height="56" rx="3"/><rect x="708" y="150" width="40" height="56" rx="3"/></g>
+    <g fill="#262838" opacity=".8"><rect x="960" y="180" width="66" height="76" rx="4"/><rect x="1090" y="180" width="66" height="76" rx="4"/><rect x="1220" y="180" width="66" height="76" rx="4"/></g>
+    <!-- somebody has a parol in an upstairs window -->
+    <g transform="translate(618 178) scale(.3)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><circle r="14" fill="#fff4d2"/></g>
   </g>
-  <!-- MANG BOY'S : small, warm, hand-painted -->
-  <ellipse cx="300" cy="420" rx="300" ry="180" fill="url(#v-warm)" filter="url(#v-soft)"/>
+
+  <!-- ===== 1. BAYANIHAN CARGO : the balikbayan box shipper ===== -->
+  <ellipse cx="90" cy="440" rx="200" ry="150" fill="url(#v-warm)" filter="url(#v-soft)" opacity=".7"/>
   <g filter="url(#v-rough)">
-    <rect x="60" y="260" width="500" height="280" fill="#7a3a34"/>
-    <rect x="60" y="260" width="500" height="70" fill="#c9524a"/><rect x="60" y="322" width="500" height="10" fill="#f4c65a"/>
-    <rect x="100" y="350" width="200" height="190" fill="#ffd79b"/><rect x="330" y="350" width="120" height="190" fill="#5a2a26"/><rect x="340" y="360" width="100" height="120" fill="#ffd79b" opacity=".9"/>
-    <g fill="#5a2a26" opacity=".85"><rect x="110" y="360" width="8" height="180"/><rect x="292" y="360" width="8" height="180"/><rect x="100" y="440" width="200" height="6"/></g>
-    <!-- crates out front -->
-    <g><rect x="470" y="470" width="70" height="70" fill="#a8743e"/><rect x="476" y="476" width="58" height="26" fill="#6b8a3e"/><rect x="470" y="440" width="70" height="30" fill="#a8743e"/><rect x="476" y="446" width="58" height="18" fill="#d9a23c"/></g>
-    <!-- parol in the window -->
-    <g transform="translate(200 410) scale(.5)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
-    <!-- shelves seen through the glass -->
-    <g fill="#c9524a" opacity=".7"><rect x="130" y="380" width="14" height="30"/><rect x="150" y="380" width="14" height="30"/><rect x="170" y="380" width="14" height="30"/><rect x="230" y="380" width="14" height="30"/><rect x="250" y="380" width="14" height="30"/></g>
-    <g fill="#4a7a4e" opacity=".7"><rect x="130" y="460" width="18" height="34"/><rect x="154" y="460" width="18" height="34"/><rect x="178" y="460" width="18" height="34"/><rect x="230" y="460" width="18" height="34"/></g>
+    <rect x="-20" y="250" width="215" height="290" fill="#4a3a52"/>
+    <rect x="-20" y="250" width="215" height="58" fill="#2f6fd6"/><rect x="-20" y="302" width="215" height="8" fill="#f4c65a"/>
+    <rect x="0" y="330" width="175" height="210" fill="#ffd79b"/>
+    <!-- boxes stacked in the window, taped, addressed -->
+    <g fill="#c9a06a"><rect x="14" y="400" width="72" height="60"/><rect x="92" y="392" width="72" height="68"/><rect x="24" y="466" width="72" height="60"/><rect x="102" y="470" width="60" height="56"/></g>
+    <g stroke="#8a6a3e" stroke-width="4" opacity=".8"><path d="M 50 400 L 50 460"/><path d="M 128 392 L 128 460"/><path d="M 60 466 L 60 526"/></g>
+    <g fill="#f6f1e2" opacity=".9"><rect x="26" y="410" width="34" height="12"/><rect x="104" y="404" width="34" height="12"/></g>
+    <!-- the rate sheet taped inside the glass -->
+    <rect x="12" y="336" width="60" height="52" fill="#f6f1e2"/>
+    <g stroke="#9a9488" stroke-width="2.5" opacity=".8"><path d="M 20 350 L 64 350"/><path d="M 20 360 L 56 360"/><path d="M 20 370 L 60 370"/></g>
   </g>
-  <text x="310" y="308" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="40" fill="#fff3d6" letter-spacing="1">MANG BOY’S</text>
-  <text x="310" y="330" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fff3d6" letter-spacing="3" opacity=".85">FILIPINO GROCERY · SARI-SARI</text>
-  <!-- THE CHAIN : wide, white, fluorescent -->
-  <ellipse cx="960" cy="420" rx="330" ry="180" fill="url(#v-cold)" filter="url(#v-soft)"/>
+  <text x="104" y="283" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="18" fill="#fff3d6" letter-spacing="0.5">BAYANIHAN CARGO</text>
+  <text x="104" y="300" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#cfe0ff" letter-spacing="2">BALIKBAYAN BOXES &#183; DOOR TO DOOR</text>
+
+  <!-- ===== 2. MANG BOY'S : small, warm, hand-painted ===== -->
+  <ellipse cx="380" cy="430" rx="250" ry="170" fill="url(#v-warm)" filter="url(#v-soft)"/>
   <g filter="url(#v-rough)">
-    <rect x="640" y="250" width="620" height="290" fill="#2a2d3a"/>
-    <rect x="640" y="250" width="620" height="60" fill="#e8ecf2"/><rect x="640" y="304" width="620" height="8" fill="#2f6fd6"/>
-    <rect x="660" y="330" width="580" height="210" fill="#eef7ff"/>
-    <g fill="#c7d3e0" opacity=".8"><rect x="660" y="330" width="8" height="210"/><rect x="946" y="330" width="8" height="210"/><rect x="1232" y="330" width="8" height="210"/></g>
-    <g fill="#fff" opacity=".9"><rect x="700" y="360" width="200" height="30"/><rect x="700" y="420" width="200" height="30"/><rect x="700" y="480" width="200" height="30"/><rect x="990" y="360" width="200" height="30"/><rect x="990" y="420" width="200" height="30"/><rect x="990" y="480" width="200" height="30"/></g>
-    <g fill="#ffd23c"><rect x="700" y="340" width="90" height="26"/><rect x="990" y="340" width="90" height="26"/></g>
-    <g fill="#e0453f"><rect x="1110" y="340" width="70" height="26"/></g>
+    <rect x="205" y="250" width="350" height="290" fill="#7a3a34"/>
+    <rect x="205" y="250" width="350" height="62" fill="#c9524a"/><rect x="205" y="306" width="350" height="9" fill="#f4c65a"/>
+    <rect x="228" y="336" width="170" height="204" fill="#ffd79b"/><rect x="412" y="336" width="120" height="204" fill="#5a2a26"/><rect x="420" y="344" width="104" height="120" fill="#ffd79b" opacity=".9"/>
+    <g fill="#5a2a26" opacity=".85"><rect x="236" y="344" width="8" height="196"/><rect x="386" y="344" width="8" height="196"/><rect x="228" y="424" width="170" height="6"/></g>
+    <g transform="translate(312 396) scale(.44)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
+    <g fill="#c9524a" opacity=".7"><rect x="250" y="366" width="14" height="30"/><rect x="270" y="366" width="14" height="30"/><rect x="290" y="366" width="14" height="30"/><rect x="344" y="366" width="14" height="30"/><rect x="364" y="366" width="14" height="30"/></g>
+    <g fill="#4a7a4e" opacity=".7"><rect x="250" y="446" width="18" height="34"/><rect x="274" y="446" width="18" height="34"/><rect x="298" y="446" width="18" height="34"/><rect x="346" y="446" width="18" height="34"/></g>
+    <!-- crates of produce out on the pavement -->
+    <g><rect x="470" y="470" width="66" height="70" fill="#a8743e"/><rect x="476" y="476" width="54" height="26" fill="#6b8a3e"/><rect x="470" y="440" width="66" height="30" fill="#a8743e"/><rect x="476" y="446" width="54" height="18" fill="#d9a23c"/></g>
   </g>
-  <text x="950" y="292" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="500" font-size="34" fill="#2f6fd6" letter-spacing="6">QUIK MART</text>
-  <text x="745" y="358" font-family="IBM Plex Mono, monospace" font-size="12" fill="#2b2f3a" text-anchor="middle">SALE</text><text x="1035" y="358" font-family="IBM Plex Mono, monospace" font-size="12" fill="#2b2f3a" text-anchor="middle">2 FOR 1</text>
+  <text x="380" y="292" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="34" fill="#fff3d6" letter-spacing="1">MANG BOY&#8217;S</text>
+  <text x="380" y="312" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#fff3d6" letter-spacing="3" opacity=".85">FILIPINO GROCERY &#183; SARI-SARI</text>
+
+  <!-- ===== 3. THE PANADERIA : the second batch comes out at five ===== -->
+  <ellipse cx="650" cy="420" rx="190" ry="150" fill="url(#v-warm)" filter="url(#v-soft)"/>
+  <g filter="url(#v-rough)">
+    <rect x="565" y="250" width="175" height="290" fill="#8a6a3e"/>
+    <rect x="565" y="250" width="175" height="56" fill="#f4c65a"/>
+    <rect x="582" y="330" width="142" height="210" fill="#ffe3ac"/>
+    <!-- trays of pan de sal, still warm -->
+    <g fill="#c9a06a"><rect x="592" y="380" width="122" height="8"/><rect x="592" y="432" width="122" height="8"/><rect x="592" y="484" width="122" height="8"/></g>
+    <g fill="#d9a45e"><ellipse cx="608" cy="372" rx="15" ry="10"/><ellipse cx="640" cy="372" rx="15" ry="10"/><ellipse cx="672" cy="372" rx="15" ry="10"/><ellipse cx="702" cy="372" rx="14" ry="10"/>
+      <ellipse cx="608" cy="424" rx="15" ry="10"/><ellipse cx="640" cy="424" rx="15" ry="10"/><ellipse cx="672" cy="424" rx="15" ry="10"/><ellipse cx="702" cy="424" rx="14" ry="10"/>
+      <ellipse cx="614" cy="476" rx="15" ry="10"/><ellipse cx="648" cy="476" rx="15" ry="10"/><ellipse cx="684" cy="476" rx="15" ry="10"/></g>
+    <g fill="#f0c98a" opacity=".7"><ellipse cx="604" cy="368" rx="7" ry="4"/><ellipse cx="636" cy="368" rx="7" ry="4"/><ellipse cx="668" cy="368" rx="7" ry="4"/><ellipse cx="604" cy="420" rx="7" ry="4"/><ellipse cx="636" cy="420" rx="7" ry="4"/></g>
+  </g>
+  <text x="652" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="27" fill="#5a3a1e" letter-spacing="1">PANADERIA</text>
+
+  <!-- ===== 4. THE SALON : a teleserye on a TV nobody is watching ===== -->
+  <g filter="url(#v-rough)">
+    <rect x="750" y="250" width="160" height="290" fill="#6b3550"/>
+    <rect x="750" y="250" width="160" height="54" fill="#e88ab0"/>
+    <rect x="766" y="328" width="128" height="212" fill="#3a2438"/>
+  </g>
+  <ellipse cx="832" cy="392" rx="90" ry="70" fill="url(#v-tv)" filter="url(#v-mid)"/>
+  <g filter="url(#v-roughFine)">
+    <rect x="796" y="356" width="70" height="46" rx="3" fill="#bfe4ff"/>
+    <g fill="#7fb4e0"><rect x="804" y="366" width="22" height="26" rx="8"/><rect x="836" y="368" width="22" height="24" rx="8"/></g>
+    <!-- two chairs, one occupied -->
+    <g fill="#2a1a2c"><rect x="780" y="452" width="34" height="60" rx="6"/><rect x="846" y="452" width="34" height="60" rx="6"/><circle cx="863" cy="444" r="17"/></g>
+  </g>
+  <text x="830" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="24" fill="#3a1c2c" letter-spacing="2">SALON</text>
+
+  <!-- ===== 5. THE CHAIN : wide, white, fluorescent, sells the same milk as everywhere ===== -->
+  <ellipse cx="1120" cy="420" rx="290" ry="170" fill="url(#v-cold)" filter="url(#v-soft)"/>
+  <g filter="url(#v-rough)">
+    <rect x="925" y="250" width="380" height="290" fill="#2a2d3a"/>
+    <rect x="925" y="250" width="380" height="58" fill="#e8ecf2"/><rect x="925" y="302" width="380" height="8" fill="#2f6fd6"/>
+    <rect x="944" y="330" width="356" height="210" fill="#eef7ff"/>
+    <g fill="#c7d3e0" opacity=".8"><rect x="944" y="330" width="8" height="210"/><rect x="1120" y="330" width="8" height="210"/></g>
+    <g fill="#fff" opacity=".9"><rect x="968" y="360" width="130" height="28"/><rect x="968" y="420" width="130" height="28"/><rect x="968" y="480" width="130" height="28"/><rect x="1150" y="360" width="130" height="28"/><rect x="1150" y="420" width="130" height="28"/><rect x="1150" y="480" width="130" height="28"/></g>
+    <g fill="#ffd23c"><rect x="968" y="340" width="70" height="24"/><rect x="1150" y="340" width="70" height="24"/></g>
+  </g>
+  <text x="1115" y="292" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="500" font-size="28" fill="#2f6fd6" letter-spacing="5">QUIK MART</text>
+
   <!-- sidewalk + road, snow at the kerb -->
   <rect y="540" width="1280" height="60" fill="#5c5560"/><rect y="540" width="1280" height="6" fill="#8a8290" opacity=".6"/>
   <rect y="600" width="1280" height="120" fill="url(#v-road)"/>
   <g fill="#e9eef7" opacity=".85" filter="url(#v-roughFine)"><path d="M -10 596 C 120 590 240 604 380 596 C 520 588 640 604 780 598 C 920 592 1060 606 1290 596 L 1290 612 L -10 612 Z"/></g>
-  <ellipse cx="300" cy="600" rx="220" ry="26" fill="#ffcf7a" opacity=".16" filter="url(#v-mid)"/><ellipse cx="960" cy="600" rx="260" ry="26" fill="#cfe6ff" opacity=".2" filter="url(#v-mid)"/>
+  <!-- people on the block. An empty enclave is a contradiction. -->
+  <g filter="url(#v-rough)" opacity=".95">
+    <g transform="translate(180 452)"><path d="M -21 88 C -19 40 -8 30 0 30 C 8 30 19 40 21 88 Z" fill="#3a2c46"/><circle cx="0" cy="16" r="14" fill="#2a2036"/><path d="M -19 92 L -12 92 L -12 104 L -19 104 Z" fill="#241c30"/><path d="M 12 92 L 19 92 L 19 104 L 12 104 Z" fill="#241c30"/></g>
+    <g transform="translate(240 458)"><path d="M -18 82 C -16 38 -7 28 0 28 C 7 28 16 38 18 82 Z" fill="#5a3040"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -16 86 L -10 86 L -10 96 L -16 96 Z" fill="#241c30"/><path d="M 10 86 L 16 86 L 16 96 L 10 96 Z" fill="#241c30"/></g>
+    <g transform="translate(560 446)"><path d="M -23 94 C -21 42 -9 32 0 32 C 9 32 21 42 23 94 Z" fill="#2c3f4a"/><circle cx="0" cy="17" r="15" fill="#221c2c"/><path d="M -20 98 L -13 98 L -13 110 L -20 110 Z" fill="#241c30"/><path d="M 13 98 L 20 98 L 20 110 L 13 110 Z" fill="#241c30"/>
+      <!-- carrying a bag from somewhere -->
+      <rect x="20" y="56" width="20" height="26" rx="3" fill="#7a5a34"/></g>
+    <g transform="translate(730 456)"><path d="M -19 84 C -17 40 -7 30 0 30 C 7 30 17 40 19 84 Z" fill="#46324a"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -17 88 L -11 88 L -11 98 L -17 98 Z" fill="#241c30"/><path d="M 11 88 L 17 88 L 17 98 L 11 98 Z" fill="#241c30"/>
+      <!-- and a small one holding on -->
+      <g transform="translate(24 44) scale(0.58)"><path d="M -18 76 C -16 36 -7 26 0 26 C 7 26 16 36 18 76 Z" fill="#8a4a56"/><circle cx="0" cy="12" r="13" fill="#2a2036"/></g></g>
+    <g transform="translate(1020 450)"><path d="M -20 88 C -18 42 -8 32 0 32 C 8 32 18 42 20 88 Z" fill="#3a4256"/><circle cx="0" cy="17" r="14" fill="#221c2c"/><path d="M -18 92 L -11 92 L -11 104 L -18 104 Z" fill="#241c30"/><path d="M 11 92 L 18 92 L 18 104 L 11 104 Z" fill="#241c30"/></g>
+  </g>
+  <ellipse cx="380" cy="600" rx="230" ry="26" fill="#ffcf7a" opacity=".16" filter="url(#v-mid)"/><ellipse cx="1120" cy="600" rx="240" ry="26" fill="#cfe6ff" opacity=".2" filter="url(#v-mid)"/>
+  </g>
 </svg></div>
   <div class="layer" id="kitchen" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
   <defs>
@@ -1977,9 +2042,41 @@
     <g transform="translate(720 300)"><path d="M -42 120 C -38 70 -18 56 0 56 C 18 56 38 70 42 120 Z" fill="#3f5a4c"/><circle cx="0" cy="34" r="27" fill="#c4885f"/><path d="M -30 32 C -28 0 28 0 30 32 C 22 14 -22 14 -30 32 Z" fill="#241a38"/></g>
     <g transform="translate(880 298)"><path d="M -40 122 C -36 72 -16 58 0 58 C 16 58 36 72 40 122 Z" fill="#7e2f2b"/><circle cx="0" cy="34" r="26" fill="#b8805c"/><path d="M -28 38 C -30 2 30 2 28 38 C 22 14 -22 14 -28 38 Z" fill="#5a5464"/></g>
     <g transform="translate(1020 304)"><path d="M -38 116 C -34 68 -16 54 0 54 C 16 54 34 68 38 116 Z" fill="#2748a8"/><circle cx="0" cy="32" r="25" fill="#d49a76"/><path d="M -26 26 C -24 0 24 0 26 26 C 18 12 -18 12 -26 26 Z" fill="#241a38"/></g>
-    <g transform="translate(1160 300)"><path d="M -40 120 C -36 70 -16 56 0 56 C 16 56 36 70 40 120 Z" fill="#d9788c"/><circle cx="0" cy="34" r="26" fill="#c4885f"/><path d="M -28 30 C -26 4 26 4 28 30 C 20 16 -20 16 -28 30 Z" fill="#3a3444"/></g>
+  </g>
+  <g id="h-hall-videoke" filter="url(#h-rough)">
+    <ellipse cx="1188" cy="330" rx="120" ry="96" fill="#7fb4e0" opacity=".22" filter="url(#h-mid)"/>
+    <!-- rolling stand, legs disappear behind the back table -->
+    <rect x="1128" y="398" width="16" height="90" fill="#3a3444"/><rect x="1236" y="398" width="16" height="90" fill="#3a3444"/>
+    <rect x="1112" y="386" width="156" height="16" rx="4" fill="#4a4454"/>
+    <!-- the set -->
+    <rect x="1108" y="248" width="164" height="146" rx="8" fill="#2b2734"/>
+    <rect x="1122" y="262" width="136" height="104" rx="4" fill="#1b4a72"/>
+    <rect x="1122" y="262" width="136" height="104" rx="4" fill="#3f86c4" opacity=".75"/>
+    <!-- lyrics, half of them already sung -->
+    <g fill="#f4e08a"><rect x="1134" y="292" width="70" height="10" rx="4"/><rect x="1134" y="312" width="46" height="10" rx="4"/></g>
+    <g fill="#f2f6fb" opacity=".9"><rect x="1208" y="292" width="38" height="10" rx="4"/><rect x="1186" y="312" width="60" height="10" rx="4"/><rect x="1134" y="332" width="94" height="10" rx="4"/></g>
+    <circle cx="1240" cy="278" r="13" fill="#0f3050"/><circle cx="1240" cy="278" r="9" fill="#8fd6a8" opacity=".8"/>
+    <g fill="#4a4454"><rect x="1122" y="372" width="46" height="14" rx="4"/><rect x="1180" y="372" width="18" height="14" rx="4"/><rect x="1206" y="372" width="18" height="14" rx="4"/></g>
+    <!-- microphone, on its cable, hooked over the corner -->
+    <path d="M 1108 300 C 1078 316 1070 344 1076 372" stroke="#241c30" stroke-width="5" fill="none"/>
+    <rect x="1062" y="368" width="20" height="46" rx="9" fill="#2b2734"/><circle cx="1072" cy="368" r="12" fill="#6b6478"/>
   </g>
   <g filter="url(#h-rough)"><rect x="280" y="410" width="1000" height="18" rx="6" fill="url(#h-tableP)"/><rect x="290" y="428" width="980" height="40" fill="#b9a982"/></g>
+  <!-- what the block brought. Two dishes at a Simbang Gabi breakfast reads as scarcity. -->
+  <g id="h-hall-spread" filter="url(#h-rough)">
+    <!-- the salabat urn, hissing -->
+    <g fill="#fff8ee" opacity=".45" filter="url(#h-mid)"><ellipse cx="322" cy="300" rx="17" ry="10"/><ellipse cx="340" cy="278" rx="13" ry="8"/></g>
+    <rect x="296" y="330" width="68" height="82" rx="8" fill="#b9bcc6"/><rect x="296" y="330" width="68" height="82" rx="8" fill="#8f94a2" opacity=".4"/>
+    <rect x="302" y="336" width="17" height="70" rx="6" fill="#dfe3ea" opacity=".55"/>
+    <ellipse cx="330" cy="330" rx="34" ry="9" fill="#cfd3dc"/><rect x="322" y="316" width="16" height="14" rx="5" fill="#5a5f70"/>
+    <rect x="358" y="374" width="16" height="8" rx="3" fill="#5a5f70"/><rect x="366" y="380" width="7" height="15" rx="3" fill="#5a5f70"/>
+    <!-- stack of paper cups beside it -->
+    <g fill="#f2ede0"><rect x="392" y="376" width="22" height="36" rx="3"/><rect x="418" y="380" width="22" height="32" rx="3"/></g>
+    <!-- pan de sal, in the gap between Ma and Tita -->
+    <rect x="800" y="384" width="104" height="28" rx="5" fill="#a8743e"/><rect x="806" y="388" width="92" height="20" rx="3" fill="#c9a06a"/>
+    <g fill="#d9a45e"><ellipse cx="820" cy="384" rx="16" ry="11"/><ellipse cx="852" cy="382" rx="16" ry="11"/><ellipse cx="884" cy="384" rx="16" ry="11"/><ellipse cx="836" cy="372" rx="15" ry="10"/><ellipse cx="868" cy="370" rx="15" ry="10"/></g>
+    <g fill="#f0c98a" opacity=".7"><ellipse cx="816" cy="380" rx="7" ry="4"/><ellipse cx="848" cy="378" rx="7" ry="4"/><ellipse cx="832" cy="368" rx="7" ry="4"/></g>
+  </g>
   <!-- the family behind the serving table, then the table with the trays -->
 
   <g transform="translate(560 200) scale(0.9)" class="char" id="c-hma"><g class="breathe">
@@ -2000,9 +2097,11 @@
     <rect x="220" y="586" width="1080" height="140" fill="#c2b28c"/>
     <g id="hall-food">
     <!-- tray of puto bumbong on banana leaf -->
+    <g transform="translate(672 -50)">
     <rect x="260" y="548" width="300" height="36" rx="6" fill="#8fae87"/><rect x="266" y="552" width="288" height="28" rx="4" fill="#4f8a4c"/>
     <g fill="#5a3a7c"><rect x="280" y="540" width="70" height="18" rx="9"/><rect x="360" y="538" width="70" height="18" rx="9"/><rect x="440" y="540" width="70" height="18" rx="9"/><rect x="320" y="556" width="70" height="18" rx="9"/><rect x="400" y="558" width="70" height="18" rx="9"/></g>
     <g fill="#f7f1e2" opacity=".9"><circle cx="300" cy="546" r="3"/><circle cx="380" cy="544" r="3"/><circle cx="460" cy="546" r="3"/><circle cx="340" cy="562" r="3"/><circle cx="420" cy="564" r="3"/></g>
+    </g>
     <!-- bibingka, rounds on leaf -->
     <rect x="900" y="548" width="300" height="36" rx="6" fill="#8fae87"/>
     <g fill="#e8c27a"><circle cx="950" cy="560" r="22"/><circle cx="1010" cy="558" r="22"/><circle cx="1070" cy="560" r="22"/><circle cx="1130" cy="558" r="22"/></g>
@@ -2365,7 +2464,7 @@
     <rect x="150" y="596" width="180" height="58" rx="4" fill="#f4f0e2"/>
     <g stroke="#a9a396" stroke-width="3" opacity=".75"><path d="M 166 616 L 300 616"/><path d="M 166 632 L 266 632"/></g>
     <path d="M 344 600 L 396 646" stroke="#2b3358" stroke-width="9" stroke-linecap="round"/>
-    <g fill="#c9c3ae"><ellipse cx="640" cy="602" rx="34" ry="12"/><path d="M 610 602 C 610 578 670 578 670 602 Z" fill="#b9b3a0"/><rect x="636" y="574" width="8" height="10" rx="3"/></g>
+    <g fill="#c9c3ae"><ellipse cx="1184" cy="604" rx="34" ry="12"/><path d="M 1154 604 C 1154 580 1214 580 1214 604 Z" fill="#b9b3a0"/><rect x="1180" y="576" width="8" height="10" rx="3"/></g>
   </g>
   <!-- the cash, and the receipt that comes back. Drawn last so they sit on the counter. -->
   <g id="wire-receipt" hidden filter="url(#w-roughFine)" transform="translate(1012 556) rotate(-5)">
@@ -3122,7 +3221,7 @@ const TERMS = {
   'Simbang Gabi':'nine early-morning masses before Christmas, December 16 to 24', 'Lola':'grandmother', 'lola':'grandmother', 'Tita':'auntie. Also any older woman you respect', 'Tito':'uncle. Also any older man you respect', 'Nanay':'Mom', 'anak':'child. What a parent calls you',
   'sinigang':'a sour soup, usually made with tamarind', 'pancit':'noodles', 'puto bumbong':'purple rice steamed in bamboo tubes', 'bibingka':'a rice cake baked in a clay pot with hot coals on top', 'adobo':'meat cooked slowly in soy sauce and vinegar',
   'parol':'a star lantern. Christmas in a window', 'balikbayan box':'the big cardboard box Filipino families ship across the ocean', 'remittance':'money sent home to family in another country', 'Mang':'a polite "Mr." for an older man',
-  'po':'a small word that makes anything polite', 'niyog':'grated coconut', 'muscovado':'dark, raw sugar', 'malagkit':'sticky rice', 'pirurutong':'the purple rice', 'bumbong':'the bamboo tube', 'kaunti lang':'just a little',
+  'po':'a small word that makes anything polite', 'niyog':'grated coconut', 'muscovado':'dark, raw sugar', 'malagkit':'sticky rice', 'pirurutong':'the purple rice', 'bumbong':'the bamboo tube', 'kaunti lang':'just a little', 'salabat':'hot ginger tea', 'pan de sal':'soft bread rolls. Every Filipino bakery bakes them twice a day', 'videoke':'karaoke with a machine that scores you. A fixture at any Filipino party', 'sari-sari':'a little bit of everything. What a corner shop like this is called',
   'walk-in':'a refrigerator big enough to walk into', 'the pass':'the counter where plates go from the kitchen to the dining room', 'run a tab':'buy now and pay at the end of the month', 'cane vinegar':'vinegar made from sugarcane. Milder than the white kind'
 };
 function gloss(html){ if(!html) return html; let out = html;
@@ -3135,21 +3234,30 @@ const HOT = {
   dining:[ {x:132,y:170,t:'The parol. Lola sent it the first December, folded flat in a balikbayan box. The note said it was for the window, not for keeping in the box.'},
            {x:375,y:210,t:'The photo. Lola Pacing, before she was anybody’s lola. Ma says she is not smiling because the photographer told her not to.'},
            {x:640,y:60,t:'The lamp came with the apartment. Pa rewired it the second week. He can fix anything. He does not talk about the other thing.'},
-           {x:625,y:600,t:'The envelope. The remittance receipts go in the drawer under the register. There are a lot of them.'} ],
+           {x:1168,y:598,t:'The envelope. The remittance receipts go in the drawer under the register. There are a lot of them.'} ],
   rest:[ {x:180,y:220,t:'Same parol as home. Ma says one window is not enough for a whole December.'},
          {x:815,y:150,t:'The menu. Half of it is what Lola cooked. The other half is what sells. The two halves are not the same size anymore.'},
-         {x:250,y:520,t:'Table two. Nobody, all night.'} ],
+         {x:252,y:462,t:'Table two. Nobody, all night.'} ],
+  street:[ {x:104,y:340,t:'Bayanihan Cargo. You buy an empty box, you fill it for a year, they ship it by sea and it gets there in two months. Chocolate, shoes, medicine, a jacket for somebody who has never needed a jacket.'},
+           {x:312,y:338,t:'Mang Boy’s. He is not called Boy. Nobody remembers what he is called. He has run this store since before Tala was born and he lets half the block pay at the end of the month.'},
+           {x:652,y:400,t:'The panaderia. Second batch of pan de sal comes out at five, because everybody gets off work at five. That is the whole business plan and it has worked for thirty years.'},
+           {x:830,y:330,t:'A teleserye on the salon TV that nobody is watching and nobody will turn off. Tala’s mother watches this one. So does Bea’s mother, six thousand miles away, one day behind.'},
+           {x:1115,y:236,t:'Quik Mart. Milk, batteries, lottery tickets. It is cheaper and it is fine and it does not know anybody’s name.'},
+           {x:618,y:120,t:'Somebody upstairs has a parol in the window. There are eleven on this block. Tala counted, the first December, when she was still counting things.'} ],
   school:[ {x:830,y:130,t:'The map on the wall. There is a pin in Jersey City and a pin in Batangas. Tala has never told anyone the second pin is hers.'},
            {x:400,y:200,t:'Third period. Human geography. A strange thing to study when you are the thing being studied.'} ],
   kitchen:[ {x:230,y:220,t:'The tickets. Table three always sends the pancit back with the liver picked out. They order it anyway.'},
             {x:60,y:400,t:'The walk-in. Ando stood inside it for a full minute on his first afternoon. Everything here is so big.'} ],
   wire:[ {x:350,y:104,t:'The rate board. It was 53.10 on Monday. Nobody in this room controls that number, and everybody in this room watches it.'},
          {x:1155,y:270,t:'The notice taped inside the glass. The fees are on it, in small print, in English only.'},
-         {x:640,y:592,t:'The bell. You ring it if nobody comes. Somebody always comes.'},
-         {x:238,y:624,t:'The form. Name, address, relationship to the person receiving. Tala has written “grandmother” in that box eleven times this year.'} ],
-  hall:[ {x:660,y:158,t:'Maligayang Pasko. Merry Christmas. The banner is older than the parish’s priest. Tita Cora brings it every year in a garment bag.'},
-         {x:400,y:560,t:'Puto bumbong on banana leaf. Purple rice, steamed standing up. The smell in the cold is the whole point.'},
-         {x:1050,y:560,t:'Bibingka. Salted egg and cheese on top, coals above and below. Lola’s always had a burnt spot on one side. On purpose.'} ]
+         {x:1184,y:598,t:'The bell. You ring it if nobody comes. Somebody always comes.'},
+         {x:1000,y:604,t:'The form. Name, address, relationship to the person receiving. Tala has written “grandmother” in that box eleven times this year.'} ],
+  hall:[ {x:1188,y:322,t:'The videoke machine. It belongs to the parish, it is older than most of the nephews operating it, and it has been to every wedding, funeral and birthday on this block.'},
+         {x:330,y:360,t:'Salabat. Ginger tea, no milk, hot enough to hurt on the way down. It is what you drink at five in the morning in December after standing outside for an hour.'},
+         {x:852,y:378,t:'Pan de sal from the panaderia on Newark Avenue. Somebody paid for eight dozen and has not said who.'},
+         {x:660,y:158,t:'Maligayang Pasko. Merry Christmas. The banner is older than the parish’s priest. Tita Cora brings it every year in a garment bag.'},
+         {x:1010,y:500,t:'Puto bumbong on banana leaf. Purple rice, steamed standing up. The smell in the cold is the whole point.'},
+         {x:1150,y:552,t:'Bibingka. Salted egg and cheese on top, coals above and below. Lola’s always had a burnt spot on one side. On purpose.'} ]
 };
 let looking = false;
 function drawHot(){ const svg = $('hot'); svg.innerHTML = ''; const list = (mode === 'say' && !looking) ? (HOT[bg] || []) : [];
@@ -3302,15 +3410,18 @@ const beats = [
   {bg:'school', who:'hannah', text:'Oh. Cool.', expr:{hannah:'flat'}},
   {bg:'school', stage:'It is not cool, and they both know it. Tala had a chance to invite her and did not take it. Then the bell rings.', expr:{tala:'quiet',hannah:'neutral'}},
   {id:'vinegar', estab:['Pacing’s Filipino Kitchen · Newark Avenue','Tuesday, December 18 · 5:20 p.m. · before dinner service'], bg:'ext-rest', pause:3000},
-  {note:['Two stores, one block apart','Mang Boy’s is a small Filipino grocery. It carries the exact cane vinegar Lola’s recipe needs, and it lets the family buy now and pay at the end of the month.',
-         'The chain store is two blocks away. It is four dollars cheaper and does not carry it at all.',
-         'Stores like Mang Boy’s only exist because enough Filipino families live on this block to keep them open.']},
+  {note:['Newark Avenue','Jersey City has one of the largest Filipino communities in the United States, and a lot of it shops on this block: a cargo shop, a grocery, a bakery, a salon, and then a chain store on the corner.',
+         'Geographers call a neighbourhood like this an <b>ethnic enclave</b>. Enough people from one country live close enough together that a business can survive selling only to them. Each shop is part of the reason the next one is still open.',
+         'Mang Boy’s carries the exact cane vinegar Lola’s recipe needs and lets the family pay at the end of the month. The chain is four dollars cheaper and does not carry it at all.']},
   {hud:['December 18','Third morning · Before service'], bg:'street',
-     stage:'Pa is out of vinegar and service starts in forty minutes. Tala has to pick a store.'},
+     stage:'Newark Avenue at twenty past five, and the block is louder than the restaurant. The bakery has its second tray of pan de sal out, because everybody gets off work at five. Somebody upstairs is singing along to something and not stopping.',
+     aside:'The small lights are things Tala could look at. There is time.'},
+  {bg:'street', stage:'She has walked this block a thousand times. It is the one place in New Jersey where nobody has ever asked her where she is from.'},
+  {bg:'street', stage:'Pa is out of vinegar and service starts in forty minutes. Tala has to pick a store.'},
   {bg:'street', choice:[{text:'Mang Boy’s. The right vinegar, on the tab.', set: () => { STATE.cook = {vinegar:'cane'}; }},
                         {text:'The chain store. Four dollars cheaper.', set: () => { STATE.cook = {vinegar:'chain'}; }}]},
   {bg:'street', stage: () => STATE.cook.vinegar === 'cane'
-     ? 'Mang Boy asks about Lola before he asks what she needs. He writes the vinegar in a notebook under the family’s name and does not say when to pay.'
+     ? 'Mang Boy asks about Lola before he asks what she needs. He writes the vinegar in a notebook under the family’s name and does not say when to pay. The radio behind the counter is playing a Christmas song in Tagalog, and on the way out he turns it up.'
      : 'The vinegar comes in a big plastic jug. It is regular white vinegar, not cane. It was four dollars cheaper.'},
   {note:['Who Ando is','Ando is Tala’s cousin. He is twenty. He flew in from Batangas this afternoon, on a ticket the family helped pay for.',
          'Nobody interviewed him for a job. He is family, so there was already a job waiting. This is how most people on this block got here: one relative comes over, then helps the next one.']},
@@ -3468,7 +3579,13 @@ const beats = [
   {bg:'cook', cook:'s5'},
   {bg:'kitchen', stage: () => COOKS.s5.react[STATE.cook.out], expr:{pa:'soft',ando:'smile'}},
   {hud:['December 24','Ninth morning · 5:02 a.m.'], bg:'dawn', show:{'dawn-walk':true,'dawn-tala':false},
-     stage:'They push it three blocks to the parish hall on a hand cart. Mass ends. The hall fills up.'},
+     stage:'They push it three blocks to the parish hall on a hand cart.'},
+  {hud:['December 24','Ninth morning · The parish hall'], bg:'hall',
+     show:{'hall-hannah':false,'hall-basket':false,'hall-food':true},
+     stage:'Mass ends at ten to six and the hall fills up in about ninety seconds. Three conversations in Tagalog, one in English, one that switches every other sentence. Somebody’s baby. The urn of salabat hissing at the end of the table.',
+     expr:{tala:'quiet',ma:'neutral',tita:'neutral'}},
+  {bg:'hall', stage:'Bibingka, puto bumbong, pan de sal, and a tray of something Tala does not recognise that Mrs Ocampo brought anyway. Five in the morning, and there is more food in this room than the restaurant sells on a Saturday night.',
+     aside:'Nobody in here is rich. Everybody in here brought something.', expr:{tala:'neutral'}},
   {hud:['December 24','Ninth morning · The parish hall'], bg:'hall',
      show:{'hall-hannah': () => STATE.invitedHannah, 'hall-basket':false, 'hall-food':true},
      stage: () => STATE.invitedHannah
@@ -3480,14 +3597,26 @@ const beats = [
   {bg:'hall', who:'hannah', text:'That is a lie.', expr:{hannah:'flat'}},
   {bg:'hall', who:'tala', text:'It is not.', expr:{tala:'neutral'}},
   {bg:'hall', stage:'Hannah eats it, thinks about it, and takes another one.', expr:{hannah:'smile',tala:'smile'}},
+  {bg:'hall', stage:'Then a woman Tala has never spoken to puts bibingka on Hannah’s plate. Another one adds pan de sal. A third asks whose friend she is, and does not wait for the answer before adding more.', expr:{hannah:'curious',tala:'smile'}},
+  {bg:'hall', who:'hannah', pre:'(holding a plate she did not build)', text:'I did not ask for any of this.', expr:{hannah:'curious'}},
+  {bg:'hall', who:'tala', text:'I know. You are not going to be allowed to.', expr:{tala:'smile',hannah:'smile'}},
   {bg:'hall', who:'hannah', text:'Do you do this every year?', expr:{hannah:'curious'}},
   {bg:'hall', who:'tala', text:'Every year. This is the first one here.', expr:{tala:'neutral'}},
   {bg:'hall', who:'hannah', text:'That is a lot of work for four in the morning.', expr:{hannah:'neutral'}},
   {bg:'hall', who:'tala', text:'That is kind of the point.', expr:{tala:'smile'}},
   {bg:'hall', who:'tita', text:'Tala. Give your friend more.', expr:{tita:'talk'}},
   {id:'tita', bg:'hall', who:'tita', text:'Your Lola made the puto bumbong for our parish back home. Everybody knew it there. Now they know it here too.', expr:{tita:'warm',ma:'held'}},
+  {bg:'hall', stage:'Then two of Tita Cora’s nephews wheel out the videoke machine, because there has never been a Simbang Gabi breakfast in this hall without one.', expr:{tita:'warm',tala:'neutral'}},
+  {bg:'hall', who:'tita', pre:'(taking the microphone like it has always been hers)', tl:'Ako muna.', text:'Me first.', expr:{tita:'warm'}},
+  {bg:'hall', stage:'She sings something from before Tala was born. Forty people in a church basement at six in the morning know every word of it — the ones who came in late, the nephews who were pretending not to want a turn, Ma.', expr:{tita:'talk',ma:'warm',tala:'smile'}},
+  {bg:'hall', stage: () => STATE.invitedHannah
+     ? 'Hannah does not know one word of it and sings anyway. Ando takes the microphone next and turns out, with no warning at all, to be very good.'
+     : 'Ando takes the microphone next and turns out, with no warning at all, to be very good.',
+     expr:{tala:'smile',ma:'warm',hannah:'smile'}},
+  {bg:'hall', stage:'Ma laughs with her hand over her mouth, which is the loudest she gets.', expr:{ma:'warm',tala:'smile',tita:'warm'},
+     aside:'This is the part Tala never explains to anybody at school. Not the church at four in the morning. <em>This.</em>'},
   {bg:'hall', show:{'hall-basket':true},
-     stage:'Then Tita Cora passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
+     stage:'Then Tita Cora turns the machine down and passes a basket around for Lola’s hospital bill. She did not ask the family first. The whole block puts money in, and Ma has to stand there and let them.', expr:{ma:'held',tita:'warm',tala:'quiet',hannah:'neutral'}},
   {note:['What just happened','The family has been sending money home to Lola all year. This morning the neighborhood sent money back the other way.',
          'Ma is not embarrassed because they need help. She is embarrassed because everyone now knows they need help.']},
   {bg:'hall', who:'ma', pre:'(not looking at her, straightening a tray that is already straight)', tl:'Kumain ka na ba?', text:'Have you eaten?', expr:{ma:'held',tala:'quiet'},

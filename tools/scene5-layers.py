@@ -98,9 +98,41 @@ def hall(defs):
     <g transform="translate(720 300)"><path d="M -42 120 C -38 70 -18 56 0 56 C 18 56 38 70 42 120 Z" fill="#3f5a4c"/><circle cx="0" cy="34" r="27" fill="#c4885f"/><path d="M -30 32 C -28 0 28 0 30 32 C 22 14 -22 14 -30 32 Z" fill="#241a38"/></g>
     <g transform="translate(880 298)"><path d="M -40 122 C -36 72 -16 58 0 58 C 16 58 36 72 40 122 Z" fill="#7e2f2b"/><circle cx="0" cy="34" r="26" fill="#b8805c"/><path d="M -28 38 C -30 2 30 2 28 38 C 22 14 -22 14 -28 38 Z" fill="#5a5464"/></g>
     <g transform="translate(1020 304)"><path d="M -38 116 C -34 68 -16 54 0 54 C 16 54 34 68 38 116 Z" fill="#2748a8"/><circle cx="0" cy="32" r="25" fill="#d49a76"/><path d="M -26 26 C -24 0 24 0 26 26 C 18 12 -18 12 -26 26 Z" fill="#241a38"/></g>
-    <g transform="translate(1160 300)"><path d="M -40 120 C -36 70 -16 56 0 56 C 16 56 36 70 40 120 Z" fill="#d9788c"/><circle cx="0" cy="34" r="26" fill="#c4885f"/><path d="M -28 30 C -26 4 26 4 28 30 C 20 16 -20 16 -28 30 Z" fill="#3a3444"/></g>
+  </g>
+  <g id="hall-videoke" filter="url(#rough)">
+    <ellipse cx="1188" cy="330" rx="120" ry="96" fill="#7fb4e0" opacity=".22" filter="url(#mid)"/>
+    <!-- rolling stand, legs disappear behind the back table -->
+    <rect x="1128" y="398" width="16" height="90" fill="#3a3444"/><rect x="1236" y="398" width="16" height="90" fill="#3a3444"/>
+    <rect x="1112" y="386" width="156" height="16" rx="4" fill="#4a4454"/>
+    <!-- the set -->
+    <rect x="1108" y="248" width="164" height="146" rx="8" fill="#2b2734"/>
+    <rect x="1122" y="262" width="136" height="104" rx="4" fill="#1b4a72"/>
+    <rect x="1122" y="262" width="136" height="104" rx="4" fill="#3f86c4" opacity=".75"/>
+    <!-- lyrics, half of them already sung -->
+    <g fill="#f4e08a"><rect x="1134" y="292" width="70" height="10" rx="4"/><rect x="1134" y="312" width="46" height="10" rx="4"/></g>
+    <g fill="#f2f6fb" opacity=".9"><rect x="1208" y="292" width="38" height="10" rx="4"/><rect x="1186" y="312" width="60" height="10" rx="4"/><rect x="1134" y="332" width="94" height="10" rx="4"/></g>
+    <circle cx="1240" cy="278" r="13" fill="#0f3050"/><circle cx="1240" cy="278" r="9" fill="#8fd6a8" opacity=".8"/>
+    <g fill="#4a4454"><rect x="1122" y="372" width="46" height="14" rx="4"/><rect x="1180" y="372" width="18" height="14" rx="4"/><rect x="1206" y="372" width="18" height="14" rx="4"/></g>
+    <!-- microphone, on its cable, hooked over the corner -->
+    <path d="M 1108 300 C 1078 316 1070 344 1076 372" stroke="#241c30" stroke-width="5" fill="none"/>
+    <rect x="1062" y="368" width="20" height="46" rx="9" fill="#2b2734"/><circle cx="1072" cy="368" r="12" fill="#6b6478"/>
   </g>
   <g filter="url(#rough)"><rect x="280" y="410" width="1000" height="18" rx="6" fill="url(#tableP)"/><rect x="290" y="428" width="980" height="40" fill="#b9a982"/></g>
+  <!-- what the block brought. Two dishes at a Simbang Gabi breakfast reads as scarcity. -->
+  <g id="hall-spread" filter="url(#rough)">
+    <!-- the salabat urn, hissing -->
+    <g fill="#fff8ee" opacity=".45" filter="url(#mid)"><ellipse cx="322" cy="300" rx="17" ry="10"/><ellipse cx="340" cy="278" rx="13" ry="8"/></g>
+    <rect x="296" y="330" width="68" height="82" rx="8" fill="#b9bcc6"/><rect x="296" y="330" width="68" height="82" rx="8" fill="#8f94a2" opacity=".4"/>
+    <rect x="302" y="336" width="17" height="70" rx="6" fill="#dfe3ea" opacity=".55"/>
+    <ellipse cx="330" cy="330" rx="34" ry="9" fill="#cfd3dc"/><rect x="322" y="316" width="16" height="14" rx="5" fill="#5a5f70"/>
+    <rect x="358" y="374" width="16" height="8" rx="3" fill="#5a5f70"/><rect x="366" y="380" width="7" height="15" rx="3" fill="#5a5f70"/>
+    <!-- stack of paper cups beside it -->
+    <g fill="#f2ede0"><rect x="392" y="376" width="22" height="36" rx="3"/><rect x="418" y="380" width="22" height="32" rx="3"/></g>
+    <!-- pan de sal, in the gap between Ma and Tita -->
+    <rect x="800" y="384" width="104" height="28" rx="5" fill="#a8743e"/><rect x="806" y="388" width="92" height="20" rx="3" fill="#c9a06a"/>
+    <g fill="#d9a45e"><ellipse cx="820" cy="384" rx="16" ry="11"/><ellipse cx="852" cy="382" rx="16" ry="11"/><ellipse cx="884" cy="384" rx="16" ry="11"/><ellipse cx="836" cy="372" rx="15" ry="10"/><ellipse cx="868" cy="370" rx="15" ry="10"/></g>
+    <g fill="#f0c98a" opacity=".7"><ellipse cx="816" cy="380" rx="7" ry="4"/><ellipse cx="848" cy="378" rx="7" ry="4"/><ellipse cx="832" cy="368" rx="7" ry="4"/></g>
+  </g>
   <!-- the family behind the serving table, then the table with the trays -->
   <g id="hall-chars"></g>
   <g filter="url(#rough)">
@@ -108,9 +140,11 @@ def hall(defs):
     <rect x="220" y="586" width="1080" height="140" fill="#c2b28c"/>
     <g id="hall-food">
     <!-- tray of puto bumbong on banana leaf -->
+    <g transform="translate(672 -50)">
     <rect x="260" y="548" width="300" height="36" rx="6" fill="#8fae87"/><rect x="266" y="552" width="288" height="28" rx="4" fill="#4f8a4c"/>
     <g fill="#5a3a7c"><rect x="280" y="540" width="70" height="18" rx="9"/><rect x="360" y="538" width="70" height="18" rx="9"/><rect x="440" y="540" width="70" height="18" rx="9"/><rect x="320" y="556" width="70" height="18" rx="9"/><rect x="400" y="558" width="70" height="18" rx="9"/></g>
     <g fill="#f7f1e2" opacity=".9"><circle cx="300" cy="546" r="3"/><circle cx="380" cy="544" r="3"/><circle cx="460" cy="546" r="3"/><circle cx="340" cy="562" r="3"/><circle cx="420" cy="564" r="3"/></g>
+    </g>
     <!-- bibingka, rounds on leaf -->
     <rect x="900" y="548" width="300" height="36" rx="6" fill="#8fae87"/>
     <g fill="#e8c27a"><circle cx="950" cy="560" r="22"/><circle cx="1010" cy="558" r="22"/><circle cx="1070" cy="560" r="22"/><circle cx="1130" cy="558" r="22"/></g>

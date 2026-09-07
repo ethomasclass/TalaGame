@@ -141,60 +141,126 @@ def school(defs):
     return svg
 
 def street():
-    return r'''<svg width="1280" height="720" viewBox="0 0 1280 720">
+    """Newark Avenue at 5:20pm. Four Filipino businesses in a row and then the chain,
+    because an enclave is a strip, not a lone holdout. The block has to look worth choosing."""
+    return r"""<svg width="1280" height="720" viewBox="0 0 1280 720">
   <defs>
     <linearGradient id="v-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b2a4a"/><stop offset="60%" stop-color="#5a4160"/><stop offset="100%" stop-color="#a86a5c"/></linearGradient>
     <linearGradient id="v-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
     <radialGradient id="v-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
     <radialGradient id="v-cold" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#eaf6ff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfe0ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="v-tv" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#8fd0ff" stop-opacity=".8"/><stop offset="100%" stop-color="#5a8fd0" stop-opacity="0"/></radialGradient>
     <filter id="v-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
     <filter id="v-roughFine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
     <filter id="v-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="v-mid"><feGaussianBlur stdDeviation="8"/></filter>
   </defs>
   <rect width="1280" height="720" fill="url(#v-sky)"/>
   <g fill="#e8e2ff"><circle cx="180" cy="72" r="1.6" opacity=".5"/><circle cx="520" cy="58" r="1.4" opacity=".45"/><circle cx="1180" cy="66" r="1.6" opacity=".4"/></g>
-  <!-- buildings -->
-  <g filter="url(#v-rough)"><rect x="-20" y="120" width="640" height="420" fill="#5b3b3e"/><rect x="620" y="140" width="680" height="400" fill="#3f4256"/>
-    <g fill="#2c1e24" opacity=".8"><rect x="60" y="150" width="60" height="80" rx="4"/><rect x="180" y="150" width="60" height="80" rx="4"/><rect x="300" y="150" width="60" height="80" rx="4"/><rect x="420" y="150" width="60" height="80" rx="4"/></g>
-    <g fill="#f4c65a" opacity=".55"><rect x="190" y="160" width="40" height="60" rx="3"/><rect x="430" y="160" width="40" height="60" rx="3"/></g>
-    <g fill="#262838" opacity=".8"><rect x="700" y="170" width="70" height="80" rx="4"/><rect x="840" y="170" width="70" height="80" rx="4"/><rect x="980" y="170" width="70" height="80" rx="4"/><rect x="1120" y="170" width="70" height="80" rx="4"/></g>
+  <rect y="470" width="1280" height="250" fill="url(#v-road)"/>
+  <g transform="translate(0 -58)">
+  <!-- apartments over the shops. People live above all of this. -->
+  <g filter="url(#v-rough)"><rect x="-20" y="110" width="940" height="380" fill="#5b3b3e"/><rect x="920" y="150" width="380" height="340" fill="#3f4256"/>
+    <g fill="#2c1e24" opacity=".8"><rect x="40" y="140" width="56" height="76" rx="4"/><rect x="150" y="140" width="56" height="76" rx="4"/><rect x="260" y="140" width="56" height="76" rx="4"/><rect x="370" y="140" width="56" height="76" rx="4"/><rect x="480" y="140" width="56" height="76" rx="4"/><rect x="590" y="140" width="56" height="76" rx="4"/><rect x="700" y="140" width="56" height="76" rx="4"/><rect x="810" y="140" width="56" height="76" rx="4"/></g>
+    <g fill="#f4c65a" opacity=".55"><rect x="158" y="150" width="40" height="56" rx="3"/><rect x="488" y="150" width="40" height="56" rx="3"/><rect x="708" y="150" width="40" height="56" rx="3"/></g>
+    <g fill="#262838" opacity=".8"><rect x="960" y="180" width="66" height="76" rx="4"/><rect x="1090" y="180" width="66" height="76" rx="4"/><rect x="1220" y="180" width="66" height="76" rx="4"/></g>
+    <!-- somebody has a parol in an upstairs window -->
+    <g transform="translate(618 178) scale(.3)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><circle r="14" fill="#fff4d2"/></g>
   </g>
-  <!-- MANG BOY'S : small, warm, hand-painted -->
-  <ellipse cx="300" cy="420" rx="300" ry="180" fill="url(#v-warm)" filter="url(#v-soft)"/>
+
+  <!-- ===== 1. BAYANIHAN CARGO : the balikbayan box shipper ===== -->
+  <ellipse cx="90" cy="440" rx="200" ry="150" fill="url(#v-warm)" filter="url(#v-soft)" opacity=".7"/>
   <g filter="url(#v-rough)">
-    <rect x="60" y="260" width="500" height="280" fill="#7a3a34"/>
-    <rect x="60" y="260" width="500" height="70" fill="#c9524a"/><rect x="60" y="322" width="500" height="10" fill="#f4c65a"/>
-    <rect x="100" y="350" width="200" height="190" fill="#ffd79b"/><rect x="330" y="350" width="120" height="190" fill="#5a2a26"/><rect x="340" y="360" width="100" height="120" fill="#ffd79b" opacity=".9"/>
-    <g fill="#5a2a26" opacity=".85"><rect x="110" y="360" width="8" height="180"/><rect x="292" y="360" width="8" height="180"/><rect x="100" y="440" width="200" height="6"/></g>
-    <!-- crates out front -->
-    <g><rect x="470" y="470" width="70" height="70" fill="#a8743e"/><rect x="476" y="476" width="58" height="26" fill="#6b8a3e"/><rect x="470" y="440" width="70" height="30" fill="#a8743e"/><rect x="476" y="446" width="58" height="18" fill="#d9a23c"/></g>
-    <!-- parol in the window -->
-    <g transform="translate(200 410) scale(.5)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
-    <!-- shelves seen through the glass -->
-    <g fill="#c9524a" opacity=".7"><rect x="130" y="380" width="14" height="30"/><rect x="150" y="380" width="14" height="30"/><rect x="170" y="380" width="14" height="30"/><rect x="230" y="380" width="14" height="30"/><rect x="250" y="380" width="14" height="30"/></g>
-    <g fill="#4a7a4e" opacity=".7"><rect x="130" y="460" width="18" height="34"/><rect x="154" y="460" width="18" height="34"/><rect x="178" y="460" width="18" height="34"/><rect x="230" y="460" width="18" height="34"/></g>
+    <rect x="-20" y="250" width="215" height="290" fill="#4a3a52"/>
+    <rect x="-20" y="250" width="215" height="58" fill="#2f6fd6"/><rect x="-20" y="302" width="215" height="8" fill="#f4c65a"/>
+    <rect x="0" y="330" width="175" height="210" fill="#ffd79b"/>
+    <!-- boxes stacked in the window, taped, addressed -->
+    <g fill="#c9a06a"><rect x="14" y="400" width="72" height="60"/><rect x="92" y="392" width="72" height="68"/><rect x="24" y="466" width="72" height="60"/><rect x="102" y="470" width="60" height="56"/></g>
+    <g stroke="#8a6a3e" stroke-width="4" opacity=".8"><path d="M 50 400 L 50 460"/><path d="M 128 392 L 128 460"/><path d="M 60 466 L 60 526"/></g>
+    <g fill="#f6f1e2" opacity=".9"><rect x="26" y="410" width="34" height="12"/><rect x="104" y="404" width="34" height="12"/></g>
+    <!-- the rate sheet taped inside the glass -->
+    <rect x="12" y="336" width="60" height="52" fill="#f6f1e2"/>
+    <g stroke="#9a9488" stroke-width="2.5" opacity=".8"><path d="M 20 350 L 64 350"/><path d="M 20 360 L 56 360"/><path d="M 20 370 L 60 370"/></g>
   </g>
-  <text x="310" y="308" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="40" fill="#fff3d6" letter-spacing="1">MANG BOY’S</text>
-  <text x="310" y="330" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#fff3d6" letter-spacing="3" opacity=".85">FILIPINO GROCERY · SARI-SARI</text>
-  <!-- THE CHAIN : wide, white, fluorescent -->
-  <ellipse cx="960" cy="420" rx="330" ry="180" fill="url(#v-cold)" filter="url(#v-soft)"/>
+  <text x="104" y="283" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="18" fill="#fff3d6" letter-spacing="0.5">BAYANIHAN CARGO</text>
+  <text x="104" y="300" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#cfe0ff" letter-spacing="2">BALIKBAYAN BOXES &#183; DOOR TO DOOR</text>
+
+  <!-- ===== 2. MANG BOY'S : small, warm, hand-painted ===== -->
+  <ellipse cx="380" cy="430" rx="250" ry="170" fill="url(#v-warm)" filter="url(#v-soft)"/>
   <g filter="url(#v-rough)">
-    <rect x="640" y="250" width="620" height="290" fill="#2a2d3a"/>
-    <rect x="640" y="250" width="620" height="60" fill="#e8ecf2"/><rect x="640" y="304" width="620" height="8" fill="#2f6fd6"/>
-    <rect x="660" y="330" width="580" height="210" fill="#eef7ff"/>
-    <g fill="#c7d3e0" opacity=".8"><rect x="660" y="330" width="8" height="210"/><rect x="946" y="330" width="8" height="210"/><rect x="1232" y="330" width="8" height="210"/></g>
-    <g fill="#fff" opacity=".9"><rect x="700" y="360" width="200" height="30"/><rect x="700" y="420" width="200" height="30"/><rect x="700" y="480" width="200" height="30"/><rect x="990" y="360" width="200" height="30"/><rect x="990" y="420" width="200" height="30"/><rect x="990" y="480" width="200" height="30"/></g>
-    <g fill="#ffd23c"><rect x="700" y="340" width="90" height="26"/><rect x="990" y="340" width="90" height="26"/></g>
-    <g fill="#e0453f"><rect x="1110" y="340" width="70" height="26"/></g>
+    <rect x="205" y="250" width="350" height="290" fill="#7a3a34"/>
+    <rect x="205" y="250" width="350" height="62" fill="#c9524a"/><rect x="205" y="306" width="350" height="9" fill="#f4c65a"/>
+    <rect x="228" y="336" width="170" height="204" fill="#ffd79b"/><rect x="412" y="336" width="120" height="204" fill="#5a2a26"/><rect x="420" y="344" width="104" height="120" fill="#ffd79b" opacity=".9"/>
+    <g fill="#5a2a26" opacity=".85"><rect x="236" y="344" width="8" height="196"/><rect x="386" y="344" width="8" height="196"/><rect x="228" y="424" width="170" height="6"/></g>
+    <g transform="translate(312 396) scale(.44)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
+    <g fill="#c9524a" opacity=".7"><rect x="250" y="366" width="14" height="30"/><rect x="270" y="366" width="14" height="30"/><rect x="290" y="366" width="14" height="30"/><rect x="344" y="366" width="14" height="30"/><rect x="364" y="366" width="14" height="30"/></g>
+    <g fill="#4a7a4e" opacity=".7"><rect x="250" y="446" width="18" height="34"/><rect x="274" y="446" width="18" height="34"/><rect x="298" y="446" width="18" height="34"/><rect x="346" y="446" width="18" height="34"/></g>
+    <!-- crates of produce out on the pavement -->
+    <g><rect x="470" y="470" width="66" height="70" fill="#a8743e"/><rect x="476" y="476" width="54" height="26" fill="#6b8a3e"/><rect x="470" y="440" width="66" height="30" fill="#a8743e"/><rect x="476" y="446" width="54" height="18" fill="#d9a23c"/></g>
   </g>
-  <text x="950" y="292" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="500" font-size="34" fill="#2f6fd6" letter-spacing="6">QUIK MART</text>
-  <text x="745" y="358" font-family="IBM Plex Mono, monospace" font-size="12" fill="#2b2f3a" text-anchor="middle">SALE</text><text x="1035" y="358" font-family="IBM Plex Mono, monospace" font-size="12" fill="#2b2f3a" text-anchor="middle">2 FOR 1</text>
+  <text x="380" y="292" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="34" fill="#fff3d6" letter-spacing="1">MANG BOY&#8217;S</text>
+  <text x="380" y="312" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#fff3d6" letter-spacing="3" opacity=".85">FILIPINO GROCERY &#183; SARI-SARI</text>
+
+  <!-- ===== 3. THE PANADERIA : the second batch comes out at five ===== -->
+  <ellipse cx="650" cy="420" rx="190" ry="150" fill="url(#v-warm)" filter="url(#v-soft)"/>
+  <g filter="url(#v-rough)">
+    <rect x="565" y="250" width="175" height="290" fill="#8a6a3e"/>
+    <rect x="565" y="250" width="175" height="56" fill="#f4c65a"/>
+    <rect x="582" y="330" width="142" height="210" fill="#ffe3ac"/>
+    <!-- trays of pan de sal, still warm -->
+    <g fill="#c9a06a"><rect x="592" y="380" width="122" height="8"/><rect x="592" y="432" width="122" height="8"/><rect x="592" y="484" width="122" height="8"/></g>
+    <g fill="#d9a45e"><ellipse cx="608" cy="372" rx="15" ry="10"/><ellipse cx="640" cy="372" rx="15" ry="10"/><ellipse cx="672" cy="372" rx="15" ry="10"/><ellipse cx="702" cy="372" rx="14" ry="10"/>
+      <ellipse cx="608" cy="424" rx="15" ry="10"/><ellipse cx="640" cy="424" rx="15" ry="10"/><ellipse cx="672" cy="424" rx="15" ry="10"/><ellipse cx="702" cy="424" rx="14" ry="10"/>
+      <ellipse cx="614" cy="476" rx="15" ry="10"/><ellipse cx="648" cy="476" rx="15" ry="10"/><ellipse cx="684" cy="476" rx="15" ry="10"/></g>
+    <g fill="#f0c98a" opacity=".7"><ellipse cx="604" cy="368" rx="7" ry="4"/><ellipse cx="636" cy="368" rx="7" ry="4"/><ellipse cx="668" cy="368" rx="7" ry="4"/><ellipse cx="604" cy="420" rx="7" ry="4"/><ellipse cx="636" cy="420" rx="7" ry="4"/></g>
+  </g>
+  <text x="652" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="27" fill="#5a3a1e" letter-spacing="1">PANADERIA</text>
+
+  <!-- ===== 4. THE SALON : a teleserye on a TV nobody is watching ===== -->
+  <g filter="url(#v-rough)">
+    <rect x="750" y="250" width="160" height="290" fill="#6b3550"/>
+    <rect x="750" y="250" width="160" height="54" fill="#e88ab0"/>
+    <rect x="766" y="328" width="128" height="212" fill="#3a2438"/>
+  </g>
+  <ellipse cx="832" cy="392" rx="90" ry="70" fill="url(#v-tv)" filter="url(#v-mid)"/>
+  <g filter="url(#v-roughFine)">
+    <rect x="796" y="356" width="70" height="46" rx="3" fill="#bfe4ff"/>
+    <g fill="#7fb4e0"><rect x="804" y="366" width="22" height="26" rx="8"/><rect x="836" y="368" width="22" height="24" rx="8"/></g>
+    <!-- two chairs, one occupied -->
+    <g fill="#2a1a2c"><rect x="780" y="452" width="34" height="60" rx="6"/><rect x="846" y="452" width="34" height="60" rx="6"/><circle cx="863" cy="444" r="17"/></g>
+  </g>
+  <text x="830" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="24" fill="#3a1c2c" letter-spacing="2">SALON</text>
+
+  <!-- ===== 5. THE CHAIN : wide, white, fluorescent, sells the same milk as everywhere ===== -->
+  <ellipse cx="1120" cy="420" rx="290" ry="170" fill="url(#v-cold)" filter="url(#v-soft)"/>
+  <g filter="url(#v-rough)">
+    <rect x="925" y="250" width="380" height="290" fill="#2a2d3a"/>
+    <rect x="925" y="250" width="380" height="58" fill="#e8ecf2"/><rect x="925" y="302" width="380" height="8" fill="#2f6fd6"/>
+    <rect x="944" y="330" width="356" height="210" fill="#eef7ff"/>
+    <g fill="#c7d3e0" opacity=".8"><rect x="944" y="330" width="8" height="210"/><rect x="1120" y="330" width="8" height="210"/></g>
+    <g fill="#fff" opacity=".9"><rect x="968" y="360" width="130" height="28"/><rect x="968" y="420" width="130" height="28"/><rect x="968" y="480" width="130" height="28"/><rect x="1150" y="360" width="130" height="28"/><rect x="1150" y="420" width="130" height="28"/><rect x="1150" y="480" width="130" height="28"/></g>
+    <g fill="#ffd23c"><rect x="968" y="340" width="70" height="24"/><rect x="1150" y="340" width="70" height="24"/></g>
+  </g>
+  <text x="1115" y="292" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="500" font-size="28" fill="#2f6fd6" letter-spacing="5">QUIK MART</text>
+
   <!-- sidewalk + road, snow at the kerb -->
   <rect y="540" width="1280" height="60" fill="#5c5560"/><rect y="540" width="1280" height="6" fill="#8a8290" opacity=".6"/>
   <rect y="600" width="1280" height="120" fill="url(#v-road)"/>
   <g fill="#e9eef7" opacity=".85" filter="url(#v-roughFine)"><path d="M -10 596 C 120 590 240 604 380 596 C 520 588 640 604 780 598 C 920 592 1060 606 1290 596 L 1290 612 L -10 612 Z"/></g>
-  <ellipse cx="300" cy="600" rx="220" ry="26" fill="#ffcf7a" opacity=".16" filter="url(#v-mid)"/><ellipse cx="960" cy="600" rx="260" ry="26" fill="#cfe6ff" opacity=".2" filter="url(#v-mid)"/>
-</svg>'''
+  <!-- people on the block. An empty enclave is a contradiction. -->
+  <g filter="url(#v-rough)" opacity=".95">
+    <g transform="translate(180 452)"><path d="M -21 88 C -19 40 -8 30 0 30 C 8 30 19 40 21 88 Z" fill="#3a2c46"/><circle cx="0" cy="16" r="14" fill="#2a2036"/><path d="M -19 92 L -12 92 L -12 104 L -19 104 Z" fill="#241c30"/><path d="M 12 92 L 19 92 L 19 104 L 12 104 Z" fill="#241c30"/></g>
+    <g transform="translate(240 458)"><path d="M -18 82 C -16 38 -7 28 0 28 C 7 28 16 38 18 82 Z" fill="#5a3040"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -16 86 L -10 86 L -10 96 L -16 96 Z" fill="#241c30"/><path d="M 10 86 L 16 86 L 16 96 L 10 96 Z" fill="#241c30"/></g>
+    <g transform="translate(560 446)"><path d="M -23 94 C -21 42 -9 32 0 32 C 9 32 21 42 23 94 Z" fill="#2c3f4a"/><circle cx="0" cy="17" r="15" fill="#221c2c"/><path d="M -20 98 L -13 98 L -13 110 L -20 110 Z" fill="#241c30"/><path d="M 13 98 L 20 98 L 20 110 L 13 110 Z" fill="#241c30"/>
+      <!-- carrying a bag from somewhere -->
+      <rect x="20" y="56" width="20" height="26" rx="3" fill="#7a5a34"/></g>
+    <g transform="translate(730 456)"><path d="M -19 84 C -17 40 -7 30 0 30 C 7 30 17 40 19 84 Z" fill="#46324a"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -17 88 L -11 88 L -11 98 L -17 98 Z" fill="#241c30"/><path d="M 11 88 L 17 88 L 17 98 L 11 98 Z" fill="#241c30"/>
+      <!-- and a small one holding on -->
+      <g transform="translate(24 44) scale(0.58)"><path d="M -18 76 C -16 36 -7 26 0 26 C 7 26 16 36 18 76 Z" fill="#8a4a56"/><circle cx="0" cy="12" r="13" fill="#2a2036"/></g></g>
+    <g transform="translate(1020 450)"><path d="M -20 88 C -18 42 -8 32 0 32 C 8 32 18 42 20 88 Z" fill="#3a4256"/><circle cx="0" cy="17" r="14" fill="#221c2c"/><path d="M -18 92 L -11 92 L -11 104 L -18 104 Z" fill="#241c30"/><path d="M 11 92 L 18 92 L 18 104 L 11 104 Z" fill="#241c30"/></g>
+  </g>
+  <ellipse cx="380" cy="600" rx="230" ry="26" fill="#ffcf7a" opacity=".16" filter="url(#v-mid)"/><ellipse cx="1120" cy="600" rx="240" ry="26" fill="#cfe6ff" opacity=".2" filter="url(#v-mid)"/>
+  </g>
+</svg>"""
 
 def kitchen(defs):
     d = defs.replace('  </defs>', ANDO + '  </defs>')

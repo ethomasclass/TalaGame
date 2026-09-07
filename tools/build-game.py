@@ -164,6 +164,7 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   /* Nothing that is not currently in play may take a pointer. opacity:0 does NOT stop hit-testing. */
   #phone{{pointer-events:none}} #phone.on{{pointer-events:auto}}
   .cardwrap,.prompt,.estab,.alarmtxt,#dev,.hud{{pointer-events:none}}
+  .dlg{{pointer-events:none}} .panel{{pointer-events:auto}}
   .cardscreen{{pointer-events:none}} .cardscreen.on{{pointer-events:auto}}
   #cook svg,#cook .overlay{{pointer-events:none}}
   #drag-egg,#drag-vin,#drag-tube,#drag-tablea,#drag-bills{{pointer-events:auto}}
