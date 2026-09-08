@@ -17,3 +17,4 @@ tools/.shot-*.js
 assets/samples/new/
 __pycache__/
 *.pyc
+assets/samples/cook/

@@ -594,7 +594,7 @@ function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
   const b = beats[i]; if(!b) return;
-  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
+  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; if(mode !== 'drag') clearCookUI(); $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = txt(b.hud[0]); $('hud-sub').textContent = txt(b.hud[1]); }
   if(b.set) b.set();
   if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
@@ -674,46 +674,110 @@ function confirmCook(){ const o = cookData.options[sel];
 // -------- drag steps : egg (timing), vinegar (pour), tube (scoop, then stand it up) --------
 let drag = null;
 function stagePoint(ev){ const r = $('stage').getBoundingClientRect(); const s = r.width / 1280; return {x:(ev.clientX - r.left)/s, y:(ev.clientY - r.top)/s}; }
+// SVG groups have no .hidden property, so targets toggle by attribute.
+function showTarget(...which){
+  for(const k of ['pot','bowl']){ const el = $('target-' + k); if(!el) continue;
+    which.includes(k) ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
+let stateLock = 0;
+function cookState(html, sticky){ const el = $('cookstate'); if(!el) return;
+  const now = performance.now();
+  if(sticky) stateLock = now + 2600; else if(now < stateLock) return;
+  if(el.innerHTML !== html) el.innerHTML = html || ''; el.hidden = !html; }
+function clearCookUI(){ stateLock = 0; showTarget(); cookState(''); const sp = $('vin-splash'); if(sp) sp.setAttribute('opacity', 0); }
+const ramp = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+
 const DRAGS = {
+  // Watch the food, not a clock. The card says to put the egg on when the top has set but is
+  // still pale; the batter now actually goes through those states where you can see them.
   egg:{ item:'drag-egg', home:[700,440], target:[470,385,130],
-    setup(){ $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0); $('batter-brown').setAttribute('opacity',0); },
-    tick(el){ $('batter-set').setAttribute('opacity', Math.min(1, Math.max(0, (el-3000)/4000))); $('batter-brown').setAttribute('opacity', Math.min(.9, Math.max(0, (el-13000)/7000))); },
-    drop(d, inside){ if(!inside) return false; const el = performance.now() - d.t0; $('egg-on').removeAttribute('hidden'); return d.spec.windows.find(w => el < w[0])[1]; },
+    setup(){ $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0);
+      $('batter-brown').setAttribute('opacity',0); $('batter-rim').setAttribute('stroke-width',0);
+      $('batter-gloss').setAttribute('opacity',.38); $('batter-bubbles').setAttribute('opacity',0); showTarget('pot'); },
+    tick(el){
+      $('batter-bubbles').setAttribute('opacity', Math.min(ramp(el,400,1800), 1 - ramp(el,3200,5600)));
+      $('batter-gloss').setAttribute('opacity', .38 * (1 - ramp(el,3400,6200)));
+      $('batter-set').setAttribute('opacity', ramp(el,3400,6600));
+      $('batter-rim').setAttribute('stroke-width', 34 * ramp(el,13000,20000));
+      $('batter-brown').setAttribute('opacity', .5 * ramp(el,16000,22000));
+      cookState(el < 3200  ? 'The top is still wet, and bubbling.'
+              : el < 6600  ? 'The bubbles are stopping.'
+              : el < 13000 ? 'The top has set. It is still pale.'
+              : el < 17000 ? 'The edge is starting to colour.'
+              :              'It is going brown.'); },
+    drop(d, inside){ if(!inside){ cookState('That did not land in the pot. Drag it onto the batter.', true); return false; }
+      const el = performance.now() - d.t0; $('egg-on').removeAttribute('hidden');
+      return d.spec.windows.find(w => el < w[0])[1]; },
     key(d){ return this.drop(d, true); } },
+
+  // Top down, a tipped bottle reads as nothing. Pouring is rings going out from under it,
+  // and the only quantity readout is the bottle emptying - which is what a cook actually sees.
   vinegar:{ item:'drag-vin', home:[1040,560], target:[470,385,150],
-    setup(d){ const chain = STATE.cook.vinegar === 'chain'; $('drag-vin').querySelector('.cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('drag-vin').querySelector('.chain')[chain?'removeAttribute':'setAttribute']('hidden','');
-      $('vin-cane').setAttribute('hidden',''); $('vin-chain').setAttribute('hidden',''); $('sauce-vin').setAttribute('opacity',0); d.poured = 0; d.last = performance.now(); },
-    tick(el, d){ const now = performance.now(); const over = d.held && Math.hypot(d.x - 470, d.y - 385) <= 150; if(over) d.poured += now - d.last; d.last = now;
-      $('vin-stream').setAttribute('opacity', over ? .9 : 0); $('sauce-vin').setAttribute('opacity', Math.min(.6, d.poured/9000)); },
-    drop(d){ if(d.poured < 400) return false; return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
+    setup(d){ const chain = STATE.cook.vinegar === 'chain';
+      $('drag-vin').querySelector('.cane')[chain?'setAttribute':'removeAttribute']('hidden','');
+      $('drag-vin').querySelector('.chain')[chain?'removeAttribute':'setAttribute']('hidden','');
+      $('vin-cane').setAttribute('hidden',''); $('vin-chain').setAttribute('hidden','');
+      $('sauce-vin').setAttribute('opacity',0); $('vin-splash').setAttribute('opacity',0);
+      for(const [id,y0,h0] of [['vin-level',-66,132],['vin-level-b',-62,124]]){
+        const e = $(id); if(e){ e.setAttribute('y', y0); e.setAttribute('height', h0); } }
+      showTarget('pot'); d.poured = 0; d.last = performance.now(); },
+    tick(el, d){ const now = performance.now();
+      const over = d.held && Math.hypot(d.x - 470, d.y - 385) <= 150;
+      if(over) d.poured += now - d.last; d.last = now;
+      $('vin-splash').setAttribute('opacity', over ? 1 : 0);
+      $('sauce-vin').setAttribute('opacity', Math.min(.72, d.poured / 5200));
+      const used = Math.min(1, d.poured / 6500) * .82;
+      for(const [id,y0,h0] of [['vin-level',-66,132],['vin-level-b',-62,124]]){
+        const e = $(id); if(e){ e.setAttribute('y', y0 + h0 * used); e.setAttribute('height', h0 * (1 - used)); } }
+      cookState(!d.held ? 'Pick the bottle up and hold it over the pot.'
+              : over    ? 'Pouring. Let go when you think it is enough.'
+              :           'Nothing is going in. Hold it over the pot.'); },
+    drop(d){ if(d.poured < 400){ cookState('Barely a drop went in. Pick it up again and hold it over the pot.', true); return false; }
+      return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
     key(d){ d.poured = 3500; return this.drop(d); } },
+
   // the only drag outside the kitchen. The target is the pass tray under the glass.
   bills:{ item:'drag-bills', home:[430,618], target:[960,606,120],
     setup(){ $('wire-receipt').setAttribute('hidden',''); },
     tick(){},
     drop(d, inside){ if(!inside) return false; $('drag-bills').setAttribute('hidden',''); $('wire-receipt').removeAttribute('hidden'); return 'handed'; },
     key(d){ return this.drop(d, true); } },
+
   tablea:{ item:'drag-tablea', home:[700,440], target:[470,385,130],
-    setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); },
-    tick(){}, drop(d, inside){ if(!inside) return false; $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; }, key(d){ return this.drop(d, true); } },
+    setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); showTarget('pot');
+      cookState('Drop the tablea into the pot.'); },
+    tick(){},
+    drop(d, inside){ if(!inside){ cookState('That did not land in the pot.', true); return false; }
+      $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; },
+    key(d){ return this.drop(d, true); } },
+
+  // two targets: the rice you dip into, then the steamer you stand it in
   tube:{ item:'drag-tube', home:[780,330], target:[470,385,130],
-    setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); },
-    tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 100; if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(156, 60 + 48*(d.scoops-1))); } d.inBowl = inBowl; },
-    drop(d, inside){ if(!inside || d.scoops === 0) return false; return d.scoops === 1 ? 'loose' : 'packed'; },
-    key(d){ d.scoops = 1; $('tube-fill').setAttribute('width', 60); return 'loose'; } }
+    setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); showTarget('bowl','pot'); },
+    tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 104;
+      if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(178, 74 + 52 * (d.scoops - 1))); }
+      d.inBowl = inBowl;
+      cookState(d.scoops === 0 ? 'Dip the tube into the rice to fill it.'
+              : d.scoops === 1 ? 'Loosely filled. Dip it again to pack it, or stand it in the steamer.'
+              :                  'Packed tight. Stand it in the steamer.'); },
+    drop(d, inside){ if(!inside){ cookState(d.scoops ? 'That is not the steamer. Stand it in the steamer.' : 'Dip it into the rice first.', true); return false; }
+      if(d.scoops === 0){ cookState('The tube is still empty. Dip it into the rice first.', true); return false; }
+      return d.scoops === 1 ? 'loose' : 'packed'; },
+    key(d){ d.scoops = 1; $('tube-fill').setAttribute('width', 74); return 'loose'; } }
 };
 function startDrag(spec, onDone){ const K = DRAGS[spec.kind]; mode = 'drag'; choices.hidden = true; $('cardwrap').classList.add('dragmode'); $('cursor').style.display = 'none';
-  const item = $(K.item); item.removeAttribute('hidden'); item.style.transform = '';
+  const item = $(K.item); item.removeAttribute('hidden');
+  item.style.transition = 'none'; item.style.transform = ''; void item.getBoundingClientRect(); item.style.transition = '';
   drag = {spec, K, onDone, t0:performance.now(), held:false, dx:0, dy:0, x:K.home[0], y:K.home[1]}; K.setup(drag);
   const tick = () => { if(!drag) return; K.tick(performance.now() - drag.t0, drag); requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   item.onpointerdown = ev => { const p = stagePoint(ev); drag.held = true; drag.dx = p.x - drag.x; drag.dy = p.y - drag.y; item.setPointerCapture(ev.pointerId); $('cook').classList.add('dragging'); };
   item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-K.home[0]}px, ${drag.y-K.home[1]}px)`; };
   item.onpointerup = ev => { if(!drag || !drag.held) return; drag.held = false; $('cook').classList.remove('dragging');
     const inside = Math.hypot(drag.x - K.target[0], drag.y - K.target[1]) <= K.target[2]; const out = K.drop(drag, inside);
-    if(out) finishDrag(out); else { drag.x = K.home[0]; drag.y = K.home[1]; item.style.transform = ''; if(spec.kind === 'vinegar') $('vin-stream').setAttribute('opacity', 0); } };
+    if(out) finishDrag(out); else { drag.x = K.home[0]; drag.y = K.home[1]; item.style.transform = ''; if(spec.kind === 'vinegar') $('vin-splash').setAttribute('opacity', 0); } };
 }
-function finishDrag(out){ if(!drag) return; const d = drag; $(d.K.item).setAttribute('hidden',''); $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
+function finishDrag(out){ if(!drag) return; const d = drag; const it = $(d.K.item); it.setAttribute('hidden',''); it.style.transform = ''; $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
   if(d.spec.kind === 'vinegar'){ const chain = STATE.cook.vinegar === 'chain'; $(chain ? 'vin-chain' : 'vin-cane').removeAttribute('hidden'); }
+  clearCookUI();
   const at = Math.round((performance.now() - d.t0)/100)/10; drag = null; setTimeout(() => d.onDone(out, at), 600); }
 function dragKey(){ if(!drag) return; const out = drag.K.key(drag); if(out) finishDrag(out); }
 // -------- alarm --------
@@ -771,7 +835,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `Tala wished ${W[STATE.wish] || '…'}. The game does not say whether it comes true.<br><br>${STATE.invitedHannah ? 'Hannah came.' : 'Hannah was not asked.'} The puto bumbong was ${ {lola:'Lola’s', close:'close to Lola’s', off:'not Lola’s'}[STATE.cook.out] }. What Tala told Bea all week was ${tone}. ${noticed} <span class="tally">${n} of ${total}</span>`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }

@@ -210,6 +210,24 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     10%{{transform:translateX(-50%) translateY(0) rotate(-1.6deg)}}25%{{transform:translateX(-50%) translateY(-3px) rotate(1.6deg)}}
     40%{{transform:translateX(-50%) translateY(0) rotate(-1.2deg)}}55%{{transform:translateX(-50%) translateY(-2px) rotate(1deg)}}70%{{transform:translateX(-50%) translateY(0) rotate(-.5deg)}}}}
   #phone.buzz{{animation:buzz .55s ease-in-out 2}}
+  /* ---- cooking feedback ---- */
+  /* the old ring lived in the base layer, under the dish art, so it vanished for adobo and puto */
+  .target{{display:none}}
+  #targets .ring{{fill:none;stroke:#fff3d6;stroke-width:5;stroke-dasharray:16 14;opacity:.9;animation:ringspin 12s linear infinite}}
+  @keyframes ringspin{{to{{stroke-dashoffset:-120}}}}
+  #targets .ringlab{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;letter-spacing:.24em;fill:#fff3d6;opacity:.72}}
+  /* pouring, seen from above: rings going out from under the bottle */
+  @keyframes splash{{0%{{r:28;opacity:.85;stroke-width:5}}100%{{r:140;opacity:0;stroke-width:2}}}}
+  #vin-splash{{transition:opacity .18s}} #vin-splash .splash{{fill:none;stroke:#fff3d6;animation:splash 1.15s ease-out infinite}}
+  #vin-splash .splash.s2{{animation-delay:.38s}} #vin-splash .splash.s3{{animation-delay:.76s}}
+  /* batter still wet enough to bubble */
+  @keyframes bub{{0%,100%{{transform:scale(1);opacity:.85}}50%{{transform:scale(1.3);opacity:.45}}}}
+  #batter-bubbles .bub{{transform-box:fill-box;transform-origin:center;animation:bub 1.7s ease-in-out infinite}}
+  #batter-bubbles .b2{{animation-delay:-.5s}} #batter-bubbles .b3{{animation-delay:-.9s}} #batter-bubbles .b4{{animation-delay:-1.3s}}
+  .cookstate{{position:absolute;left:50%;transform:translateX(-50%);top:22px;z-index:7;max-width:640px;text-align:center;
+    background:rgba(24,16,12,.86);color:#f4eeda;border-radius:9px;padding:11px 18px;
+    font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.35;box-shadow:0 16px 36px -18px rgba(0,0,0,.9)}}
+  .cookstate b{{color:#e8bd63;font-weight:400}}
   /* the camera push-in. CSS transform on the layer wrapper only - never on the SVG inside it. */
   .layer{{transition:transform .85s cubic-bezier(.3,.8,.3,1)}}
   /* how long each stop on the block costs */

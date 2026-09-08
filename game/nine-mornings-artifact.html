@@ -208,6 +208,24 @@
     10%{transform:translateX(-50%) translateY(0) rotate(-1.6deg)}25%{transform:translateX(-50%) translateY(-3px) rotate(1.6deg)}
     40%{transform:translateX(-50%) translateY(0) rotate(-1.2deg)}55%{transform:translateX(-50%) translateY(-2px) rotate(1deg)}70%{transform:translateX(-50%) translateY(0) rotate(-.5deg)}}
   #phone.buzz{animation:buzz .55s ease-in-out 2}
+  /* ---- cooking feedback ---- */
+  /* the old ring lived in the base layer, under the dish art, so it vanished for adobo and puto */
+  .target{display:none}
+  #targets .ring{fill:none;stroke:#fff3d6;stroke-width:5;stroke-dasharray:16 14;opacity:.9;animation:ringspin 12s linear infinite}
+  @keyframes ringspin{to{stroke-dashoffset:-120}}
+  #targets .ringlab{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;letter-spacing:.24em;fill:#fff3d6;opacity:.72}
+  /* pouring, seen from above: rings going out from under the bottle */
+  @keyframes splash{0%{r:28;opacity:.85;stroke-width:5}100%{r:140;opacity:0;stroke-width:2}}
+  #vin-splash{transition:opacity .18s} #vin-splash .splash{fill:none;stroke:#fff3d6;animation:splash 1.15s ease-out infinite}
+  #vin-splash .splash.s2{animation-delay:.38s} #vin-splash .splash.s3{animation-delay:.76s}
+  /* batter still wet enough to bubble */
+  @keyframes bub{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.3);opacity:.45}}
+  #batter-bubbles .bub{transform-box:fill-box;transform-origin:center;animation:bub 1.7s ease-in-out infinite}
+  #batter-bubbles .b2{animation-delay:-.5s} #batter-bubbles .b3{animation-delay:-.9s} #batter-bubbles .b4{animation-delay:-1.3s}
+  .cookstate{position:absolute;left:50%;transform:translateX(-50%);top:22px;z-index:7;max-width:640px;text-align:center;
+    background:rgba(24,16,12,.86);color:#f4eeda;border-radius:9px;padding:11px 18px;
+    font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.35;box-shadow:0 16px 36px -18px rgba(0,0,0,.9)}
+  .cookstate b{color:#e8bd63;font-weight:400}
   /* the camera push-in. CSS transform on the layer wrapper only - never on the SVG inside it. */
   .layer{transition:transform .85s cubic-bezier(.3,.8,.3,1)}
   /* how long each stop on the block costs */
@@ -2821,7 +2839,7 @@
     <circle cx="470" cy="385" r="126" fill="#6b3a2a"/>
     <path d="M 470 262 C 540 262 596 318 596 385 C 596 452 540 508 470 508 C 400 508 344 452 344 385 C 344 318 400 262 470 262 Z" fill="url(#td-leaf)"/>
     <path d="M 356 372 C 400 330 540 330 584 372" stroke="#8bc27e" stroke-width="4" fill="none" opacity=".55"/>
-    <circle cx="470" cy="385" r="96" fill="url(#td-batter)"/><circle id="batter-set" cx="470" cy="385" r="96" fill="#e9cf96" opacity="0"/><circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/><g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>
+    <circle cx="470" cy="385" r="96" fill="url(#td-batter)"/><circle id="batter-set" cx="470" cy="385" r="96" fill="#f2e4bc" opacity="0"/><g id="batter-bubbles" opacity="0" fill="#d8c48a"><circle class="bub" cx="430" cy="350" r="7"/><circle class="bub b2" cx="505" cy="345" r="6"/><circle class="bub b3" cx="520" cy="410" r="8"/><circle class="bub b4" cx="440" cy="425" r="6"/><circle class="bub b2" cx="470" cy="392" r="5"/><circle class="bub b3" cx="405" cy="398" r="5"/><circle class="bub b4" cx="492" cy="440" r="6"/><circle class="bub" cx="455" cy="318" r="5"/></g><ellipse id="batter-gloss" cx="444" cy="348" rx="52" ry="26" fill="#fff" opacity=".38" transform="rotate(-18 444 348)"/><circle id="batter-rim" cx="470" cy="385" r="96" fill="none" stroke="#b97a3c" stroke-width="0"/><circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/><g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>
     <ellipse cx="440" cy="356" rx="30" ry="14" fill="#fff8e6" opacity=".45"/>
     <path d="M 340 320 C 366 272 424 240 476 238" stroke="#e0a880" stroke-width="10" fill="none" stroke-linecap="round" opacity=".5"/>
   </g>
@@ -2963,17 +2981,30 @@
       <g fill="#3a2010"><circle cx="770" cy="228" r="18"/><circle cx="822" cy="244" r="18"/></g><g fill="#5a3418" opacity=".8"><circle cx="770" cy="228" r="10"/><circle cx="822" cy="244" r="10"/></g></g>
     <g filter="url(#td-rough)" transform="translate(960 470)"><ellipse cx="0" cy="6" rx="52" ry="52" fill="#000" opacity=".22" transform="translate(8 10)"/><circle r="50" fill="#e9dfc8"/><circle r="38" fill="#3a2010"/><path d="M 50 -10 C 76 -10 76 24 50 24" stroke="#e9dfc8" stroke-width="10" fill="none"/></g>
   </g>
+  <g id="targets" pointer-events="none">
+    <g id="target-pot" hidden>
+      <circle cx="470" cy="385" r="142" class="ring"/>
+      <text x="470" y="228" text-anchor="middle" class="ringlab">THE POT</text>
+    </g>
+    <g id="target-bowl" hidden>
+      <circle cx="170" cy="190" r="104" class="ring"/>
+      <text x="170" y="322" text-anchor="middle" class="ringlab">THE RICE</text>
+    </g>
+    <g id="vin-splash" opacity="0">
+      <circle cx="470" cy="385" r="40" class="splash"/><circle cx="470" cy="385" r="40" class="splash s2"/><circle cx="470" cy="385" r="40" class="splash s3"/>
+    </g>
+  </g>
   <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="700" cy="440" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="700" cy="440" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="700" cy="440" r="15" fill="#e8892b"/></g></g>
   <g id="drag-vin" hidden style="cursor:grab"><g transform="translate(1040 560)"><g class="hand">
-    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
-    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
-    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect id="vin-level" x="-18" y="-66" width="36" height="132" rx="6" fill="#cbb886"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
+    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect id="vin-level-b" x="-33" y="-62" width="66" height="124" rx="8" fill="#dfe6ec"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
   </g></g></g>
   <g id="drag-tube" hidden style="cursor:grab"><g transform="translate(780 330)"><g class="hand">
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
-    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
-    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
+    <rect x="-92" y="-19" width="184" height="38" rx="19" fill="#000" opacity=".25" transform="translate(8 12)"/>
+    <rect x="-92" y="-19" width="184" height="38" rx="19" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
+    <rect id="tube-fill" x="-89" y="-16" width="0" height="32" rx="16" fill="#5a3a7c"/>
+    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -34 -19 L -34 19"/><path d="M 34 -19 L 34 19"/></g>
+    <path d="M 92 -19 C 104 -19 104 19 92 19" fill="none" stroke="#8f7c4c" stroke-width="3" opacity=".8"/>
   </g></g></g>
   <g id="drag-tablea" hidden style="cursor:grab"><g transform="translate(700 440)"><g class="hand"><circle r="26" fill="#000" opacity=".25" transform="translate(6 12)"/><circle r="24" fill="#3a2010" stroke="#fff3d6" stroke-width="3"/><circle r="13" fill="#5a3418"/></g></g></g>
 </svg>
@@ -2994,6 +3025,7 @@
       </div>
     </div></div>
     <div class="prompt" id="cookprompt"><b>Step 4</b>The step before the salted egg is gone entirely. <em>When did she put the egg on?</em></div>
+  <div class="cookstate" id="cookstate" hidden></div>
     <div id="cursor"><svg viewBox="0 0 64 78"><g transform="translate(4 4)"><path d="M 0 22 C 0 14 8 12 12 18 L 12 4 C 12 -2 22 -2 22 4 L 22 16 C 24 12 32 12 32 18 L 32 20 C 34 16 42 16 42 22 L 42 24 C 44 20 52 21 52 27 L 52 44 C 52 58 44 66 30 66 L 24 66 C 16 66 10 62 6 56 L 0 46 Z" fill="#000" opacity=".25" transform="translate(5 8)"/><path d="M 0 22 C 0 14 8 12 12 18 L 12 4 C 12 -2 22 -2 22 4 L 22 16 C 24 12 32 12 32 18 L 32 20 C 34 16 42 16 42 22 L 42 24 C 44 20 52 21 52 27 L 52 44 C 52 58 44 66 30 66 L 24 66 C 16 66 10 62 6 56 L 0 46 Z" fill="#fff8ee" stroke="#1c1430" stroke-width="3" stroke-linejoin="round"/><g stroke="#1c1430" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M 22 18 L 22 30"/><path d="M 32 22 L 32 32"/><path d="M 42 26 L 42 34"/></g></g></svg></div>
   </div>
 
@@ -3772,7 +3804,7 @@ function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
   const b = beats[i]; if(!b) return;
-  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
+  choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; if(mode !== 'drag') clearCookUI(); $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = txt(b.hud[0]); $('hud-sub').textContent = txt(b.hud[1]); }
   if(b.set) b.set();
   if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
@@ -3852,46 +3884,110 @@ function confirmCook(){ const o = cookData.options[sel];
 // -------- drag steps : egg (timing), vinegar (pour), tube (scoop, then stand it up) --------
 let drag = null;
 function stagePoint(ev){ const r = $('stage').getBoundingClientRect(); const s = r.width / 1280; return {x:(ev.clientX - r.left)/s, y:(ev.clientY - r.top)/s}; }
+// SVG groups have no .hidden property, so targets toggle by attribute.
+function showTarget(...which){
+  for(const k of ['pot','bowl']){ const el = $('target-' + k); if(!el) continue;
+    which.includes(k) ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
+let stateLock = 0;
+function cookState(html, sticky){ const el = $('cookstate'); if(!el) return;
+  const now = performance.now();
+  if(sticky) stateLock = now + 2600; else if(now < stateLock) return;
+  if(el.innerHTML !== html) el.innerHTML = html || ''; el.hidden = !html; }
+function clearCookUI(){ stateLock = 0; showTarget(); cookState(''); const sp = $('vin-splash'); if(sp) sp.setAttribute('opacity', 0); }
+const ramp = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+
 const DRAGS = {
+  // Watch the food, not a clock. The card says to put the egg on when the top has set but is
+  // still pale; the batter now actually goes through those states where you can see them.
   egg:{ item:'drag-egg', home:[700,440], target:[470,385,130],
-    setup(){ $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0); $('batter-brown').setAttribute('opacity',0); },
-    tick(el){ $('batter-set').setAttribute('opacity', Math.min(1, Math.max(0, (el-3000)/4000))); $('batter-brown').setAttribute('opacity', Math.min(.9, Math.max(0, (el-13000)/7000))); },
-    drop(d, inside){ if(!inside) return false; const el = performance.now() - d.t0; $('egg-on').removeAttribute('hidden'); return d.spec.windows.find(w => el < w[0])[1]; },
+    setup(){ $('egg-on').setAttribute('hidden',''); $('batter-set').setAttribute('opacity',0);
+      $('batter-brown').setAttribute('opacity',0); $('batter-rim').setAttribute('stroke-width',0);
+      $('batter-gloss').setAttribute('opacity',.38); $('batter-bubbles').setAttribute('opacity',0); showTarget('pot'); },
+    tick(el){
+      $('batter-bubbles').setAttribute('opacity', Math.min(ramp(el,400,1800), 1 - ramp(el,3200,5600)));
+      $('batter-gloss').setAttribute('opacity', .38 * (1 - ramp(el,3400,6200)));
+      $('batter-set').setAttribute('opacity', ramp(el,3400,6600));
+      $('batter-rim').setAttribute('stroke-width', 34 * ramp(el,13000,20000));
+      $('batter-brown').setAttribute('opacity', .5 * ramp(el,16000,22000));
+      cookState(el < 3200  ? 'The top is still wet, and bubbling.'
+              : el < 6600  ? 'The bubbles are stopping.'
+              : el < 13000 ? 'The top has set. It is still pale.'
+              : el < 17000 ? 'The edge is starting to colour.'
+              :              'It is going brown.'); },
+    drop(d, inside){ if(!inside){ cookState('That did not land in the pot. Drag it onto the batter.', true); return false; }
+      const el = performance.now() - d.t0; $('egg-on').removeAttribute('hidden');
+      return d.spec.windows.find(w => el < w[0])[1]; },
     key(d){ return this.drop(d, true); } },
+
+  // Top down, a tipped bottle reads as nothing. Pouring is rings going out from under it,
+  // and the only quantity readout is the bottle emptying - which is what a cook actually sees.
   vinegar:{ item:'drag-vin', home:[1040,560], target:[470,385,150],
-    setup(d){ const chain = STATE.cook.vinegar === 'chain'; $('drag-vin').querySelector('.cane')[chain?'setAttribute':'removeAttribute']('hidden',''); $('drag-vin').querySelector('.chain')[chain?'removeAttribute':'setAttribute']('hidden','');
-      $('vin-cane').setAttribute('hidden',''); $('vin-chain').setAttribute('hidden',''); $('sauce-vin').setAttribute('opacity',0); d.poured = 0; d.last = performance.now(); },
-    tick(el, d){ const now = performance.now(); const over = d.held && Math.hypot(d.x - 470, d.y - 385) <= 150; if(over) d.poured += now - d.last; d.last = now;
-      $('vin-stream').setAttribute('opacity', over ? .9 : 0); $('sauce-vin').setAttribute('opacity', Math.min(.6, d.poured/9000)); },
-    drop(d){ if(d.poured < 400) return false; return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
+    setup(d){ const chain = STATE.cook.vinegar === 'chain';
+      $('drag-vin').querySelector('.cane')[chain?'setAttribute':'removeAttribute']('hidden','');
+      $('drag-vin').querySelector('.chain')[chain?'removeAttribute':'setAttribute']('hidden','');
+      $('vin-cane').setAttribute('hidden',''); $('vin-chain').setAttribute('hidden','');
+      $('sauce-vin').setAttribute('opacity',0); $('vin-splash').setAttribute('opacity',0);
+      for(const [id,y0,h0] of [['vin-level',-66,132],['vin-level-b',-62,124]]){
+        const e = $(id); if(e){ e.setAttribute('y', y0); e.setAttribute('height', h0); } }
+      showTarget('pot'); d.poured = 0; d.last = performance.now(); },
+    tick(el, d){ const now = performance.now();
+      const over = d.held && Math.hypot(d.x - 470, d.y - 385) <= 150;
+      if(over) d.poured += now - d.last; d.last = now;
+      $('vin-splash').setAttribute('opacity', over ? 1 : 0);
+      $('sauce-vin').setAttribute('opacity', Math.min(.72, d.poured / 5200));
+      const used = Math.min(1, d.poured / 6500) * .82;
+      for(const [id,y0,h0] of [['vin-level',-66,132],['vin-level-b',-62,124]]){
+        const e = $(id); if(e){ e.setAttribute('y', y0 + h0 * used); e.setAttribute('height', h0 * (1 - used)); } }
+      cookState(!d.held ? 'Pick the bottle up and hold it over the pot.'
+              : over    ? 'Pouring. Let go when you think it is enough.'
+              :           'Nothing is going in. Hold it over the pot.'); },
+    drop(d){ if(d.poured < 400){ cookState('Barely a drop went in. Pick it up again and hold it over the pot.', true); return false; }
+      return d.poured < 2200 ? 'salty' : d.poured < 5500 ? 'lola' : 'sour'; },
     key(d){ d.poured = 3500; return this.drop(d); } },
+
   // the only drag outside the kitchen. The target is the pass tray under the glass.
   bills:{ item:'drag-bills', home:[430,618], target:[960,606,120],
     setup(){ $('wire-receipt').setAttribute('hidden',''); },
     tick(){},
     drop(d, inside){ if(!inside) return false; $('drag-bills').setAttribute('hidden',''); $('wire-receipt').removeAttribute('hidden'); return 'handed'; },
     key(d){ return this.drop(d, true); } },
+
   tablea:{ item:'drag-tablea', home:[700,440], target:[470,385,130],
-    setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); },
-    tick(){}, drop(d, inside){ if(!inside) return false; $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; }, key(d){ return this.drop(d, true); } },
+    setup(){ $('tsok-froth').setAttribute('opacity',0); $('tsok-bubbles').setAttribute('opacity',0); showTarget('pot');
+      cookState('Drop the tablea into the pot.'); },
+    tick(){},
+    drop(d, inside){ if(!inside){ cookState('That did not land in the pot.', true); return false; }
+      $('tsok-froth').setAttribute('opacity',.7); $('tsok-bubbles').setAttribute('opacity',.8); return 'in'; },
+    key(d){ return this.drop(d, true); } },
+
+  // two targets: the rice you dip into, then the steamer you stand it in
   tube:{ item:'drag-tube', home:[780,330], target:[470,385,130],
-    setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); },
-    tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 100; if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(156, 60 + 48*(d.scoops-1))); } d.inBowl = inBowl; },
-    drop(d, inside){ if(!inside || d.scoops === 0) return false; return d.scoops === 1 ? 'loose' : 'packed'; },
-    key(d){ d.scoops = 1; $('tube-fill').setAttribute('width', 60); return 'loose'; } }
+    setup(d){ d.scoops = 0; d.inBowl = false; $('tube-fill').setAttribute('width', 0); showTarget('bowl','pot'); },
+    tick(el, d){ const inBowl = d.held && Math.hypot(d.x - 170, d.y - 190) <= 104;
+      if(inBowl && !d.inBowl){ d.scoops++; $('tube-fill').setAttribute('width', Math.min(178, 74 + 52 * (d.scoops - 1))); }
+      d.inBowl = inBowl;
+      cookState(d.scoops === 0 ? 'Dip the tube into the rice to fill it.'
+              : d.scoops === 1 ? 'Loosely filled. Dip it again to pack it, or stand it in the steamer.'
+              :                  'Packed tight. Stand it in the steamer.'); },
+    drop(d, inside){ if(!inside){ cookState(d.scoops ? 'That is not the steamer. Stand it in the steamer.' : 'Dip it into the rice first.', true); return false; }
+      if(d.scoops === 0){ cookState('The tube is still empty. Dip it into the rice first.', true); return false; }
+      return d.scoops === 1 ? 'loose' : 'packed'; },
+    key(d){ d.scoops = 1; $('tube-fill').setAttribute('width', 74); return 'loose'; } }
 };
 function startDrag(spec, onDone){ const K = DRAGS[spec.kind]; mode = 'drag'; choices.hidden = true; $('cardwrap').classList.add('dragmode'); $('cursor').style.display = 'none';
-  const item = $(K.item); item.removeAttribute('hidden'); item.style.transform = '';
+  const item = $(K.item); item.removeAttribute('hidden');
+  item.style.transition = 'none'; item.style.transform = ''; void item.getBoundingClientRect(); item.style.transition = '';
   drag = {spec, K, onDone, t0:performance.now(), held:false, dx:0, dy:0, x:K.home[0], y:K.home[1]}; K.setup(drag);
   const tick = () => { if(!drag) return; K.tick(performance.now() - drag.t0, drag); requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   item.onpointerdown = ev => { const p = stagePoint(ev); drag.held = true; drag.dx = p.x - drag.x; drag.dy = p.y - drag.y; item.setPointerCapture(ev.pointerId); $('cook').classList.add('dragging'); };
   item.onpointermove = ev => { if(!drag || !drag.held) return; const p = stagePoint(ev); drag.x = p.x - drag.dx; drag.y = p.y - drag.dy; item.style.transform = `translate(${drag.x-K.home[0]}px, ${drag.y-K.home[1]}px)`; };
   item.onpointerup = ev => { if(!drag || !drag.held) return; drag.held = false; $('cook').classList.remove('dragging');
     const inside = Math.hypot(drag.x - K.target[0], drag.y - K.target[1]) <= K.target[2]; const out = K.drop(drag, inside);
-    if(out) finishDrag(out); else { drag.x = K.home[0]; drag.y = K.home[1]; item.style.transform = ''; if(spec.kind === 'vinegar') $('vin-stream').setAttribute('opacity', 0); } };
+    if(out) finishDrag(out); else { drag.x = K.home[0]; drag.y = K.home[1]; item.style.transform = ''; if(spec.kind === 'vinegar') $('vin-splash').setAttribute('opacity', 0); } };
 }
-function finishDrag(out){ if(!drag) return; const d = drag; $(d.K.item).setAttribute('hidden',''); $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
+function finishDrag(out){ if(!drag) return; const d = drag; const it = $(d.K.item); it.setAttribute('hidden',''); it.style.transform = ''; $('cardwrap').classList.remove('dragmode'); $('cursor').style.display = '';
   if(d.spec.kind === 'vinegar'){ const chain = STATE.cook.vinegar === 'chain'; $(chain ? 'vin-chain' : 'vin-cane').removeAttribute('hidden'); }
+  clearCookUI();
   const at = Math.round((performance.now() - d.t0)/100)/10; drag = null; setTimeout(() => d.onDone(out, at), 600); }
 function dragKey(){ if(!drag) return; const out = drag.K.key(drag); if(out) finishDrag(out); }
 // -------- alarm --------
@@ -3949,7 +4045,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `Tala wished ${W[STATE.wish] || '…'}. The game does not say whether it comes true.<br><br>${STATE.invitedHannah ? 'Hannah came.' : 'Hannah was not asked.'} The puto bumbong was ${ {lola:'Lola’s', close:'close to Lola’s', off:'not Lola’s'}[STATE.cook.out] }. What Tala told Bea all week was ${tone}. ${noticed} <span class="tally">${n} of ${total}</span>`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
+function restart(){ met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }

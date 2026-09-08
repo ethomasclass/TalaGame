@@ -41,36 +41,67 @@ DISH_TSOKOLATE = balanced('tsokolate', '''  <g id="dish-tsokolate" hidden>
 
 DRAGS = balanced('drags', '''  <g id="drag-egg" hidden style="cursor:grab"><g class="hand"><circle cx="700" cy="440" r="30" fill="#000" opacity=".25" transform="translate(6 12)"/><circle cx="700" cy="440" r="28" fill="#f7f1e2" stroke="#fff3d6" stroke-width="4"/><circle cx="700" cy="440" r="15" fill="#e8892b"/></g></g>
   <g id="drag-vin" hidden style="cursor:grab"><g transform="translate(1040 560)"><g class="hand">
-    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
-    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
-    <path id="vin-stream" d="M 0 -78 C -6 -40 -8 0 -4 60" stroke="#e8e2c4" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+    <g class="cane"><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-24" y="-74" width="48" height="148" rx="10" fill="#e9dfc8" stroke="#fff3d6" stroke-width="3"/><rect id="vin-level" x="-18" y="-66" width="36" height="132" rx="6" fill="#cbb886"/><rect x="-18" y="-36" width="36" height="66" rx="4" fill="#2f6fd6"/><rect x="-14" y="-28" width="28" height="12" fill="#f4c65a"/><rect x="-10" y="-88" width="20" height="18" rx="4" fill="#3b3b3b"/></g>
+    <g class="chain" hidden><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#000" opacity=".25" transform="translate(8 12)"/><rect x="-40" y="-70" width="80" height="140" rx="12" fill="#f4f6f8" stroke="#fff3d6" stroke-width="3"/><rect id="vin-level-b" x="-33" y="-62" width="66" height="124" rx="8" fill="#dfe6ec"/><rect x="-30" y="-30" width="60" height="50" rx="3" fill="#dfe3ea"/><rect x="-14" y="-86" width="28" height="20" rx="5" fill="#c9cfd8"/></g>
   </g></g></g>
   <g id="drag-tube" hidden style="cursor:grab"><g transform="translate(780 330)"><g class="hand">
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="#000" opacity=".25" transform="translate(8 12)"/>
-    <rect x="-80" y="-14" width="160" height="28" rx="14" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
-    <rect id="tube-fill" x="-78" y="-11" width="0" height="22" rx="11" fill="#5a3a7c"/>
-    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -30 -14 L -30 14"/><path d="M 30 -14 L 30 14"/></g>
+    <rect x="-92" y="-19" width="184" height="38" rx="19" fill="#000" opacity=".25" transform="translate(8 12)"/>
+    <rect x="-92" y="-19" width="184" height="38" rx="19" fill="url(#p-bamboo)" stroke="#fff3d6" stroke-width="3"/>
+    <rect id="tube-fill" x="-89" y="-16" width="0" height="32" rx="16" fill="#5a3a7c"/>
+    <g stroke="#8f7c4c" stroke-width="2" opacity=".7"><path d="M -34 -19 L -34 19"/><path d="M 34 -19 L 34 19"/></g>
+    <path d="M 92 -19 C 104 -19 104 19 92 19" fill="none" stroke="#8f7c4c" stroke-width="3" opacity=".8"/>
   </g></g></g>
   <g id="drag-tablea" hidden style="cursor:grab"><g transform="translate(700 440)"><g class="hand"><circle r="26" fill="#000" opacity=".25" transform="translate(6 12)"/><circle r="24" fill="#3a2010" stroke="#fff3d6" stroke-width="3"/><circle r="13" fill="#5a3418"/></g></g></g>
 ''')
 
+TARGETS = balanced('targets', """  <g id="targets" pointer-events="none">
+    <g id="target-pot" hidden>
+      <circle cx="470" cy="385" r="142" class="ring"/>
+      <text x="470" y="228" text-anchor="middle" class="ringlab">THE POT</text>
+    </g>
+    <g id="target-bowl" hidden>
+      <circle cx="170" cy="190" r="104" class="ring"/>
+      <text x="170" y="322" text-anchor="middle" class="ringlab">THE RICE</text>
+    </g>
+    <g id="vin-splash" opacity="0">
+      <circle cx="470" cy="385" r="40" class="splash"/><circle cx="470" cy="385" r="40" class="splash s2"/><circle cx="470" cy="385" r="40" class="splash s3"/>
+    </g>
+  </g>
+""")
+
 def assemble(src):
     base = src[src.index('  <div class="layer" id="cook" hidden>'):src.index('  <div class="vig"></div>')]
     base = base.replace('<div class="cardwrap"><div class="card">', '<div class="cardwrap" id="cardwrap"><div class="card">')
+    # a live read on what the food is doing. The card says which state to act on; this says
+    # which state it is in. Without it the player is guessing.
+    pk = base.index('<div class="prompt" id="cookprompt">')
+    pe = base.index('</div>', pk) + len('</div>')
+    base = base[:pe] + '\n  <div class="cookstate" id="cookstate" hidden></div>' + base[pe:]
+    # wet and glossy -> dull and pale -> a brown rim creeping inward. Each stage has to be
+    # legible at a glance; the old version faded cream onto cream and was invisible.
     base = base.replace('<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/>',
-        '<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/><circle id="batter-set" cx="470" cy="385" r="96" fill="#e9cf96" opacity="0"/><circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/><g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>')
+        '<circle cx="470" cy="385" r="96" fill="url(#td-batter)"/>'
+        '<circle id="batter-set" cx="470" cy="385" r="96" fill="#f2e4bc" opacity="0"/>'
+        '<g id="batter-bubbles" opacity="0" fill="#d8c48a">'
+        '<circle class="bub" cx="430" cy="350" r="7"/><circle class="bub b2" cx="505" cy="345" r="6"/><circle class="bub b3" cx="520" cy="410" r="8"/>'
+        '<circle class="bub b4" cx="440" cy="425" r="6"/><circle class="bub b2" cx="470" cy="392" r="5"/><circle class="bub b3" cx="405" cy="398" r="5"/>'
+        '<circle class="bub b4" cx="492" cy="440" r="6"/><circle class="bub" cx="455" cy="318" r="5"/></g>'
+        '<ellipse id="batter-gloss" cx="444" cy="348" rx="52" ry="26" fill="#fff" opacity=".38" transform="rotate(-18 444 348)"/>'
+        '<circle id="batter-rim" cx="470" cy="385" r="96" fill="none" stroke="#b97a3c" stroke-width="0"/>'
+        '<circle id="batter-brown" cx="470" cy="385" r="96" fill="#b97a3c" opacity="0"/>'
+        '<g id="egg-on" hidden><circle cx="470" cy="378" r="22" fill="#f7f1e2"/><circle cx="470" cy="378" r="12" fill="#e8892b"/><circle cx="500" cy="404" r="18" fill="#f7f1e2"/><circle cx="500" cy="404" r="10" fill="#e8892b"/></g>')
     a = base.index('  <!-- ===== salted egg, sliced, and a block of cheese ===== -->'); z = base.index('  <!-- ===== banana leaf, bottom-right ===== -->')
     base = base[:a] + '  <g id="prop-eggs">\n' + base[a:z] + '  </g>\n' + base[z:]
-    assert 'batter-set' in base and 'prop-eggs' in base and 'id="cardwrap"' in base
+    assert 'batter-set' in base and 'batter-rim' in base and 'batter-gloss' in base and 'prop-eggs' in base and 'id="cardwrap"' in base
     # sauce overlay for the adobo lives inside its dressing
     adobo = s2.ADOBO.replace('<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/>', '<ellipse cx="450" cy="340" rx="50" ry="22" fill="#fff" opacity=".08"/><circle id="sauce-vin" cx="470" cy="385" r="120" fill="#c98a4a" opacity="0"/>')
     balanced('adobo', adobo)
     puto = s5.puto(base)
     puto_defs = puto[:puto.index('  <g id="dish-puto" hidden>')]; puto_body = balanced('puto', puto[puto.index('  <g id="dish-puto" hidden>'):])
     overlay = ('<svg class="overlay" width="1280" height="720" viewBox="0 0 1280 720" style="position:absolute;left:0;top:0">\n'
-               + puto_defs + adobo + DISH_PANCIT + puto_body + DISH_TSOKOLATE + DRAGS + '</svg>\n')
+               + puto_defs + adobo + DISH_PANCIT + puto_body + DISH_TSOKOLATE + TARGETS + DRAGS + '</svg>\n')
     k = base.index('</svg>') + len('</svg>')
     out = base[:k] + '\n' + overlay + base[k:]
-    for i in ['dish-adobo','dish-pancit','dish-puto','dish-tsokolate','drag-egg','drag-vin','drag-tube','drag-tablea','sauce-vin','vin-cane','vin-chain','tube-fill','tsok-froth']:
+    for i in ['dish-adobo','dish-pancit','dish-puto','dish-tsokolate','drag-egg','drag-vin','drag-tube','drag-tablea','sauce-vin','vin-cane','vin-chain','tube-fill','tsok-froth','target-pot','target-bowl','vin-splash','vin-level','batter-rim','batter-gloss','batter-bubbles']:
         assert out.count(f'id="{i}"') == 1, i
     return out
