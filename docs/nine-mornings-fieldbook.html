@@ -1,0 +1,484 @@
+<title>Nine Mornings Fieldbook</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#faf6ec; --card:#fffdf7; --ink:#211d18; --soft:#5d564a;
+  --rule:#c9bfa8; --hair:#e2d9c4;
+  --brick:#9c3f36; --gold:#a8721f; --teal:#2c6b62;
+  --scale:1;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme: dark){
+  --paper:#17140f; --card:#201c16; --ink:#f0e9da; --soft:#b3a993;
+  --rule:#4a4235; --hair:#332d24;
+  --brick:#e08c7f; --gold:#e0b45f; --teal:#7fc3b5;
+}}
+:root[data-theme="dark"]{
+  --paper:#17140f; --card:#201c16; --ink:#f0e9da; --soft:#b3a993;
+  --rule:#4a4235; --hair:#332d24;
+  --brick:#e08c7f; --gold:#e0b45f; --teal:#7fc3b5;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:16.5px;line-height:1.5;
+  margin:0;padding:38px 22px 90px}
+.sheet{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+
+/* --- masthead --- */
+.top{display:flex;flex-direction:column;gap:14px;border-bottom:2.5px solid var(--ink);padding-bottom:26px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--brick)}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:40px;line-height:1.04;margin:0;
+  letter-spacing:-.015em;text-wrap:balance}
+.sub{color:var(--soft);max-width:62ch;margin:0}
+.namefields{display:grid;grid-template-columns:2.2fr 1fr 1fr;gap:20px;margin-top:4px}
+.namefields label{display:flex;flex-direction:column;gap:3px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--soft)}
+.namefields span.rule{border-bottom:1.5px solid var(--rule);height:21px}
+
+/* --- how to use --- */
+.howto{background:var(--card);border:1px solid var(--hair);border-left:5px solid var(--gold);
+  border-radius:4px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.howto h2{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);margin:0}
+.howto ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+.howto p{margin:0}
+
+/* --- parts --- */
+.part{display:flex;flex-direction:column;gap:18px;break-inside:auto}
+.parthead{display:flex;flex-direction:column;gap:4px;border-bottom:1.5px solid var(--rule);padding-bottom:9px}
+.screenmatch{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brick);display:flex;gap:9px;align-items:baseline;flex-wrap:wrap}
+.screenmatch .tag{border:1px solid var(--rule);border-radius:3px;padding:2px 7px;color:var(--soft);letter-spacing:.1em}
+.parthead h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:27px;margin:0;letter-spacing:-.01em}
+
+.q{display:flex;flex-direction:column;gap:7px;break-inside:avoid}
+.q .ask{display:flex;gap:11px;align-items:baseline}
+.qn{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px;color:var(--brick);
+  flex:0 0 auto;padding-top:1px;font-weight:500}
+.q p{margin:0}
+.q .hint{color:var(--soft);font-size:14.5px;font-style:italic}
+
+/* ruled writing space that survives a photocopier */
+.write{background-image:repeating-linear-gradient(to bottom,
+    transparent 0,transparent 30px,var(--rule) 30px,var(--rule) 31px);
+  margin-left:31px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.write.l1{height:31px} .write.l2{height:62px} .write.l3{height:93px} .write.l4{height:124px}
+
+/* the concept boxes quote the game's own context cards */
+.idea{background:var(--card);border:1px solid var(--hair);border-left:5px solid var(--teal);
+  border-radius:4px;padding:13px 17px;display:flex;flex-direction:column;gap:6px;break-inside:avoid}
+.idea h3{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--teal);margin:0}
+.idea p{margin:0;font-size:15.5px}
+.idea .term{font-weight:600}
+
+/* checkable lists, tables, grids */
+.stops{list-style:none;margin:0;padding:0 0 0 31px;display:flex;flex-direction:column;gap:7px}
+.stops li{display:flex;gap:10px;align-items:center;font-size:15.5px}
+.box{flex:0 0 auto;width:15px;height:15px;border:1.5px solid var(--rule);border-radius:2px;display:inline-block}
+.mins{margin-left:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px;color:var(--soft);
+  font-variant-numeric:tabular-nums}
+
+.tablewrap{overflow-x:auto;margin-left:31px}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+caption{text-align:left;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--soft);padding-bottom:7px}
+th,td{border:1px solid var(--rule);padding:9px 11px;text-align:left;vertical-align:middle}
+th{font-weight:600;background:var(--card);width:56%}
+td{height:38px;font-variant-numeric:tabular-nums}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-left:31px;border:1px solid var(--rule)}
+.grid2 .h{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--soft);background:var(--card);padding:8px 11px;border-bottom:1px solid var(--rule)}
+.grid2 .h:first-child,.grid2 .cell:nth-child(odd){border-right:1px solid var(--rule)}
+.grid2 .cell{height:92px;background-image:repeating-linear-gradient(to bottom,
+    transparent 0,transparent 30px,var(--hair) 30px,var(--hair) 31px);
+  print-color-adjust:exact;-webkit-print-color-adjust:exact}
+
+.vocab{margin-left:31px;display:flex;flex-direction:column;gap:0;border:1px solid var(--rule)}
+.vocab .row{display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid var(--hair)}
+.vocab .row:last-child{border-bottom:none}
+.vocab .row.head{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--soft);background:var(--card)}
+.vocab .c{padding:9px 11px;min-height:36px;border-right:1px solid var(--hair)}
+.vocab .c:last-child{border-right:none}
+
+/* teacher key: never printed unless deliberately turned on */
+.keybar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:2.5px solid var(--ink);padding-top:18px}
+button{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;background:var(--ink);color:var(--paper);border:none;border-radius:4px;
+  padding:10px 16px;cursor:pointer}
+button:hover{background:var(--brick)}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.keynote{color:var(--soft);font-size:14px}
+#key{display:none;flex-direction:column;gap:16px;margin-top:22px}
+body.show-key #key{display:flex}
+#key .ans{break-inside:avoid;border-left:3px solid var(--brick);padding-left:14px;display:flex;flex-direction:column;gap:3px}
+#key .ans .who{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brick)}
+#key .ans p{margin:0;font-size:15.5px}
+
+@media (max-width:620px){
+  h1{font-size:31px} body{padding:26px 15px 70px}
+  .namefields{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .grid2 .h:first-child,.grid2 .cell:nth-child(odd){border-right:none}
+}
+@media print{
+  :root{--paper:#fff;--card:#fff;--ink:#000;--soft:#3a3a3a;--rule:#9a9a9a;--hair:#c8c8c8;
+        --brick:#000;--gold:#000;--teal:#000}
+  body{padding:0;font-size:11.5pt}
+  .sheet{max-width:none;gap:22px}
+  .no-print{display:none!important}
+  .part{break-before:page}
+  .part:first-of-type{break-before:auto}
+  .q,.idea,.tablewrap,.grid2,.vocab{break-inside:avoid}
+  a{text-decoration:none;color:#000}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="sheet">
+
+  <header class="top">
+    <div class="eyebrow">AP Human Geography &middot; Unit 2 &middot; Topic 2.12 Effects of Migration</div>
+    <h1>Nine Mornings Fieldbook</h1>
+    <p class="sub">Fill this in <em>while</em> you play, not after. Every question can be answered from something you
+      see on screen. Each part below matches the date in the top-left corner of the game.</p>
+    <div class="namefields">
+      <label>Name <span class="rule"></span></label>
+      <label>Period <span class="rule"></span></label>
+      <label>Date <span class="rule"></span></label>
+    </div>
+  </header>
+
+  <section class="howto">
+    <h2>How to use this</h2>
+    <ol>
+      <li>Look at the <strong>top-left corner</strong> of the game. It shows a date, like <em>December 18</em>. Find the part below with that date.</li>
+      <li>Words with a dotted underline and a small <strong>?</strong> can be tapped for a meaning. You will need six of them at the end.</li>
+      <li>Small glowing dots mean there is something to look at. They are optional, and question&nbsp;25 asks about them.</li>
+      <li>If you run out of time, finish <strong>Part&nbsp;5</strong> and the last page for homework.</li>
+    </ol>
+  </section>
+
+  <!-- ============ BEFORE ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Before you press start</span></div>
+      <h2>What you already think</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">1</span><p>Name two reasons a person might leave the country they were born in.</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">2</span><p>When somebody moves to another country, name one thing you think they
+        <em>gain</em> and one thing you think they <em>give up</em>.</p></div>
+      <div class="write l2"></div>
+    </div>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Part 1</span><span class="tag">December 16</span><span class="tag">First morning</span></div>
+      <h2>The family, and the ask</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">3</span><p>Where is Tala&rsquo;s family from, and how long have they lived in Jersey City?</p></div>
+      <div class="write l1"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">4</span><p>What is <strong>Simbang Gabi</strong>? Write it in your own words.</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">5</span><p>Tita Cora asks Ma to cook for about fifty people, in front of a room full of
+        neighbours. Ma says yes. Give one reason it was hard for her to say no.</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="idea">
+      <h3>The idea here</h3>
+      <p>A group of people from the same place who live near each other keeps its traditions alive together &mdash; and
+        those traditions come with <span class="term">obligations</span>. Belonging is not free.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Part 2</span><span class="tag">December 18</span><span class="tag">Third morning</span></div>
+      <h2>The block, and the cousin</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">6</span><p>You get thirty minutes on Newark Avenue. Tick the stops you actually made.</p></div>
+      <ul class="stops">
+        <li><span class="box"></span> Mang Boy&rsquo;s &mdash; the right vinegar, on the tab <span class="mins">14 min</span></li>
+        <li><span class="box"></span> Quik Mart &mdash; vinegar, four dollars cheaper <span class="mins">6 min</span></li>
+        <li><span class="box"></span> The panaderia &mdash; pan de sal <span class="mins">10 min</span></li>
+        <li><span class="box"></span> The salon &mdash; Mrs Ocampo <span class="mins">11 min</span></li>
+        <li><span class="box"></span> Bayanihan Cargo &mdash; price a box for Lola <span class="mins">16 min</span></li>
+      </ul>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">7</span><p>What did you <em>not</em> have time for, and what decided it for you?</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">8</span><p>List four businesses on this block. Then say who each one is mainly selling to.</p></div>
+      <div class="write l3"></div>
+    </div>
+
+    <div class="idea">
+      <h3>The idea here</h3>
+      <p>A neighbourhood where enough people from one country live close together that businesses can survive selling
+        mostly to them is called an <span class="term">ethnic enclave</span>.</p>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">9</span><p>Mang Boy&rsquo;s costs more money <em>and</em> more time than the chain store.
+        Give one reason a family would still shop there.</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">10</span><p>Ando lands at two o&rsquo;clock and is working by six. Nobody interviewed him.
+        <span class="hint">Who got him the job, and how?</span></p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="idea">
+      <h3>The idea here</h3>
+      <p>When one migrant helps the next one come over &mdash; a ticket, a place to sleep, a job already waiting &mdash;
+        geographers call it <span class="term">chain migration</span>. It is why whole families end up on one block.</p>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">11</span><p>Ando is fast and funny in Tagalog and slow and careful in English.
+        Why does he keep speaking English anyway?</p></div>
+      <div class="write l2"></div>
+    </div>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Part 3</span><span class="tag">December 20</span><span class="tag">Fifth morning</span></div>
+      <h2>The slow night</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">12</span><p>A customer tells Ma she should &ldquo;really speak English.&rdquo;
+        What language had Ma been speaking at that table?</p></div>
+      <div class="write l1"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">13</span><p>So what was the customer actually reacting to? What is that called?</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">14</span><p>Later, through the wall, Ma and Pa switch to Tagalog. Tala understands
+        every word of it. <span class="hint">So why did they switch?</span></p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">15</span><p>Half the restaurant&rsquo;s menu is what Lola actually cooked. The other half
+        has been changed to match what customers will order. What is happening to the family&rsquo;s food over time, and why?</p></div>
+      <div class="write l3"></div>
+    </div>
+  </section>
+
+  <!-- ============ PART 4 ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Part 4</span><span class="tag">December 22</span><span class="tag">Seventh morning</span></div>
+      <h2>The money counter</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">16</span><p>Read the receipt that comes back through the tray and fill this in.</p></div>
+      <div class="tablewrap">
+        <table>
+          <caption>Newark Avenue &middot; 22 December</caption>
+          <tbody>
+            <tr><th>Amount the family is sending</th><td></td></tr>
+            <tr><th>Fee, for the speed you chose</th><td></td></tr>
+            <tr><th>Exchange rate on the board that day</th><td></td></tr>
+            <tr><th>Pesos that reach Lola</th><td></td></tr>
+            <tr><th>Total gone from the register at Pacing&rsquo;s</th><td></td></tr>
+            <tr><th>Day the money arrives</th><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">17</span><p>You chose today or in three days. Which, and what did that choice cost the family?</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="idea">
+      <h3>The idea here</h3>
+      <p>Money that workers send home to family in another country is called a <span class="term">remittance</span>.
+        Filipinos abroad send home around <strong>thirty-four billion dollars a year</strong> &mdash; close to a tenth of
+        everything the Philippine economy produces. It arrives four hundred dollars at a time.</p>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">18</span><p>Pa was a licensed pharmacist in the Philippines for eleven years.
+        What is his job now, and why can&rsquo;t he do his old one here?</p></div>
+      <div class="write l3"></div>
+    </div>
+
+    <div class="idea">
+      <h3>The idea here</h3>
+      <p>When a country loses trained people to other countries, that is <span class="term">brain drain</span>.
+        When those people arrive and end up doing work far below their training, that is
+        <span class="term">brain waste</span>. Pa is both at once.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 5 ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>Part 5</span><span class="tag">December 24</span><span class="tag">Ninth morning</span></div>
+      <h2>The ninth morning</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">19</span><p>Bea gets into a nursing programme in Singapore. Sort her reasons.
+        <span class="hint">Push factors drive a person away from where they are. Pull factors draw them somewhere else.</span></p></div>
+      <div class="grid2">
+        <div class="h">Push &mdash; away from her town</div>
+        <div class="h">Pull &mdash; toward Singapore</div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">20</span><p>The clinic in Bea&rsquo;s town has been short a nurse since August, and nobody
+        has replaced her. What happens to that town when Bea leaves too?</p></div>
+      <div class="write l2"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">21</span><p>The Ramos family has sent money home all year. On this morning the
+        neighbourhood passes a basket around for Lola&rsquo;s hospital bill, and Ma has to stand there and let them.
+        What does that tell you about what a neighbourhood like this one actually does?</p></div>
+      <div class="write l3"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">22</span><p>Which wish did you choose? Write one sentence on why.</p></div>
+      <div class="write l2"></div>
+    </div>
+  </section>
+
+  <!-- ============ AFTER ============ -->
+  <section class="part">
+    <div class="parthead">
+      <div class="screenmatch"><span>After you finish</span></div>
+      <h2>The argument, and the words</h2>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">23</span><p>The money the Ramoses wire home helps pay for the nursing programme that is
+        taking Bea out of her town. <strong>Are remittances holding that place together, or hollowing it out?</strong>
+        Pick a side, give your best reason &mdash; then give the strongest reason for the side you did not pick.</p></div>
+      <div class="write l4"></div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">24</span><p>Six words you tapped for a meaning. Any six.</p></div>
+      <div class="vocab">
+        <div class="row head"><div class="c">Word</div><div class="c">What it means</div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+        <div class="row"><div class="c"></div><div class="c"></div></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="ask"><span class="qn">25</span><p>One thing you found by tapping a glowing dot that the story never told you.</p></div>
+      <div class="write l2"></div>
+    </div>
+  </section>
+
+  <!-- ============ TEACHER KEY ============ -->
+  <div class="keybar no-print">
+    <button id="toggle" type="button" aria-expanded="false" aria-controls="key">Show teacher key</button>
+    <span class="keynote">Hidden by default, and left out when you print unless it is showing.</span>
+  </div>
+
+  <div id="key">
+    <div class="ans"><span class="who">3 &middot; 4 &middot; 5</span>
+      <p>Batangas, in the Philippines; two years in Jersey City. Simbang Gabi is nine dawn masses, 16&ndash;24 December;
+        finish all nine and you are said to get one wish. Ma was asked publicly, by someone who invoked her own mother&rsquo;s
+        reputation &mdash; refusing would have cost her standing in the one community she has here. Accept any answer naming
+        social pressure or obligation.</p></div>
+    <div class="ans"><span class="who">6 &middot; 7</span>
+      <p>Answers vary. The point is scarcity: thirty minutes buys two stops, or three if they took the chain store.
+        Watch for students who notice that <em>choosing the neighbourhood store cost them a stop</em> &mdash; that is the
+        whole mechanic and it is question 9&rsquo;s setup.</p></div>
+    <div class="ans"><span class="who">8 &middot; 9</span>
+      <p>Bayanihan Cargo (shipping boxes home), Mang Boy&rsquo;s grocery, the panaderia, the salon &mdash; all selling mainly
+        to Filipino families; Quik Mart sells to anyone. Reasons to still use Mang Boy&rsquo;s: he carries the exact cane
+        vinegar, he extends credit, he knows the family, he asks about Lola. Trust and credit are the strongest answers.</p></div>
+    <div class="ans"><span class="who">10 &middot; 11</span>
+      <p>Chain migration &mdash; the family paid toward his ticket and a job was already waiting because he is family.
+        Ando speaks English on purpose, to get ready; nobody asked him to. Good answers notice he is not a simpler person
+        in English, he is just working in his second language.</p></div>
+    <div class="ans"><span class="who">12 &middot; 13 &middot; 14</span>
+      <p>Ma was speaking English the whole time. The customer was reacting to her accent, not her language &mdash;
+        that is discrimination or xenophobia, and the scene is built so the excuse does not hold. Ma and Pa switch to
+        Tagalog not to hide the meaning (Tala grew up in it) but to mark the conversation as not hers.</p></div>
+    <div class="ans"><span class="who">15</span>
+      <p>Cultural change under market pressure &mdash; acculturation. Every dish changed to sell better moves the menu
+        further from Lola&rsquo;s card. Strong answers name the trade: survive as a business, or keep the food exact.</p></div>
+    <div class="ans"><span class="who">16 &middot; 17</span>
+      <p>$400 sent; fee $14 (same day) or $5 (three days); rate $1 = 52.40 PHP; 20,960 pesos reach Lola; $414 or $405
+        leaves the register; arrives that night or on the 26th. The cost of speed is nine dollars; the cost of saving
+        nine dollars is three days with a hospital deposit outstanding.</p></div>
+    <div class="ans"><span class="who">18</span>
+      <p>He cooks. His Philippine licence does not transfer, and requalifying means years of school and exams the family
+        cannot pay for now. Brain waste. Push them on the debrief version: the US did not <em>gain</em> a pharmacist.</p></div>
+    <div class="ans"><span class="who">19 &middot; 20</span>
+      <p>Push: no work for her at home, the clinic understaffed since August, family needing money. Pull: far higher pay,
+        a real nursing job, a programme that accepted her. When she goes, the town loses its second nurse and has no one
+        to replace her &mdash; the shortage gets worse because the training worked.</p></div>
+    <div class="ans"><span class="who">21</span>
+      <p>The enclave is a two-way safety net, not only an outbound pipe. Best answers notice Ma&rsquo;s discomfort:
+        the help is real <em>and</em> it is public, so everyone now knows they needed it.</p></div>
+    <div class="ans"><span class="who">23</span>
+      <p>No correct side. Full marks need a real reason for their side <em>and</em> a fair statement of the other:
+        remittances pay the hospital bill and keep the lights on, and they also fund the training that removes the
+        trained person. Both are true at once, which is the actual lesson.</p></div>
+  </div>
+</div>
+
+<script>
+  var btn = document.getElementById('toggle');
+  btn.addEventListener('click', function(){
+    var on = document.body.classList.toggle('show-key');
+    btn.textContent = on ? 'Hide teacher key' : 'Show teacher key';
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  });
+</script>
