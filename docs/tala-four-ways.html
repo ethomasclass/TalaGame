@@ -1,0 +1,327 @@
+<title>Tala, Four Ways</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#f6f0e3;--card:#fffcf4;--ink:#221c16;--soft:#6a6152;--rule:#d8cdb6;
+  --brick:#9c3f36;--teal:#2c6b62;--gold:#a8721f}
+:root:not([data-theme="light"]){@media (prefers-color-scheme:dark){
+  --paper:#16130f;--card:#1f1b15;--ink:#efe7d7;--soft:#aea38e;--rule:#3d362b;
+  --brick:#e39284;--teal:#80c6b8;--gold:#e0b45f}}
+:root[data-theme="dark"]{--paper:#16130f;--card:#1f1b15;--ink:#efe7d7;--soft:#aea38e;--rule:#3d362b;
+  --brick:#e39284;--teal:#80c6b8;--gold:#e0b45f}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:40px 22px 90px;
+  font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55}
+.board{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+header{display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brick)}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:46px;line-height:1.02;margin:0;letter-spacing:-.018em;text-wrap:balance}
+.lede{margin:0;max-width:64ch;color:var(--soft);font-size:18px}
+.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+button{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:0;border-radius:4px;padding:10px 16px;cursor:pointer}
+button:hover{background:var(--brick)} button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bar span{color:var(--soft);font-size:14.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:34px 30px}
+figure{margin:0;display:flex;flex-direction:column;gap:13px}
+.art{aspect-ratio:1;width:100%;border-radius:3px;overflow:hidden;background:#f0b8a4;
+  box-shadow:0 1px 2px rgba(0,0,0,.18),0 18px 40px -22px rgba(0,0,0,.55)}
+.art canvas,.art svg{display:block;width:100%;height:100%}
+figcaption{display:flex;flex-direction:column;gap:6px}
+.head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.letter{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--brick);font-weight:500}
+figcaption h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;margin:0;letter-spacing:-.01em}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule);border-radius:3px;padding:2px 7px;color:var(--soft)}
+.cost{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  border-radius:3px;padding:3px 8px;color:var(--paper)}
+.cost.heavy{background:var(--brick)} .cost.light{background:var(--teal)}
+figcaption p{margin:0;font-size:16px;max-width:52ch}
+.notes{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;border-top:2.5px solid var(--ink);padding-top:26px}
+.notes h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:0 0 10px}
+.notes p,.notes li{font-size:16px;margin:0}
+.notes ul{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:9px}
+.pick{background:var(--card);border:1px solid var(--rule);border-left:5px solid var(--gold);border-radius:4px;padding:18px 20px;
+  display:flex;flex-direction:column;gap:10px;align-self:start}
+.pick p b{font-weight:600}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.86em}
+@media (max-width:760px){.grid,.notes{grid-template-columns:1fr} h1{font-size:36px} body{padding:28px 16px 70px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<main class="board">
+  <header>
+    <div class="eyebrow">Nine Mornings &middot; art direction study</div>
+    <h1>Tala, Four Ways</h1>
+    <p class="lede">The same girl, the same outline &mdash; sampled from the game&rsquo;s own Tala &mdash; handed to four different
+      renderers. The first is what the game draws today. The other three are plain JavaScript on a canvas, no libraries,
+      nothing a school laptop can&rsquo;t run offline.</p>
+    <div class="bar"><button id="motion" type="button" aria-pressed="false">Pause motion</button>
+      <span>B and C move on their own. Watch for a blink.</span></div>
+  </header>
+
+  <section class="grid">
+    <figure>
+      <div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+<defs><filter id="r" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2" xChannelSelector="R" yChannelSelector="G"/></filter>
+<linearGradient id="bg" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0%" stop-color="#f3bda9"/><stop offset="55%" stop-color="#e0a49f"/><stop offset="100%" stop-color="#d9979a"/></linearGradient>
+<linearGradient id="hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="55%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
+<linearGradient id="skin" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e8a184"/><stop offset="55%" stop-color="#d98e77"/><stop offset="100%" stop-color="#b96d5e"/></linearGradient>
+<clipPath id="c"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<g><rect width="120" height="120" fill="url(#bg)"/>
+<defs><radialGradient id="pg"><stop offset="0" stop-color="#ffd68c" stop-opacity=".75"/><stop offset="1" stop-color="#ffd68c" stop-opacity="0"/></radialGradient></defs><circle cx="17" cy="18" r="24" fill="url(#pg)"/><g filter="url(#r)" transform="translate(17 18) scale(.19)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/></g><g filter="url(#r)">
+  <path d="M 96 62 C 110 78 114 104 110 126 L 96 126 C 100 104 96 80 88 66 Z" fill="url(#hair)"/>
+  <path d="M 60 8 C 96 8 112 32 111 68 C 110 90 106 104 103 118 L 17 118 C 14 104 10 90 9 68 C 8 32 24 8 60 8 Z" fill="url(#hair)"/>
+  <path d="M 22 126 C 26 100 40 90 60 88 C 80 90 94 100 98 126 Z" fill="#2e5fd9"/>
+  <path d="M 50 78 L 70 78 L 71 94 L 49 94 Z" fill="#b96d5e"/>
+  <path d="M 60 22 C 86 22 98 42 98 66 C 98 92 82 108 60 108 C 38 108 22 92 22 66 C 22 42 34 22 60 22 Z" fill="url(#skin)"/>
+  <path d="M 60 14 C 92 14 105 36 103 60 C 95 44 82 36 68 37 C 56 30 42 34 30 46 C 24 52 21 60 20 68 C 14 38 28 14 60 14 Z" fill="url(#hair)"/>
+</g>
+<g filter="url(#r)">
+  <ellipse cx="36" cy="76" rx="9" ry="5" fill="#c05b58" opacity=".3"/><ellipse cx="84" cy="76" rx="9" ry="5" fill="#c05b58" opacity=".3"/>
+  
+  <path d="M 33 51 C 39 46 50 46 56 50" stroke="#1a1330" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 64 50 C 70 46 81 46 87 51" stroke="#1a1330" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 34 64 C 39 57 51 57 56 64 C 51 70 39 70 34 64 Z" fill="#fbf3e4"/>
+  <path d="M 64 64 C 69 57 81 57 86 64 C 81 70 69 70 64 64 Z" fill="#fbf3e4"/>
+  <circle cx="45" cy="63" r="5.5" fill="#1a1330"/><circle cx="75" cy="63" r="5.5" fill="#1a1330"/>
+  <circle cx="47" cy="61" r="1.8" fill="#fbf3e4"/><circle cx="77" cy="61" r="1.8" fill="#fbf3e4"/>
+  <path d="M 56 74 C 55 79 57 82 61 82" stroke="#b96d5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M 51 92 C 57 94 64 94 70 92" stroke="#8e3a33" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+</g></g></svg></div>
+      <figcaption>
+        <div class="head"><span class="letter">A</span><h2>The hand-drawn filter</h2></div>
+        <div class="meta"><span class="tag">SVG + displacement filter</span><span class="tag">in the game now</span><span class="cost heavy">Heavy</span></div>
+        <p>Shapes drawn once, then roughened by a turbulence filter every time the screen repaints. It is the look you
+          approved &mdash; and the most expensive thing the game does, because the filter runs over whole full-screen layers.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-r="boil" aria-label="Tala drawn with a wobbling, redrawn outline"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="letter">B</span><h2>Line boil</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D</span><span class="cost light">Light</span></div>
+        <p>Every outline is redrawn from three slightly different drawings, cycling eight times a second &mdash; how
+          hand-drawn animation has always stayed alive between poses. She breathes and blinks without anyone animating her.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-r="cut" aria-label="Tala built from layered cut paper with shadows"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="letter">C</span><h2>Cut paper</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D</span><span class="cost light">Light</span></div>
+        <p>A parol is cut paper and capiz shell, made at a kitchen table. Scissor-cut layers with real shadows make the whole
+          game look like something this family could make &mdash; and the lantern actually glows and sways.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-r="riso" aria-label="Tala printed in three misregistered risograph inks"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="letter">D</span><h2>Risograph</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D</span><span class="cost light">Light</span></div>
+        <p>Three inks &mdash; pink, blue, yellow &mdash; printed slightly out of line, colour built from halftone dots. Reads as
+          a zine, not an app, and it photocopies. The cost is faces: halftone muddies small features.</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <div>
+      <h3>What actually changes in JavaScript</h3>
+      <ul>
+        <li><b>A character becomes data; a style becomes a renderer.</b> All four panels draw one outline. Pick a style later
+          and the cast doesn&rsquo;t have to be redrawn.</li>
+        <li><b>Expressions stop being swapped pictures.</b> Today a frown is a different <code>&lt;use&gt;</code> element. In code a
+          brow is an angle and a mouth is a curve, so faces can ease from one expression into the next.</li>
+        <li><b>The school-laptop rules still hold.</b> One file, offline, Canvas 2D only. I didn&rsquo;t build a WebGL
+          watercolour version: it&rsquo;s lovely, and it depends on GPU support older Chromebooks and locked-down machines
+          don&rsquo;t always have.</li>
+        <li><b>&ldquo;Heavy&rdquo; and &ldquo;light&rdquo; are how these techniques are known to behave, not measurements</b>
+          on your machines. One timed run on a real school laptop settles it.</li>
+      </ul>
+    </div>
+    <div class="pick">
+      <h3>What I&rsquo;d do</h3>
+      <p><b>B for the game.</b> It keeps every character you&rsquo;ve already approved, swaps the costliest part of the renderer for
+        the cheapest, and gives the whole cast the &ldquo;movement beyond eyes&rdquo; you asked for early on.</p>
+      <p><b>C for the moments that are memories</b> &mdash; the title card, the establishing shots, Lola&rsquo;s polaroid.</p>
+      <p><b>D belongs on paper,</b> not on screen: it&rsquo;s the fieldbook&rsquo;s look, not the game&rsquo;s.</p>
+    </div>
+  </section>
+</main>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><path id="probe"/></svg>
+
+<script>
+(function(){
+const SIZE = 420, K = SIZE / 120, DPR = Math.min(2, window.devicePixelRatio || 1), W = SIZE * DPR;
+const probe = document.getElementById('probe');
+function sample(d, n, closed, tf){
+  probe.setAttribute('d', d); const L = probe.getTotalLength(), m = closed ? n : n - 1, out = [];
+  for(let i = 0; i < n; i++){ const p = probe.getPointAtLength(L * i / m); let x = p.x, y = p.y;
+    if(tf){ x = tf[0] + x * tf[2]; y = tf[1] + y * tf[2]; } out.push([x, y]); }
+  return out; }
+const ell = (cx,cy,rx,ry) => `M ${cx-rx} ${cy} A ${rx} ${ry} 0 1 0 ${cx+rx} ${cy} A ${rx} ${ry} 0 1 0 ${cx-rx} ${cy} Z`;
+const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+
+const STAR = 'M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z';
+const STAR_IN = 'M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z';
+const PAROL = [17, 18, .19];
+const C = {bg:'#f0b8a4', hair:'#261c3c', skin:'#dc9179', skinLo:'#b96d5e', shirt:'#2e5fd9', lip:'#8e3a33',
+  blush:'#c05b58', eye:'#fbf3e4', pupil:'#1c1430', red:'#e0453f', gold:'#f4c65a', ink:'#2a1c34'};
+
+// Tala, as data. Paths are the game's own avatar geometry. Back to front.
+const SHAPES = [
+  {id:'bg', d:'M -40 -40 L 160 -40 L 160 160 L -40 160 Z', n:8, rOnly:true, riso:{P:.2, Y:.28}},
+  {id:'glow', d:ell(17,18,17,17), n:40, rOnly:true, over:true, riso:{Y:.42}},
+  {id:'parol', d:STAR, tf:PAROL, fill:C.red, n:60, parol:true, riso:{P:1, Y:.9}},
+  {id:'parolIn', d:STAR_IN, tf:PAROL, fill:C.gold, n:50, parol:true, riso:{Y:1}},
+  {id:'backhair', d:'M 96 62 C 110 78 114 104 110 126 L 96 126 C 100 104 96 80 88 66 Z', fill:C.hair, n:40, line:true, riso:{B:1, P:.55}},
+  {id:'hair', d:'M 60 8 C 96 8 112 32 111 68 C 110 90 106 104 103 118 L 17 118 C 14 104 10 90 9 68 C 8 32 24 8 60 8 Z', fill:C.hair, n:120, line:true, riso:{B:1, P:.55}},
+  {id:'shirt', d:'M 22 126 C 26 100 40 90 60 88 C 80 90 94 100 98 126 Z', fill:C.shirt, n:70, line:true, still:true, riso:{B:.85}},
+  {id:'neck', d:'M 50 78 L 70 78 L 71 94 L 49 94 Z', fill:C.skinLo, n:24, riso:{P:.6, Y:.55, B:.12}},
+  {id:'face', d:'M 60 22 C 86 22 98 42 98 66 C 98 92 82 108 60 108 C 38 108 22 92 22 66 C 22 42 34 22 60 22 Z', fill:C.skin, n:110, line:true, riso:{P:.42, Y:.38}},
+  {id:'fringe', d:'M 60 14 C 92 14 105 36 103 60 C 95 44 82 36 68 37 C 56 30 42 34 30 46 C 24 52 21 60 20 68 C 14 38 28 14 60 14 Z', fill:C.hair, n:110, line:true, riso:{B:1, P:.55}},
+  {id:'blushL', d:ell(36,76,9,5), fill:C.blush, alpha:.32, over:true, n:30, riso:{P:.5}},
+  {id:'blushR', d:ell(84,76,9,5), fill:C.blush, alpha:.32, over:true, n:30, riso:{P:.5}},
+  {id:'eyeL', d:'M 34 64 C 39 57 51 57 56 64 C 51 70 39 70 34 64 Z', fill:C.eye, n:36, eye:true, knock:true},
+  {id:'eyeR', d:'M 64 64 C 69 57 81 57 86 64 C 81 70 69 70 64 64 Z', fill:C.eye, n:36, eye:true, knock:true},
+  {id:'pupL', d:ell(45,63,5.5,5.5), fill:C.pupil, n:24, eye:true, riso:{B:1, P:.4}},
+  {id:'pupR', d:ell(75,63,5.5,5.5), fill:C.pupil, n:24, eye:true, riso:{B:1, P:.4}},
+  {id:'hiL', d:ell(47,61,1.8,1.8), fill:C.eye, n:12, eye:true, knock:true},
+  {id:'hiR', d:ell(77,61,1.8,1.8), fill:C.eye, n:12, eye:true, knock:true},
+];
+const STROKES = [
+  {d:'M 33 51 C 39 46 50 46 56 50', color:C.pupil, w:4, riso:{B:1}},
+  {d:'M 64 50 C 70 46 81 46 87 51', color:C.pupil, w:4, riso:{B:1}},
+  {d:'M 56 74 C 55 79 57 82 61 82', color:C.skinLo, w:2.4, riso:{P:.7, Y:.35}},
+  {d:'M 50 91 C 56 97 66 97 71 90', color:C.lip, w:3, riso:{P:1, B:.3}},
+];
+const LIDS = [{d:'M 34 64 C 40 67.5 50 67.5 56 64', color:C.pupil, w:1.8, riso:{B:1}},
+              {d:'M 64 64 C 70 67.5 80 67.5 86 64', color:C.pupil, w:1.8, riso:{B:1}}];
+
+SHAPES.forEach((s, i) => { s.i = i; s.pts = sample(s.d, s.n, true, s.tf);
+  const xs = s.pts.map(p => p[0]), ys = s.pts.map(p => p[1]);
+  s.size = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+  // scissor-cut version: fewer vertices, each nudged once and never again - paper does not boil
+  const step = Math.max(1, Math.round(s.n / Math.max(8, s.size * .55)));
+  s.cut = s.pts.filter((_, k) => k % step === 0).map(([x, y], k) => {
+    const a = Math.min(.45, s.size * .012); return [x + (hash(i * 50 + k) - .5) * a, y + (hash(i * 90 + k + 7) - .5) * a]; }); });
+[...STROKES, ...LIDS].forEach((s, i) => { s.i = i; s.pts = sample(s.d, 20, false); });
+
+function wobble(pts, seed, amp, closed){
+  const n = pts.length, ph = [0,1,2,3].map(k => hash(seed + k) * 6.283);
+  return pts.map(([x, y], i) => { const u = i / n * 6.283, f1 = closed ? 3 : 1, f2 = closed ? 7 : 3;
+    return [x + amp * (Math.sin(u * f1 + ph[0]) + .5 * Math.sin(u * f2 + ph[1])),
+            y + amp * (Math.sin(u * f1 + ph[2]) + .5 * Math.sin(u * f2 + ph[3]))]; }); }
+function smooth(g, pts){ const n = pts.length, mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  g.beginPath(); let m = mid(pts[n - 1], pts[0]); g.moveTo(m[0], m[1]);
+  for(let i = 0; i < n; i++){ const p = pts[i], q = pts[(i + 1) % n], mm = mid(p, q); g.quadraticCurveTo(p[0], p[1], mm[0], mm[1]); }
+  g.closePath(); }
+function open(g, pts){ g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
+  for(let i = 1; i < pts.length - 1; i++){ const p = pts[i], q = pts[i + 1]; g.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); }
+  const l = pts[pts.length - 1]; g.lineTo(l[0], l[1]); }
+function poly(g, pts){ g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for(const p of pts.slice(1)) g.lineTo(p[0], p[1]); g.closePath(); }
+const unit = g => g.setTransform(K * DPR, 0, 0, K * DPR, 0, 0);
+const raw = g => g.setTransform(1, 0, 0, 1, 0, 0);
+const blinking = (t, off) => ((t + off) % 4.3) < .13;
+function offscreen(){ const c = document.createElement('canvas'); c.width = c.height = W; return c; }
+
+// paper: speckle and short fibres, used under multiply
+const paper = offscreen(); { const g = paper.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, W);
+  for(let k = 0; k < 5200; k++){ const x = hash(k) * W, y = hash(k + 9e4) * W, v = 150 + hash(k + 3e4) * 90;
+    g.fillStyle = `rgba(${v|0},${(v * .96)|0},${(v * .9)|0},${.25 + hash(k + 7e4) * .35})`; g.fillRect(x, y, DPR * (.6 + hash(k + 5e4)), DPR * (.6 + hash(k + 6e4))); }
+  g.lineWidth = .7 * DPR; for(let k = 0; k < 520; k++){ const x = hash(k + 11) * W, y = hash(k + 13) * W, a = hash(k + 17) * 6.283, l = (3 + hash(k + 19) * 9) * DPR;
+    g.strokeStyle = `rgba(120,100,80,${.18 + hash(k + 23) * .2})`; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); } }
+function texture(g, alpha){ g.save(); raw(g); g.globalAlpha = alpha; g.globalCompositeOperation = 'multiply'; g.drawImage(paper, 0, 0); g.restore(); }
+function parolGlow(g, a){ const gr = g.createRadialGradient(17, 18, 0, 17, 18, 24);
+  gr.addColorStop(0, `rgba(255,214,140,${a})`); gr.addColorStop(1, 'rgba(255,214,140,0)'); g.fillStyle = gr; g.fillRect(-7, -6, 48, 48); }
+
+// ---------- B : line boil ----------
+function boil(g, t){
+  const f = Math.floor(t * 8) % 3, breath = Math.sin(t * 1.7) * .45, blink = blinking(t, 0);
+  unit(g); g.fillStyle = C.bg; g.fillRect(0, 0, 120, 120); parolGlow(g, .7);
+  for(const s of SHAPES){ if(s.rOnly || (blink && s.eye)) continue;
+    const pts = wobble(s.pts, f * 97 + s.i * 13, Math.min(1.05, s.size * .026), true);
+    g.save(); if(!s.parol && !s.still) g.translate(0, breath);
+    smooth(g, pts); g.globalAlpha = s.alpha || 1; g.fillStyle = s.fill; g.fill(); g.globalAlpha = 1;
+    if(s.line || s.parol){ g.lineWidth = .85; g.lineJoin = 'round'; g.strokeStyle = C.ink; g.stroke(); }
+    g.restore(); }
+  g.save(); g.translate(0, breath); g.lineCap = 'round';
+  for(const s of [...STROKES, ...(blink ? LIDS : [])]){ open(g, wobble(s.pts, f * 53 + s.i * 7, .42, false));
+    g.lineWidth = s.w * .9; g.strokeStyle = s.color; g.stroke(); }
+  g.restore(); texture(g, .14); }
+
+// ---------- C : cut paper ----------
+function cut(g, t){
+  const breath = Math.sin(t * 1.7) * .45, sway = Math.sin(t * 1.1) * .052, blink = blinking(t, 1.7);
+  const flick = .5 + .12 * Math.sin(t * 5.3) + .06 * Math.sin(t * 13.1);
+  unit(g); g.fillStyle = C.bg; g.fillRect(0, 0, 120, 120); texture(g, .32);
+  unit(g); parolGlow(g, flick);
+  const pivot = [PAROL[0], PAROL[1] - 13];
+  const shadow = on => { if(on){ g.shadowColor = 'rgba(60,25,20,.38)'; g.shadowBlur = 5 * DPR; g.shadowOffsetX = 1.6 * DPR; g.shadowOffsetY = 2.6 * DPR; } else g.shadowColor = 'transparent'; };
+  for(const s of SHAPES){ if(s.rOnly || (blink && s.eye)) continue;
+    g.save();
+    if(s.parol){ g.translate(pivot[0], pivot[1]); g.rotate(sway); g.translate(-pivot[0], -pivot[1]); }
+    else if(!s.still) g.translate(0, breath);
+    poly(g, s.cut); shadow(true); g.globalAlpha = s.alpha ? .62 : 1; g.fillStyle = s.fill; g.fill(); shadow(false);
+    g.globalAlpha = 1; g.clip(); texture(g, .2);
+    g.restore(); }
+  // the parol's paper tails
+  g.save(); g.translate(pivot[0], pivot[1]); g.rotate(sway * 1.4); g.translate(-pivot[0], -pivot[1]);
+  shadow(true); g.lineCap = 'butt'; g.lineWidth = 1.3;
+  [[13.4, 27.5, C.gold], [17, 24.5, C.red], [20.6, 27.5, C.gold]].forEach(([x, y, col], k) => {
+    g.strokeStyle = col; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.sin(t * 2 + k) * 1.2, y + 7, x + Math.sin(t * 2.4 + k) * .8, y + 14); g.stroke(); });
+  g.restore();
+  // features as cut strips
+  g.save(); g.translate(0, breath); g.lineCap = 'round';
+  for(const s of [...STROKES, ...(blink ? LIDS : [])]){ open(g, s.pts); shadow(true); g.lineWidth = s.w; g.strokeStyle = s.color; g.stroke(); }
+  g.restore(); shadow(false); }
+
+// ---------- D : risograph, three plates ----------
+const INKS = {P:'#ff48b0', B:'#0078bf', Y:'#ffe800'}, ANG = {P:15, B:75, Y:0}, MIS = {P:[0, 0], B:[1.9, -1.2], Y:[-1.3, 1.5]};
+const patterns = {};
+function screen(g, ink, tone){ const key = ink + Math.round(tone * 20); if(patterns[key]) return patterns[key];
+  const cell = Math.round(5 * DPR), c = document.createElement('canvas'); c.width = c.height = cell;
+  const x = c.getContext('2d'); x.fillStyle = INKS[ink]; x.beginPath();
+  x.arc(cell / 2, cell / 2, cell * .5 * Math.min(1.3, Math.sqrt(tone) * 1.08), 0, 6.283); x.fill();
+  const p = g.createPattern(c, 'repeat'); p.setTransform(new DOMMatrix().rotate(ANG[ink])); return patterns[key] = p; }
+const speckle = offscreen(); { const g = speckle.getContext('2d');
+  for(let k = 0; k < 1500; k++){ g.fillStyle = hash(k + 4e3) > .82 ? 'rgba(20,20,60,.18)' : 'rgba(246,240,227,.7)';
+    const r = DPR * (.4 + hash(k + 8e3) * .9); g.beginPath(); g.arc(hash(k + 2e3) * W, hash(k + 6e3) * W, r, 0, 6.283); g.fill(); } }
+function riso(g, blink){
+  const plates = {P:offscreen(), B:offscreen(), Y:offscreen()}, tmp = offscreen(), T = tmp.getContext('2d');
+  const ink = (plate, draw, tone, key) => { raw(T); T.globalCompositeOperation = 'source-over'; T.clearRect(0, 0, W, W);
+    unit(T); draw(T); raw(T); T.globalCompositeOperation = 'source-in';
+    T.fillStyle = tone >= .92 ? INKS[key] : screen(T, key, tone); T.fillRect(0, 0, W, W);
+    plate.getContext('2d').drawImage(tmp, 0, 0); };
+  for(const s of SHAPES){ if(blink && s.eye) continue;
+    for(const k of 'PBY'){ const P = plates[k].getContext('2d'), tone = (s.riso || {})[k] || 0;
+      if(!s.over){ P.save(); unit(P); P.globalCompositeOperation = 'destination-out'; smooth(P, s.pts); P.fill(); P.restore(); }
+      if(s.knock || tone <= 0) continue;
+      ink(plates[k], X => { smooth(X, s.pts); X.fillStyle = '#000'; X.fill(); }, tone, k); } }
+  for(const s of [...STROKES, ...(blink ? LIDS : [])]) for(const k of 'PBY'){ const tone = s.riso[k] || 0; if(!tone) continue;
+    ink(plates[k], X => { open(X, s.pts); X.lineCap = 'round'; X.lineWidth = s.w; X.strokeStyle = '#000'; X.stroke(); }, tone, k); }
+  raw(g); g.globalCompositeOperation = 'source-over'; g.fillStyle = '#f6f0e3'; g.fillRect(0, 0, W, W);
+  g.globalCompositeOperation = 'multiply';
+  for(const k of 'YPB') g.drawImage(plates[k], MIS[k][0] * DPR * 1.2, MIS[k][1] * DPR * 1.2);
+  g.globalCompositeOperation = 'source-over'; g.drawImage(speckle, 0, 0); }
+
+// ---------- run ----------
+const panels = [...document.querySelectorAll('canvas[data-r]')].map(c => { c.width = c.height = W; return {r:c.dataset.r, g:c.getContext('2d'), last:null}; });
+let paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches, frozen = 1.2;
+const btn = document.getElementById('motion');
+const label = () => { btn.textContent = paused ? 'Play motion' : 'Pause motion'; btn.setAttribute('aria-pressed', paused ? 'true' : 'false'); };
+btn.addEventListener('click', () => { paused = !paused; label(); }); label();
+function frame(now){ const t = paused ? frozen : now / 1000; if(!paused) frozen = t;
+  for(const p of panels){
+    if(p.r === 'boil') boil(p.g, t);
+    else if(p.r === 'cut') cut(p.g, t);
+    else { const b = blinking(t, 2.9); if(p.last !== b){ riso(p.g, b); p.last = b; } } }
+  requestAnimationFrame(frame); }
+requestAnimationFrame(frame);
+})();
+</script>
