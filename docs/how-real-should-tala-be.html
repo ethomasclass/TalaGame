@@ -1,0 +1,406 @@
+<title>How Real Should Tala Be?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#f6f0e3;--card:#fffcf4;--ink:#221c16;--soft:#6a6152;--rule:#d8cdb6;
+  --brick:#9c3f36;--teal:#2c6b62;--gold:#9a6a1c}
+:root:not([data-theme="light"]){@media (prefers-color-scheme:dark){
+  --paper:#16130f;--card:#1f1b15;--ink:#efe7d7;--soft:#aea38e;--rule:#3d362b;
+  --brick:#e39284;--teal:#80c6b8;--gold:#e0b45f}}
+:root[data-theme="dark"]{--paper:#16130f;--card:#1f1b15;--ink:#efe7d7;--soft:#aea38e;--rule:#3d362b;
+  --brick:#e39284;--teal:#80c6b8;--gold:#e0b45f}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:40px 22px 90px;
+  font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55}
+.board{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+header{display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brick)}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:46px;line-height:1.02;margin:0;letter-spacing:-.018em;text-wrap:balance}
+.lede{margin:0;max-width:64ch;color:var(--soft);font-size:18px}
+.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+button{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:0;border-radius:4px;padding:10px 16px;cursor:pointer}
+button:hover{background:var(--brick)} button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bar span{color:var(--soft);font-size:14.5px}
+.dial{display:flex;align-items:center;gap:10px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.dial i{flex:1;height:2px;background:linear-gradient(90deg,var(--rule),var(--ink))}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:34px 30px}
+figure{margin:0;display:flex;flex-direction:column;gap:13px}
+.art{aspect-ratio:1;width:100%;border-radius:3px;overflow:hidden;background:#d9a68d;
+  box-shadow:0 1px 2px rgba(0,0,0,.18),0 18px 40px -22px rgba(0,0,0,.55)}
+.art canvas,.art svg{display:block;width:100%;height:100%}
+figcaption{display:flex;flex-direction:column;gap:6px}
+.head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.step{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--brick);font-weight:500}
+figcaption h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;margin:0;letter-spacing:-.01em}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule);border-radius:3px;padding:2px 7px;color:var(--soft)}
+.cost{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  border-radius:3px;padding:3px 8px;color:var(--paper)}
+.cost.same{background:var(--teal)} .cost.more{background:var(--gold)} .cost.most{background:var(--brick)}
+figcaption p{margin:0;font-size:16px;max-width:52ch}
+.notes{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;border-top:2.5px solid var(--ink);padding-top:26px}
+.notes h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:0 0 10px}
+.notes p,.notes li{font-size:16px;margin:0}
+.notes ul{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:10px}
+.pick{background:var(--card);border:1px solid var(--rule);border-left:5px solid var(--gold);border-radius:4px;padding:18px 20px;
+  display:flex;flex-direction:column;gap:10px;align-self:start}
+@media (max-width:760px){.grid,.notes{grid-template-columns:1fr} h1{font-size:36px} body{padding:28px 16px 70px}}
+</style>
+
+<main class="board">
+  <header>
+    <div class="eyebrow">Nine Mornings &middot; art direction study 2</div>
+    <h1>How Real Should Tala Be?</h1>
+    <p class="lede">Three steps toward realism from where the game is now. Same girl, same straight-on pose, same warm light
+      from the parol on her left and cool light from the window on her right. Everything here is plain JavaScript drawing on
+      a canvas &mdash; no libraries, nothing a school laptop can&rsquo;t run offline.</p>
+    <div class="dial" aria-hidden="true"><span>Today</span><i></i><span>More real</span></div>
+    <div class="bar"><button id="motion" type="button" aria-pressed="false">Pause motion</button>
+      <span>Steps 1&ndash;3 breathe, blink and glance around.</span></div>
+  </header>
+
+  <section class="grid">
+    <figure>
+      <div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+<defs><filter id="r" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2" xChannelSelector="R" yChannelSelector="G"/></filter>
+<linearGradient id="bg" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0%" stop-color="#f3bda9"/><stop offset="55%" stop-color="#e0a49f"/><stop offset="100%" stop-color="#d9979a"/></linearGradient>
+<linearGradient id="hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="55%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
+<linearGradient id="skin" x1="0.1" y1="0" x2="0.95" y2="1"><stop offset="0%" stop-color="#e8a184"/><stop offset="55%" stop-color="#d98e77"/><stop offset="100%" stop-color="#b96d5e"/></linearGradient>
+<clipPath id="c"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<g><rect width="120" height="120" fill="url(#bg)"/>
+<defs><radialGradient id="pg"><stop offset="0" stop-color="#ffd68c" stop-opacity=".75"/><stop offset="1" stop-color="#ffd68c" stop-opacity="0"/></radialGradient></defs><circle cx="17" cy="18" r="24" fill="url(#pg)"/><g filter="url(#r)" transform="translate(17 18) scale(.19)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/></g><g filter="url(#r)">
+  <path d="M 96 62 C 110 78 114 104 110 126 L 96 126 C 100 104 96 80 88 66 Z" fill="url(#hair)"/>
+  <path d="M 60 8 C 96 8 112 32 111 68 C 110 90 106 104 103 118 L 17 118 C 14 104 10 90 9 68 C 8 32 24 8 60 8 Z" fill="url(#hair)"/>
+  <path d="M 22 126 C 26 100 40 90 60 88 C 80 90 94 100 98 126 Z" fill="#2e5fd9"/>
+  <path d="M 50 78 L 70 78 L 71 94 L 49 94 Z" fill="#b96d5e"/>
+  <path d="M 60 22 C 86 22 98 42 98 66 C 98 92 82 108 60 108 C 38 108 22 92 22 66 C 22 42 34 22 60 22 Z" fill="url(#skin)"/>
+  <path d="M 60 14 C 92 14 105 36 103 60 C 95 44 82 36 68 37 C 56 30 42 34 30 46 C 24 52 21 60 20 68 C 14 38 28 14 60 14 Z" fill="url(#hair)"/>
+</g>
+<g filter="url(#r)">
+  <ellipse cx="36" cy="76" rx="9" ry="5" fill="#c05b58" opacity=".3"/><ellipse cx="84" cy="76" rx="9" ry="5" fill="#c05b58" opacity=".3"/>
+  
+  <path d="M 33 51 C 39 46 50 46 56 50" stroke="#1a1330" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 64 50 C 70 46 81 46 87 51" stroke="#1a1330" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 34 64 C 39 57 51 57 56 64 C 51 70 39 70 34 64 Z" fill="#fbf3e4"/>
+  <path d="M 64 64 C 69 57 81 57 86 64 C 81 70 69 70 64 64 Z" fill="#fbf3e4"/>
+  <circle cx="45" cy="63" r="5.5" fill="#1a1330"/><circle cx="75" cy="63" r="5.5" fill="#1a1330"/>
+  <circle cx="47" cy="61" r="1.8" fill="#fbf3e4"/><circle cx="77" cy="61" r="1.8" fill="#fbf3e4"/>
+  <path d="M 56 74 C 55 79 57 82 61 82" stroke="#b96d5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M 51 92 C 57 94 64 94 70 92" stroke="#8e3a33" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+</g></g></svg></div>
+      <figcaption>
+        <div class="head"><span class="step">0</span><h2>Today</h2></div>
+        <div class="meta"><span class="tag">in the game now</span><span class="tag">SVG</span></div>
+        <p>A round head, big eyes set low, flat shapes with a rough edge. Reads instantly at any size, and nobody takes her
+          face as a claim about what Filipino faces look like.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-level="1" aria-label="Tala with realistic proportions, flat colour and ink lines"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="step">1</span><h2>Illustrated</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D</span><span class="cost same">Similar cost</span></div>
+        <p>Real proportions &mdash; eyes at the middle of the head, a jaw, a nose, a neck &mdash; but still flat colour with one
+          hard-edged shadow and an ink line. Graphic-novel real.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-level="2" aria-label="Tala softly painted, lit from the left, hair drawn as strands"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="step">2</span><h2>Painted</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D &middot; soft shading</span><span class="cost more">More work</span></div>
+        <p>Light instead of lines. The parol lights her from the left and shadow falls to the right; her hair is hundreds of
+          strands with a sheen on the crown. Picture-book real.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <div class="art"><canvas data-level="3" aria-label="Tala as a painted portrait with skin texture, eyelashes and a blurred room"></canvas></div>
+      <figcaption>
+        <div class="head"><span class="step">3</span><h2>Portrait</h2></div>
+        <div class="meta"><span class="tag">Canvas 2D &middot; texture &amp; depth</span><span class="cost most">Most work &middot; uncanny risk</span></div>
+        <p>Skin texture, lashes, iris detail, a cool rim of window light, the room out of focus behind her. Close to a painted
+          portrait &mdash; and close to the ceiling of what a hand-coded face can do.</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="notes">
+    <div>
+      <h3>What realism costs that isn&rsquo;t the face</h3>
+      <ul>
+        <li><b>The world has to come up with her.</b> A painted Tala standing in today&rsquo;s flat restaurant looks cut out and
+          pasted in. Every step up means repainting twelve rooms, not just nine faces &mdash; that&rsquo;s the real bill.</li>
+        <li><b>Realism raises the stakes on who she looks like.</b> At step 0 nobody reads her features as a statement about
+          Filipino faces. At step 3 everyone does. The review by a Filipino colleague goes from useful to essential, ideally with
+          reference photos of the family you picture.</li>
+        <li><b>Expressions get harder to fake.</b> At step 0 a frown is two lines. At step 3 a frown has to move the brow, the lid
+          and the shading on the cheek together, or it looks wrong.</li>
+        <li><b>There&rsquo;s a ceiling on hand-coded faces.</b> Past step 2 you&rsquo;d want a human illustrator painting the
+          portraits and the code animating them &mdash; which is already how this page works: each portrait is painted once,
+          and only the eyes and the breathing are live.</li>
+      </ul>
+    </div>
+    <div class="pick">
+      <h3>What I&rsquo;d do</h3>
+      <p><b>Step 2.</b> &ldquo;Slightly more realistic&rdquo; lands here: she reads as a real person, it stays warm, and it&rsquo;s
+        buildable across seven characters and twelve rooms.</p>
+      <p><b>Step 1</b> is the budget version of the same move &mdash; real proportions without repainting the lighting of every room.</p>
+      <p><b>Step 3</b> only with a human artist painting the portraits.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+const SP = 200, SIZE = 440, K = SIZE / SP, DPR = Math.min(2, window.devicePixelRatio || 1), W = Math.round(SIZE * DPR);
+const Bx = u => (u * K * DPR).toFixed(2);
+const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const P = d => new Path2D(d);
+const canvas = () => { const c = document.createElement('canvas'); c.width = c.height = W; return c; };
+const U = g => g.setTransform(K * DPR, 0, 0, K * DPR, 0, 0);
+
+// ---------- Tala, realistically proportioned. 200-unit space, straight on. ----------
+const FACE = P('M 100 28 C 124 28 138 46 138 72 C 138 90 134 104 126 115 C 118 125 110 131 100 131 C 90 131 82 125 74 115 C 66 104 62 90 62 72 C 62 46 76 28 100 28 Z');
+const NECK = P('M 82 110 C 83 126 82 140 78 153 L 122 153 C 118 140 117 126 118 110 Z');
+const SWEATER = P('M 26 206 C 28 178 44 162 70 155 C 80 152 88 151 100 151 C 112 151 120 152 130 155 C 156 162 172 178 174 206 Z');
+const COLLAR = P('M 76 151 C 86 167 114 167 124 151 L 120.5 150 C 112 162 88 162 79.5 150 Z');
+const HAIR_BACK = P('M 100 16 C 138 16 154 44 154 80 C 154 112 152 142 158 178 C 160 192 158 204 152 208 L 48 208 C 42 204 40 192 42 178 C 48 142 46 112 46 80 C 46 44 62 16 100 16 Z');
+const CAP = P('M 100 15 C 129 15 147 33 147 62 L 138 63 C 132 50 122 43 110 41 C 100 40 94 42 90 30 C 85 42 75 50 66 62 L 55 60 C 55 34 71 15 100 15 Z');
+const CURT_L = P('M 55 58 C 53 84 57 104 59 124 C 61 146 57 166 51 190 C 60 189 68 171 70 150 C 72 128 68 108 67 88 C 66 76 66 68 66 62 Z');
+const CURT_R = P('M 145 58 C 147 84 143 104 141 124 C 139 146 143 166 149 190 C 140 189 132 171 130 150 C 128 128 132 108 133 88 C 134 76 134 68 134 62 Z');
+const EYES = [P('M 74 77 C 77 71.5 88 70.5 93 77.5 C 88 80.6 78 80.6 74 77 Z'), P('M 107 77.5 C 112 70.5 123 71.5 126 77 C 122 80.6 112 80.6 107 77.5 Z')];
+const LID = ['M 74 77 C 77 71.5 88 70.5 93 77.5', 'M 107 77.5 C 112 70.5 123 71.5 126 77'];
+const LIDC = [[[74,77],[77,71.5],[88,70.5],[93,77.5]], [[107,77.5],[112,70.5],[123,71.5],[126,77]]];
+const LOW = ['M 74.5 77.3 C 78 80.4 88 80.6 92.6 77.8', 'M 107.4 77.8 C 112 80.6 122 80.4 125.5 77.3'];
+const CREASE = ['M 74.5 74.2 C 78 69 88 68.2 93 73.6', 'M 107 73.6 C 112 68.2 122 69 125.5 74.2'];
+const CLOSED = ['M 74 77.2 C 79 79.8 88 80 93 77.6', 'M 107 77.6 C 112 80 121 79.8 126 77.2'];
+const CLOSEDC = [[[74,77.2],[79,79.8],[88,80],[93,77.6]], [[107,77.6],[112,80],[121,79.8],[126,77.2]]];
+const EC = [[83.8, 76.2], [116.2, 76.2]];
+const BROWS = [P('M 94 64.2 C 88 61.5 80 60.3 72 65.4 L 72.7 66.9 C 80 63.2 88 64.4 94 67 Z'), P('M 106 64.2 C 112 61.5 120 60.3 128 65.4 L 127.3 66.9 C 120 63.2 112 64.4 106 67 Z')];
+const UPPER = P('M 87.5 109.6 C 91 108.2 95 106.6 98 107.4 C 99.2 107.8 100.8 107.8 102 107.4 C 105 106.6 109 108.2 112.5 109.6 C 107 110.9 93 110.9 87.5 109.6 Z');
+const LOWER = P('M 87.5 109.6 C 93 111.2 107 111.2 112.5 109.6 C 110 115.2 104.5 116.8 100 116.8 C 95.5 116.8 90 115.2 87.5 109.6 Z');
+const MOUTH = 'M 87.5 109.6 C 93 110.9 107 110.9 112.5 109.6';
+const ALAE = ['M 93.2 93.6 C 90 95.6 90.6 99.6 94.6 99.8', 'M 106.8 93.6 C 110 95.6 109.4 99.6 105.4 99.8'];
+const STAR = P('M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z');
+const STAR_IN = P('M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z');
+
+// hair flows between guide edges; strands are interpolated between them
+const m = pts => pts.map(([x, y]) => [200 - x, y]);
+const G = {
+  capR:[[[93,16],[112,16.5],[130,25],[142,41],[146.5,60]], [[91,31],[99,38.5],[110,41],[124,46.5],[138,62]]],
+  capL:[[[88,16],[75,19.5],[63,29],[56.5,43],[55.5,59]], [[89.5,31],[84.5,39.5],[77,47],[70,54.5],[66,61.5]]],
+  curL:[[[55,58],[53.5,82],[56.5,102],[59,122],[59,146],[52,189]], [[66,62],[66.6,82],[67.4,102],[69.4,122],[70,146],[61,188]]],
+  backL:[[[49,60],[47.5,90],[48,120],[46,150],[44,180],[47,208]], [[56,60],[54.5,90],[57.5,120],[57.5,150],[53.5,180],[55,208]]],
+};
+G.curR = [m(G.curL[0]), m(G.curL[1])]; G.backR = [m(G.backL[0]), m(G.backL[1])];
+
+const cub = (p, s) => { const u = 1 - s; return [0,1].map(k => u*u*u*p[0][k] + 3*u*u*s*p[1][k] + 3*u*s*s*p[2][k] + s*s*s*p[3][k]); };
+const quad = (p, s) => { const u = 1 - s; return [0,1].map(k => u*u*p[0][k] + 2*u*s*p[1][k] + s*s*p[2][k]); };
+
+function blob(g, cx, cy, rx, ry, col, a, bl, rot){ g.save(); if(bl) g.filter = `blur(${Bx(bl)}px)`; g.globalAlpha = a;
+  g.fillStyle = col; g.beginPath(); g.ellipse(cx, cy, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
+function line(g, d, col, w, a, bl){ g.save(); if(bl) g.filter = `blur(${Bx(bl)}px)`; g.globalAlpha = a == null ? 1 : a;
+  g.strokeStyle = col; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round'; g.stroke(typeof d === 'string' ? P(d) : d); g.restore(); }
+function fill(g, path, col, a){ g.save(); g.globalAlpha = a == null ? 1 : a; g.fillStyle = col; g.fill(path); g.restore(); }
+function inside(g, path, fn){ g.save(); g.clip(path); fn(); g.restore(); }
+function curve(g, pts){ g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
+  for(let i = 1; i < pts.length - 1; i++){ const p = pts[i], q = pts[i + 1]; g.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); }
+  const l = pts[pts.length - 1]; g.lineTo(l[0], l[1]); }
+function strands(g, [A, B], n, seed, o){
+  for(let k = 0; k < n; k++){ const u = Math.min(1, Math.max(0, (k + .5) / n + (hash(seed + k) - .5) / n));
+    const pts = A.map((a, i) => [a[0] + (B[i][0] - a[0]) * u + (hash(seed + k * 13 + i) - .5) * o.jit,
+                                 a[1] + (B[i][1] - a[1]) * u + (hash(seed + k * 7 + i * 3) - .5) * o.jit * .6]);
+    g.save(); g.globalAlpha = o.alpha * (.5 + hash(seed + k * 5) * .5);
+    g.strokeStyle = hash(seed + k * 3 + 1) < o.mix ? o.light : o.dark; g.lineWidth = o.w * (.6 + hash(seed + k * 11) * .8); g.lineCap = 'round';
+    curve(g, pts); g.stroke(); g.restore(); } }
+
+// ---------- background ----------
+function parol(g, glow){
+  if(glow){ const r = g.createRadialGradient(34, 38, 0, 34, 38, 46); r.addColorStop(0, `rgba(255,208,130,${glow})`); r.addColorStop(1, 'rgba(255,208,130,0)'); g.fillStyle = r; g.fillRect(-12, -8, 92, 92); }
+  g.save(); g.translate(34, 38); g.scale(.3, .3); g.fillStyle = '#e0453f'; g.fill(STAR); g.fillStyle = '#f4c65a'; g.fill(STAR_IN);
+  g.fillStyle = '#fff4d2'; g.beginPath(); g.arc(0, 0, 12, 0, 6.2832); g.fill(); g.restore();
+  g.save(); g.lineWidth = 1.6; [[30, 46, '#f4c65a'], [34, 45, '#e0453f'], [38, 46, '#f4c65a']].forEach(([x, y, c]) => {
+    g.strokeStyle = c; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + 1, y + 9, x - .5, y + 18); g.stroke(); }); g.restore(); }
+function windowPane(g, lvl){
+  g.save(); if(lvl === 3){ const r = g.createRadialGradient(168, 66, 0, 168, 66, 70); r.addColorStop(0, 'rgba(150,185,230,.55)'); r.addColorStop(1, 'rgba(150,185,230,0)'); g.fillStyle = r; g.fillRect(90, 0, 110, 150); }
+  g.fillStyle = lvl === 3 ? '#9dbbe0' : '#a9bdd2'; g.fillRect(142, 20, 52, 96);
+  g.strokeStyle = lvl === 3 ? '#caa98f' : '#f0e3d3'; g.lineWidth = 2.6; g.strokeRect(142, 20, 52, 96);
+  g.lineWidth = 1.6; g.beginPath(); g.moveTo(168, 20); g.lineTo(168, 116); g.moveTo(142, 68); g.lineTo(194, 68); g.stroke(); g.restore(); }
+function background(lvl){
+  const c = canvas(), g = c.getContext('2d'); U(g);
+  if(lvl === 1){ g.fillStyle = '#d9a68d'; g.fillRect(0, 0, 200, 200); windowPane(g, 1); parol(g, 0); return c; }
+  const wall = g.createLinearGradient(0, 0, 200, 200);
+  if(lvl === 2){ wall.addColorStop(0, '#e6b99e'); wall.addColorStop(1, '#b5806c'); }
+  else { wall.addColorStop(0, '#7a4a3b'); wall.addColorStop(.55, '#4a2f2c'); wall.addColorStop(1, '#231a1d'); }
+  g.fillStyle = wall; g.fillRect(0, 0, 200, 200);
+  g.save(); g.filter = `blur(${Bx(lvl === 2 ? 1.6 : 3.6)}px)`; windowPane(g, lvl); parol(g, lvl === 2 ? .55 : .8); g.restore();
+  if(lvl === 3) for(let k = 0; k < 14; k++){ const warm = hash(k + 40) < .6;
+    blob(g, warm ? 8 + hash(k) * 70 : 130 + hash(k) * 70, 8 + hash(k + 9) * 110, 3 + hash(k + 3) * 7, 3 + hash(k + 3) * 7,
+      warm ? '#ffcf8a' : '#a8c4ea', .1 + hash(k + 5) * .22, .5); }
+  return c; }
+
+// ---------- the painted bust, drawn once per level. Eyes are left out: they are live. ----------
+function bust(lvl){
+  const c = canvas(), g = c.getContext('2d'); U(g);
+  const flat = lvl === 1, S = flat
+    ? {base:'#c68a66', shade:'#a26546', line:'#5b3424'}
+    : {base:'#c48664', light:'#e0a882', shade:'#8e573d', deep:'#6e3f2c', warm:'#d06f58'};
+  const HAIR = '#1b1413', HAIR_LINE = '#0a0707';
+  const hairOpts = lvl === 3 ? {n:34, w:.55, jit:1.6} : {n:22, w:.7, jit:2};
+
+  // hair behind everything
+  fill(g, HAIR_BACK, HAIR);
+  if(!flat){ inside(g, HAIR_BACK, () => { for(const [k, gd] of [[1, G.backL], [2, G.backR]])
+    strands(g, gd, hairOpts.n, k * 100, {dark:'#0c0808', light:'#35292a', mix:.35, w:hairOpts.w, alpha:.7, jit:hairOpts.jit}); }); }
+
+  // neck
+  if(flat){ fill(g, NECK, '#b87c5a'); inside(g, NECK, () => { fill(g, P('M 78 108 L 122 108 L 122 124 C 112 130 88 130 78 124 Z'), S.shade);
+    fill(g, P('M 112 124 C 116 136 118 146 122 153 L 124 153 L 124 124 Z'), S.shade); });
+    line(g, 'M 82 110 C 83 126 82 140 78 153', S.line, .8); line(g, 'M 118 110 C 117 126 118 140 122 153', S.line, .8); }
+  else { fill(g, NECK, '#b27655'); inside(g, NECK, () => { blob(g, 100, 113, 24, 10, S.deep, .6, 4);
+    blob(g, 121, 137, 8, 22, S.shade, .45, 5); blob(g, 84, 136, 6, 20, S.light, .22, 5);
+    if(lvl === 3){ line(g, 'M 88 118 C 91 130 94 142 98 151', S.shade, 1.4, .18, 1.2); line(g, 'M 112 118 C 109 130 106 142 102 151', S.shade, 1.4, .22, 1.2); } }); }
+
+  // sweater, in Tala's blue
+  if(flat){ fill(g, SWEATER, '#2f55a5'); inside(g, SWEATER, () => fill(g, P('M 128 154 C 150 162 166 178 170 206 L 176 206 L 176 150 Z'), '#22407f'));
+    line(g, SWEATER, '#14244a', .8); fill(g, COLLAR, '#27478f'); line(g, COLLAR, '#14244a', .7); }
+  else { const sw = g.createLinearGradient(26, 0, 174, 0); sw.addColorStop(0, '#4169b8'); sw.addColorStop(1, '#213d7c');
+    fill(g, SWEATER, sw); inside(g, SWEATER, () => { blob(g, 124, 182, 22, 26, '#182c60', .38, 8); blob(g, 62, 178, 20, 22, '#6186cf', .3, 9);
+      blob(g, 100, 160, 30, 6, '#10204a', .35, 3);
+      if(lvl === 3) for(let x = 28; x < 174; x += 2.2) line(g, `M ${x} 154 L ${x + .6} 206`, '#000', .5, .06); });
+    fill(g, COLLAR, '#2a4a93'); inside(g, COLLAR, () => { for(let x = 79; x < 122; x += 1.9){
+      const yo = 151 + (1 - ((x - 100) / 24) ** 2) * 12, yi = 150 + (1 - ((x - 100) / 20.5) ** 2) * 9;
+      line(g, `M ${x} ${yi} L ${x} ${yo}`, '#15285a', .5, .5); } }); }
+
+  // face
+  fill(g, FACE, S.base);
+  inside(g, FACE, () => {
+    if(flat){ fill(g, P('M 118 32 C 130 50 130 88 122 108 C 116 120 108 128 100 131.5 L 142 132 L 142 28 Z'), S.shade);
+      fill(g, P('M 103.5 80 C 105 86 106 90 106.5 94 C 105 92 104 86 102.5 80 Z'), S.shade);
+      blob(g, 100, 101.4, 5, 1.1, S.shade, 1); blob(g, 100, 119, 7, 1.6, S.shade, 1); return; }
+    blob(g, 138, 86, 22, 52, S.shade, .55, 10); blob(g, 146, 100, 14, 40, S.deep, .35, 8);
+    blob(g, 86, 46, 24, 12, S.light, .55, 9); blob(g, 76, 90, 11, 9, S.light, .45, 6);
+    blob(g, 84, 73, 13, 6.5, S.shade, .28, 3); blob(g, 116, 73, 13, 6.5, S.shade, .36, 3);
+    blob(g, 104.2, 86, 3.2, 11, S.shade, .38, 2.4); blob(g, 97.2, 85, 2, 10, S.light, .4, 2);
+    blob(g, 100, 95.2, 3.4, 2.2, S.light, .5, 1.6); blob(g, 100, 101.5, 7, 2.2, S.deep, .45, 1.8);
+    blob(g, 100, 104.8, 2.2, 2.6, S.shade, .22, 1.2); blob(g, 100, 119.4, 8, 2.2, S.shade, .35, 2);
+    blob(g, 100, 134, 32, 8, S.deep, .45, 5);
+    blob(g, 80, 97, 9, 6, S.warm, .22, 6); blob(g, 121, 97, 9, 6, S.warm, .2, 6); blob(g, 100, 97, 4, 3, S.warm, .18, 3);
+    if(lvl === 3){ g.save(); g.clip(P('M 118 20 L 150 20 L 150 140 L 100 140 Z')); line(g, FACE, '#a9c3e6', 1.6, .32, .9); g.restore(); } });
+  if(flat) line(g, FACE, S.line, .9);
+
+  // nose
+  if(flat){ ALAE.forEach(d => line(g, d, '#7a4632', .8));
+    blob(g, 95.6, 98, 2.1, 1.1, '#5e3526', 1, 0, -.25); blob(g, 104.4, 98, 2.1, 1.1, '#5e3526', 1, 0, .25); }
+  else { ALAE.forEach((d, k) => line(g, d, S.shade, .75, k ? .7 : .5, .3));
+    blob(g, 95.6, 98, 2.2, 1.2, '#4f2b1f', .85, .35, -.25); blob(g, 104.4, 98, 2.2, 1.2, '#4f2b1f', .85, .35, .25); }
+
+  // mouth
+  if(flat){ fill(g, UPPER, '#98504a'); fill(g, LOWER, '#ad6158'); line(g, MOUTH, '#5e2a25', .8); }
+  else { fill(g, UPPER, '#8f4b44'); fill(g, LOWER, '#a95d53');
+    inside(g, LOWER, () => { blob(g, 104, 116, 10, 2.4, '#7a3a34', .35, 1.2); blob(g, 97.6, 113.2, 4, 1.2, '#e6b3a6', .45, .8); });
+    line(g, MOUTH, '#5a2823', .7, .85, .15); blob(g, 87.6, 109.8, 1.5, 1.3, S.deep, .35, .6); blob(g, 112.4, 109.8, 1.5, 1.3, S.deep, .35, .6); }
+
+  // brows: a filled shape, or hair by hair
+  BROWS.forEach((b, k) => {
+    if(flat){ fill(g, b, '#23150f'); return; }
+    g.save(); g.filter = `blur(${Bx(.55)}px)`; fill(g, b, '#2e1c14', .62); g.restore();
+    const sg = k ? -1 : 1, C = [[100 - 6 * sg, 65.6], [100 - 18 * sg, 60.4], [100 - 28 * sg, 66.1]];
+    const N = lvl === 3 ? 64 : 50; for(let i = 0; i < N; i++){ const s = i / N + hash(i + k * 70) * .02;
+      const p = quad(C, Math.min(1, s)), thick = 2.6 * (1 - s) + .9 * s, off = (hash(i * 3 + k) - .5) * thick;
+      const tang = [C[2][0] - C[0][0], C[2][1] - C[0][1]], tl = Math.hypot(...tang);
+      let dx = tang[0] / tl, dy = tang[1] / tl - .35; if(s < .2){ dx = -.25 * sg; dy = -1; }
+      const dl = Math.hypot(dx, dy), len = 2.9 * (1 - s) + 1.9 * s;
+      line(g, `M ${p[0]} ${p[1] + off} l ${dx / dl * len} ${dy / dl * len}`, '#1f130e', .5, .6 + hash(i + 9) * .35); } });
+
+  // hair in front: cap and the two curtains that frame her face
+  for(const piece of [CAP, CURT_L, CURT_R]) fill(g, piece, HAIR);
+  if(flat){ fill(g, P('M 104 20 C 118 20 130 28 136 38 C 128 30 116 25 104 23 Z'), '#3a2c2a');
+    fill(g, P('M 58.5 84 C 57.5 96 59.5 108 61.5 118 C 60.5 108 59.5 96 60.5 84 Z'), '#3a2c2a');
+    fill(g, P('M 141.5 84 C 142.5 96 140.5 108 138.5 118 C 139.5 108 140.5 96 139.5 84 Z'), '#3a2c2a');
+    [CAP, CURT_L, CURT_R, HAIR_BACK].forEach(p => line(g, p, HAIR_LINE, .8)); }
+  else {
+    const o = {dark:'#0c0808', light: lvl === 3 ? '#4a3833' : '#3d2e2b', mix:.4, w:hairOpts.w, alpha:.75, jit:hairOpts.jit};
+    inside(g, CAP, () => { blob(g, 118, 25, 17, 5, '#7a615a', .38, 2, .45); blob(g, 76, 28, 12, 4, lvl === 3 ? '#9a735f' : '#6f5751', .3, 2, -.5);
+      strands(g, G.capR, hairOpts.n + 6, 300, o); strands(g, G.capL, hairOpts.n, 400, o); });
+    inside(g, CURT_L, () => { blob(g, 61, 100, 3, 16, lvl === 3 ? '#8a6a5a' : '#6f5751', .35, 2); strands(g, G.curL, hairOpts.n, 500, o); });
+    inside(g, CURT_R, () => { blob(g, 139, 100, 3, 16, '#5a4a4a', .3, 2); strands(g, G.curR, hairOpts.n, 600, o); });
+    if(lvl === 3){
+      g.save(); g.clip(P('M 118 0 L 200 0 L 200 200 L 118 200 Z'));
+      [CAP, CURT_R, HAIR_BACK].forEach(p => line(g, p, '#9db6d6', 1.1, .35, .7)); g.restore();
+      [[112, 16, 122, 9, 130, 12], [98, 15.5, 96, 8, 102, 5], [140, 36, 150, 34, 154, 40], [57, 44, 49, 42, 46, 48], [60, 140, 55, 150, 57, 162], [141, 132, 147, 144, 145, 156], [126, 20, 136, 15, 142, 19]]
+        .forEach(([a, b, cx, cy, d, e]) => line(g, `M ${a} ${b} Q ${cx} ${cy} ${d} ${e}`, '#2a1f1d', .32, .5)); } }
+
+  // skin texture, at the top of the realism dial only
+  if(lvl === 3){ const n = noise(); for(const p of [FACE, NECK]) inside(g, p, () => { g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+    g.globalCompositeOperation = 'multiply'; g.globalAlpha = .09; g.drawImage(n, 0, 0); g.restore(); }); }
+  return c; }
+
+let _noise = null;
+function noise(){ if(_noise) return _noise; _noise = canvas(); const g = _noise.getContext('2d'), im = g.createImageData(W, W);
+  for(let i = 0; i < im.data.length; i += 4){ const v = 150 + Math.random() * 105; im.data[i] = v; im.data[i + 1] = v * .97; im.data[i + 2] = v * .93; im.data[i + 3] = 255; }
+  g.putImageData(im, 0, 0); return _noise; }
+function overlay(lvl){ const c = canvas(), g = c.getContext('2d'); U(g);
+  const a = lvl === 3 ? .5 : lvl === 2 ? .16 : 0; if(!a) return c;
+  const r = g.createRadialGradient(100, 92, 58, 100, 100, 150); r.addColorStop(0, 'rgba(12,6,6,0)'); r.addColorStop(1, `rgba(12,6,6,${a})`);
+  g.fillStyle = r; g.fillRect(0, 0, 200, 200);
+  if(lvl === 3){ g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = .06; g.globalCompositeOperation = 'overlay'; g.drawImage(noise(), 0, 0); }
+  return c; }
+
+// ---------- live: eyes that blink and glance, and breath ----------
+const LOOKS = [[0, 0], [-.9, .1], [.8, .2], [0, -.3], [.4, .4], [-.5, -.2]];
+function look(t){ const k = Math.floor(t / 1.9), f = (t / 1.9) % 1;
+  const a = LOOKS[Math.floor(hash(k) * LOOKS.length)], b = LOOKS[Math.floor(hash(k + 1) * LOOKS.length)];
+  const e = Math.min(1, f / .06); return [a[0] + (b[0] - a[0]) * e, a[1] + (b[1] - a[1]) * e]; }
+function eyes(g, lvl, t, blink){
+  const lash = '#150c09';
+  for(let i = 0; i < 2; i++){
+    if(blink){ line(g, CLOSED[i], lash, lvl === 1 ? .9 : 1.1);
+      if(lvl === 3) for(let k = 0; k < 7; k++){ const s = i ? .45 + k * .08 : .05 + k * .08, p = cub(CLOSEDC[i], s), dx = i ? .35 : -.35;
+        line(g, `M ${p[0]} ${p[1]} q ${dx} 1.2 ${dx * 2} 1.9`, lash, .32, .8); }
+      continue; }
+    const [cx, cy] = EC[i], [lx, ly] = look(t), ix = cx + lx, iy = cy + .2 + ly;
+    inside(g, EYES[i], () => {
+      if(lvl === 3){ const sc = g.createLinearGradient(0, cy - 5, 0, cy + 3); sc.addColorStop(0, '#d5c4b3'); sc.addColorStop(1, '#f3ebe1'); g.fillStyle = sc; }
+      else g.fillStyle = lvl === 1 ? '#f1e9df' : '#eee4d8';
+      g.fillRect(cx - 12, cy - 8, 24, 16);
+      if(lvl === 1) g.fillStyle = '#3b2418';
+      else { const ir = g.createRadialGradient(ix, iy, .4, ix, iy, 4.8); ir.addColorStop(0, '#6f4832'); ir.addColorStop(1, '#2b1a12'); g.fillStyle = ir; }
+      g.beginPath(); g.arc(ix, iy, 4.7, 0, 6.2832); g.fill();
+      if(lvl === 3){ for(let k = 0; k < 24; k++){ const a = k / 24 * 6.2832;
+          line(g, `M ${ix + Math.cos(a) * 2.1} ${iy + Math.sin(a) * 2.1} L ${ix + Math.cos(a) * 4.2} ${iy + Math.sin(a) * 4.2}`, '#9a6a48', .22, .3); }
+        g.strokeStyle = '#140b07'; g.lineWidth = .7; g.globalAlpha = .8; g.beginPath(); g.arc(ix, iy, 4.55, 0, 6.2832); g.stroke(); g.globalAlpha = 1; }
+      g.fillStyle = '#0d0806'; g.beginPath(); g.arc(ix, iy, 1.95, 0, 6.2832); g.fill();
+      if(lvl > 1) blob(g, cx, cy - 3.6, 10, 2.6, '#3a2418', .35, 1.1);
+      g.fillStyle = 'rgba(255,255,255,.92)'; g.beginPath(); g.arc(ix - 1.5, iy - 1.7, .95, 0, 6.2832); g.fill();
+      if(lvl === 3){ g.fillStyle = 'rgba(255,255,255,.45)'; g.beginPath(); g.arc(ix + 1.3, iy + 1.1, .4, 0, 6.2832); g.fill(); } });
+    line(g, LID[i], lash, lvl === 1 ? 1.2 : 1.35);
+    line(g, i ? 'M 126 77 L 128.2 75.6' : 'M 74 77 L 71.8 75.6', lash, lvl === 1 ? .9 : 1);
+    line(g, LOW[i], '#6e4231', .5, .45);
+    if(lvl > 1) line(g, CREASE[i], '#7a4632', .55, .35, .3);
+    if(lvl === 3) for(let k = 0; k < 9; k++){ const s = i ? .45 + k * .065 : .55 - k * .065, p = cub(LIDC[i], s), out = i ? 1 : -1, reach = Math.abs(s - (i ? .45 : .55)) / .55;
+      line(g, `M ${p[0]} ${p[1]} q ${out * (.3 + reach * .8)} -1.3 ${out * (.9 + reach * 1.3)} -2.4`, lash, .34, .85); } } }
+
+// ---------- run ----------
+const panels = [...document.querySelectorAll('canvas[data-level]')].map((c, n) => { const lvl = +c.dataset.level; c.width = c.height = W;
+  return {lvl, g:c.getContext('2d'), bg:background(lvl), bust:bust(lvl), over:overlay(lvl), off:n * .9}; });
+let paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches, frozen = 2.2;
+const btn = document.getElementById('motion');
+const label = () => { btn.textContent = paused ? 'Play motion' : 'Pause motion'; btn.setAttribute('aria-pressed', paused ? 'true' : 'false'); };
+btn.addEventListener('click', () => { paused = !paused; label(); }); label();
+function frame(now){ const t = paused ? frozen : now / 1000; if(!paused) frozen = t;
+  for(const p of panels){ const g = p.g, dy = Math.sin((t + p.off) * 1.6) * .35, blink = ((t + p.off) % 4.1) < .14;
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, W); g.drawImage(p.bg, 0, 0);
+    g.drawImage(p.bust, 0, dy * K * DPR);
+    U(g); g.translate(0, dy); eyes(g, p.lvl, t + p.off * .3, blink);
+    g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(p.over, 0, 0); }
+  requestAnimationFrame(frame); }
+requestAnimationFrame(frame);
+})();
+</script>
