@@ -334,37 +334,75 @@ function chairs(g){ for(const id of ['tala', 'ma', 'pa']){ const x = CH[id].x, t
   for(const s of [-1, 1]){ fl(g, rr(x + s * 104 - 8, top, 16, TY - top, 4), '#5a3a2a'); fl(g, rr(x + s * 104 + (s > 0 ? 0 : -8), top, 8, TY - top, 3), '#4a2e20'); }
   fl(g, rr(x - 118, top - 4, 236, 20, 7), '#6a4632'); fl(g, rr(x - 118, top + 8, 236, 8, 4), '#553624'); st(g, rr(x - 118, top - 4, 236, 20, 7), '#2e1c14', 1.2); } }
 
-function arm(g, a, b, w, col, line){ const p = `M ${a[0]} ${a[1]} L ${b[0]} ${b[1]}`; st(g, p, line, w + 2.6); st(g, p, col, w); }
-function hand(g, x, y, rot, w, h, ch, flip){ g.save(); g.translate(x, y); g.rotate(rot); if(flip) g.scale(-1, 1);
-  const thumb = rr(-w * .5, -h * .62, w * .42, h * .34, h * .17); fl(g, thumb, ch.skin); st(g, thumb, ch.line, 1.1);
-  const body = rr(-w / 2, -h / 2 + 2, w, h - 2, h * .4); fl(g, body, ch.skin);
-  clip(g, body, () => { g.fillStyle = ch.shade; g.fillRect(-w / 2, h * .1, w, h); });
-  for(let k = 1; k <= 3; k++){ const yy = -h / 2 + 2 + (h - 2) * k / 4; st(g, `M ${w * .05} ${yy} L ${w / 2 - 1.5} ${yy}`, ch.line, .9, .55); }
-  st(g, body, ch.line, 1.2); g.restore(); }
-function bill(g, x, y, rot){ g.save(); g.translate(x, y); g.rotate(rot); fl(g, rr(-27, -13, 54, 26, 2), '#aebfa6'); el(g, 0, 0, 7, 7, '#93a78c'); st(g, rr(-27, -13, 54, 26, 2), '#6f8468', 1); g.restore(); }
+// ====================== ARMS AND HANDS ======================
+// Everything is drawn twice: a dark underlay a little fatter than the shape, then the fill on top.
+// Pieces that touch merge into one silhouette with a single outline, the way an inked drawing does.
+const OL = 1.3;
+function limb(g, a, b, w1, w2, col, pass, flat){ const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy), nx = -dy / d, ny = dx / d, o = pass ? 0 : OL;
+  const h1 = w1 / 2 + o, h2 = w2 / 2 + o; g.fillStyle = pass ? col : '#1c100b';
+  g.beginPath(); g.moveTo(a[0] + nx * h1, a[1] + ny * h1); g.lineTo(b[0] + nx * h2, b[1] + ny * h2); g.lineTo(b[0] - nx * h2, b[1] - ny * h2); g.lineTo(a[0] - nx * h1, a[1] - ny * h1); g.fill();
+  if(flat) return; g.beginPath(); g.arc(a[0], a[1], h1, 0, 6.2832); g.arc(b[0], b[1], h2, 0, 6.2832); g.fill(); }
+// paint a list of limb pieces as one silhouette: every underlay first, then every fill, so joints never show a ring
+function body(g, pieces, torso){ g.save();
+  // no outline where an arm crosses its own body: the sleeve and the torso are one piece of cloth
+  if(torso){ const cp = new Path2D(); cp.rect(0, 0, 1280, 720); const ch = CH[torso], k = ch.s;
+    cp.addPath(ch.clothes === 'shirt' ? SHOULDERS_WIDE : SHOULDERS, new DOMMatrix([k, 0, 0, k, ch.x - 100 * k, ch.y])); g.clip(cp, 'evenodd'); }
+  for(const q of pieces) limb(g, q[0], q[1], q[2], q[3], 0, 0, q[5]); g.restore();
+  for(const q of pieces) limb(g, q[0], q[1], q[2], q[3], q[4], 1, q[5]); }
+// wrist at x,y; fingers point along ang; thumb on the upper side unless flip. curl 0 = flat, 1 = fist.
+function hand(g, ch, x, y, ang, L, W, curl, flip, thumbTuck){
+  g.save(); g.translate(x, y); g.rotate(ang); if(flip) g.scale(1, -1);
+  const fw = W / 4, knX = L * .5, len = [.4, .46, .43, .34].map(v => v * L * (1 - curl * .62)), ys = [-.375, -.125, .125, .375].map(v => v * W);
+  const pieces = [[[-L * .04, 0], [knX - fw * .45, 0], W * .72, W * .98, ch.skin]];
+  for(let k = 0; k < 4; k++) pieces.push([[knX - fw * .6, ys[k]], [knX + len[k] - fw * .4, ys[k]], fw * 1.06, fw * .84, k === 3 ? ch.shade : ch.skin]);
+  const thumb = thumbTuck ? [[L * .16, -W * .3], [L * .46, -W * .2], W * .26, W * .22, ch.skin] : [[L * .12, -W * .32], [L * .46, -W * .6], W * .28, W * .22, ch.skin];
+  body(g, [thumb]); body(g, pieces);
+  // the one hard shadow along the little-finger side of the palm
+  g.save(); g.beginPath(); g.rect(-L, W * .16, knX + L - fw * .2, W); g.clip(); limb(g, [-L * .04, 0], [knX - fw * .45, 0], W * .72, W * .98, ch.shade, 1); g.restore();
+  if(thumbTuck) body(g, [thumb]);
+  for(let k = 0; k < 3; k++){ const yy = (ys[k] + ys[k + 1]) / 2, tip = knX + Math.min(len[k], len[k + 1]) - fw * .1;
+    st(g, `M ${knX - fw * .2} ${yy} L ${tip} ${yy}`, ch.line, .9, .7); }
+  if(curl > .5){ for(let k = 0; k < 4; k++) st(g, `M ${knX + len[k] * .55} ${ys[k] - fw * .38} L ${knX + len[k] * .55} ${ys[k] + fw * .38}`, ch.line, .7, .45); }
+  for(let k = 0; k < 4; k++) el(g, knX - fw * .2, ys[k] - fw * .05, fw * .18, fw * .1, ch.line, .22);
+  st(g, `M ${L * .08} ${-W * .06} Q ${L * .24} ${W * .02} ${L * .36} ${-W * .02}`, ch.line, .7, .3);
+  g.restore(); }
+// shoulder to elbow (on the table) to wrist, painted as one silhouette. sleeve: [colour, shade, 'wrist' | 'elbow' | 'roll']
+function armPose(g, ch, side, sh, el_, wr, W, sleeve){
+  const [col, shade, reach] = sleeve, c = side > 0 ? shade : col, lerp = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], id = ch.name.toLowerCase();
+  if(reach === 'wrist'){ body(g, [[sh, el_, W * 1.34, W * 1.18, c], [el_, lerp(el_, wr, .9), W * 1.18, W * 1.0, c]], id);
+    body(g, [[lerp(el_, wr, .8), lerp(el_, wr, .98), W * 1.02, W * 1.0, shade, true]]); return; }
+  body(g, [[el_, wr, W * 1.02, W * .78, side > 0 ? ch.shade : ch.skin]]);
+  // the sleeve ends just past the elbow with a square hem; Pa's is rolled into a cuff
+  body(g, [[sh, el_, W * 1.34, W * 1.2, c], [el_, lerp(el_, wr, .1), W * 1.2, W * 1.16, c, true]], id);
+  if(reach === 'roll') body(g, [[lerp(el_, wr, .04), lerp(el_, wr, .24), W * 1.22, W * 1.16, side > 0 ? '#bfb296' : '#d8ccb2', true]]); }
+
+function bill(g, x, y, rot){ g.save(); g.translate(x, y); g.rotate(rot); g.scale(1.45, 1.35); fl(g, rr(-27, -13, 54, 26, 2), '#aebfa6'); el(g, 0, 0, 7, 7, '#93a78c'); st(g, rr(-27, -13, 54, 26, 2), '#6f8468', 1); g.restore(); }
 
 function props(g, t, S){
   const tala = CH.tala, ma = CH.ma, pa = CH.pa;
+  // arms dim with their owner's face when someone else is talking
+  const dim = id => { g.filter = S.speaker && S.speaker !== id ? 'brightness(.82) saturate(.9)' : 'none'; };
   // the envelope that becomes a hospital deposit, under the lamp
-  if(S.props.envelope){ g.save(); g.translate(478, 470); g.rotate(.07); fl(g, rr(-36, -18, 72, 36, 3), '#f4efe4');
+  if(S.props.envelope){ g.save(); g.translate(484, 462); g.rotate(.07); fl(g, rr(-36, -18, 72, 36, 3), '#f4efe4');
     st(g, 'M -36 -18 L 0 4 L 36 -18', '#c9bfae', 1.2); st(g, 'M -22 7 q 6 -4 12 0 t 12 0 t 12 0', '#5a4a8a', .9, .7); st(g, rr(-36, -18, 72, 36, 3), '#a89c86', 1); g.restore(); }
-  // Tala, both hands around a mug of tsokolate
-  arm(g, [tala.x - 104, 418], [tala.x - 42, 474], 28, '#2f55a5', '#14244a'); arm(g, [tala.x + 104, 418], [tala.x + 42, 474], 28, '#22407f', '#14244a');
-  fl(g, rr(tala.x - 22, 434, 44, 48, 8), '#e9dfc9'); fl(g, rr(tala.x - 22, 452, 44, 8, 0), '#c9524a'); st(g, rr(tala.x - 22, 434, 44, 48, 8), '#8e8270', 1.2);
-  el(g, tala.x, 435, 22, 5.5, '#d8cdb4'); el(g, tala.x, 435.5, 18, 3.8, '#4a2a1c');
-  for(let k = 0; k < 2; k++){ const ph = (t * .5 + k * .5) % 1; st(g, `M ${tala.x - 6 + k * 12} ${426 - ph * 34} q 4 -6 0 -12 t 0 -12`, '#fff8ee', 1.6, .55 * (1 - ph)); }
-  hand(g, tala.x - 28, 466, .12, 28, 21, tala, false); hand(g, tala.x + 28, 466, -.12, 28, 21, tala, true);
-  // Ma, counting the money twice
-  arm(g, [ma.x - 104, 418], [ma.x - 52, 478], 28, '#a33b34', '#4e1a17'); arm(g, [ma.x + 104, 418], [ma.x + 52, 478], 28, '#7e2a26', '#4e1a17');
-  bill(g, ma.x - 2, 478, -.05); bill(g, ma.x + 2, 475, .04);
-  if(S.cur.ma && S.targetName.ma === 'counting'){ const p = (t % .9) / .9; bill(g, ma.x + 14 - 28 * p, 473 - 10 * Math.sin(Math.PI * p), -.25 * Math.sin(Math.PI * p)); }
-  hand(g, ma.x - 40, 476, .2, 28, 21, ma, false); hand(g, ma.x + 40, 476, -.2, 28, 21, ma, true);
+  // Tala, both hands wrapped around a mug of tsokolate
+  dim('tala'); { const x = tala.x, W = 52, L = 88, sw = ['#2f55a5', '#22407f', 'wrist'];
+    armPose(g, tala, -1, [x - 86, 398], [x - 124, 446], [x - 80, 472], W * .72, sw); armPose(g, tala, 1, [x + 86, 398], [x + 124, 446], [x + 80, 468], W * .72, sw);
+    fl(g, rr(x - 32, 410, 64, 72, 10), '#e9dfc9'); fl(g, rr(x - 32, 430, 64, 11, 0), '#c9524a'); st(g, rr(x - 32, 410, 64, 72, 10), '#8e8270', 1.3);
+    el(g, x, 411, 32, 7, '#d8cdb4'); el(g, x, 411.5, 26.5, 5, '#4a2a1c');
+    for(let k = 0; k < 2; k++){ const ph = (t * .5 + k * .5) % 1; st(g, `M ${x - 8 + k * 16} ${402 - ph * 34} q 4 -6 0 -12 t 0 -12`, '#fff8ee', 1.7, .55 * (1 - ph)); }
+    hand(g, tala, x - 72, 470, -.06, L, W, .35, false); hand(g, tala, x + 72, 466, Math.PI + .06, L, W, .35, true); }
+  // Ma, counting the money twice: left hand holds the stack, right thumbs through it
+  dim('ma'); { const x = ma.x, W = 52, L = 90, sl = ['#a33b34', '#7e2a26', 'elbow'];
+    armPose(g, ma, -1, [x - 86, 400], [x - 126, 448], [x - 84, 488], W * .72, sl); armPose(g, ma, 1, [x + 86, 400], [x + 128, 444], [x + 90, 472], W * .72, sl);
+    bill(g, x - 16, 478, -.05); bill(g, x - 12, 474, .04); bill(g, x - 14, 470, -.02);
+    if(S.cur.ma && S.targetName.ma === 'counting'){ const p = (t % .9) / .9; bill(g, x + 4 - 22 * p, 466 - 10 * Math.sin(Math.PI * p), -.2 * Math.sin(Math.PI * p)); }
+    hand(g, ma, x - 86, 484, -.12, L, W, .15, false, true);
+    hand(g, ma, x + 92, 466, Math.PI - .12, L * .92, W, .4, true); }
   // Pa, hands folded, sleeves rolled to the elbow for the kitchen
-  arm(g, [pa.x - 112, 418], [pa.x - 74, 446], 30, '#e6dcc6', '#7d6f58'); arm(g, [pa.x + 112, 418], [pa.x + 74, 446], 30, '#c4b79c', '#7d6f58');
-  arm(g, [pa.x - 76, 446], [pa.x - 22, 478], 23, pa.skin, pa.line); arm(g, [pa.x + 76, 446], [pa.x + 22, 478], 23, pa.shade, pa.line);
-  g.save(); g.translate(pa.x - 76, 446); g.rotate(.53); fl(g, rr(-9, -18, 18, 36, 6), '#d6cab0'); st(g, rr(-9, -18, 18, 36, 6), '#7d6f58', 1); g.restore();
-  g.save(); g.translate(pa.x + 76, 446); g.rotate(-.53); fl(g, rr(-9, -18, 18, 36, 6), '#b8ab8e'); st(g, rr(-9, -18, 18, 36, 6), '#7d6f58', 1); g.restore();
-  hand(g, pa.x - 10, 480, .35, 32, 23, pa, false); hand(g, pa.x + 10, 476, -.35, 32, 23, pa, true); }
+  dim('pa'); { const x = pa.x, W = 54, L = 92, sl = ['#e6dcc6', '#c4b79c', 'roll'];
+    armPose(g, pa, -1, [x - 92, 394], [x - 130, 444], [x - 70, 484], W * .74, sl); armPose(g, pa, 1, [x + 92, 394], [x + 130, 444], [x + 70, 478], W * .74, sl);
+    hand(g, pa, x - 70, 482, -.1, L, W, .8, false, true); hand(g, pa, x + 70, 474, Math.PI + .12, L, W, .8, true, true); } g.filter = 'none'; }
 
 // ====================== THE SCENE ======================
 const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa'};
