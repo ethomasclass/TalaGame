@@ -12,7 +12,15 @@ const singing = () => { if(typeof beats === 'undefined' || typeof i === 'undefin
 // the parish: the same rig, different people. Nobody here gets a portrait; they are the room.
 const PARISH = [['ma', '#3f7a6a', '#2f5e52', 'warm'], ['pa', '#8a5a9a', '#6e4680', 'smile'], ['mangboy', '#d8c07a', '#b8a05a', 'warm'], ['ando', '#c9524a', '#a33b34', 'neutral'],
   ['ocampo', '#e8e3ea', '#cbc3cf', 'kind'], ['clerk', '#5a6f8a', '#46586e', 'smile'], ['tita', '#e0a43a', '#c08a2a', 'talk'], ['customer', '#7a8a5a', '#5e6e44', 'smile'], ['hannah', '#4a5a8a', '#3a4870', 'warm']];
-PARISH.forEach(([from, c, sh], k) => { const b = ILL.CAST[from]; ILL.cast('parish' + k, {...b, noPortrait:true, clothes:{...b.clothes, col:c, shade:sh, apron:null, lanyard:false, sleeve:null, trim:sh}}); });
+// nobody in the crowd should be a double of somebody we know: every face, skin and hair is nudged
+const HAIRS = ['#1b1413', '#2a2220', '#3a2c28', '#4a3a30', '#6a5a50', '#8a7a6a'], SKINS = [[1, 1, 1], [1.05, 1.04, 1.02], [.93, .92, .9], [1.02, .98, .95], [.97, .95, .96]];
+const tint = (hex, m) => '#' + [1, 3, 5].map((i, j) => Math.max(0, Math.min(255, Math.round(parseInt(hex.slice(i, i + 2), 16) * m[j]))).toString(16).padStart(2, '0')).join('');
+PARISH.forEach(([from, c, sh], k) => { const b = ILL.CAST[from], v = n => (hash(k * 7 + n) - .5), m = SKINS[k % SKINS.length];
+  ILL.cast('parish' + k, {...b, noPortrait:true, glasses:hash(k + 50) > .7 ? '#3a3230' : false,
+    face:{cw:b.face.cw + v(1) * 4, jw:b.face.jw + v(2) * 6, jy:b.face.jy + v(3) * 3, cy:b.face.cy + v(4) * 3, chw:Math.max(5, b.face.chw + v(5) * 6)},
+    nose:b.nose + v(6) * .2, eyeS:b.eyeS + v(7) * .1, skin:tint(b.skin, m), shade:tint(b.shade, m), neck:tint(b.neck, m),
+    hair:from === 'hannah' ? '#4a3a30' : (from === 'tita' || from === 'mangboy' || from === 'ocampo') ? b.hair : HAIRS[k % HAIRS.length], freckles:null, blush:null,
+    clothes:{...b.clothes, col:c, shade:sh, apron:null, lanyard:false, sleeve:null, trim:sh, cross:false, brooch:false}}); });
 const CROWD = [[300, 236, .62, 0], [372, 250, .56, 3], [560, 226, .6, 2], [626, 246, .55, 8], [836, 234, .6, 1], [900, 250, .54, 4], [1080, 214, .56, 5], [1010, 250, .5, 6], [760, 256, .5, 7]];
 
 function room(g){

@@ -276,6 +276,65 @@
   .alarmtxt p{font-size:20px;color:#bdb8a4;margin:0;max-width:40ch;line-height:1.45}
 </style><div id="viewport"><div class="stage" id="stage">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <linearGradient id="d-sunsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff9a5a" stop-opacity=".15"/><stop offset="55%" stop-color="#ffb070" stop-opacity=".45"/><stop offset="100%" stop-color="#ffd9a0" stop-opacity=".7"/></linearGradient>
+      <linearGradient id="d-sky" x1="0" y1="0" x2="0.15" y2="1">
+        <stop offset="0%"   stop-color="#141a2e"/>
+        <stop offset="34%"  stop-color="#26243f"/>
+        <stop offset="58%"  stop-color="#4a3550"/>
+        <stop offset="76%"  stop-color="#8a4c4c"/>
+        <stop offset="88%"  stop-color="#c4713f"/>
+        <stop offset="100%" stop-color="#e8a45c"/>
+      </linearGradient>
+      <radialGradient id="d-dawnGlow" cx="0.5" cy="1" r="0.62">
+        <stop offset="0%" stop-color="#ffc87a" stop-opacity="0.85"/>
+        <stop offset="55%" stop-color="#e08a4a" stop-opacity="0.30"/>
+        <stop offset="100%" stop-color="#c4713f" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="d-doorGlow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%" stop-color="#ffd98f" stop-opacity="0.95"/>
+        <stop offset="45%" stop-color="#f0ad55" stop-opacity="0.42"/>
+        <stop offset="100%" stop-color="#e09a4a" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="d-lampGlow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%" stop-color="#ffe0a4" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#ffc46a" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="d-road" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2b2434"/>
+        <stop offset="100%" stop-color="#15121d"/>
+      </linearGradient>
+      <filter id="d-rough" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
+        <feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/>
+        <feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="d-soft"><feGaussianBlur stdDeviation="22"/></filter>
+      <filter id="d-soft2"><feGaussianBlur stdDeviation="9"/></filter>
+      <filter id="d-breath"><feGaussianBlur stdDeviation="6"/></filter>
+      <filter id="d-sceneGrain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" seed="13"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+    </defs><defs>
+      <g id="d-figMa">
+        <circle cx="422" cy="372" r="21"/><path d="M 440 366 C 449 368 450 377 442 381 Z"/><circle cx="403" cy="364" r="9"/>
+        <path d="M 408 390 C 416 385 432 385 438 392 L 437 405 L 407 405 Z"/>
+        <path d="M 402 404 C 395 440 391 476 391 506 L 453 506 C 453 476 449 440 441 404 Z"/>
+        <path d="M 391 506 L 383 513 L 399 513 Z"/>
+        <path d="M 406 506 L 397 552 L 413 552 L 419 506 Z"/><path d="M 430 506 L 445 552 L 458 552 L 443 506 Z"/>
+        <path d="M 394 552 L 416 552 L 418 559 L 390 559 Z"/><path d="M 443 552 L 463 552 L 468 559 L 441 559 Z"/>
+        <path d="M 436 410 C 449 430 457 450 457 466 C 457 473 450 475 446 468 C 442 452 433 436 427 424 Z"/><circle cx="452" cy="471" r="6"/>
+        <path d="M 396 420 C 388 446 388 470 396 486 C 400 492 406 490 406 484 C 402 466 402 444 408 424 Z"/>
+      </g>
+      <g id="d-figTala">
+        <path d="M 312 396 C 306 372 320 356 340 356 C 362 356 376 372 372 396 C 370 410 358 420 340 420 C 322 420 314 410 312 396 Z"/>
+        <path d="M 314 380 C 305 386 303 397 310 405 Z"/>
+        <path d="M 318 420 C 310 448 308 476 310 497 L 372 497 C 374 476 372 448 364 420 Z"/>
+        <path d="M 322 497 L 316 558 L 331 558 L 337 497 Z"/><path d="M 348 497 L 361 558 L 375 558 L 362 497 Z"/>
+        <path d="M 311 556 L 333 556 L 335 563 L 307 563 Z"/><path d="M 359 556 L 381 556 L 385 563 L 357 563 Z"/>
+      </g>
+    </defs><defs>
     <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
     <linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d46a4c"/><stop offset="16%" stop-color="#c1553f"/><stop offset="100%" stop-color="#8e3a33"/></linearGradient>
     <linearGradient id="hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="60%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
@@ -515,6 +574,22 @@
     <g id="pa-mouth-small-smile"><path d="M 128 286 C 140 298 160 298 172 284" stroke="#8e3a33" stroke-width="5" fill="none" stroke-linecap="round"/></g>
 
       </defs><defs>
+    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
+
+    <linearGradient id="x-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1b1e38"/><stop offset="70%" stop-color="#3a2f52"/><stop offset="100%" stop-color="#6b4256"/></linearGradient>
+    <linearGradient id="x-brick" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#7a4a44"/><stop offset="100%" stop-color="#4e2e2e"/></linearGradient>
+    <linearGradient id="x-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
+    <radialGradient id="x-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
+  </defs><defs>
+    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
+
+    <linearGradient id="x-daysky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9aa6b4"/><stop offset="100%" stop-color="#d9dde0"/></linearGradient>
+    <linearGradient id="x-tan" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#c9b48e"/><stop offset="100%" stop-color="#9a8462"/></linearGradient>
+  </defs><defs>
     <linearGradient id="h-wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
     <linearGradient id="h-table" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d46a4c"/><stop offset="16%" stop-color="#c1553f"/><stop offset="100%" stop-color="#8e3a33"/></linearGradient>
     <linearGradient id="h-hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="60%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
@@ -1628,6 +1703,15 @@
     <linearGradient id="s-deskS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d9b98a"/><stop offset="100%" stop-color="#a8865c"/></linearGradient>
     <linearGradient id="s-skyS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b9c4cf"/><stop offset="100%" stop-color="#dfe3e4"/></linearGradient>
   </defs><defs>
+    <linearGradient id="v-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b2a4a"/><stop offset="60%" stop-color="#5a4160"/><stop offset="100%" stop-color="#a86a5c"/></linearGradient>
+    <linearGradient id="v-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
+    <radialGradient id="v-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="v-cold" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#eaf6ff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfe0ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="v-tv" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#8fd0ff" stop-opacity=".8"/><stop offset="100%" stop-color="#5a8fd0" stop-opacity="0"/></radialGradient>
+    <filter id="v-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="v-roughFine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="v-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="v-mid"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs><defs>
     <linearGradient id="w-wall" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0%" stop-color="#f4c8b2"/><stop offset="40%" stop-color="#e9b09c"/><stop offset="100%" stop-color="#c98a8c"/></linearGradient>
     <linearGradient id="w-table" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d46a4c"/><stop offset="16%" stop-color="#c1553f"/><stop offset="100%" stop-color="#8e3a33"/></linearGradient>
     <linearGradient id="w-hair" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0%" stop-color="#3a2b55"/><stop offset="60%" stop-color="#261c3c"/><stop offset="100%" stop-color="#1a1330"/></linearGradient>
@@ -1916,124 +2000,7 @@
 
   <div class="layer" id="rest" hidden></div>
   <div class="layer" id="school" hidden></div>
-  <div class="layer" id="street" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
-  <defs>
-    <linearGradient id="v-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b2a4a"/><stop offset="60%" stop-color="#5a4160"/><stop offset="100%" stop-color="#a86a5c"/></linearGradient>
-    <linearGradient id="v-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
-    <radialGradient id="v-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
-    <radialGradient id="v-cold" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#eaf6ff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfe0ff" stop-opacity="0"/></radialGradient>
-    <radialGradient id="v-tv" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#8fd0ff" stop-opacity=".8"/><stop offset="100%" stop-color="#5a8fd0" stop-opacity="0"/></radialGradient>
-    <filter id="v-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="v-roughFine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="v-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="v-mid"><feGaussianBlur stdDeviation="8"/></filter>
-  </defs>
-  <rect width="1280" height="720" fill="url(#v-sky)"/>
-  <g fill="#e8e2ff"><circle cx="180" cy="72" r="1.6" opacity=".5"/><circle cx="520" cy="58" r="1.4" opacity=".45"/><circle cx="1180" cy="66" r="1.6" opacity=".4"/></g>
-  <rect y="470" width="1280" height="250" fill="url(#v-road)"/>
-  <g transform="translate(0 -58)">
-  <!-- apartments over the shops. People live above all of this. -->
-  <g filter="url(#v-rough)"><rect x="-20" y="110" width="940" height="380" fill="#5b3b3e"/><rect x="920" y="150" width="380" height="340" fill="#3f4256"/>
-    <g fill="#2c1e24" opacity=".8"><rect x="40" y="140" width="56" height="76" rx="4"/><rect x="150" y="140" width="56" height="76" rx="4"/><rect x="260" y="140" width="56" height="76" rx="4"/><rect x="370" y="140" width="56" height="76" rx="4"/><rect x="480" y="140" width="56" height="76" rx="4"/><rect x="590" y="140" width="56" height="76" rx="4"/><rect x="700" y="140" width="56" height="76" rx="4"/><rect x="810" y="140" width="56" height="76" rx="4"/></g>
-    <g fill="#f4c65a" opacity=".55"><rect x="158" y="150" width="40" height="56" rx="3"/><rect x="488" y="150" width="40" height="56" rx="3"/><rect x="708" y="150" width="40" height="56" rx="3"/></g>
-    <g fill="#262838" opacity=".8"><rect x="960" y="180" width="66" height="76" rx="4"/><rect x="1090" y="180" width="66" height="76" rx="4"/><rect x="1220" y="180" width="66" height="76" rx="4"/></g>
-    <!-- somebody has a parol in an upstairs window -->
-    <g transform="translate(618 178) scale(.3)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><circle r="14" fill="#fff4d2"/></g>
-  </g>
-
-  <!-- ===== 1. BAYANIHAN CARGO : the balikbayan box shipper ===== -->
-  <ellipse cx="90" cy="440" rx="200" ry="150" fill="url(#v-warm)" filter="url(#v-soft)" opacity=".7"/>
-  <g filter="url(#v-rough)">
-    <rect x="-20" y="250" width="215" height="290" fill="#4a3a52"/>
-    <rect x="-20" y="250" width="215" height="58" fill="#2f6fd6"/><rect x="-20" y="302" width="215" height="8" fill="#f4c65a"/>
-    <rect x="0" y="330" width="175" height="210" fill="#ffd79b"/>
-    <!-- boxes stacked in the window, taped, addressed -->
-    <g fill="#c9a06a"><rect x="14" y="400" width="72" height="60"/><rect x="92" y="392" width="72" height="68"/><rect x="24" y="466" width="72" height="60"/><rect x="102" y="470" width="60" height="56"/></g>
-    <g stroke="#8a6a3e" stroke-width="4" opacity=".8"><path d="M 50 400 L 50 460"/><path d="M 128 392 L 128 460"/><path d="M 60 466 L 60 526"/></g>
-    <g fill="#f6f1e2" opacity=".9"><rect x="26" y="410" width="34" height="12"/><rect x="104" y="404" width="34" height="12"/></g>
-    <!-- the rate sheet taped inside the glass -->
-    <rect x="12" y="336" width="60" height="52" fill="#f6f1e2"/>
-    <g stroke="#9a9488" stroke-width="2.5" opacity=".8"><path d="M 20 350 L 64 350"/><path d="M 20 360 L 56 360"/><path d="M 20 370 L 60 370"/></g>
-  </g>
-  <text x="104" y="283" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="18" fill="#fff3d6" letter-spacing="0.5">BAYANIHAN CARGO</text>
-  <text x="104" y="300" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#cfe0ff" letter-spacing="2">BALIKBAYAN BOXES &#183; DOOR TO DOOR</text>
-
-  <!-- ===== 2. MANG BOY'S : small, warm, hand-painted ===== -->
-  <ellipse cx="380" cy="430" rx="250" ry="170" fill="url(#v-warm)" filter="url(#v-soft)"/>
-  <g filter="url(#v-rough)">
-    <rect x="205" y="250" width="350" height="290" fill="#7a3a34"/>
-    <rect x="205" y="250" width="350" height="62" fill="#c9524a"/><rect x="205" y="306" width="350" height="9" fill="#f4c65a"/>
-    <rect x="228" y="336" width="170" height="204" fill="#ffd79b"/><rect x="412" y="336" width="120" height="204" fill="#5a2a26"/><rect x="420" y="344" width="104" height="120" fill="#ffd79b" opacity=".9"/>
-    <g fill="#5a2a26" opacity=".85"><rect x="236" y="344" width="8" height="196"/><rect x="386" y="344" width="8" height="196"/><rect x="228" y="424" width="170" height="6"/></g>
-    <g transform="translate(312 396) scale(.44)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
-    <g fill="#c9524a" opacity=".7"><rect x="250" y="366" width="14" height="30"/><rect x="270" y="366" width="14" height="30"/><rect x="290" y="366" width="14" height="30"/><rect x="344" y="366" width="14" height="30"/><rect x="364" y="366" width="14" height="30"/></g>
-    <g fill="#4a7a4e" opacity=".7"><rect x="250" y="446" width="18" height="34"/><rect x="274" y="446" width="18" height="34"/><rect x="298" y="446" width="18" height="34"/><rect x="346" y="446" width="18" height="34"/></g>
-    <!-- crates of produce out on the pavement -->
-    <g><rect x="470" y="470" width="66" height="70" fill="#a8743e"/><rect x="476" y="476" width="54" height="26" fill="#6b8a3e"/><rect x="470" y="440" width="66" height="30" fill="#a8743e"/><rect x="476" y="446" width="54" height="18" fill="#d9a23c"/></g>
-  </g>
-  <text x="380" y="292" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="34" fill="#fff3d6" letter-spacing="1">MANG BOY&#8217;S</text>
-  <text x="380" y="312" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#fff3d6" letter-spacing="3" opacity=".85">FILIPINO GROCERY &#183; SARI-SARI</text>
-
-  <!-- ===== 3. THE PANADERIA : the second batch comes out at five ===== -->
-  <ellipse cx="650" cy="420" rx="190" ry="150" fill="url(#v-warm)" filter="url(#v-soft)"/>
-  <g filter="url(#v-rough)">
-    <rect x="565" y="250" width="175" height="290" fill="#8a6a3e"/>
-    <rect x="565" y="250" width="175" height="56" fill="#f4c65a"/>
-    <rect x="582" y="330" width="142" height="210" fill="#ffe3ac"/>
-    <!-- trays of pan de sal, still warm -->
-    <g fill="#c9a06a"><rect x="592" y="380" width="122" height="8"/><rect x="592" y="432" width="122" height="8"/><rect x="592" y="484" width="122" height="8"/></g>
-    <g fill="#d9a45e"><ellipse cx="608" cy="372" rx="15" ry="10"/><ellipse cx="640" cy="372" rx="15" ry="10"/><ellipse cx="672" cy="372" rx="15" ry="10"/><ellipse cx="702" cy="372" rx="14" ry="10"/>
-      <ellipse cx="608" cy="424" rx="15" ry="10"/><ellipse cx="640" cy="424" rx="15" ry="10"/><ellipse cx="672" cy="424" rx="15" ry="10"/><ellipse cx="702" cy="424" rx="14" ry="10"/>
-      <ellipse cx="614" cy="476" rx="15" ry="10"/><ellipse cx="648" cy="476" rx="15" ry="10"/><ellipse cx="684" cy="476" rx="15" ry="10"/></g>
-    <g fill="#f0c98a" opacity=".7"><ellipse cx="604" cy="368" rx="7" ry="4"/><ellipse cx="636" cy="368" rx="7" ry="4"/><ellipse cx="668" cy="368" rx="7" ry="4"/><ellipse cx="604" cy="420" rx="7" ry="4"/><ellipse cx="636" cy="420" rx="7" ry="4"/></g>
-  </g>
-  <text x="652" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="27" fill="#5a3a1e" letter-spacing="1">PANADERIA</text>
-
-  <!-- ===== 4. THE SALON : a teleserye on a TV nobody is watching ===== -->
-  <g filter="url(#v-rough)">
-    <rect x="750" y="250" width="160" height="290" fill="#6b3550"/>
-    <rect x="750" y="250" width="160" height="54" fill="#e88ab0"/>
-    <rect x="766" y="328" width="128" height="212" fill="#3a2438"/>
-  </g>
-  <ellipse cx="832" cy="392" rx="90" ry="70" fill="url(#v-tv)" filter="url(#v-mid)"/>
-  <g filter="url(#v-roughFine)">
-    <rect x="796" y="356" width="70" height="46" rx="3" fill="#bfe4ff"/>
-    <g fill="#7fb4e0"><rect x="804" y="366" width="22" height="26" rx="8"/><rect x="836" y="368" width="22" height="24" rx="8"/></g>
-    <!-- two chairs, one occupied -->
-    <g fill="#2a1a2c"><rect x="780" y="452" width="34" height="60" rx="6"/><rect x="846" y="452" width="34" height="60" rx="6"/><circle cx="863" cy="444" r="17"/></g>
-  </g>
-  <text x="830" y="288" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="24" fill="#3a1c2c" letter-spacing="2">SALON</text>
-
-  <!-- ===== 5. THE CHAIN : wide, white, fluorescent, sells the same milk as everywhere ===== -->
-  <ellipse cx="1120" cy="420" rx="290" ry="170" fill="url(#v-cold)" filter="url(#v-soft)"/>
-  <g filter="url(#v-rough)">
-    <rect x="925" y="250" width="380" height="290" fill="#2a2d3a"/>
-    <rect x="925" y="250" width="380" height="58" fill="#e8ecf2"/><rect x="925" y="302" width="380" height="8" fill="#2f6fd6"/>
-    <rect x="944" y="330" width="356" height="210" fill="#eef7ff"/>
-    <g fill="#c7d3e0" opacity=".8"><rect x="944" y="330" width="8" height="210"/><rect x="1120" y="330" width="8" height="210"/></g>
-    <g fill="#fff" opacity=".9"><rect x="968" y="360" width="130" height="28"/><rect x="968" y="420" width="130" height="28"/><rect x="968" y="480" width="130" height="28"/><rect x="1150" y="360" width="130" height="28"/><rect x="1150" y="420" width="130" height="28"/><rect x="1150" y="480" width="130" height="28"/></g>
-    <g fill="#ffd23c"><rect x="968" y="340" width="70" height="24"/><rect x="1150" y="340" width="70" height="24"/></g>
-  </g>
-  <text x="1115" y="292" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="500" font-size="28" fill="#2f6fd6" letter-spacing="5">QUIK MART</text>
-
-  <!-- sidewalk + road, snow at the kerb -->
-  <rect y="540" width="1280" height="60" fill="#5c5560"/><rect y="540" width="1280" height="6" fill="#8a8290" opacity=".6"/>
-  <rect y="600" width="1280" height="120" fill="url(#v-road)"/>
-  <g fill="#e9eef7" opacity=".85" filter="url(#v-roughFine)"><path d="M -10 596 C 120 590 240 604 380 596 C 520 588 640 604 780 598 C 920 592 1060 606 1290 596 L 1290 612 L -10 612 Z"/></g>
-  <!-- people on the block. An empty enclave is a contradiction. -->
-  <g filter="url(#v-rough)" opacity=".95">
-    <g transform="translate(180 452)"><path d="M -21 88 C -19 40 -8 30 0 30 C 8 30 19 40 21 88 Z" fill="#3a2c46"/><circle cx="0" cy="16" r="14" fill="#2a2036"/><path d="M -19 92 L -12 92 L -12 104 L -19 104 Z" fill="#241c30"/><path d="M 12 92 L 19 92 L 19 104 L 12 104 Z" fill="#241c30"/></g>
-    <g transform="translate(240 458)"><path d="M -18 82 C -16 38 -7 28 0 28 C 7 28 16 38 18 82 Z" fill="#5a3040"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -16 86 L -10 86 L -10 96 L -16 96 Z" fill="#241c30"/><path d="M 10 86 L 16 86 L 16 96 L 10 96 Z" fill="#241c30"/></g>
-    <g transform="translate(560 446)"><path d="M -23 94 C -21 42 -9 32 0 32 C 9 32 21 42 23 94 Z" fill="#2c3f4a"/><circle cx="0" cy="17" r="15" fill="#221c2c"/><path d="M -20 98 L -13 98 L -13 110 L -20 110 Z" fill="#241c30"/><path d="M 13 98 L 20 98 L 20 110 L 13 110 Z" fill="#241c30"/>
-      <!-- carrying a bag from somewhere -->
-      <rect x="20" y="56" width="20" height="26" rx="3" fill="#7a5a34"/></g>
-    <g transform="translate(730 456)"><path d="M -19 84 C -17 40 -7 30 0 30 C 7 30 17 40 19 84 Z" fill="#46324a"/><circle cx="0" cy="15" r="13" fill="#2a2036"/><path d="M -17 88 L -11 88 L -11 98 L -17 98 Z" fill="#241c30"/><path d="M 11 88 L 17 88 L 17 98 L 11 98 Z" fill="#241c30"/>
-      <!-- and a small one holding on -->
-      <g transform="translate(24 44) scale(0.58)"><path d="M -18 76 C -16 36 -7 26 0 26 C 7 26 16 36 18 76 Z" fill="#8a4a56"/><circle cx="0" cy="12" r="13" fill="#2a2036"/></g></g>
-    <g transform="translate(1020 450)"><path d="M -20 88 C -18 42 -8 32 0 32 C 8 32 18 42 20 88 Z" fill="#3a4256"/><circle cx="0" cy="17" r="14" fill="#221c2c"/><path d="M -18 92 L -11 92 L -11 104 L -18 104 Z" fill="#241c30"/><path d="M 11 92 L 18 92 L 18 104 L 11 104 Z" fill="#241c30"/></g>
-  </g>
-  <ellipse cx="380" cy="600" rx="230" ry="26" fill="#ffcf7a" opacity=".16" filter="url(#v-mid)"/><ellipse cx="1120" cy="600" rx="240" ry="26" fill="#cfe6ff" opacity=".2" filter="url(#v-mid)"/>
-  </g>
-</svg></div>
+  <div class="layer" id="street" hidden></div>
   <div class="layer" id="kitchen" hidden></div>
   <div class="layer" id="hall" hidden></div>
   <div class="layer" id="wire" hidden><svg class="keep" width="1280" height="720" viewBox="0 0 1280 720" style="position:absolute;left:0;top:0;pointer-events:none"><g id="wire-receipt" hidden filter="url(#w-roughFine)" transform="translate(1012 556) rotate(-5)">
@@ -2053,252 +2020,9 @@
       <rect x="-70" y="-42" width="148" height="72" rx="5" fill="none" stroke="#94a888" stroke-width="2.5"/>
     </g>
   </g></svg></div>
-  <div class="layer" id="ext-rest" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
-  <defs>
-    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
-
-    <linearGradient id="x-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1b1e38"/><stop offset="70%" stop-color="#3a2f52"/><stop offset="100%" stop-color="#6b4256"/></linearGradient>
-    <linearGradient id="x-brick" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#7a4a44"/><stop offset="100%" stop-color="#4e2e2e"/></linearGradient>
-    <linearGradient id="x-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3340"/><stop offset="100%" stop-color="#1f1a24"/></linearGradient>
-    <radialGradient id="x-warm" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="#ffcf7a" stop-opacity=".9"/><stop offset="100%" stop-color="#f0a85a" stop-opacity="0"/></radialGradient>
-  </defs>
-  <rect width="1280" height="720" fill="url(#x-sky)"/>
-  <g fill="#e8e2ff"><circle cx="120" cy="60" r="1.6" opacity=".5"/><circle cx="420" cy="90" r="1.3" opacity=".4"/><circle cx="900" cy="50" r="1.5" opacity=".45"/><circle cx="1180" cy="110" r="1.4" opacity=".4"/></g>
-  <!-- neighbours -->
-  <g filter="url(#x-rough)"><rect x="-20" y="150" width="300" height="420" fill="#3f3448"/><rect x="1000" y="130" width="300" height="440" fill="#463a4e"/>
-    <g fill="#2a2234"><rect x="30" y="190" width="60" height="80" rx="3"/><rect x="150" y="190" width="60" height="80" rx="3"/><rect x="30" y="310" width="60" height="80" rx="3"/><rect x="150" y="310" width="60" height="80" rx="3"/><rect x="1050" y="180" width="60" height="80" rx="3"/><rect x="1170" y="180" width="60" height="80" rx="3"/><rect x="1050" y="300" width="60" height="80" rx="3"/><rect x="1170" y="300" width="60" height="80" rx="3"/></g>
-    <g fill="#f4c65a" opacity=".5"><rect x="156" y="196" width="48" height="68" rx="2"/><rect x="1176" y="306" width="48" height="68" rx="2"/></g></g>
-  <!-- the building : restaurant below, the apartment above -->
-  <g filter="url(#x-rough)">
-    <rect x="280" y="110" width="720" height="460" fill="url(#x-brick)"/>
-    <g stroke="#3a2222" stroke-width="1.5" opacity=".35" fill="none"><path d="M 280 150 L 1000 150"/><path d="M 280 190 L 1000 190"/><path d="M 280 230 L 1000 230"/><path d="M 280 270 L 1000 270"/><path d="M 280 310 L 1000 310"/><path d="M 280 350 L 1000 350"/></g>
-    <!-- apartment windows, the family's, lit -->
-    <g><rect x="340" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="348" y="178" width="94" height="114" rx="2" fill="#ffd79b"/><rect x="393" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="348" y="232" width="94" height="6" fill="#5a3a3a"/>
-       <rect x="585" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="593" y="178" width="94" height="114" rx="2" fill="#ffd79b"/><rect x="638" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="593" y="232" width="94" height="6" fill="#5a3a3a"/>
-       <rect x="830" y="170" width="110" height="130" rx="4" fill="#2a2234"/><rect x="838" y="178" width="94" height="114" rx="2" fill="#5a4a7a"/><rect x="883" y="178" width="6" height="114" fill="#5a3a3a"/><rect x="838" y="232" width="94" height="6" fill="#5a3a3a"/></g>
-    <!-- parol in the middle apartment window -->
-    <g transform="translate(640 236) scale(.36)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
-    <!-- awning + sign -->
-    <rect x="300" y="330" width="680" height="64" fill="#c9524a"/><rect x="300" y="386" width="680" height="10" fill="#f4c65a"/>
-    <g fill="#a63e3e" opacity=".6"><rect x="340" y="330" width="30" height="64"/><rect x="420" y="330" width="30" height="64"/><rect x="500" y="330" width="30" height="64"/><rect x="580" y="330" width="30" height="64"/><rect x="660" y="330" width="30" height="64"/><rect x="740" y="330" width="30" height="64"/><rect x="820" y="330" width="30" height="64"/><rect x="900" y="330" width="30" height="64"/></g>
-    <!-- the front : big window, door -->
-    <rect x="320" y="400" width="400" height="170" fill="#5a2a26"/><rect x="332" y="412" width="376" height="146" fill="#ffd79b"/>
-    <rect x="760" y="400" width="200" height="170" fill="#5a2a26"/><rect x="772" y="412" width="176" height="158" fill="#ffd79b" opacity=".9"/><rect x="866" y="470" width="12" height="40" rx="4" fill="#3a2a2a"/>
-    <!-- inside the window : tables, a menu board, people -->
-    <g fill="#c1553f" opacity=".85"><rect x="360" y="500" width="120" height="14" rx="4"/><rect x="540" y="500" width="120" height="14" rx="4"/></g>
-    <g fill="#2b2222" opacity=".8"><rect x="600" y="430" width="90" height="50" rx="3"/></g>
-    <g><circle cx="390" cy="480" r="14" fill="#241a38"/><path d="M 372 520 C 374 498 406 498 408 520 Z" fill="#2c6b62"/><circle cx="450" cy="484" r="13" fill="#3a3444"/><path d="M 434 520 C 436 500 464 500 466 520 Z" fill="#7e2f2b"/></g>
-    <g transform="translate(680 470) scale(.4)"><path d="M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z" fill="#e0453f"/><path d="M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z" fill="#f4c65a"/><circle r="12" fill="#fff4d2"/></g>
-  </g>
-  <text x="640" y="372" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="38" fill="#fff3d6" letter-spacing="2">PACING’S</text>
-  <text x="640" y="326" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#e8c9a0" letter-spacing="4" opacity=".9">FILIPINO KITCHEN</text>
-  <ellipse cx="640" cy="560" rx="420" ry="120" fill="url(#x-warm)" filter="url(#x-soft)"/>
-  <!-- sidewalk, snow, road, a parked car -->
-  <rect y="570" width="1280" height="50" fill="#5c5560"/><rect y="570" width="1280" height="6" fill="#8a8290" opacity=".6"/>
-  <g fill="#e9eef7" opacity=".85" filter="url(#x-fine)"><path d="M -10 616 C 120 610 240 624 380 616 C 520 608 640 624 780 618 C 920 612 1060 626 1290 616 L 1290 632 L -10 632 Z"/></g>
-  <rect y="620" width="1280" height="100" fill="url(#x-road)"/>
-  <g filter="url(#x-rough)" transform="translate(1000 600)"><rect x="-120" y="-56" width="240" height="60" rx="16" fill="#3b4a78"/><path d="M -80 -56 C -70 -90 70 -90 80 -56 Z" fill="#2b3550"/><rect x="-62" y="-84" width="124" height="28" rx="6" fill="#9fb8e8" opacity=".6"/><circle cx="-80" cy="8" r="16" fill="#1a1a22"/><circle cx="80" cy="8" r="16" fill="#1a1a22"/><rect x="-124" y="-34" width="14" height="10" rx="3" fill="#ffd79b"/></g>
-  <g filter="url(#x-fine)" fill="#e9eef7"><path d="M 880 548 C 940 540 980 546 1120 544 L 1120 552 L 880 556 Z" opacity=".9"/></g>
-  <!-- snow -->
-  <g fill="#e8ecf6" opacity=".8"><circle class="flake" cx="100" cy="0" r="2" style="animation-delay:-1s"/><circle class="flake" cx="300" cy="0" r="2.4" style="animation-delay:-3.2s"/><circle class="flake" cx="500" cy="0" r="1.8" style="animation-delay:-5s"/><circle class="flake" cx="700" cy="0" r="2.2" style="animation-delay:-2.1s"/><circle class="flake" cx="900" cy="0" r="1.6" style="animation-delay:-4.4s"/><circle class="flake" cx="1100" cy="0" r="2" style="animation-delay:-0.4s"/><circle class="flake" cx="200" cy="0" r="1.5" style="animation-delay:-2.8s"/><circle class="flake" cx="620" cy="0" r="2.1" style="animation-delay:-5.6s"/><circle class="flake" cx="1000" cy="0" r="1.7" style="animation-delay:-1.6s"/><circle class="flake" cx="820" cy="0" r="2.3" style="animation-delay:-3.9s"/></g>
-</svg></div>
-  <div class="layer" id="ext-school" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
-  <defs>
-    <filter id="x-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/><feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/><feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="x-fine" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="x-soft"><feGaussianBlur stdDeviation="24"/></filter><filter id="x-mid"><feGaussianBlur stdDeviation="8"/></filter>
-
-    <linearGradient id="x-daysky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9aa6b4"/><stop offset="100%" stop-color="#d9dde0"/></linearGradient>
-    <linearGradient id="x-tan" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#c9b48e"/><stop offset="100%" stop-color="#9a8462"/></linearGradient>
-  </defs>
-  <rect width="1280" height="720" fill="url(#x-daysky)"/>
-  <!-- the school : long, brick-tan, flat roof, many windows -->
-  <g filter="url(#x-rough)">
-    <rect x="60" y="180" width="1160" height="360" fill="url(#x-tan)"/><rect x="60" y="170" width="1160" height="16" fill="#7a6a4e"/>
-    <rect x="500" y="110" width="280" height="80" fill="#b8a27c"/><rect x="500" y="100" width="280" height="14" fill="#7a6a4e"/>
-    <g fill="#5a6c8a" opacity=".9">
-      <rect x="110" y="220" width="70" height="90" rx="3"/><rect x="220" y="220" width="70" height="90" rx="3"/><rect x="330" y="220" width="70" height="90" rx="3"/><rect x="880" y="220" width="70" height="90" rx="3"/><rect x="990" y="220" width="70" height="90" rx="3"/><rect x="1100" y="220" width="70" height="90" rx="3"/>
-      <rect x="110" y="350" width="70" height="90" rx="3"/><rect x="220" y="350" width="70" height="90" rx="3"/><rect x="330" y="350" width="70" height="90" rx="3"/><rect x="880" y="350" width="70" height="90" rx="3"/><rect x="990" y="350" width="70" height="90" rx="3"/><rect x="1100" y="350" width="70" height="90" rx="3"/>
-    </g>
-    <g fill="#f4e6c8" opacity=".6"><rect x="226" y="226" width="58" height="78" rx="2"/><rect x="996" y="356" width="58" height="78" rx="2"/></g>
-    <!-- entrance -->
-    <rect x="540" y="330" width="200" height="210" fill="#3a3d4a"/><rect x="552" y="342" width="84" height="198" fill="#9fb8e8" opacity=".55"/><rect x="644" y="342" width="84" height="198" fill="#9fb8e8" opacity=".55"/>
-    <rect x="520" y="300" width="240" height="30" fill="#7a6a4e"/>
-    <!-- flagpole -->
-    <rect x="300" y="60" width="5" height="480" fill="#8a8a90"/><rect x="305" y="70" width="60" height="36" fill="#b23a48"/><rect x="305" y="70" width="26" height="20" fill="#2f4a8a"/><g stroke="#f4f4f4" stroke-width="2"><path d="M 331 78 L 365 78"/><path d="M 331 86 L 365 86"/><path d="M 305 94 L 365 94"/><path d="M 305 102 L 365 102"/></g>
-  </g>
-  <text x="640" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="18" fill="#3a3d4a" letter-spacing="8" opacity=".85">HIGH SCHOOL</text>
-  <!-- steps, sidewalk, snow, a bus -->
-  <g filter="url(#x-rough)"><rect x="480" y="540" width="320" height="14" fill="#8a8480"/><rect x="460" y="554" width="360" height="14" fill="#7a746f"/></g>
-  <rect y="568" width="1280" height="50" fill="#8e8a90"/><rect y="618" width="1280" height="102" fill="#4a4550"/>
-  <g fill="#e9eef7" opacity=".9" filter="url(#x-fine)"><path d="M -10 614 C 120 608 240 622 380 614 C 520 606 640 622 780 616 C 920 610 1060 624 1290 614 L 1290 630 L -10 630 Z"/><path d="M 60 176 L 1220 176 L 1220 190 L 60 190 Z" opacity=".8"/></g>
-  <g filter="url(#x-rough)" transform="translate(1060 596)"><rect x="-150" y="-70" width="300" height="76" rx="10" fill="#f2b632"/><g fill="#2b2f3a" opacity=".8"><rect x="-130" y="-56" width="44" height="34" rx="3"/><rect x="-76" y="-56" width="44" height="34" rx="3"/><rect x="-22" y="-56" width="44" height="34" rx="3"/><rect x="32" y="-56" width="44" height="34" rx="3"/><rect x="86" y="-56" width="44" height="34" rx="3"/></g><rect x="-150" y="-12" width="300" height="8" fill="#2b2f3a"/><circle cx="-100" cy="10" r="16" fill="#1a1a22"/><circle cx="100" cy="10" r="16" fill="#1a1a22"/></g>
-  <g fill="#e8ecf6" opacity=".8"><circle class="flake" cx="100" cy="0" r="2" style="animation-delay:-1s"/><circle class="flake" cx="400" cy="0" r="2.4" style="animation-delay:-3.2s"/><circle class="flake" cx="700" cy="0" r="1.8" style="animation-delay:-5s"/><circle class="flake" cx="1000" cy="0" r="2.2" style="animation-delay:-2.1s"/><circle class="flake" cx="1200" cy="0" r="1.6" style="animation-delay:-4.4s"/><circle class="flake" cx="250" cy="0" r="1.5" style="animation-delay:-2.8s"/><circle class="flake" cx="850" cy="0" r="2.1" style="animation-delay:-5.6s"/></g>
-</svg></div>
-  <div class="layer" id="dawn" hidden><svg width="1280" height="720" viewBox="0 0 1280 720">
-    <defs>
-      <linearGradient id="d-sunsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff9a5a" stop-opacity=".15"/><stop offset="55%" stop-color="#ffb070" stop-opacity=".45"/><stop offset="100%" stop-color="#ffd9a0" stop-opacity=".7"/></linearGradient>
-      <linearGradient id="d-sky" x1="0" y1="0" x2="0.15" y2="1">
-        <stop offset="0%"   stop-color="#141a2e"/>
-        <stop offset="34%"  stop-color="#26243f"/>
-        <stop offset="58%"  stop-color="#4a3550"/>
-        <stop offset="76%"  stop-color="#8a4c4c"/>
-        <stop offset="88%"  stop-color="#c4713f"/>
-        <stop offset="100%" stop-color="#e8a45c"/>
-      </linearGradient>
-      <radialGradient id="d-dawnGlow" cx="0.5" cy="1" r="0.62">
-        <stop offset="0%" stop-color="#ffc87a" stop-opacity="0.85"/>
-        <stop offset="55%" stop-color="#e08a4a" stop-opacity="0.30"/>
-        <stop offset="100%" stop-color="#c4713f" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="d-doorGlow" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0%" stop-color="#ffd98f" stop-opacity="0.95"/>
-        <stop offset="45%" stop-color="#f0ad55" stop-opacity="0.42"/>
-        <stop offset="100%" stop-color="#e09a4a" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="d-lampGlow" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0%" stop-color="#ffe0a4" stop-opacity="0.8"/>
-        <stop offset="100%" stop-color="#ffc46a" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="d-road" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#2b2434"/>
-        <stop offset="100%" stop-color="#15121d"/>
-      </linearGradient>
-      <filter id="d-rough" x="-20%" y="-20%" width="140%" height="140%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
-        <feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/>
-        <feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-      <filter id="d-soft"><feGaussianBlur stdDeviation="22"/></filter>
-      <filter id="d-soft2"><feGaussianBlur stdDeviation="9"/></filter>
-      <filter id="d-breath"><feGaussianBlur stdDeviation="6"/></filter>
-      <filter id="d-sceneGrain" x="0" y="0" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" seed="13"/>
-        <feColorMatrix type="saturate" values="0"/>
-      </filter>
-    </defs>
-
-    <rect width="1280" height="720" fill="url(#d-sky)"/>
-    <g id="sunrise">
-      <rect id="sunwash" width="1280" height="720" fill="url(#d-dawnGlow)"/>
-      <rect id="sunwash2" width="1280" height="720" fill="url(#d-sunsky)" style="mix-blend-mode:screen"/>
-      <circle id="sunhalo" cx="900" cy="372" r="150" fill="#ffc46a" opacity=".55" filter="url(#d-soft)"/>
-      <circle id="sun" cx="900" cy="372" r="52" fill="#ffe2a0"/>
-    </g>
-    <ellipse cx="640" cy="560" rx="640" ry="230" fill="url(#d-dawnGlow)"/>
-
-    <!-- fading stars -->
-    <g fill="#e8e2ff">
-      <circle cx="180" cy="72"  r="1.7" opacity=".55"/><circle cx="360" cy="128" r="1.3" opacity=".38"/>
-      <circle cx="520" cy="58"  r="1.5" opacity=".45"/><circle cx="860" cy="96"  r="1.6" opacity=".5"/>
-      <circle cx="1040" cy="150" r="1.2" opacity=".32"/><circle cx="1180" cy="66" r="1.6" opacity=".42"/>
-      <circle cx="700" cy="176" r="1.1" opacity=".26"/>
-    </g>
-
-    <!-- far rooftops -->
-    <g fill="#221d33" opacity=".85" filter="url(#d-rough)">
-      <path d="M 0 452 L 96 452 L 96 408 L 168 408 L 168 446 L 250 446 L 250 420 L 322 420 L 322 460 L 0 460 Z"/>
-      <path d="M 980 448 L 1050 448 L 1050 414 L 1128 414 L 1128 442 L 1280 442 L 1280 462 L 980 462 Z"/>
-    </g>
-
-    <!-- the parish : silhouette with lit windows -->
-    <g filter="url(#d-rough)">
-      <ellipse cx="640" cy="470" rx="230" ry="120" fill="url(#d-doorGlow)" filter="url(#d-soft)"/>
-      <path d="M 470 470 L 470 330 L 640 214 L 810 330 L 810 470 Z" fill="#141420"/>
-      <!-- bell tower -->
-      <path d="M 596 236 L 596 132 L 684 132 L 684 236 Z" fill="#141420"/>
-      <path d="M 588 132 L 640 74 L 692 132 Z" fill="#141420"/>
-      <rect x="636" y="46" width="8" height="34" fill="#141420"/>
-      <rect x="624" y="56" width="32" height="7" fill="#141420"/>
-      <!-- lit windows -->
-      <g fill="#f5c877">
-        <path d="M 512 388 C 512 366 546 366 546 388 L 546 442 L 512 442 Z" opacity=".82"/>
-        <path d="M 734 388 C 734 366 768 366 768 388 L 768 442 L 734 442 Z" opacity=".82"/>
-        <circle cx="640" cy="308" r="26" opacity=".7"/>
-        <rect x="618" y="160" width="18" height="30" rx="8" opacity=".5"/>
-        <rect x="646" y="160" width="18" height="30" rx="8" opacity=".5"/>
-      </g>
-      <!-- open door, light spilling -->
-      <path d="M 606 470 L 606 392 C 606 366 674 366 674 392 L 674 470 Z" fill="#ffd98f"/>
-      <path d="M 606 470 L 674 470 L 742 596 L 538 596 Z" fill="#ffcf82" opacity=".26" filter="url(#d-soft2)"/>
-    </g>
-
-    <!-- street -->
-    <rect y="470" width="1280" height="250" fill="url(#d-road)"/>
-    <path d="M 0 470 L 1280 470 L 1280 486 L 0 486 Z" fill="#3a3048" opacity=".5"/>
-    <!-- wet-street reflection of the door -->
-    <path d="M 610 486 L 670 486 L 706 700 L 574 700 Z" fill="#e8a458" opacity=".14" filter="url(#d-soft2)"/>
-
-    <!-- streetlamp -->
-    <g filter="url(#d-rough)">
-      <circle cx="1042" cy="330" r="80" fill="url(#d-lampGlow)" filter="url(#d-soft2)"/>
-      <rect x="1038" y="330" width="7" height="176" fill="#12121c"/>
-      <path d="M 1020 322 L 1064 322 L 1056 342 L 1028 342 Z" fill="#12121c"/>
-      <ellipse cx="1042" cy="342" rx="13" ry="5" fill="#ffe0a4" opacity=".9"/>
-      <ellipse cx="1042" cy="506" rx="70" ry="9" fill="#e8b76a" opacity=".10"/>
-    </g>
-
-    <!-- the two of them, walking : foreground left, backlit by the door.
-         Proper walking silhouettes, side on, mid-stride. The rim light is a warm copy
-         offset toward the door, and both copies carry the chalky edge. -->
-    <defs>
-      <g id="d-figMa">
-        <circle cx="422" cy="372" r="21"/><path d="M 440 366 C 449 368 450 377 442 381 Z"/><circle cx="403" cy="364" r="9"/>
-        <path d="M 408 390 C 416 385 432 385 438 392 L 437 405 L 407 405 Z"/>
-        <path d="M 402 404 C 395 440 391 476 391 506 L 453 506 C 453 476 449 440 441 404 Z"/>
-        <path d="M 391 506 L 383 513 L 399 513 Z"/>
-        <path d="M 406 506 L 397 552 L 413 552 L 419 506 Z"/><path d="M 430 506 L 445 552 L 458 552 L 443 506 Z"/>
-        <path d="M 394 552 L 416 552 L 418 559 L 390 559 Z"/><path d="M 443 552 L 463 552 L 468 559 L 441 559 Z"/>
-        <path d="M 436 410 C 449 430 457 450 457 466 C 457 473 450 475 446 468 C 442 452 433 436 427 424 Z"/><circle cx="452" cy="471" r="6"/>
-        <path d="M 396 420 C 388 446 388 470 396 486 C 400 492 406 490 406 484 C 402 466 402 444 408 424 Z"/>
-      </g>
-      <g id="d-figTala">
-        <path d="M 312 396 C 306 372 320 356 340 356 C 362 356 376 372 372 396 C 370 410 358 420 340 420 C 322 420 314 410 312 396 Z"/>
-        <path d="M 314 380 C 305 386 303 397 310 405 Z"/>
-        <path d="M 318 420 C 310 448 308 476 310 497 L 372 497 C 374 476 372 448 364 420 Z"/>
-        <path d="M 322 497 L 316 558 L 331 558 L 337 497 Z"/><path d="M 348 497 L 361 558 L 375 558 L 362 497 Z"/>
-        <path d="M 311 556 L 333 556 L 335 563 L 307 563 Z"/><path d="M 359 556 L 381 556 L 385 563 L 357 563 Z"/>
-      </g>
-    </defs>
-    <g id="dawn-walk">
-      <ellipse cx="336" cy="562" rx="52" ry="9" fill="#000" opacity=".38"/>
-      <ellipse cx="424" cy="558" rx="48" ry="8" fill="#000" opacity=".34"/>
-      <ellipse cx="400" cy="470" rx="110" ry="130" fill="#f0b268" opacity=".14" filter="url(#d-soft)"/>
-      <g filter="url(#d-rough)">
-        <use href="#d-figMa"   x="4" y="-2" fill="#f5bf72" opacity=".5"/>
-        <use href="#d-figMa"   fill="#0c0d15"/>
-        <use href="#d-figTala" x="4" y="-2" fill="#f5bf72" opacity=".32"/>
-        <use href="#d-figTala" fill="#0e0f18"/>
-      </g>
-      <!-- breath -->
-      <ellipse cx="458" cy="374" rx="12" ry="8" fill="#dfe6f5" opacity=".16" filter="url(#d-breath)"/>
-      <ellipse cx="380" cy="392" rx="10" ry="7" fill="#dfe6f5" opacity=".12" filter="url(#d-breath)"/>
-    </g>
-
-    <g id="dawn-tala" hidden>
-      <ellipse cx="640" cy="600" rx="60" ry="10" fill="#000" opacity=".38"/>
-      <ellipse cx="640" cy="500" rx="120" ry="140" fill="#f0b268" opacity=".14" filter="url(#d-soft)"/>
-      <g id="d-figTray">
-        <circle cx="640" cy="402" r="25"/><path d="M 616 392 C 618 374 662 374 664 392 C 656 386 624 386 616 392 Z"/>
-        <path d="M 660 392 C 678 398 684 420 678 440 C 674 450 664 448 662 438 C 662 424 658 410 656 400 Z"/>
-        <path d="M 632 426 L 648 426 L 648 437 L 632 437 Z"/>
-        <path d="M 606 436 C 596 470 594 500 596 527 L 684 527 C 686 500 684 470 674 436 Z"/>
-        <path d="M 606 440 C 592 470 588 494 596 512 L 612 512 C 608 494 610 470 618 448 Z"/><path d="M 674 440 C 688 470 692 494 684 512 L 668 512 C 672 494 670 470 662 448 Z"/>
-        <path d="M 574 512 L 706 512 L 702 527 L 578 527 Z"/><circle cx="600" cy="512" r="8"/><circle cx="680" cy="512" r="8"/>
-        <path d="M 610 527 L 608 590 L 630 590 L 634 527 Z"/><path d="M 646 527 L 650 590 L 672 590 L 670 527 Z"/>
-        <path d="M 604 588 L 632 588 L 636 597 L 600 597 Z"/><path d="M 646 588 L 676 588 L 680 597 L 644 597 Z"/>
-      </g>
-      <g filter="url(#d-rough)">
-        <use href="#d-figTray" x="4" y="-2" fill="#f5bf72" opacity=".45"/>
-        <use href="#d-figTray" fill="#0c0d15"/>
-      </g>
-    </g>
-    <!-- cold haze -->
-    <rect y="440" width="1280" height="130" fill="#8ea2c8" opacity=".07" filter="url(#d-soft)"/>
-  </svg></div>
+  <div class="layer" id="ext-rest" hidden></div>
+  <div class="layer" id="ext-school" hidden></div>
+  <div class="layer" id="dawn" hidden></div>
   <div class="layer" id="cook" hidden>
 <svg width="1280" height="720" viewBox="0 0 1280 720">
   <defs>
@@ -2743,9 +2467,11 @@
 const ILL = (() => {
 const W = 1280, H = 720;
 const DPR = Math.min(2, window.devicePixelRatio || 1);
+// backing scale. A room that the camera pushes into (the street) asks for more, capped at 2 for school laptops' memory
+let K = DPR;
 const P = s => new Path2D(s);
 const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
-const base = g => g.setTransform(DPR, 0, 0, DPR, 0, 0);
+const base = g => g.setTransform(K, 0, 0, K, 0, 0);
 function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
 function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
   g.stroke(typeof p === 'string' ? P(p) : p); g.restore(); }
@@ -2976,7 +2702,7 @@ const S = {cur:{}, target:{}, blink:{}, talkUntil:{}, speaker:null, last:null, f
 const R = { place:{}, caches:{}, g:null, t:0,
   // cache a static layer for the current room; rebuilt on the next visit if the room was dropped
   cached(key, fn){ const k = S.room + ':' + key; let c = R.caches[k];
-    if(!c){ c = document.createElement('canvas'); c.width = W * DPR; c.height = H * DPR; const g = c.getContext('2d'); base(g); fn(g); R.caches[k] = c; }
+    if(!c){ c = document.createElement('canvas'); c.width = W * K; c.height = H * K; const g = c.getContext('2d'); base(g); fn(g); R.caches[k] = c; }
     const g = R.g; g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(c, 0, 0); g.restore(); },
   flag(id){ return !!S.flags[id]; },
   motion(key){ const m = S.motion[key]; return m == null ? -1 : R.t - m; },
@@ -3011,7 +2737,7 @@ let cv = null, ctx = null, last = 0, lastDraw = 0, clock = 0;
 // lettering is baked into cached layers, so drop them once the web fonts have arrived
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { for(const k in R.caches) delete R.caches[k]; });
 const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function ensure(){ if(cv) return; cv = document.createElement('canvas'); cv.id = 'ill'; cv.width = W * DPR; cv.height = H * DPR;
+function ensure(){ if(cv) return; cv = document.createElement('canvas'); cv.id = 'ill'; cv.width = W * K; cv.height = H * K;
   cv.style.cssText = 'position:absolute;left:0;top:0;width:1280px;height:720px;display:block'; ctx = cv.getContext('2d'); R.g = ctx; requestAnimationFrame(frame); }
 function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   // the room runs on its own clock, which never jumps more than a tenth of a second: background tabs and slow laptops just slow down
@@ -3020,6 +2746,8 @@ function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   for(const id in R.place) if(R.place[id].flag) R.place[id].hidden = !S.flags[R.place[id].flag];
   base(ctx); ctx.filter = 'none'; ctx.globalAlpha = 1; room.paint(ctx, R.t, R); }
 function show(which){ if(!ROOMS[which]){ S.room = null; return; } ensure();
+  const k2 = Math.max(DPR, Math.min(2, (ROOMS[which].res || 1) * DPR));
+  if(k2 !== K){ K = k2; cv.width = W * K; cv.height = H * K; for(const k in R.caches) delete R.caches[k]; }
   if(S.room !== which){ for(const k in R.caches) if(!k.startsWith(which + ':')) delete R.caches[k]; S.speaker = null; S.last = null; }
   S.room = which; const layer = document.getElementById(which); if(layer && cv.parentNode !== layer) layer.insertBefore(cv, layer.firstChild); lastDraw = 0; }
 function expr(who, name){ S.target[who] = name; }
@@ -3205,6 +2933,72 @@ ILL.room('alarm', {
     R.char('tala'); quilt(g, t); } });
 })();
 
+// ====================== THE PARISH, 4:40 A.M., AND THE SUNRISE ======================
+(() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad} = ILL;
+const GROUND = 470;
+let sunriseAt = null, walkAt = null;
+
+function sky(g, k){
+  // k: 0 is the dark before mass, 1 is the sun up on Christmas Eve
+  const mix = (a, b) => { const p = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const A = p(a), B = p(b); return `rgb(${A.map((v, j) => Math.round(v + (B[j] - v) * k)).join(',')})`; };
+  g.fillStyle = lgrad(g, 0, 0, 0, GROUND, [[0, mix('#141a3a', '#4a4a7a')], [.6, mix('#3a2e5a', '#d88a7a')], [1, mix('#8a5a6a', '#f6c47a')]]); g.fillRect(0, 0, 1280, GROUND + 2);
+  for(let n = 0; n < 60; n++) el(g, hash(n) * 1280, hash(n + 5) * 300, .9 + hash(n + 9), .9 + hash(n + 9), '#fff', (.4 + hash(n + 2) * .5) * (1 - k)); }
+
+function town(g){
+  // low roofs either side, a water tower, the lamp, the church
+  fl(g, 'M 0 460 L 0 420 L 90 420 L 90 404 L 170 404 L 170 430 L 250 430 L 250 414 L 330 414 L 330 460 Z', '#2a2438');
+  fl(g, 'M 950 460 L 950 430 L 1040 430 L 1040 406 L 1130 406 L 1130 426 L 1200 426 L 1200 400 L 1280 400 L 1280 460 Z', '#2a2438');
+  st(g, 'M 1210 400 L 1210 350 M 1250 400 L 1250 350', '#2a2438', 3); el(g, 1230, 340, 26, 16, '#2a2438');
+  // the church: brick, the bell tower, the rose window, three arched windows lit
+  const body = P('M 470 468 L 470 330 L 640 236 L 810 330 L 810 468 Z'), tower = P('M 596 240 L 596 130 L 640 80 L 684 130 L 684 240 Z');
+  fl(g, body, '#3a2a3a'); fl(g, tower, '#34263a'); st(g, body, '#1a1220', 2); st(g, tower, '#1a1220', 2);
+  for(let y = 340; y < 468; y += 14) st(g, `M 474 ${y} L 806 ${y}`, 'rgba(0,0,0,.18)', 1);
+  st(g, 'M 640 80 L 640 40 M 626 56 L 654 56', '#1a1220', 5);
+  for(const x of [620, 660]) { fl(g, rr(x - 7, 158, 14, 26, 7), '#f2c86a'); }
+  el(g, 640, 306, 24, 24, '#f2c86a'); st(g, 'M 616 306 L 664 306 M 640 282 L 640 330', '#8a5a2a', 2);
+  for(const x of [530, 750]) fl(g, rr(x - 18, 372, 36, 68, 18), '#f2c86a');
+  fl(g, rr(610, 374, 60, 94, 30), '#ffe0a0'); st(g, rr(610, 374, 60, 94, 30), '#1a1220', 3);
+  // the ground, blue with snow
+  fl(g, rr(0, GROUND, 1280, 250, 0), '#2c2a44'); fl(g, rr(0, GROUND, 1280, 16, 0), '#3e3c5a');
+  for(let n = 0; n < 40; n++) el(g, hash(n + 40) * 1280, GROUND + 30 + hash(n + 41) * 220, 30 + hash(n) * 60, 3, '#3a3854', .6); }
+
+function glow(g, t, k){
+  // the door's light on the snow, and the streetlamp
+  g.fillStyle = rgrad(g, 640, 470, 10, 260, [[0, 'rgba(255,214,140,.45)'], [1, 'rgba(255,214,140,0)']]); g.fillRect(380, 210, 520, 520);
+  st(g, 'M 1040 500 L 1040 336', '#1a1220', 6); fl(g, 'M 1022 322 L 1062 322 L 1054 344 L 1030 344 Z', '#1a1220');
+  const lamp = 1 - k * .8; g.fillStyle = rgrad(g, 1042, 344, 4, 90, [[0, `rgba(255,236,190,${.7 * lamp})`], [1, 'rgba(255,236,190,0)']]); g.fillRect(950, 250, 190, 190);
+  el(g, 1042, 344, 12, 4, '#fff6d8', lamp); el(g, 1042, 506, 70, 10, 'rgba(255,236,190,.25)', lamp); }
+
+function sun(g, k){
+  if(k <= 0) return; const y = 470 - 150 * Math.min(1, k * 1.1);
+  g.fillStyle = rgrad(g, 900, y, 30, 260, [[0, `rgba(255,214,140,${.6 * k})`], [1, 'rgba(255,214,140,0)']]); g.fillRect(600, y - 260, 600, 520);
+  g.save(); g.beginPath(); g.rect(0, 0, 1280, GROUND); g.clip(); el(g, 900, y, 52, 52, '#fff0b8'); g.restore(); }
+
+// a figure in a winter coat, back to us or walking, rim-lit from the church
+function figure(g, x, y, s, hair, walk, t, flip){
+  g.save(); g.translate(x, y); g.scale(flip ? -s : s, s); const ph = walk ? Math.sin(t * 4.2) : 0, ink = '#141020';
+  st(g, `M -8 -60 L ${-8 + ph * 9} 0`, ink, 13); st(g, `M 8 -60 L ${8 - ph * 9} 0`, ink, 13);
+  fl(g, 'M -30 -58 C -34 -110 -26 -150 0 -154 C 26 -150 34 -110 30 -58 Z', ink);
+  el(g, 0, -174, 20, 23, ink);
+  if(hair === 'long') fl(g, 'M -20 -180 C -24 -150 -22 -128 -16 -118 L 16 -118 C 22 -128 24 -150 20 -180 Z', ink);
+  if(hair === 'bun') el(g, 12, -186, 9, 9, ink);
+  st(g, 'M 30 -58 C 34 -110 26 -150 0 -154', 'rgba(255,214,140,.55)', 2); st(g, 'M 20 -174 a 20 23 0 0 0 -8 -21', 'rgba(255,214,140,.55)', 2);
+  g.restore(); }
+
+ILL.room('dawn', {
+  paint(g, t, R){
+    const up = document.getElementById('dawn').classList.contains('sunrise');
+    if(up && sunriseAt == null) sunriseAt = t; if(!up) sunriseAt = null;
+    const k = sunriseAt == null ? 0 : Math.min(1, (t - sunriseAt) / 5);
+    sky(g, k); sun(g, k); R.cached('town', town); glow(g, t, k);
+    // they walk toward the church and stop, rather than walking on the spot
+    if(R.flag('dawn-walk')){ if(walkAt == null) walkAt = t; const d = Math.min(1, (t - walkAt) / 15), dx = 120 * (1 - (1 - d) * (1 - d)), go = d < 1;
+      figure(g, 300 + dx, 520, .92, 'bun', go, t, false); figure(g, 366 + dx, 524, .84, 'long', go, t + .6, false); } else walkAt = null;
+    if(R.flag('dawn-tala')) figure(g, 640, 540, .95, 'long', false, t, false);
+    g.fillStyle = '#fff'; for(let n = 0; n < 50; n++){ const y = (hash(n + 90) * 720 + t * (14 + hash(n) * 16)) % 720, x = hash(n + 40) * 1280 + Math.sin(t * .8 + n) * 6;
+      g.globalAlpha = (.4 + hash(n + 7) * .4) * (1 - k * .6); g.beginPath(); g.arc(x, y, .9 + hash(n + 3) * 1.2, 0, 6.2832); g.fill(); } g.globalAlpha = 1; } });
+})();
+
 // ====================== THE DINING ROOM (upstairs, over the restaurant) ======================
 (() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad, arm, hand} = ILL;
 const TY = 420, GLASS = [70, 100, 220, 310];
@@ -3337,6 +3131,76 @@ ILL.room('dining', {
     R.cached('table' + d, g2 => table(g2, d)); props(g, t, R, d); } });
 })();
 
+// ====================== PACING'S FROM ACROSS THE STREET ======================
+(() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad} = ILL;
+const STAR = P('M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z');
+
+function street(g){
+  g.fillStyle = lgrad(g, 0, 0, 0, 500, [[0, '#141a36'], [1, '#34305a']]); g.fillRect(0, 0, 1280, 720);
+  // neighbours either side
+  fl(g, rr(0, 90, 400, 470, 0), '#3a3440'); fl(g, rr(880, 60, 400, 500, 0), '#403a46');
+  for(const [x, y, lit] of [[40, 140, 1], [150, 140, 0], [260, 140, 1], [40, 260, 0], [150, 260, 1], [260, 260, 0], [930, 120, 1], [1040, 120, 0], [1150, 120, 1], [930, 250, 1], [1040, 250, 0], [1150, 250, 0]])
+    fl(g, rr(x, y, 70, 90, 2), lit ? '#e8b862' : '#22243a');
+  // Pacing's: two floors of brick, the family upstairs, the restaurant below
+  fl(g, rr(400, 70, 480, 490, 0), '#8a3e30'); for(let y = 80; y < 560; y += 14) fl(g, rr(400, y, 480, 1.4, 0), 'rgba(0,0,0,.18)');
+  for(const x of [440, 600, 760]){ fl(g, rr(x, 110, 80, 110, 3), '#f2c86a'); fl(g, rr(x + 38, 110, 4, 110, 0), '#5a2a20'); st(g, rr(x - 4, 106, 88, 118, 3), '#3a1a14', 3); }
+  g.save(); g.translate(640, 160); g.scale(.4, .4); g.fillStyle = '#e0453f'; g.fill(STAR); g.strokeStyle = '#7a1e1a'; g.lineWidth = 4; g.stroke(STAR); g.restore();
+  // the awning and the sign
+  fl(g, 'M 380 272 L 900 272 L 880 322 L 400 322 Z', '#b8413a'); for(let k = 0; k < 12; k++) fl(g, `M ${400 + k * 40} 322 L ${420 + k * 40} 322 L ${414 + k * 40} 334 L ${406 + k * 40} 334 Z`, '#b8413a');
+  for(let k = 0; k < 13; k++) fl(g, `M ${390 + k * 40} 272 L ${406 + k * 40} 272 L ${410 + k * 40} 322 L ${396 + k * 40} 322 Z`, '#f4efe2', .85);
+  fl(g, rr(500, 232, 280, 34, 3), '#2a1a14'); text(g, 'PACING’S · FILIPINO KITCHEN', 640, 255, '600 17px "Fraunces", Georgia, serif', '#fff4e0');
+  // the dining room window: warm, two tables with people at them
+  fl(g, rr(420, 346, 300, 170, 2), '#f4c880'); st(g, rr(420, 346, 300, 170, 2), '#3a1a14', 5);
+  for(const [x, c] of [[480, '#2c4a6a'], [520, '#8a3a4a'], [640, '#4a6a3a']]){ el(g, x, 430, 14, 16, c); fl(g, `M ${x - 18} 480 C ${x - 18} 452 ${x + 18} 452 ${x + 18} 480 Z`, c); }
+  fl(g, rr(460, 470, 110, 8, 2), '#7a4a2a'); fl(g, rr(610, 470, 80, 8, 2), '#7a4a2a');
+  fl(g, rr(750, 346, 110, 214, 2), '#6a2e22'); fl(g, rr(760, 356, 90, 110, 2), '#f4c880'); el(g, 838, 470, 5, 5, '#e0b04a');
+  // the pavement, the street, a parked car with snow on its roof
+  fl(g, rr(0, 560, 1280, 40, 0), '#6a6a74'); fl(g, rr(0, 600, 1280, 120, 0), '#26262e');
+  g.fillStyle = rgrad(g, 570, 560, 10, 220, [[0, 'rgba(244,200,128,.35)'], [1, 'rgba(244,200,128,0)']]); g.fillRect(350, 540, 440, 180);
+  g.save(); g.translate(1010, 640); fl(g, 'M -150 0 L -140 -40 L -90 -46 L -60 -80 L 60 -80 L 100 -46 L 150 -40 L 156 0 Z', '#2c3a5e');
+  fl(g, 'M -52 -74 L 50 -74 L 86 -46 L -80 -46 Z', '#8aa0c0', .6); fl(g, 'M -62 -82 L 62 -82 L 58 -90 L -58 -90 Z', '#f4f6f8');
+  for(const x of [-96, 100]){ el(g, x, 2, 26, 26, '#141418'); el(g, x, 2, 10, 10, '#6a6a74'); } g.restore(); }
+
+ILL.room('ext-rest', {
+  paint(g, t, R){ R.cached('street', street);
+    const flick = .9 + .1 * Math.sin(t * 3); g.fillStyle = `rgba(255,214,140,${.08 * flick})`; g.fillRect(420, 346, 300, 170);
+    g.fillStyle = '#fff'; for(let n = 0; n < 70; n++){ const y = (hash(n + 90) * 720 + t * (16 + hash(n) * 18)) % 720, x = hash(n + 40) * 1280 + Math.sin(t * .8 + n) * 6;
+      g.globalAlpha = .45 + hash(n + 7) * .45; g.beginPath(); g.arc(x, y, .9 + hash(n + 3) * 1.4, 0, 6.2832); g.fill(); } g.globalAlpha = 1; } });
+})();
+
+// ====================== THE HIGH SCHOOL, JERSEY CITY, A SNOWY TUESDAY ======================
+(() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad} = ILL;
+
+function school(g){
+  g.fillStyle = lgrad(g, 0, 0, 0, 520, [[0, '#b8c4d4'], [1, '#e2e6ea']]); g.fillRect(0, 0, 1280, 720);
+  // bare trees behind
+  for(const [x, h] of [[90, 260], [1180, 240], [300, 200]]){ st(g, `M ${x} 520 L ${x} ${520 - h}`, '#5a5a62', 6);
+    for(let k = 0; k < 6; k++){ const y = 520 - h + k * 30; st(g, `M ${x} ${y} l ${(k % 2 ? 1 : -1) * (40 - k * 4)} ${-30 + k * 2}`, '#5a5a62', 2.4); } }
+  // the building: tan brick, a band of blue windows, the entrance with its steps
+  fl(g, rr(250, 150, 780, 370, 0), '#c9b08a'); for(let y = 160; y < 520; y += 12) fl(g, rr(250, y, 780, 1.2, 0), 'rgba(0,0,0,.08)');
+  fl(g, rr(250, 140, 780, 16, 0), '#a8906a'); fl(g, rr(560, 110, 160, 50, 2), '#a8906a');
+  text(g, 'HIGH SCHOOL', 640, 146, '600 18px "IBM Plex Mono", monospace', '#5a4a3a');
+  for(let r = 0; r < 2; r++) for(let k = 0; k < 8; k++){ const x = 280 + k * 96 + (k > 3 ? 40 : 0), y = 200 + r * 130; if(k === 4 && r === 1) continue;
+    fl(g, rr(x, y, 60, 80, 2), '#6a8ab0'); fl(g, rr(x, y, 60, 30, 2), '#8aa6c8'); st(g, rr(x, y, 60, 80, 2), '#4a5a6a', 2); fl(g, rr(x, y + 80, 60, 5, 0), '#f4f6f8'); }
+  fl(g, rr(580, 380, 120, 140, 3), '#4a6a8a'); st(g, 'M 640 380 L 640 520', '#2a3a4a', 3); fl(g, rr(560, 360, 160, 20, 2), '#a8906a');
+  for(let k = 0; k < 3; k++) fl(g, rr(560 - k * 16, 520 + k * 10, 160 + k * 32, 10, 0), '#dcdcdc');
+  // the flagpole
+  st(g, 'M 210 520 L 210 60', '#8a8e94', 4); g.save(); g.translate(212, 70);
+  for(let k = 0; k < 7; k++) fl(g, rr(0, k * 6, 70, 6, 0), k % 2 ? '#f4f4f4' : '#c9413a'); fl(g, rr(0, 0, 30, 24, 0), '#2c4a8a'); g.restore();
+  // snow on everything, and the lot
+  fl(g, rr(0, 520, 1280, 200, 0), '#f2f4f6'); fl(g, rr(250, 146, 780, 6, 0), '#fff');
+  for(let k = 0; k < 20; k++) el(g, hash(k) * 1280, 540 + hash(k + 3) * 170, 60 + hash(k + 1) * 80, 4, '#dfe4ea', .8);
+  // the bus
+  g.save(); g.translate(880, 560); fl(g, rr(0, 0, 320, 110, 10), '#f0b62a'); fl(g, rr(0, 70, 320, 12, 0), '#1e1e22');
+  for(let k = 0; k < 6; k++) fl(g, rr(20 + k * 48, 16, 38, 36, 3), '#2a2e3a'); fl(g, rr(0, -6, 320, 10, 5), '#fff');
+  for(const x of [60, 260]){ el(g, x, 112, 24, 24, '#141418'); el(g, x, 112, 9, 9, '#8a8a92'); } g.restore(); }
+
+ILL.room('ext-school', {
+  paint(g, t, R){ R.cached('school', school);
+    g.fillStyle = '#fff'; for(let n = 0; n < 80; n++){ const y = (hash(n + 90) * 720 + t * (18 + hash(n) * 20)) % 720, x = hash(n + 40) * 1280 + Math.sin(t * .8 + n) * 6;
+      g.globalAlpha = .6 + hash(n + 7) * .4; g.beginPath(); g.arc(x, y, 1 + hash(n + 3) * 1.6, 0, 6.2832); g.fill(); } g.globalAlpha = 1; } });
+})();
+
 // ====================== THE PARISH HALL, AFTER SIMBANG GABI ======================
 (() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad, arm, hand, body, drawHead, EX} = ILL;
 const STAR = P('M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z');
@@ -3351,7 +3215,15 @@ const singing = () => { if(typeof beats === 'undefined' || typeof i === 'undefin
 // the parish: the same rig, different people. Nobody here gets a portrait; they are the room.
 const PARISH = [['ma', '#3f7a6a', '#2f5e52', 'warm'], ['pa', '#8a5a9a', '#6e4680', 'smile'], ['mangboy', '#d8c07a', '#b8a05a', 'warm'], ['ando', '#c9524a', '#a33b34', 'neutral'],
   ['ocampo', '#e8e3ea', '#cbc3cf', 'kind'], ['clerk', '#5a6f8a', '#46586e', 'smile'], ['tita', '#e0a43a', '#c08a2a', 'talk'], ['customer', '#7a8a5a', '#5e6e44', 'smile'], ['hannah', '#4a5a8a', '#3a4870', 'warm']];
-PARISH.forEach(([from, c, sh], k) => { const b = ILL.CAST[from]; ILL.cast('parish' + k, {...b, noPortrait:true, clothes:{...b.clothes, col:c, shade:sh, apron:null, lanyard:false, sleeve:null, trim:sh}}); });
+// nobody in the crowd should be a double of somebody we know: every face, skin and hair is nudged
+const HAIRS = ['#1b1413', '#2a2220', '#3a2c28', '#4a3a30', '#6a5a50', '#8a7a6a'], SKINS = [[1, 1, 1], [1.05, 1.04, 1.02], [.93, .92, .9], [1.02, .98, .95], [.97, .95, .96]];
+const tint = (hex, m) => '#' + [1, 3, 5].map((i, j) => Math.max(0, Math.min(255, Math.round(parseInt(hex.slice(i, i + 2), 16) * m[j]))).toString(16).padStart(2, '0')).join('');
+PARISH.forEach(([from, c, sh], k) => { const b = ILL.CAST[from], v = n => (hash(k * 7 + n) - .5), m = SKINS[k % SKINS.length];
+  ILL.cast('parish' + k, {...b, noPortrait:true, glasses:hash(k + 50) > .7 ? '#3a3230' : false,
+    face:{cw:b.face.cw + v(1) * 4, jw:b.face.jw + v(2) * 6, jy:b.face.jy + v(3) * 3, cy:b.face.cy + v(4) * 3, chw:Math.max(5, b.face.chw + v(5) * 6)},
+    nose:b.nose + v(6) * .2, eyeS:b.eyeS + v(7) * .1, skin:tint(b.skin, m), shade:tint(b.shade, m), neck:tint(b.neck, m),
+    hair:from === 'hannah' ? '#4a3a30' : (from === 'tita' || from === 'mangboy' || from === 'ocampo') ? b.hair : HAIRS[k % HAIRS.length], freckles:null, blush:null,
+    clothes:{...b.clothes, col:c, shade:sh, apron:null, lanyard:false, sleeve:null, trim:sh, cross:false, brooch:false}}); });
 const CROWD = [[300, 236, .62, 0], [372, 250, .56, 3], [560, 226, .6, 2], [626, 246, .55, 8], [836, 234, .6, 1], [900, 250, .54, 4], [1080, 214, .56, 5], [1010, 250, .5, 6], [760, 256, .5, 7]];
 
 function room(g){
@@ -3715,6 +3587,121 @@ ILL.room('school', {
     R.cached('wall', wall); snow(g, t);
     R.char('tala'); R.char('hannah');
     R.cached('desks', desks); props(g, t, R); } });
+})();
+
+// ====================== NEWARK AVENUE, TWENTY PAST FIVE ======================
+// The block the errand runs on. Every storefront sits where the engine's push-ins and hotspots expect it:
+// cargo x 0-210, Mang Boy's 220-540, the panaderia 556-760, the salon 770-910, Quik Mart 930-1280.
+(() => { const {P, fl, st, el, rr, hash, text, rgrad, lgrad, arm, hand, body, drawHead, EX} = ILL;
+const SIGN = 236, WIN = 290, WALK = 470, CURB = 556;
+const STAR = P('M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z');
+
+// the two people behind counters who do not speak, made from the parish rig
+ILL.cast('baker', {...ILL.CAST.ma, noPortrait:true, face:{cw:41, jw:32, jy:115, cy:129, chw:11}, nose:1.15, eyeS:.9, age:1.5, hair:'#3a2c28', skin:'#c89066', shade:'#a4704c', neck:'#ba8660',
+  clothes:{col:'#f3eee2', shade:'#d9d0bd', line:'#6a6458', neck:'tee', reach:'short'}});
+ILL.cast('cargoman', {...ILL.CAST.clerk, noPortrait:true, face:{cw:41.5, jw:34, jy:117, cy:132, chw:13}, nose:1.2, age:1.2, mustache:'#2a2220', skin:'#a86c48', shade:'#855034', neck:'#9a6242',
+  clothes:{col:'#6a7a5a', shade:'#55643f', line:'#2a3220', neck:'tee', reach:'short'}});
+
+const shopfront = (g, x0, x1, sign, signCol, ink, sub) => {
+  fl(g, rr(x0, SIGN, x1 - x0, 44, 2), signCol); st(g, rr(x0, SIGN, x1 - x0, 44, 2), 'rgba(0,0,0,.4)', 1.4);
+  text(g, sign, (x0 + x1) / 2, SIGN + (sub ? 25 : 30), `600 ${sub ? 21 : 23}px "Fraunces", Georgia, serif`, ink);
+  if(sub) text(g, sub, (x0 + x1) / 2, SIGN + 39, '9px "IBM Plex Mono", monospace', ink); };
+
+function block(g){
+  // dusk, and the upper floors: brick, lit windows, one parol, one open window with somebody singing
+  g.fillStyle = lgrad(g, 0, 0, 0, 300, [[0, '#1c2346'], [1, '#4a4a78']]); g.fillRect(0, 0, 1280, 300);
+  const fronts = [[0, 210, '#6e3a30'], [210, 548, '#7a4434'], [548, 766, '#5e4a3e'], [766, 918, '#6a3e3a'], [918, 1280, '#4a4e5a']];
+  fronts.forEach(([a, b, c], k) => { const top = [34, 10, 48, 22, 60][k]; fl(g, rr(a, top, b - a, SIGN - top, 0), c);
+    for(let y = top + 12; y < SIGN; y += 14) fl(g, rr(a, y, b - a, 1.2, 0), 'rgba(0,0,0,.18)');
+    fl(g, rr(a, top, b - a, 8, 0), 'rgba(0,0,0,.25)'); st(g, `M ${b} ${top} L ${b} ${SIGN}`, 'rgba(0,0,0,.35)', 2);
+    for(let wx = a + 26; wx < b - 40; wx += 76){ const lit = hash(wx) > .35, wy = top + 36;
+      fl(g, rr(wx, wy, 42, 70, 2), lit ? '#f2c86a' : '#2a2c44'); fl(g, rr(wx + 19, wy, 4, 70, 0), 'rgba(0,0,0,.3)'); st(g, rr(wx - 3, wy - 3, 48, 76, 2), 'rgba(0,0,0,.4)', 2);
+      if(lit && hash(wx + 1) > .5) fl(g, rr(wx, wy + 40, 42, 30, 0), 'rgba(140,60,40,.35)'); } });
+  // the parol upstairs over the panaderia
+  fl(g, rr(592, 82, 56, 84, 2), '#f6d488'); g.save(); g.translate(620, 122); g.scale(.3, .3); g.fillStyle = '#e0453f'; g.fill(STAR); g.restore();
+  // the open window with the singing coming out of it
+  fl(g, rr(284, 46, 52, 74, 2), '#ffcf78'); fl(g, 'M 296 120 C 296 96 304 86 312 86 C 320 86 326 96 326 120 Z', '#6a3a2a'); el(g, 311, 78, 9, 10, '#6a3a2a');
+  // the storefronts
+  fl(g, rr(6, SIGN, 198, 44, 2), '#2c4a8a'); st(g, rr(6, SIGN, 198, 44, 2), 'rgba(0,0,0,.4)', 1.4);
+  text(g, 'BAYANIHAN CARGO', 105, SIGN + 24, '600 16px "Fraunces", Georgia, serif', '#f4f0e2'); text(g, 'BALIKBAYAN BOXES · DOOR TO DOOR', 105, SIGN + 38, '8px "IBM Plex Mono", monospace', '#f4f0e2');
+  shopfront(g, 226, 540, 'MANG BOY’S', '#b8413a', '#fff4e0', 'SARI-SARI STORE · SINCE 1994');
+  shopfront(g, 560, 758, 'PANADERIA', '#d99a2a', '#3a2412', 'PAN DE SAL · ENSAYMADA');
+  shopfront(g, 774, 912, 'SALON', '#d6798f', '#fff4f6', 'CUT · PERM · COLOR');
+  shopfront(g, 936, 1274, 'QUIK MART', '#e8eef6', '#2c5aa0', 'LOTTO · ATM · MILK');
+  // shop interiors, lit
+  const inside = [[10, 200, '#e8c89a'], [230, 536, '#f4d49a'], [564, 754, '#fbe0a8'], [778, 908, '#f3d6dc'], [940, 1270, '#eef4fa']];
+  inside.forEach(([a, b, c]) => { fl(g, rr(a, WIN, b - a, WALK - WIN, 0), c); });
+  // cargo: the wall of flattened boxes, the stacks, the tape
+  for(let k = 0; k < 5; k++) fl(g, rr(18 + k * 36, 300, 30, 100, 1), k % 2 ? '#c8a06a' : '#b88e58');
+  for(const [x, y, w, h] of [[20, 400, 70, 60], [96, 380, 80, 80], [40, 350, 50, 50]]){ fl(g, rr(x, y, w, h, 1), '#c9a26a'); st(g, rr(x, y, w, h, 1), '#7a5a30', 1.2); fl(g, rr(x + w / 2 - 6, y, 12, h, 0), '#d8c49a'); }
+  // Mang Boy's: sachets in strips, shelves of tins and noodles, the counter, the radio
+  for(let s = 0; s < 6; s++){ const x = 250 + s * 26; st(g, `M ${x} 296 L ${x} 380`, '#6a5a4a', .8); for(let k = 0; k < 6; k++) fl(g, rr(x - 8, 300 + k * 14, 16, 12, 2), ['#e0453f', '#f0c24a', '#4f8a5a', '#2c5aa0'][(s + k) % 4]); }
+  for(let r = 0; r < 3; r++){ fl(g, rr(424, 310 + r * 44, 106, 5, 0), '#8a6a4a'); for(let k = 0; k < 7; k++) fl(g, rr(428 + k * 15, 290 + r * 44, 12, 20, 2), ['#c9524a', '#e8d6a0', '#4a7a9a', '#e0a43a'][(r + k) % 4]); }
+  fl(g, rr(476, 270 + 14, 44, 22, 3), '#3a3230'); el(g, 486, 295, 6, 6, '#6a6260'); fl(g, rr(496, 290, 20, 3, 1), '#e0a43a');
+  // the panaderia: trays in the window
+  for(let r = 0; r < 3; r++){ fl(g, rr(574, 330 + r * 44, 110, 6, 1), '#8a8e94'); for(let k = 0; k < 5; k++){ const x = 584 + k * 21, y = 324 + r * 44; el(g, x, y, 10, 7, '#c98a44'); el(g, x - 2, y - 2, 5, 3, '#e2ae6a'); } }
+  // the salon: a mirror, a shelf of product
+  fl(g, rr(786, 350, 44, 60, 22), '#cfe0e8'); st(g, rr(786, 350, 44, 60, 22), '#a8a0a0', 2);
+  // Quik Mart: the fridge wall and the lottery sign
+  for(let k = 0; k < 4; k++){ const x = 950 + k * 80; fl(g, rr(x, 300, 72, 150, 2), '#cfe4f0'); for(let r = 0; r < 4; r++) for(let j = 0; j < 5; j++) fl(g, rr(x + 6 + j * 13, 310 + r * 34, 9, 22, 2), ['#e0453f', '#f4f0e2', '#2c5aa0', '#4f8a5a', '#f0c24a'][(k + r + j) % 5]);
+    st(g, rr(x, 300, 72, 150, 2), '#9ab0c0', 1.4); }
+  fl(g, rr(1250 - 70, 296, 70, 30, 3), '#f0c24a'); text(g, 'LOTTO', 1215, 316, '600 14px "IBM Plex Mono", monospace', '#b8413a'); }
+
+function people(g, t, R){
+  // the people behind the counters, at a size that holds up when the camera pushes in
+  const draw = (id, x, y, s, e) => { g.save(); g.translate(x - 100 * s, y); g.scale(s, s); drawHead(g, id, e, 330); g.restore(); };
+  const talk = id => ILL.S.talkUntil[id] && R.t < ILL.S.talkUntil[id] ? .2 + .45 * Math.abs(Math.sin(R.t * 13)) : 0;
+  const blink = k => (R.t * .37 + k * .29) % 1 < .03 ? 1 : null;
+  const E = (name, id, k) => { const e = {...EX[ILL.S.target[id] || name], open:talk(id)}; const b = blink(k); if(b) e.lid = 1; return e; };
+  draw('cargoman', 150, 318, .56, E('working', 'cargoman', 1));
+  draw('mangboy', 352, 316, .62, E('warm', 'mangboy', 2));
+  draw('baker', 704, 318, .54, E('kind', 'baker', 3));
+  // Mrs Ocampo, under the dryer, one eye open
+  const oc = ILL.S.speaker === 'ocampo' ? E('kind', 'ocampo', 4) : E('asleep', 'ocampo', 4); draw('ocampo', 872, 340, .5, oc);
+  const hood = 'M 838 362 C 838 316 906 316 906 362 C 906 372 838 372 838 362 Z';
+  fl(g, hood, '#d9d4e0'); fl(g, 'M 838 362 C 838 316 872 316 872 330 C 858 332 844 344 838 362 Z', '#f0ecf4');
+  st(g, hood, '#6a6470', 1.4); st(g, 'M 906 356 L 904 380 L 904 460', '#6a6470', 3); }
+
+function counters(g){
+  // counters in front of the shopkeepers, then the glass
+  fl(g, rr(20, 426, 180, 44, 2), '#8a6a4a'); fl(g, rr(260, 420, 200, 50, 2), '#6a4a3a'); fl(g, rr(260, 420, 200, 8, 2), '#8a6a4a');
+  fl(g, rr(620, 414, 134, 56, 2), '#c9b08a'); fl(g, rr(626, 420, 122, 30, 2), 'rgba(230,240,250,.5)');
+  for(let k = 0; k < 4; k++){ el(g, 646 + k * 28, 440, 11, 7, '#c98a44'); }
+  fl(g, rr(944, 420, 322, 50, 2), '#c7ced6');
+  // glass: a sheen over every window, the mullions, the doors
+  for(const [a, b] of [[10, 200], [230, 536], [564, 754], [778, 908], [940, 1270]]){
+    fl(g, `M ${a + 20} ${WIN} L ${a + 70} ${WIN} L ${a + 30} ${WALK} L ${a} ${WALK} Z`, '#fff', .12);
+    st(g, rr(a, WIN, b - a, WALK - WIN, 0), '#2a1a14', 4); }
+  st(g, `M 424 ${WIN} L 424 ${WALK}`, '#2a1a14', 4); st(g, `M 1100 ${WIN} L 1100 ${WALK}`, '#9ab0c0', 3);
+  // the sidewalk, the curb, the street
+  fl(g, rr(0, WALK, 1280, CURB - WALK, 0), '#8a8a92'); for(let x = 0; x < 1280; x += 96) st(g, `M ${x} ${WALK} L ${x - 20} ${CURB}`, '#74747c', 1.4);
+  fl(g, rr(0, CURB, 1280, 10, 0), '#b4b4bc'); fl(g, rr(0, CURB + 10, 1280, 160, 0), '#2e2e36');
+  for(let x = 40; x < 1280; x += 160) fl(g, rr(x, 640, 80, 6, 2), '#c9b04a');
+  // the light from the shops, spilling on the pavement
+  for(const [x, c] of [[105, 'rgba(232,200,154,.3)'], [383, 'rgba(244,212,154,.34)'], [659, 'rgba(251,224,168,.38)'], [843, 'rgba(243,214,220,.28)'], [1105, 'rgba(238,244,250,.3)']]){
+    g.fillStyle = rgrad(g, x, WALK, 10, 180, [[0, c], [1, 'rgba(0,0,0,0)']]); g.fillRect(x - 180, WALK, 360, 120); } }
+
+function life(g, t){
+  // the TV in the salon, which nobody is watching
+  const flick = .8 + .2 * Math.sin(t * 7) * Math.sin(t * 2.3);
+  fl(g, rr(784, 298, 50, 34, 3), '#1e1e24'); fl(g, rr(788, 302, 42, 26, 2), `rgba(120,170,230,${flick})`); el(g, 800, 316, 6, 8, '#c98a64', .8); el(g, 816, 314, 6, 8, '#6a4a3a', .8);
+  // steam from the bakery vent
+  for(let k = 0; k < 3; k++){ const ph = (t * .4 + k / 3) % 1; el(g, 740 + Math.sin(t + k) * 6, 240 - ph * 150, 12 + ph * 20, 9 + ph * 14, '#fff', .16 * (1 - ph)); }
+  // people going home, with their shopping
+  const walkers = [[0, 24, '#3a3448', 1], [1, -18, '#2a3a44', .9], [2, 30, '#443a34', 1.05]];
+  for(const [k, v, c, s] of walkers){ const span = 1500, x = ((k * 520 + t * v) % span + span) % span - 110, y = CURB - 6, ph = t * 5 + k;
+    g.save(); g.translate(x, y); g.scale(s * (v < 0 ? -1 : 1), s);
+    st(g, `M -6 -40 L ${-6 + Math.sin(ph) * 10} 0`, c, 9); st(g, `M 6 -40 L ${6 - Math.sin(ph) * 10} 0`, c, 9);
+    fl(g, 'M -18 -40 C -20 -80 -16 -110 0 -112 C 16 -110 20 -80 18 -40 Z', c); el(g, 0, -124, 12, 14, c);
+    fl(g, rr(12, -70, 16, 20, 3), '#f4f0e2', .9); g.restore(); }
+  // snow
+  g.fillStyle = '#fff'; for(let k = 0; k < 60; k++){ const y = ((hash(k + 90) * 720 + t * (16 + hash(k) * 20)) % 720), x = hash(k + 40) * 1280 + Math.sin(t * .8 + k) * 6;
+    g.globalAlpha = .5 + hash(k + 7) * .4; g.beginPath(); g.arc(x, y, .9 + hash(k + 3) * 1.4, 0, 6.2832); g.fill(); } g.globalAlpha = 1; }
+
+ILL.room('street', { res:2,
+  hot:[[104, 340], [312, 338], [652, 400], [810, 316], [1105, 258], [620, 122]],
+  place:{ mangboy:{x:352, y:316, s:.62}, ocampo:{x:862, y:334, s:.5} },
+  paint(g, t, R){ R.cached('block', block); people(g, t, R); R.cached('counters', counters); life(g, t); } });
 })();
 
 // ====================== THE MONEY TRANSFER COUNTER, NEWARK AVENUE ======================

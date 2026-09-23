@@ -5,9 +5,11 @@
 const ILL = (() => {
 const W = 1280, H = 720;
 const DPR = Math.min(2, window.devicePixelRatio || 1);
+// backing scale. A room that the camera pushes into (the street) asks for more, capped at 2 for school laptops' memory
+let K = DPR;
 const P = s => new Path2D(s);
 const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
-const base = g => g.setTransform(DPR, 0, 0, DPR, 0, 0);
+const base = g => g.setTransform(K, 0, 0, K, 0, 0);
 function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
 function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
   g.stroke(typeof p === 'string' ? P(p) : p); g.restore(); }
@@ -238,7 +240,7 @@ const S = {cur:{}, target:{}, blink:{}, talkUntil:{}, speaker:null, last:null, f
 const R = { place:{}, caches:{}, g:null, t:0,
   // cache a static layer for the current room; rebuilt on the next visit if the room was dropped
   cached(key, fn){ const k = S.room + ':' + key; let c = R.caches[k];
-    if(!c){ c = document.createElement('canvas'); c.width = W * DPR; c.height = H * DPR; const g = c.getContext('2d'); base(g); fn(g); R.caches[k] = c; }
+    if(!c){ c = document.createElement('canvas'); c.width = W * K; c.height = H * K; const g = c.getContext('2d'); base(g); fn(g); R.caches[k] = c; }
     const g = R.g; g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(c, 0, 0); g.restore(); },
   flag(id){ return !!S.flags[id]; },
   motion(key){ const m = S.motion[key]; return m == null ? -1 : R.t - m; },
@@ -273,7 +275,7 @@ let cv = null, ctx = null, last = 0, lastDraw = 0, clock = 0;
 // lettering is baked into cached layers, so drop them once the web fonts have arrived
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { for(const k in R.caches) delete R.caches[k]; });
 const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function ensure(){ if(cv) return; cv = document.createElement('canvas'); cv.id = 'ill'; cv.width = W * DPR; cv.height = H * DPR;
+function ensure(){ if(cv) return; cv = document.createElement('canvas'); cv.id = 'ill'; cv.width = W * K; cv.height = H * K;
   cv.style.cssText = 'position:absolute;left:0;top:0;width:1280px;height:720px;display:block'; ctx = cv.getContext('2d'); R.g = ctx; requestAnimationFrame(frame); }
 function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   // the room runs on its own clock, which never jumps more than a tenth of a second: background tabs and slow laptops just slow down
@@ -282,6 +284,8 @@ function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   for(const id in R.place) if(R.place[id].flag) R.place[id].hidden = !S.flags[R.place[id].flag];
   base(ctx); ctx.filter = 'none'; ctx.globalAlpha = 1; room.paint(ctx, R.t, R); }
 function show(which){ if(!ROOMS[which]){ S.room = null; return; } ensure();
+  const k2 = Math.max(DPR, Math.min(2, (ROOMS[which].res || 1) * DPR));
+  if(k2 !== K){ K = k2; cv.width = W * K; cv.height = H * K; for(const k in R.caches) delete R.caches[k]; }
   if(S.room !== which){ for(const k in R.caches) if(!k.startsWith(which + ':')) delete R.caches[k]; S.speaker = null; S.last = null; }
   S.room = which; const layer = document.getElementById(which); if(layer && cv.parentNode !== layer) layer.insertBefore(cv, layer.firstChild); lastDraw = 0; }
 function expr(who, name){ S.target[who] = name; }
