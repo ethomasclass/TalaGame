@@ -355,11 +355,10 @@ function hand(g, ch, x, y, ang, L, W, curl, flip, thumbTuck){
   const fw = W / 4, knX = L * .5, len = [.4, .46, .43, .34].map(v => v * L * (1 - curl * .62)), ys = [-.375, -.125, .125, .375].map(v => v * W);
   const pieces = [[[-L * .04, 0], [knX - fw * .45, 0], W * .72, W * .98, ch.skin]];
   for(let k = 0; k < 4; k++) pieces.push([[knX - fw * .6, ys[k]], [knX + len[k] - fw * .4, ys[k]], fw * 1.06, fw * .84, k === 3 ? ch.shade : ch.skin]);
-  const thumb = thumbTuck ? [[L * .16, -W * .3], [L * .46, -W * .2], W * .26, W * .22, ch.skin] : [[L * .12, -W * .32], [L * .46, -W * .6], W * .28, W * .22, ch.skin];
+  const thumb = thumbTuck ? [[L * .08, -W * .4], [L * .5, -W * .5], W * .27, W * .22, ch.skin] : [[L * .12, -W * .32], [L * .46, -W * .6], W * .28, W * .22, ch.skin];
   body(g, [thumb]); body(g, pieces);
   // the one hard shadow along the little-finger side of the palm
   g.save(); g.beginPath(); g.rect(-L, W * .16, knX + L - fw * .2, W); g.clip(); limb(g, [-L * .04, 0], [knX - fw * .45, 0], W * .72, W * .98, ch.shade, 1); g.restore();
-  if(thumbTuck) body(g, [thumb]);
   for(let k = 0; k < 3; k++){ const yy = (ys[k] + ys[k + 1]) / 2, tip = knX + Math.min(len[k], len[k + 1]) - fw * .1;
     st(g, `M ${knX - fw * .2} ${yy} L ${tip} ${yy}`, ch.line, .9, .7); }
   if(curl > .5){ for(let k = 0; k < 4; k++) st(g, `M ${knX + len[k] * .55} ${ys[k] - fw * .38} L ${knX + len[k] * .55} ${ys[k] + fw * .38}`, ch.line, .7, .45); }
