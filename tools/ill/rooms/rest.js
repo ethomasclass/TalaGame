@@ -49,10 +49,10 @@ function talaFull(g, t, R){
   body(g, legs); for(const sd of [-1, 1]) { fl(g, rr(x + sd * 16 - 20, hip + 172, 40, 16, 7), '#eceae4'); st(g, rr(x + sd * 16 - 20, hip + 172, 40, 16, 7), '#6a6860', 1); }
   R.char('tala');
   // the arms come round to hold the menus
-  arm(g, 'tala', -1, [x - 46, y + 176 * s], [x - 54, y + 260 * s], [x - 8, y + 250 * s], 20);
+  arm(g, 'tala', -1, [x - 36, y + 178 * s], [x - 42, y + 262 * s], [x - 8, y + 250 * s], 13);
   fl(g, rr(x - 26, y + 216 * s, 58, 70, 3), '#2a1a1c'); fl(g, rr(x - 22, y + 220 * s, 50, 62, 2), '#8a2a2e'); text(g, 'P', x + 3, y + 262 * s, '600 14px "Fraunces", serif', '#e8c46a');
-  arm(g, 'tala', 1, [x + 46, y + 176 * s], [x + 54, y + 262 * s], [x + 14, y + 262 * s], 20);
-  hand(g, 'tala', x - 10, y + 250 * s, .1, 30, 18, .5, false, true); hand(g, 'tala', x + 14, y + 262 * s, Math.PI - .1, 30, 18, .5, true, true);
+  arm(g, 'tala', 1, [x + 36, y + 178 * s], [x + 42, y + 264 * s], [x + 14, y + 262 * s], 13);
+  hand(g, 'tala', x - 10, y + 250 * s, .1, 26, 16, .5, false, true); hand(g, 'tala', x + 14, y + 262 * s, Math.PI - .1, 26, 16, .5, true, true);
   }); }
 
 // Ma at the table, pitcher in hand; the engine triggers 'pour' and 'nod'
@@ -75,15 +75,16 @@ function ma(g, t, R){
 
 // the customer, from behind: we are standing where Tala stands
 function customer(g, t, R){
-  const x = 1120, y = 420; R.layer('customer', g => {
-  fl(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 Z`, '#6d6a8a');
-  fl(g, `M ${x + 20} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 L ${x + 60} 720 Z`, '#58556f');
-  st(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720`, '#26243a', 1.4);
-  fl(g, rr(x - 26, y + 60, 52, 50, 10), '#e5bc98'); el(g, x - 58, y + 8, 9, 16, '#f0caa9'); el(g, x + 58, y + 8, 9, 16, '#e5bc98');
-  el(g, x, y, 62, 70, '#d9b56a'); st(g, `M ${x - 62} ${y} a 62 70 0 1 0 124 0 a 62 70 0 1 0 -124 0`, '#6a5020', 1.3);
-  for(let k = 0; k < 6; k++) st(g, `M ${x - 40 + k * 16} ${y - 60} q ${4 - k} 40 ${-2 + k} 70`, '#b8944a', 1.2, .6);
-  el(g, x, y + 58, 16, 12, '#b8944a'); el(g, x, y + 50, 10, 8, '#c9524a');
-  st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#d9b56a', 14); st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#b8944a', 1.2, .6);
+  // she is the nearest person to us, so her head is the biggest in the room
+  const x = 1120, y = 392, hx = 80, hy = 90, sh = y + 132; R.layer('customer', g => {
+  fl(g, `M ${x - 150} 720 C ${x - 150} ${sh + 50} ${x - 110} ${sh + 10} ${x - 40} ${sh} L ${x + 40} ${sh} C ${x + 110} ${sh + 10} ${x + 150} ${sh + 50} ${x + 150} 720 Z`, '#6d6a8a');
+  fl(g, `M ${x + 20} ${sh} C ${x + 110} ${sh + 10} ${x + 150} ${sh + 50} ${x + 150} 720 L ${x + 60} 720 Z`, '#58556f');
+  st(g, `M ${x - 150} 720 C ${x - 150} ${sh + 50} ${x - 110} ${sh + 10} ${x - 40} ${sh} L ${x + 40} ${sh} C ${x + 110} ${sh + 10} ${x + 150} ${sh + 50} ${x + 150} 720`, '#26243a', 1.4);
+  fl(g, rr(x - 32, y + 60, 64, sh - y - 50, 12), '#e5bc98'); el(g, x - hx + 2, y + 10, 11, 20, '#f0caa9'); el(g, x + hx - 2, y + 10, 11, 20, '#e5bc98');
+  el(g, x, y, hx, hy, '#d9b56a'); st(g, `M ${x - hx} ${y} a ${hx} ${hy} 0 1 0 ${2 * hx} 0 a ${hx} ${hy} 0 1 0 ${-2 * hx} 0`, '#6a5020', 1.3);
+  for(let k = 0; k < 7; k++) st(g, `M ${x - 54 + k * 18} ${y - 78} q ${5 - k} 50 ${-3 + k} 90`, '#b8944a', 1.3, .6);
+  el(g, x, y + 74, 20, 15, '#b8944a'); el(g, x, y + 64, 12, 10, '#c9524a');
+  st(g, `M ${x} ${y + 80} q 8 50 -3 100`, '#d9b56a', 17); st(g, `M ${x} ${y + 80} q 8 50 -3 100`, '#b8944a', 1.2, .6);
   }); }
 
 function tableFront(g){

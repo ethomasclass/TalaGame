@@ -62,20 +62,25 @@ function people(g, t, R){
   const talk = id => ILL.S.talkUntil[id] && R.t < ILL.S.talkUntil[id] ? .2 + .45 * Math.abs(Math.sin(R.t * 13)) : 0;
   const blink = k => (R.t * .37 + k * .29) % 1 < .03 ? 1 : null;
   const E = (name, id, k) => { const e = {...EX[ILL.S.target[id] || name], open:talk(id)}; const b = blink(k); if(b) e.lid = 1; return e; };
-  draw('cargoman', 150, 318, .56, E('working', 'cargoman', 1));
-  draw('mangboy', 352, 316, .62, E('warm', 'mangboy', 2));
-  draw('baker', 704, 318, .54, E('kind', 'baker', 3));
+  draw('cargoman', 150, 328, .24, E('working', 'cargoman', 1));
+  draw('mangboy', 352, 326, .25, E('warm', 'mangboy', 2));
+  draw('baker', 704, 330, .23, E('kind', 'baker', 3));
   // Mrs Ocampo, under the dryer, one eye open
-  const oc = ILL.S.speaker === 'ocampo' ? E('kind', 'ocampo', 4) : E('asleep', 'ocampo', 4); draw('ocampo', 872, 340, .5, oc);
-  const hood = 'M 838 362 C 838 316 906 316 906 362 C 906 372 838 372 838 362 Z';
-  fl(g, hood, '#d9d4e0'); fl(g, 'M 838 362 C 838 316 872 316 872 330 C 858 332 844 344 838 362 Z', '#f0ecf4');
-  st(g, hood, '#6a6470', 1.4); st(g, 'M 906 356 L 904 380 L 904 460', '#6a6470', 3); }
+  // sitting, so lower than the others, with the dryer hood over her head
+  const oc = ILL.S.speaker === 'ocampo' ? E('kind', 'ocampo', 4) : E('asleep', 'ocampo', 4); draw('ocampo', 868, 364, .24, oc);
+  fl(g, rr(846, 400, 44, 40, 6), '#7a4a6a'); fl(g, rr(842, 430, 52, 10, 3), '#5a3a50');
+  const hood = 'M 846 380 C 846 352 890 352 890 380 C 890 385 846 385 846 380 Z';
+  fl(g, hood, '#d9d4e0'); fl(g, 'M 846 380 C 846 352 868 352 868 360 C 858 362 850 370 846 380 Z', '#f0ecf4');
+  st(g, hood, '#6a6470', 1.2); st(g, 'M 890 378 L 896 392 L 896 460', '#6a6470', 2.4); }
 
 function counters(g){
   // counters in front of the shopkeepers, then the glass
-  fl(g, rr(20, 426, 180, 44, 2), '#8a6a4a'); fl(g, rr(260, 420, 200, 50, 2), '#6a4a3a'); fl(g, rr(260, 420, 200, 8, 2), '#8a6a4a');
-  fl(g, rr(620, 414, 134, 56, 2), '#c9b08a'); fl(g, rr(626, 420, 122, 30, 2), 'rgba(230,240,250,.5)');
-  for(let k = 0; k < 4; k++){ el(g, 646 + k * 28, 440, 11, 7, '#c98a44'); }
+  fl(g, rr(20, 398, 180, 72, 2), '#8a6a4a'); fl(g, rr(20, 398, 180, 6, 2), '#a8845e'); fl(g, rr(260, 396, 200, 74, 2), '#6a4a3a'); fl(g, rr(260, 396, 200, 8, 2), '#8a6a4a');
+  fl(g, rr(620, 396, 134, 74, 2), '#c9b08a'); fl(g, rr(626, 402, 122, 34, 2), 'rgba(230,240,250,.5)');
+  for(let k = 0; k < 4; k++){ el(g, 646 + k * 28, 424, 11, 7, '#c98a44'); }
+  // a roll of tape and a box on the cargo counter, a jar of candy on Mang Boy's
+  fl(g, rr(120, 380, 50, 20, 1), '#c9a26a'); st(g, rr(120, 380, 50, 20, 1), '#7a5a30', 1); el(g, 60, 394, 8, 5, '#b8b0a0');
+  fl(g, rr(400, 374, 22, 24, 6), 'rgba(220,236,246,.7)'); for(let k = 0; k < 5; k++) el(g, 405 + k * 3, 390 - (k % 2) * 5, 3, 3, ['#e0453f', '#f0c24a', '#4f8a5a'][k % 3]);
   fl(g, rr(944, 420, 322, 50, 2), '#c7ced6');
   // glass: a sheen over every window, the mullions, the doors
   for(const [a, b] of [[10, 200], [230, 536], [564, 754], [778, 908], [940, 1270]]){
@@ -109,6 +114,6 @@ function life(g, t){
 
 ILL.room('street', { res:2,
   hot:[[104, 340], [312, 338], [652, 400], [810, 316], [1105, 258], [620, 122]],
-  place:{ mangboy:{x:352, y:316, s:.62}, ocampo:{x:862, y:334, s:.5} },
+  place:{ mangboy:{x:352, y:326, s:.25}, ocampo:{x:868, y:364, s:.24} },
   paint(g, t, R){ R.cached('block', block); people(g, t, R); R.cached('counters', counters); life(g, t); } });
 })();
