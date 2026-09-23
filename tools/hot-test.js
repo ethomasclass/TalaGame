@@ -4,7 +4,7 @@ const { chromium } = require('playwright'); const path=require('path');
   const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});
   const page=await b.newPage({viewport:{width:1280,height:720}});
   const errs=[]; page.on('pageerror',e=>errs.push(e.message));
-  await page.goto('file://'+path.resolve('game/nine-mornings.html'),{waitUntil:'networkidle'});
+  await page.goto('file://'+path.resolve(process.env.GAME || 'game/nine-mornings.html'),{waitUntil:'networkidle'});
   await page.evaluate(()=>document.fonts&&document.fonts.ready);
   await page.evaluate(()=>start()); await page.waitForTimeout(500);
   const rooms = await page.evaluate(()=>Object.keys(HOT));
@@ -27,7 +27,8 @@ const { chromium } = require('playwright'); const path=require('path');
   const total = await page.evaluate(()=>Object.values(HOT).reduce((a,l)=>a+l.length,0));
   console.log(`recorded in STATE.seen: ${seen} of ${total}`);
   if(seen !== total) bad.push(`only ${seen}/${total} recorded`);
-  const risky = await page.evaluate(()=>{ const o=[]; for(const r in HOT) for(const h of HOT[r]) if(h.x<910 && h.y>480) o.push(`${r} (${h.x},${h.y})`); return o; });
+  // where each spot is actually drawn, which a painted room may move
+  const risky = await page.evaluate(()=>{ const o=[]; for(const r in HOT) HOT[r].forEach((h0,n)=>{ const h={...h0,...((typeof ILL!=='undefined'&&ILL.spot(r,n))||{})}; if(h.x<910 && h.y>480) o.push(`${r} (${h.x},${h.y})`); }); return o; });
   if(risky.length) bad.push('under the panel on a long beat: '+risky.join(', '));
   console.log(bad.length ? 'PROBLEMS:\n  '+bad.join('\n  ') : 'all hotspots clickable and recorded');
   console.log('errors:', errs.length?errs:'none'); await b.close();

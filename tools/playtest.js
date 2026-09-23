@@ -5,11 +5,11 @@ const VARIANTS = {
   getup: { choice:[2, 2,1,1,1, 1,1,2,1], cook:['C','B','C','A','B'], phone:[3,1,1,1,1] },   // working | errand: chain, panaderia, salon, back | say something, get up, wire in three days, wish: Lola
 };
 (async()=>{
-  const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out='assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
+  const variant=process.argv[2]||'main'; const q=JSON.parse(JSON.stringify(VARIANTS[variant])); const out=process.env.OUT || 'assets/samples/playtest'; fs.mkdirSync(out,{recursive:true});
   const browser=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});
   const page=await browser.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1});
   const errors=[]; page.on('pageerror',e=>errors.push('pageerror: '+e.message)); page.on('console',m=>{ if(m.type()==='error'&&!/ERR_CONNECTION|net::/.test(m.text())) errors.push('console: '+m.text()); });
-  await page.goto('file://'+path.resolve('game/nine-mornings.html'),{waitUntil:'networkidle'});
+  await page.goto('file://'+path.resolve(process.env.GAME || 'game/nine-mornings.html'),{waitUntil:'networkidle'});
   await page.evaluate(()=>document.fonts&&document.fonts.ready); await page.waitForTimeout(300);
   const st=async()=>page.evaluate(()=>({mode,bg,i,busy}));
   let n=0, last=''; const shot=async(tag)=>{ if(variant!=='main') return; n++; await page.waitForTimeout(300); await page.screenshot({path:`${out}/${String(n).padStart(2,'0')}-${tag}.png`}); };

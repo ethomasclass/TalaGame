@@ -24,19 +24,24 @@ const HOOKS = { dining:{tala:['x-tala','tala-'], ma:['x-ma','ma-'], pa:['x-pa','
                 wire:{tala:['x-wtala','w-tala-'], pa:['x-wpa','w-pa-'], clerk:['x-clerk','w-clerk-']} };
 const CHARS = { dining:{tala:'c-tala',ma:'c-ma',pa:'c-pa'}, school:{tala:'c-stala',hannah:'c-han'}, kitchen:{pa:'c-kpa',ando:'c-ando'}, hall:{tala:'c-htala',ma:'c-hma',tita:'c-tita',hannah:'hall-hannah'}, wire:{tala:'c-wtala',pa:'c-wpa',clerk:'c-clerk'} };
 let bg = 'dining';
+// The illustrated build defines ILL (tools/ill/). The classic build does not, and every hook below is a no-op there.
+const ill = typeof ILL !== 'undefined' ? ILL : null;
 function setExpr(who, name){
+  if(ill){ ill.expr(who, name); if(ill.has(bg)) return; }
   const h = HOOKS[bg] && HOOKS[bg][who]; if(!h) return;
   const [b,e,m] = X[who][name]; const [id,pre] = h;
   $(id+'-brows').setAttribute('href', '#'+pre+b); $(id+'-eyes').setAttribute('href', '#'+pre+e); $(id+'-mouth').setAttribute('href', '#'+pre+m);
 }
 function motion(who, names){
+  if(ill) ill.motion(who, names);
   for(const n of names){ const el = $('mo-r'+who+'-'+n); if(!el) continue;
     el.classList.remove('go'); void el.getBoundingClientRect(); el.classList.add('go');
     el.addEventListener('animationend', () => el.classList.remove('go'), {once:true}); }
 }
 let talkTimer = 0;
-function talk(who, ms){ const el = $('talk-r'+who); clearTimeout(talkTimer); if(!el) return; el.classList.add('talking'); talkTimer = setTimeout(() => el.classList.remove('talking'), ms); }
+function talk(who, ms){ if(ill) ill.talk(who, ms); const el = $('talk-r'+who); clearTimeout(talkTimer); if(!el) return; el.classList.add('talking'); talkTimer = setTimeout(() => el.classList.remove('talking'), ms); }
 function focus(who){
+  if(ill) ill.focus(who);
   const m = CHARS[bg] || {};
   for(const c in m){ const el = $(m[c]); if(!el) continue;
     el.classList.toggle('speaking', who===c); el.classList.toggle('quiet', !!who && who!==c && m[who]!==undefined); }
@@ -109,7 +114,9 @@ function pullOut(){ if(!zoomOn) return; zoomOn = false; const el = $('street'); 
 function drawHot(){ const svg = $('hot'); svg.innerHTML = '';
   // nothing to look at while the camera is pushed in: #hot is a stage-level overlay and does not zoom with the layer
   const list = (mode === 'say' && !looking && !zoomOn) ? (HOT[bg] || []) : [];
-  list.forEach((h, n) => { const k = `${bg}:${n}`, seen = STATE.seen.includes(k) ? ' seen' : '';
+  list.forEach((h0, n) => { const k = `${bg}:${n}`, seen = STATE.seen.includes(k) ? ' seen' : '';
+    // a painted room can place the same things somewhere else in its own picture
+    const h = {...h0, ...((ill && ill.spot(bg, n)) || {})};
     svg.insertAdjacentHTML('beforeend', `<circle cx="${h.x}" cy="${h.y}" r="34" data-t="${h.t.replace(/"/g,'&quot;')}" data-k="${k}"></circle><circle class="dot${seen}" cx="${h.x}" cy="${h.y}" r="4"></circle>`); }); }
 function look(text, key){ looking = true;
   if(key && !STATE.seen.includes(key)) STATE.seen.push(key);
@@ -589,7 +596,7 @@ const dlg = $('dlg'), choices = $('choices'), phone = $('phone'), hud = $('hud')
 const txt = v => typeof v === 'function' ? v() : v;
 
 function drawMarks(){ $('marks').innerHTML = [1,2,3,4,5,6,7,8,9].map(n => `<i class="mk${STATE.mornings.includes(n)?' on':''}"></i>`).join(''); }
-function showBg(which){ for(const k in layers){ layers[k].hidden = false; layers[k].classList.toggle('off', k !== which); } bg = which; hud.classList.toggle('dark', which==='cook'); $('alarmtxt').hidden = which !== 'alarm'; }
+function showBg(which){ if(ill) ill.show(which); for(const k in layers){ layers[k].hidden = false; layers[k].classList.toggle('off', k !== which); } bg = which; hud.classList.toggle('dark', which==='cook'); $('alarmtxt').hidden = which !== 'alarm'; }
 function findBeat(id){ return beats.findIndex(b => b.id === id); }
 
 function render(){
@@ -597,7 +604,7 @@ function render(){
   choices.hidden = true; choices.className = 'choices'; $('note').hidden = true; $('photo').hidden = true; $('dragtip').hidden = true; if(mode !== 'drag') clearCookUI(); $('dim').classList.remove('on','soft'); phone.classList.remove('on'); $('inter').classList.remove('on');
   if(b.hud){ $('hud-date').textContent = txt(b.hud[0]); $('hud-sub').textContent = txt(b.hud[1]); }
   if(b.set) b.set();
-  if(b.show) for(const id in b.show){ const on = txt(b.show[id]); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
+  if(b.show) for(const id in b.show){ const on = txt(b.show[id]); if(ill) ill.flag(id, on); const el = $(id); if(el){ on ? el.removeAttribute('hidden') : el.setAttribute('hidden',''); } }
   $('dawn').classList.toggle('sunrise', !!b.sunrise);
   drawMarks();
   if(b.debrief) return debriefCard();
@@ -634,6 +641,7 @@ function render(){
     $('line').innerHTML = (tl ? `<span class="tlline">${tl}</span>` : '') + gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t);
     focus(who);
     if(bg === 'rest' && who === 'ma' && !b.offstage) talk('ma', Math.min(2600, 380 + t.length * 45));
+    else if(ill && !b.offstage) ill.talk(who, Math.min(2600, 380 + t.length * 45));
   }
   const aside = txt(b.aside); $('aside').className = 'aside'; $('aside').hidden = !aside; if(aside) $('aside').innerHTML = gloss(aside);
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
@@ -835,7 +843,7 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `Tala wished ${W[STATE.wish] || '…'}. The game does not say whether it comes true.<br><br>${STATE.invitedHannah ? 'Hannah came.' : 'Hannah was not asked.'} The puto bumbong was ${ {lola:'Lola’s', close:'close to Lola’s', off:'not Lola’s'}[STATE.cook.out] }. What Tala told Bea all week was ${tone}. ${noticed} <span class="tally">${n} of ${total}</span>`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
+function restart(){ if(ill) ill.reset(); met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
 function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
@@ -883,3 +891,4 @@ $('end').addEventListener('click', restart);
 // -------- fit the 1280x720 stage to the window --------
 function fit(){ const s = Math.min(innerWidth/1280, innerHeight/720); const st = $('stage').style; st.transform = `scale(${s})`; st.left = ((innerWidth-1280*s)/2)+'px'; st.top = ((innerHeight-720*s)/2)+'px'; }
 addEventListener('resize', fit); fit(); drawMarks(); showBg('dawn'); dlg.hidden = true;
+if(ill) ill.portraits();

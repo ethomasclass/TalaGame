@@ -8,7 +8,7 @@ const item=(pg,id)=>pg.evaluate(id=>{const r=document.getElementById(id).getBoun
   const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});
   const page=await b.newPage({viewport:{width:1280,height:720}});
   const errs=[]; page.on('pageerror',e=>errs.push((e.stack||e.message).split('\n').slice(0,4).join(' <- '))); const bad=[];
-  await page.goto('file://'+path.resolve('game/nine-mornings.html'),{waitUntil:'networkidle'});
+  await page.goto('file://'+path.resolve(process.env.GAME || 'game/nine-mornings.html'),{waitUntil:'networkidle'});
   await page.evaluate(()=>document.fonts&&document.fonts.ready);
   await page.evaluate(()=>start()); await page.waitForTimeout(400);
   const enter=async c=>{ const n=await page.evaluate(c=>beats.findIndex(x=>x.cook===c),c);

@@ -365,3 +365,42 @@ open(G/'nine-mornings.html','w').write(html)
 art = html.replace('<!doctype html><html lang="en"><head><meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n','').replace('</head><body>\n','').replace('</body></html>\n','')
 open(G/'nine-mornings-artifact.html','w').write(art)
 print('built', len(html)//1024, 'KB')
+
+# ---------------- the illustrated build ----------------
+# Same page, same engine, same beats. Rooms that tools/ill/rooms/ paints lose their SVG and get the shared canvas.
+# Their <defs> are kept in a hidden sprite, because other layers still <use> the dining rigs until they convert too.
+import glob as _glob
+ILL_ROOMS = sorted(pathlib.Path(f).stem for f in _glob.glob('tools/ill/rooms/*.js'))
+def _layer_span(page, lid):
+    a = page.index(f'<div class="layer" id="{lid}"'); i = page.index('>', a) + 1; depth = 1
+    for m in re.finditer(r'<div\b|</div>', page[i:]):
+        depth += 1 if m.group(0) != '</div>' else -1
+        if depth == 0: return a, i, i + m.start(), i + m.end()
+    raise ValueError(lid)
+# interactive pieces the engine still drives by id stay as SVG, over the canvas
+KEEP = {'wire':['wire-receipt', 'drag-bills']}
+def _g_span(src, gid):
+    a = src.index(f'<g id="{gid}"'); depth = 0
+    for m in re.finditer(r'<g\b|</g>', src[a:]):
+        depth += 1 if m.group(0) != '</g>' else -1
+        if depth == 0: return src[a:a + m.end()]
+ill = html; kept = []
+for lid in ILL_ROOMS:
+    a, i, z, e = _layer_span(ill, lid); inner = ill[i:z]
+    kept += re.findall(r'<defs>[\s\S]*?</defs>', inner)
+    over = ''.join(_g_span(inner, gid).replace(' filter="url(#roughFine)"', '').replace(' filter="url(#rough)"', '') for gid in KEEP.get(lid, []))
+    ill = ill[:i] + (f'<svg class="keep" width="1280" height="720" viewBox="0 0 1280 720" style="position:absolute;left:0;top:0;pointer-events:none">{over}</svg>' if over else '') + ill[z:]
+sprite = '<svg width="0" height="0" style="position:absolute" aria-hidden="true">' + ''.join(kept) + '</svg>'
+ill = ill.replace('<div id="viewport"><div class="stage" id="stage">', '<div id="viewport"><div class="stage" id="stage">\n' + sprite, 1)
+ill_js = '\n'.join(open(f).read() for f in ['tools/ill/core.js', 'tools/ill/cast.js'] + sorted(_glob.glob('tools/ill/rooms/*.js')))
+eng = '<script>\n' + open('tools/game-engine.js').read()
+assert ill.count(eng) == 1
+ill = ill.replace(eng, '<script>\n' + ill_js + '\n</script>\n' + eng, 1).replace('<title>Nine Mornings</title>', '<title>Nine Mornings, illustrated</title>', 1)
+# every internal reference must still resolve
+_ids = set(re.findall(r'\bid="([^"]+)"', ill))
+_miss = sorted({r for r in re.findall(r'(?:href="#|url\(#)([\w.-]+)', ill) if r not in _ids})
+assert not _miss, f'unresolved refs in illustrated build: {_miss[:12]}'
+open(G/'nine-mornings-illustrated.html', 'w').write(ill)
+art = ill.replace('<!doctype html><html lang="en"><head><meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n','').replace('</head><body>\n','').replace('</body></html>\n','')
+open(G/'nine-mornings-illustrated-artifact.html', 'w').write(art)
+print('built illustrated', len(ill)//1024, 'KB · painted rooms:', ', '.join(ILL_ROOMS))
