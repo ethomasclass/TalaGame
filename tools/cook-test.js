@@ -80,7 +80,8 @@ const item=(pg,id)=>pg.evaluate(id=>{const r=document.getElementById(id).getBoun
     console.log(`tube dips: ${s1} (fill ${w1}px) then ${s2} (fill ${w2}px)`);
     if(!(s1===1 && s2===2)) bad.push('dipping did not register scoops');
     if(!(w2>w1 && w1>0)) bad.push('the tube fill does not visibly grow');
-    await page.mouse.move(pot.x,pot.y,{steps:6}); await page.mouse.up(); await page.waitForTimeout(600);
+    // finishDrag holds the result on screen for 600ms before moving on, so wait past that before judging
+    await page.mouse.move(pot.x,pot.y,{steps:6}); await page.mouse.up(); await page.waitForTimeout(1000);
     if(await page.evaluate(()=>mode)==='drag') bad.push('a filled tube was refused by the steamer'); }
 
   // ---- targets must be on screen for every drag that has one ----

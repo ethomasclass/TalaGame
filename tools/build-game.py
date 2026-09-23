@@ -392,6 +392,16 @@ for lid in ILL_ROOMS:
     ill = ill[:i] + (f'<svg class="keep" width="1280" height="720" viewBox="0 0 1280 720" style="position:absolute;left:0;top:0;pointer-events:none">{over}</svg>' if over else '') + ill[z:]
 sprite = '<svg width="0" height="0" style="position:absolute" aria-hidden="true">' + ''.join(kept) + '</svg>'
 ill = ill.replace('<div id="viewport"><div class="stage" id="stage">', '<div id="viewport"><div class="stage" id="stage">\n' + sprite, 1)
+# the cooking screens keep every id and coordinate the engine and cook-test rely on. Only their filters change:
+# the crayon displacement becomes an ink outline and one hard shadow, and the blurred drop shadows go hard.
+INK = lambda fid, r, dx, dy, op: (f'<filter id="{fid}" x="-10%" y="-10%" width="125%" height="125%">'
+    f'<feMorphology in="SourceAlpha" operator="dilate" radius="{r}" result="d"/><feFlood flood-color="#1c100b"/><feComposite in2="d" operator="in" result="ink"/>'
+    f'<feOffset in="SourceAlpha" dx="{dx}" dy="{dy}" result="o"/><feFlood flood-color="#2a140c" flood-opacity="{op}"/><feComposite in2="o" operator="in" result="sh"/>'
+    f'<feMerge><feMergeNode in="sh"/><feMergeNode in="ink"/><feMergeNode in="SourceGraphic"/></feMerge></filter>')
+a0 = ill.index('<div class="layer" id="cook"'); a1, _i, z1, _e = _layer_span(ill, 'cook'); cooksrc = ill[a1:z1]
+for fid, rep in [('td-rough', INK('td-rough', 1.6, 5, 7, .22)), ('td-roughFine', INK('td-roughFine', 1.1, 3, 4, .2)), ('td-mid', '<filter id="td-mid"><feOffset dx="5" dy="8"/></filter>')]:
+    cooksrc, n = re.subn(r'<filter id="%s"[\s\S]*?</filter>' % fid, rep, cooksrc, count=1); assert n == 1, fid
+ill = ill[:a1] + cooksrc + ill[z1:]
 ill_js = '\n'.join(open(f).read() for f in ['tools/ill/core.js', 'tools/ill/cast.js'] + sorted(_glob.glob('tools/ill/rooms/*.js')))
 eng = '<script>\n' + open('tools/game-engine.js').read()
 assert ill.count(eng) == 1

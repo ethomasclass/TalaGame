@@ -67,17 +67,17 @@ function counter(g){
 function props(g, t, R){
   const pl = R.place;
   // Pa: the knife in his right hand, his left flat on the board, the way he is showing Ando
-  R.dim('pa'); { const x = pl.pa.x, W = 52, L = 88;
+  R.layer('pa', g => { { const x = pl.pa.x, W = 52, L = 88;
     arm(g, 'pa', -1, [x - 90, 350], [x - 118, 404], [x - 66, 440], W * .72); arm(g, 'pa', 1, [x + 90, 350], [x + 118, 404], [x + 76, 434], W * .72);
     hand(g, 'pa', x - 68, 438, .02, L, W, .15, false, true);
     g.save(); g.translate(x + 30, 420); g.rotate(-.3); fl(g, 'M 0 -5 L 104 -3 Q 116 4 104 6 L 0 5 Z', '#dfe3e6'); st(g, 'M 0 -5 L 104 -3 Q 116 4 104 6 L 0 5 Z', '#4a4e52', 1.2);
     fl(g, rr(-46, -7, 48, 14, 5), '#2a2622'); g.restore();
     hand(g, 'pa', x + 80, 432, Math.PI + .3, L * .9, W, .75, true, true); }
   // Ando: both hands on the edge of the counter, holding on
-  R.dim('ando'); { const x = pl.ando.x, W = 48, L = 82;
+  });R.layer('ando', g => { { const x = pl.ando.x, W = 48, L = 82;
     arm(g, 'ando', -1, [x - 80, 360], [x - 110, 412], [x - 70, 436], W * .7); arm(g, 'ando', 1, [x + 80, 360], [x + 110, 412], [x + 70, 436], W * .7);
     hand(g, 'ando', x - 72, 434, .5, L, W, .5, false, true); hand(g, 'ando', x + 72, 434, Math.PI - .5, L, W, .5, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('kitchen', {
   hot:[[300, 215], [64, 300]],

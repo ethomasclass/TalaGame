@@ -10,15 +10,25 @@ let K = DPR;
 const P = s => new Path2D(s);
 const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 const base = g => g.setTransform(K, 0, 0, K, 0, 0);
-function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
-function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
+// While somebody who is not speaking is drawn, every colour passes through dimC: a touch darker and greyer.
+// It costs nothing per frame (the mapping is cached), where a canvas filter or an offscreen copy cost whole frames.
+let DIM = false; const DC = new Map();
+const dimC = c => { if(!DIM || typeof c !== 'string') return c; let v = DC.get(c); if(v) return v;
+  let r, gg, b, a = 1, m = /^#([0-9a-f]{6})$/i.exec(c);
+  if(m){ const n = parseInt(m[1], 16); r = n >> 16; gg = n >> 8 & 255; b = n & 255; }
+  else if((m = /^rgba?\(([^)]+)\)$/.exec(c))){ const q = m[1].split(',').map(Number); [r, gg, b] = q; if(q.length > 3) a = q[3]; }
+  else if(/^#[0-9a-f]{3}$/i.test(c)){ [r, gg, b] = [1, 2, 3].map(i => parseInt(c[i] + c[i], 16)); } else return c;
+  const l = .3 * r + .59 * gg + .11 * b, f = x => Math.round((x * .9 + l * .1) * .84);
+  v = `rgba(${f(r)},${f(gg)},${f(b)},${a})`; DC.set(c, v); return v; };
+function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = dimC(c); g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
+function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = dimC(c); g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
   g.stroke(typeof p === 'string' ? P(p) : p); g.restore(); }
-function el(g, x, y, rx, ry, c, a, rot){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
+function el(g, x, y, rx, ry, c, a, rot){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = dimC(c); g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
 function clip(g, p, fn){ g.save(); g.clip(typeof p === 'string' ? P(p) : p); fn(); g.restore(); }
 const rr = (x, y, w, h, r) => { r = Math.min(r, w / 2, h / 2); return P(`M ${x + r} ${y} L ${x + w - r} ${y} Q ${x + w} ${y} ${x + w} ${y + r} L ${x + w} ${y + h - r} Q ${x + w} ${y + h} ${x + w - r} ${y + h} L ${x + r} ${y + h} Q ${x} ${y + h} ${x} ${y + h - r} L ${x} ${y + r} Q ${x} ${y} ${x + r} ${y} Z`); };
 function rgrad(g, x, y, r0, r1, stops){ const gr = g.createRadialGradient(x, y, r0, x, y, r1); stops.forEach(([o, c]) => gr.addColorStop(o, c)); return gr; }
 function lgrad(g, x0, y0, x1, y1, stops){ const gr = g.createLinearGradient(x0, y0, x1, y1); stops.forEach(([o, c]) => gr.addColorStop(o, c)); return gr; }
-function text(g, s, x, y, font, col, align){ g.save(); g.font = font; g.fillStyle = col; g.textAlign = align || 'center'; g.fillText(s, x, y); g.restore(); }
+function text(g, s, x, y, font, col, align){ g.save(); g.font = font; g.fillStyle = dimC(col); g.textAlign = align || 'center'; g.fillText(s, x, y); g.restore(); }
 
 // ====================== THE RIG ======================
 const CAST = {}, HAIR = {};
@@ -77,7 +87,7 @@ function drawEye(g, ch, side, e){
   if(lid > .9){ st(g, upper, lash, ch.glasses ? 1 : 1.15); return; }
   const open = P(`${upper} C ${l1[0]} ${l1[1]} ${l2[0]} ${l2[1]} ${q.o[0]} ${q.o[1]} Z`);
   clip(g, open, () => {
-    g.fillStyle = ch.white || '#f1e9df'; g.fillRect(q.c[0] - 13, q.c[1] - 9, 26, 18);
+    g.fillStyle = dimC(ch.white || '#f1e9df'); g.fillRect(q.c[0] - 13, q.c[1] - 9, 26, 18);
     const gx = Math.max(-2.7, Math.min(2.7, e.gx)), gy = Math.max(-2.2, Math.min(2.6, e.gy)), ix = q.c[0] + gx, iy = q.c[1] + .2 + gy, r = 4.7 * ch.eyeS;
     el(g, ix, iy, r, r, ch.iris); el(g, ix, iy, 1.95 * ch.eyeS, 1.95 * ch.eyeS, '#0d0806');
     el(g, ix - 1.5, iy - 1.7, .95, .95, '#fff', .92); });
@@ -103,7 +113,7 @@ function drawMouth(g, ch, e){
   const m = ch.mouth, y = m.y, w = m.w * (1 - e.o * .42) * (1 + Math.max(0, e.curve) * .14), c = e.curve, o = (e.open || 0) + e.o * .55 + e.grin * .35, uh = m.uh * (1 - e.press * .55), lh = m.lh * (1 - e.press * .45);
   const lift = c > 0 ? c * 3.4 : c * 2.2, L = [100 - w, y - lift], R = [100 + w, y - lift], mid = y + 1.2 + Math.max(0, c) * 1.2, oy = o * 5.5;
   if(o > .05){ const inner = P(`M ${L[0]} ${L[1]} Q 100 ${mid - e.o * 2} ${R[0]} ${R[1]} Q 100 ${mid + oy} ${L[0]} ${L[1]} Z`);
-    fl(g, inner, '#4a1c18'); clip(g, inner, () => { g.fillStyle = '#efe6da'; g.fillRect(100 - w * .8, mid - 1.4 - e.grin, w * 1.6, 1.8 + e.grin * 2.2); }); }
+    fl(g, inner, '#4a1c18'); clip(g, inner, () => { g.fillStyle = dimC('#efe6da'); g.fillRect(100 - w * .8, mid - 1.4 - e.grin, w * 1.6, 1.8 + e.grin * 2.2); }); }
   fl(g, `M ${L[0]} ${L[1]} C ${100 - w * .55} ${y - uh * .85} 97.5 ${y - uh - .3} 100 ${y - uh + .7} C 102.5 ${y - uh - .3} ${100 + w * .55} ${y - uh * .85} ${R[0]} ${R[1]} Q 100 ${mid - e.o * 2} ${L[0]} ${L[1]} Z`, ch.lips[0]);
   fl(g, `M ${L[0]} ${L[1]} Q 100 ${mid + oy} ${R[0]} ${R[1]} C ${100 + w * .6} ${y + lh + oy} ${100 - w * .6} ${y + lh + oy} ${L[0]} ${L[1]} Z`, ch.lips[1]);
   st(g, `M ${L[0]} ${L[1]} Q 100 ${mid} ${R[0]} ${R[1]}`, '#5e2a25', .8);
@@ -196,7 +206,7 @@ function drawHead(g, id, e, torso){
 // Pieces that touch merge into one silhouette with a single outline, the way an inked drawing does.
 const OL = 1.3;
 function limb(g, a, b, w1, w2, col, pass, flat){ const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy) || 1, nx = -dy / d, ny = dx / d, o = pass ? 0 : OL;
-  const h1 = w1 / 2 + o, h2 = w2 / 2 + o; g.fillStyle = pass ? col : '#1c100b';
+  const h1 = w1 / 2 + o, h2 = w2 / 2 + o; g.fillStyle = dimC(pass ? col : '#1c100b');
   g.beginPath(); g.moveTo(a[0] + nx * h1, a[1] + ny * h1); g.lineTo(b[0] + nx * h2, b[1] + ny * h2); g.lineTo(b[0] - nx * h2, b[1] - ny * h2); g.lineTo(a[0] - nx * h1, a[1] - ny * h1); g.fill();
   // flat: square both ends. 'b': round at a, square hem at b
   if(flat === true) return; g.beginPath(); g.arc(a[0], a[1], h1, 0, 6.2832); if(flat !== 'b') g.arc(b[0], b[1], h2, 0, 6.2832); g.fill(); }
@@ -237,6 +247,9 @@ function arm(g, id, side, sh, el_, wr, W, reach){
 // ====================== RUNTIME ======================
 const ROOMS = {};
 const S = {cur:{}, target:{}, blink:{}, talkUntil:{}, speaker:null, last:null, flags:{}, motion:{}, room:null, t:0, dt:0};
+let inLayer = false;
+const stats = {frames:0, ms:0};
+const dimmed = id => !!S.speaker && S.speaker !== id;
 const R = { place:{}, caches:{}, g:null, t:0,
   // cache a static layer for the current room; rebuilt on the next visit if the room was dropped
   cached(key, fn){ const k = S.room + ':' + key; let c = R.caches[k];
@@ -247,14 +260,14 @@ const R = { place:{}, caches:{}, g:null, t:0,
   speaking(id){ return S.speaker === id; },
   // draw a person at their room placement. over: {x,y,s,torso,expr,flip}
   char(id, over){ const pl = {...R.place[id], ...(over || {})}, ch = CAST[id]; if(!ch) return;
+    if(!inLayer && dimmed(id) && !pl.noDim) return R.layer(id, () => R.char(id, over));
     const e = face(id, pl); const g = R.g; g.save();
-    if(S.speaker && S.speaker !== id && !pl.noDim) g.filter = 'brightness(.84) saturate(.9)';
     const breathe = calm ? 0 : Math.sin(R.t * 1.5 + pl.x) * 1.2 * pl.s / 1.5;
     g.translate(pl.x + (pl.flip ? 100 * pl.s : -100 * pl.s), pl.y + breathe); g.scale(pl.flip ? -pl.s : pl.s, pl.s);
     if(pl.tilt) { g.translate(100, 150); g.rotate(pl.tilt); g.translate(-100, -150); }
     drawHead(g, id, e, pl.torso); g.restore(); },
-  dim(id){ R.g.filter = S.speaker && S.speaker !== id ? 'brightness(.84) saturate(.9)' : 'none'; },
-  undim(){ R.g.filter = 'none'; },
+  // draw one person (and their props) dimmed if somebody else is speaking
+  layer(id, fn){ if(inLayer || !dimmed(id)){ fn(R.g); return; } inLayer = true; DIM = true; try { fn(R.g); } finally { DIM = false; inLayer = false; } },
 };
 function face(id, pl){
   // ease every number toward the target expression, then layer blink, talk and gaze on top
@@ -282,7 +295,7 @@ function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   const t = now / 1000; if(now - lastDraw < 30) return; S.dt = Math.max(0, Math.min(.1, t - (last || t))); last = t; lastDraw = now; clock += S.dt;
   R.t = calm ? clock * .25 : clock; const room = ROOMS[S.room]; R.place = room.place || {};
   for(const id in R.place) if(R.place[id].flag) R.place[id].hidden = !S.flags[R.place[id].flag];
-  base(ctx); ctx.filter = 'none'; ctx.globalAlpha = 1; room.paint(ctx, R.t, R); }
+  const p0 = performance.now(); base(ctx); ctx.globalAlpha = 1; R.g = ctx; room.paint(ctx, R.t, R); stats.frames++; stats.ms += performance.now() - p0; }
 function show(which){ if(!ROOMS[which]){ S.room = null; return; } ensure();
   const k2 = Math.max(DPR, Math.min(2, (ROOMS[which].res || 1) * DPR));
   if(k2 !== K){ K = k2; cv.width = W * K; cv.height = H * K; for(const k in R.caches) delete R.caches[k]; }
@@ -299,11 +312,12 @@ function portraits(){ const css = [];
   for(const id in CAST){ const ch = CAST[id]; if(ch.noPortrait) continue; const c = document.createElement('canvas'); c.width = c.height = 144; const g = c.getContext('2d');
     g.fillStyle = ch.avBg || '#c9a088'; g.fillRect(0, 0, 144, 144); const s = 1.28; g.setTransform(s, 0, 0, s, 72 - 100 * s, 78 - 80 * s);
     drawHead(g, id, {...EX.neutral, ...(ch.portraitExpr ? EX[ch.portraitExpr] : {}), open:0}, false);
-    css.push(`.av.port.av-${id}{background-image:url(${c.toDataURL()})!important;background-size:cover!important;background-position:center!important}`); }
+    // every avatar of this person: the dialogue card and the little ones in the phone thread
+    css.push(`.av.av-${id}{background-image:url(${c.toDataURL()})!important;background-size:cover!important;background-position:center!important}`); }
   const tag = document.createElement('style'); tag.textContent = css.join('\n'); document.head.appendChild(tag); }
 
 return { W, H, DPR, P, hash, base, fl, st, el, clip, rr, rgrad, lgrad, text, limb, body, hand, arm, drawHead, EX,
   cast(id, def){ CAST[id] = def; }, hair(id, def){ HAIR[id] = def; }, room(id, def){ ROOMS[id] = def; },
-  has(id){ return !!ROOMS[id]; }, spot(id, n){ const r = ROOMS[id], h = r && r.hot && r.hot[n]; return h ? {x:h[0], y:h[1]} : null; }, CAST, HAIR, ROOMS, S, R,
+  stats, has(id){ return !!ROOMS[id]; }, spot(id, n){ const r = ROOMS[id], h = r && r.hot && r.hot[n]; return h ? {x:h[0], y:h[1]} : null; }, CAST, HAIR, ROOMS, S, R,
   show, expr, focus, talk, motion, flag, reset, portraits };
 })();

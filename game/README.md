@@ -64,3 +64,45 @@ inlined SVG, and Caveat is embedded as base64. `tools/playtest.js [main|getup]` 
 decisions with Playwright, screenshots every screen to
 `assets/samples/playtest/`, and prints the final `STATE`. Both variants
 must end with `errors: none`.
+
+## The illustrated build
+
+`nine-mornings-illustrated.html` (and `-artifact.html`) is the same game —
+same engine, beats, state, choices, hotspots and cooking controls — with
+every room repainted in the Illustrated style on a Canvas 2D renderer. The
+classic build above is unchanged and stays the classroom version until the
+illustrated one is signed off.
+
+| Where | What |
+|---|---|
+| `tools/ill/core.js` | The renderer: drawing primitives, the character rig, expressions, arms and hands, the frame loop, portraits, and the engine hooks. |
+| `tools/ill/cast.js` | Everybody, as numbers: face shape, colours, hair, clothes, per-room outfits. |
+| `tools/ill/rooms/<layer id>.js` | One file per room, named after the engine's layer id. A file existing is what makes the build paint that room. |
+| `tools/ill-preview.js <room> <n,n> <dir>` | Screenshots the nth beat(s) on a background in the illustrated build. |
+
+How it fits the engine:
+
+- One canvas moves into whichever layer `showBg` shows. Static parts of a
+  room are cached; people, steam, snow and lamps are painted each frame, at
+  most 30 times a second, on the room's own clock.
+- `setExpr`, `focus`, `talk`, `motion`, `show` and `restart` also tell the
+  renderer. Every hook is guarded by `typeof ILL`, so the classic build
+  behaves exactly as before.
+- Expressions are the engine's names (`quiet`, `wince`, `counting`…), eased
+  as numbers. Listeners look at whoever is speaking; non-speakers are drawn
+  a shade darker.
+- A painted room may move its hotspots (`hot:[[x,y],…]`, same order and text
+  as `HOT` in the engine). The street keeps every storefront where the
+  push-ins expect it and paints at 2× so the zooms stay sharp.
+- The money on the transfer counter and the receipt stay SVG over the
+  canvas, because the engine drags them by id. The cooking screens keep all
+  their SVG and ids; only their filters change, from crayon texture to an
+  ink outline and one hard shadow.
+- No `ctx.filter` and no offscreen copies per frame: both cost whole frames
+  in software rendering on school laptops. Dimming is a colour mapping.
+
+Every test takes `GAME=` to point at either build, and `playtest.js` takes
+`OUT=` for its screenshots:
+
+    GAME=game/nine-mornings-illustrated.html node tools/hot-test.js
+    GAME=game/nine-mornings-illustrated.html OUT=/tmp/shots node tools/playtest.js main

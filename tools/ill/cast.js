@@ -120,3 +120,17 @@ ILL.hair('ocampo', { back:P('M 50 60 C 44 30 70 10 100 10 C 130 10 156 30 150 60
   after(g, ch){ for(let k = 0; k < 5; k++){ const x = 64 + k * 18; ILL.el(g, x, 30 - Math.sin(k / 4 * Math.PI) * 8, 8, 6, '#e7a3b8'); ILL.st(g, `M ${x - 8} ${30 - Math.sin(k / 4 * Math.PI) * 8} l 16 0`, '#b56f86', .8); }
     ILL.st(g, 'M 50 58 C 46 30 70 12 100 12 C 130 12 154 30 150 58', '#6a5a5a', .9, .6); } });
 })();
+
+// ---------- Batangas, on the phone ----------
+(() => { const P = ILL.P;
+ILL.cast('bea', { avBg:'#e8b86a', portraitExpr:'smile',
+  skin:'#b97a52', shade:'#96603f', neck:'#ab7150', line:'#4e2c1d', lips:['#94504a', '#a45c52'], iris:'#2e1d16', brow:'#1b1311', hair:'#161111', hairShine:'#342826',
+  face:{cw:37, jw:27, jy:114, cy:128, chw:7}, eyeS:1.02, nose:1, mouth:{y:109.6, w:12.4, uh:2.5, lh:5.4}, brows:{ti:2.4, to:1, peak:60.4},
+  neckW:17.5, hairStyle:'bea', ears:false, age:0,
+  clothes:{col:'#f4f2ea', shade:'#d8d4c8', line:'#6a665a', neck:'collar', under:'#f4f2ea', trim:'#eceae2', reach:'short'} });
+// a chin-length bob with a straight fringe
+ILL.hair('bea', { back:P('M 100 16 C 140 16 156 44 156 80 C 156 100 156 118 152 130 L 48 130 C 44 118 44 100 44 80 C 44 44 60 16 100 16 Z'),
+  front:[P('M 50 58 C 48 84 50 108 52 130 L 66 130 C 62 108 61 84 64 60 Z'), P('M 150 58 C 152 84 150 108 148 130 L 134 130 C 138 108 139 84 136 60 Z'),
+    P('M 100 15 C 130 15 148 32 150 62 C 146 60 140 58 136 58 C 120 55.5 80 55.5 64 58 C 60 58 54 60 50 62 C 52 32 70 15 100 15 Z')],
+  shine:['M 96 21 C 116 20 132 28 140 40 C 130 32 114 25 96 24 Z'] });
+})();

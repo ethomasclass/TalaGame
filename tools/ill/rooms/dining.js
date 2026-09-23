@@ -99,12 +99,12 @@ function props(g, t, R, d){
   if(call){ g.save(); g.translate(484, 462); g.rotate(.07); fl(g, rr(-36, -18, 72, 36, 3), '#f4efe4');
     st(g, 'M -36 -18 L 0 4 L 36 -18', '#c9bfae', 1.2); st(g, 'M -22 7 q 6 -4 12 0 t 12 0 t 12 0', '#5a4a8a', .9, .7); st(g, rr(-36, -18, 72, 36, 3), '#a89c86', 1); g.restore(); }
   // Tala, both hands wrapped around a mug of tsokolate
-  R.dim('tala'); { const x = pl.tala.x, W = 52, L = 88;
+  R.layer('tala', g => { { const x = pl.tala.x, W = 52, L = 88;
     arm(g, 'tala', -1, [x - 86, 398], [x - 124, 446], [x - 80, 472], W * .72); arm(g, 'tala', 1, [x + 86, 398], [x + 124, 446], [x + 80, 468], W * .72);
     mug(g, x, 410, 1, t, true);
     hand(g, 'tala', x - 72, 470, -.06, L, W, .35, false); hand(g, 'tala', x + 72, 466, Math.PI + .06, L, W, .35, true); }
   // Ma: counting the money twice when she is counting, otherwise her hands flat either side of her cup
-  R.dim('ma'); { const x = pl.ma.x, W = 52, L = 90;
+  });R.layer('ma', g => { { const x = pl.ma.x, W = 52, L = 90;
     if(counting || call){
       arm(g, 'ma', -1, [x - 86, 400], [x - 126, 448], [x - 84, 488], W * .72); arm(g, 'ma', 1, [x + 86, 400], [x + 128, 444], [x + 90, 472], W * .72);
       bill(g, x - 16, 478, -.05); bill(g, x - 12, 474, .04); bill(g, x - 14, 470, -.02);
@@ -115,11 +115,11 @@ function props(g, t, R, d){
       mug(g, x, 420, .82, t, true);
       hand(g, 'ma', x - 72, 480, .05, L, W, .2, false, true); hand(g, 'ma', x + 72, 480, Math.PI - .05, L, W, .2, true, true); } }
   // Pa, hands folded, sleeves rolled
-  R.dim('pa'); { const x = pl.pa.x, W = 54, L = 92;
+  });R.layer('pa', g => { { const x = pl.pa.x, W = 54, L = 92;
     arm(g, 'pa', -1, [x - 92, 394], [x - 130, 444], [x - 70, 484], W * .74); arm(g, 'pa', 1, [x + 92, 394], [x + 130, 444], [x + 70, 478], W * .74);
     if(d < 22){ mug(g, x + 150, 440, .8, t, false); g.save(); g.translate(x + 150, 500); el(g, 0, 0, 22, 12, '#d99a52'); st(g, 'M -22 0 a 22 12 0 1 0 44 0 a 22 12 0 1 0 -44 0', '#7a4420', 1); g.restore(); }
     hand(g, 'pa', x - 70, 482, -.1, L, W, .8, false, true); hand(g, 'pa', x + 70, 474, Math.PI + .12, L, W, .8, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('dining', {
   hot:[[150, 174], [1144, 185], [470, 96], [908, 170]],

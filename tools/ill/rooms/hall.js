@@ -38,8 +38,12 @@ function room(g){
   g.save(); g.translate(660, 158); g.rotate(-.01); fl(g, rr(-222, -30, 444, 60, 6), '#b8413a'); fl(g, rr(-214, -23, 428, 46, 4), '#e0685c');
   text(g, 'MALIGAYANG PASKO', 0, 11, '600 30px "Fraunces", Georgia, serif', '#fff4e0'); g.restore();
   // the crowd behind the table, talking over each other
-  for(const [x, y, s, k] of CROWD){ g.save(); g.filter = 'saturate(.75) brightness(.95)'; g.translate(x - 100 * s, y); g.scale(s, s);
-    drawHead(g, 'parish' + k, {...EX[PARISH[k][3]], gx:(hash(k) - .5) * 4, open:hash(k + 3) > .5 ? .3 : 0}, true); g.restore(); }
+  // drawn to their own layer and knocked back with one wash of the wall colour, so they sit behind the family
+  const cc = document.createElement('canvas'); cc.width = g.canvas.width; cc.height = g.canvas.height; const cg = cc.getContext('2d'); cg.setTransform(g.getTransform());
+  for(const [x, y, s, k] of CROWD){ cg.save(); cg.translate(x - 100 * s, y); cg.scale(s, s);
+    drawHead(cg, 'parish' + k, {...EX[PARISH[k][3]], gx:(hash(k) - .5) * 4, open:hash(k + 3) > .5 ? .3 : 0}, true); cg.restore(); }
+  cg.globalCompositeOperation = 'source-atop'; cg.fillStyle = 'rgba(236,214,172,.22)'; cg.fillRect(0, 0, 1280, 720);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(cc, 0, 0); g.restore();
   // the long table: white cloth, the salabat urn, the pan de sal
   fl(g, rr(260, TY, 1020, 90, 0), '#f6f1e6'); fl(g, rr(260, TY, 1020, 10, 0), '#fffbf2'); st(g, `M 260 ${TY} L 1280 ${TY}`, '#c9bfa8', 1.4);
   for(let k = 0; k < 12; k++) st(g, `M ${280 + k * 86} ${TY + 12} q 4 40 -2 78`, '#e2d8c4', 1.4);
@@ -65,14 +69,14 @@ function videoke(g, t){
 // Hannah, in the doorway, in her coat, if she came
 function hannah(g, t, R){
   const pl = R.place.hannah; if(pl.hidden) return; const x = pl.x, s = pl.s, hip = pl.y + 344 * s;
-  R.dim('hannah'); body(g, [[[x - 20, hip - 10], [x - 20, hip + 80], 42, 36, '#2a2e3a'], [[x + 20, hip - 10], [x + 20, hip + 80], 42, 36, '#22262f']]);
+  R.layer('hannah', g => { body(g, [[[x - 20, hip - 10], [x - 20, hip + 80], 42, 36, '#2a2e3a'], [[x + 20, hip - 10], [x + 20, hip + 80], 42, 36, '#22262f']]);
   R.char('hannah');
   arm(g, 'hannah', -1, [x - 60, pl.y + 190 * s], [x - 74, pl.y + 290 * s], [x - 20, pl.y + 300 * s], 26);
   arm(g, 'hannah', 1, [x + 60, pl.y + 190 * s], [x + 74, pl.y + 290 * s], [x + 20, pl.y + 300 * s], 26);
   // a paper plate somebody has already filled
   el(g, x, pl.y + 300 * s, 46, 12, '#fbfaf4'); el(g, x - 10, pl.y + 294 * s, 14, 7, '#c98a44'); el(g, x + 12, pl.y + 294 * s, 12, 6, '#7a4a9a');
   hand(g, 'hannah', x - 22, pl.y + 304 * s, .2, 40, 26, .5, false, true); hand(g, 'hannah', x + 22, pl.y + 304 * s, Math.PI - .2, 40, 26, .5, true, true);
-  R.undim(); }
+  }); }
 
 function food(g){
   // Christmas Eve: the front table, puto bumbong on banana leaf and the bibingka
@@ -85,7 +89,7 @@ function food(g){
 
 function tita(g, t, R){
   const pl = R.place.tita, x = pl.x, sing = singing(), basket = R.flag('hall-basket'), W = 50;
-  R.dim('tita');
+  R.layer('tita', g => {
   if(basket){
     arm(g, 'tita', -1, [x - 86, 400], [x - 100, 470], [x - 50, 470], W * .72); arm(g, 'tita', 1, [x + 86, 400], [x + 100, 470], [x + 50, 470], W * .72);
     fl(g, `M ${x - 70} 440 L ${x + 70} 440 L ${x + 56} 486 L ${x - 56} 486 Z`, '#b8894a');
@@ -99,7 +103,7 @@ function tita(g, t, R){
     arm(g, 'tita', 1, [x + 86, 400], [x + 80, 440], [x + 30, 386], W * .72);
     g.save(); g.translate(x + 22, 360); g.rotate(-.5); fl(g, rr(-7, 0, 14, 70, 5), '#2a2a2e'); el(g, 0, -4, 13, 15, '#4a4a50'); st(g, 'M -10 -10 L 10 2 M -10 2 L 10 -10', '#6a6a70', .8); g.restore();
     hand(g, 'tita', x + 30, 392, -Math.PI / 2 - .5, 60, W * .9, .85, false, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('hall', {
   hot:[[1190, 318], [332, 350], [855, 378], [660, 158], [1010, 512], [1165, 556]],

@@ -55,10 +55,10 @@ function clerkHands(g, t, R){
   // typing when he is working, still when he is talking to you
   const x = R.place.clerk.x, busy = ILL.S.target.clerk === 'working' || ILL.S.target.clerk === 'up';
   fl(g, rr(x - 110, 520, 220, 24, 4), '#34383c'); for(let k = 0; k < 10; k++) fl(g, rr(x - 100 + k * 20, 525, 16, 6, 2), '#4c5156');
-  R.dim('clerk'); const W = 44, L = 76, bob = k => busy ? Math.max(0, Math.sin(t * 14 + k * 2.1)) * 3 : 0;
+  R.layer('clerk', g => { const W = 44, L = 76, bob = k => busy ? Math.max(0, Math.sin(t * 14 + k * 2.1)) * 3 : 0;
   arm(g, 'clerk', -1, [x - 80, 470], [x - 104, 540], [x - 56, 526], W * .7);
   arm(g, 'clerk', 1, [x + 80, 470], [x + 104, 540], [x + 56, 526], W * .7);
-  hand(g, 'clerk', x - 58, 524 - bob(0), .15, L, W, .55, false, true); hand(g, 'clerk', x + 58, 524 - bob(1), Math.PI - .15, L, W, .55, true, true); R.undim(); }
+  hand(g, 'clerk', x - 58, 524 - bob(0), .15, L, W, .55, false, true); hand(g, 'clerk', x + 58, 524 - bob(1), Math.PI - .15, L, W, .55, true, true); }); }
 
 ILL.room('wire', {
   hot:[[350, 104], [1156, 272], [1184, 598], [1000, 610]],

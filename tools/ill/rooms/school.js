@@ -59,16 +59,16 @@ function desks(g){
 function props(g, t, R){
   const pl = R.place;
   // Tala, forearms on the desk, a pencil in one hand
-  R.dim('tala'); { const x = pl.tala.x, W = 50, L = 84;
+  R.layer('tala', g => { { const x = pl.tala.x, W = 50, L = 84;
     arm(g, 'tala', -1, [x - 84, 400], [x - 120, 452], [x - 60, 478], W * .72); arm(g, 'tala', 1, [x + 84, 400], [x + 120, 452], [x + 62, 470], W * .72);
     hand(g, 'tala', x - 62, 476, .12, L, W, .55, false, true);
     g.save(); g.translate(x + 30, 470); g.rotate(-.9); fl(g, rr(-4, -40, 8, 80, 2), '#e0a43a'); fl(g, 'M -4 40 L 4 40 L 0 50 Z', '#e9c9a0'); fl(g, rr(-4, -46, 8, 8, 2), '#e89aa0'); g.restore();
     hand(g, 'tala', x + 62, 468, Math.PI - .2, L, W, .7, true, true); }
   // Hannah, turned toward Tala, one elbow on the desk
-  R.dim('hannah'); { const x = pl.hannah.x, W = 48, L = 82;
+  });R.layer('hannah', g => { { const x = pl.hannah.x, W = 48, L = 82;
     arm(g, 'hannah', -1, [x - 82, 404], [x - 116, 456], [x - 56, 474], W * .7); arm(g, 'hannah', 1, [x + 82, 404], [x + 118, 456], [x + 60, 478], W * .7);
     hand(g, 'hannah', x - 58, 472, .1, L, W, .45, false, true); hand(g, 'hannah', x + 60, 476, Math.PI - .1, L, W, .45, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('school', {
   hot:[[850, 150], [340, 160]],

@@ -42,7 +42,7 @@ function lamps(g, t){
 // Tala, the whole of her, small in the kitchen doorway with a stack of menus against her chest
 function talaFull(g, t, R){
   const pl = R.place.tala, s = pl.s, x = pl.x, y = pl.y, hip = y + 344 * s, ch = ILL.CAST.tala;
-  R.dim('tala');
+  R.layer('tala', g => {
   // legs, then shoes
   const legs = [[[x - 18, hip - 8], [x - 17, hip + 92], 40, 32, '#34466e'], [[x - 17, hip + 92], [x - 15, hip + 176], 32, 25, '#34466e'],
                 [[x + 18, hip - 8], [x + 17, hip + 92], 40, 32, '#2a3a5e'], [[x + 17, hip + 92], [x + 15, hip + 176], 32, 25, '#2a3a5e']];
@@ -53,7 +53,7 @@ function talaFull(g, t, R){
   fl(g, rr(x - 26, y + 216 * s, 58, 70, 3), '#2a1a1c'); fl(g, rr(x - 22, y + 220 * s, 50, 62, 2), '#8a2a2e'); text(g, 'P', x + 3, y + 262 * s, '600 14px "Fraunces", serif', '#e8c46a');
   arm(g, 'tala', 1, [x + 46, y + 176 * s], [x + 54, y + 262 * s], [x + 14, y + 262 * s], 20);
   hand(g, 'tala', x - 10, y + 250 * s, .1, 30, 18, .5, false, true); hand(g, 'tala', x + 14, y + 262 * s, Math.PI - .1, 30, 18, .5, true, true);
-  R.undim(); }
+  }); }
 
 // Ma at the table, pitcher in hand; the engine triggers 'pour' and 'nod'
 function ma(g, t, R){
@@ -61,7 +61,7 @@ function ma(g, t, R){
   const nod = nodT >= 0 && nodT < 1.6 ? Math.sin(nodT / 1.6 * Math.PI * 3) * Math.sin(nodT / 1.6 * Math.PI) : 0;
   R.char('ma', {y:pl.y + nod * 5});
   const pour = pourT >= 0 && pourT < 3 ? Math.min(1, Math.sin(pourT / 3 * Math.PI) * 1.6) : 0, ang = -.45 * pour;
-  const x = pl.x, W = 50; R.dim('ma');
+  const x = pl.x, W = 50; R.layer('ma', g => {
   arm(g, 'ma', -1, [x - 84, 424], [x - 110, 520], [x - 60, 560], W * .72);
   hand(g, 'ma', x - 62, 558, .1, 80, W, .3, false, true);
   // the pitcher, and water when she pours
@@ -71,11 +71,11 @@ function ma(g, t, R){
   if(pour > .6){ st(g, `M ${px - 38} ${py - 50} q -18 20 -22 ${60}`, '#bcd8ec', 5, .8); }
   arm(g, 'ma', 1, [x + 84, 424], [x + 128, 500], [x + 162, 480], W * .72);
   hand(g, 'ma', x + 162, 478, -.3 + ang, 78, W, .75, false, true);
-  R.undim(); }
+  }); }
 
 // the customer, from behind: we are standing where Tala stands
 function customer(g, t, R){
-  const x = 1120, y = 420; R.dim('customer');
+  const x = 1120, y = 420; R.layer('customer', g => {
   fl(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 Z`, '#6d6a8a');
   fl(g, `M ${x + 20} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 L ${x + 60} 720 Z`, '#58556f');
   st(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720`, '#26243a', 1.4);
@@ -84,7 +84,7 @@ function customer(g, t, R){
   for(let k = 0; k < 6; k++) st(g, `M ${x - 40 + k * 16} ${y - 60} q ${4 - k} 40 ${-2 + k} 70`, '#b8944a', 1.2, .6);
   el(g, x, y + 58, 16, 12, '#b8944a'); el(g, x, y + 50, 10, 8, '#c9524a');
   st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#d9b56a', 14); st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#b8944a', 1.2, .6);
-  R.undim(); }
+  }); }
 
 function tableFront(g){
   // her table, in the foreground right: the bowl of sinigang, the glass

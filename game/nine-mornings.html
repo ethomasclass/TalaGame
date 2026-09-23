@@ -3854,7 +3854,7 @@ function render(){
     $('line').innerHTML = (tl ? `<span class="tlline">${tl}</span>` : '') + gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t);
     focus(who);
     if(bg === 'rest' && who === 'ma' && !b.offstage) talk('ma', Math.min(2600, 380 + t.length * 45));
-    else if(ill && !b.offstage) ill.talk(who, Math.min(2600, 380 + t.length * 45));
+    else if(ill && !b.offstage) ill.talk(who, Math.min(2600, 380 + (t || "").length * 45));
   }
   const aside = txt(b.aside); $('aside').className = 'aside'; $('aside').hidden = !aside; if(aside) $('aside').innerHTML = gloss(aside);
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);

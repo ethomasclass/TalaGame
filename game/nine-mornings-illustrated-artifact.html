@@ -2050,18 +2050,10 @@
     <radialGradient id="td-clay" cx="0.38" cy="0.35" r="0.75"><stop offset="0%" stop-color="#d98a5c"/><stop offset="55%" stop-color="#b05f3c"/><stop offset="100%" stop-color="#6f3a26"/></radialGradient>
     <radialGradient id="td-batter" cx="0.45" cy="0.4" r="0.7"><stop offset="0%" stop-color="#fbf0d6"/><stop offset="100%" stop-color="#e8cfa0"/></radialGradient>
     <linearGradient id="td-plate" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a2d3d"/><stop offset="100%" stop-color="#16171f"/></linearGradient>
-    <filter id="td-rough" x="-20%" y="-20%" width="140%" height="140%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="big"/>
-      <feDisplacementMap in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="19" result="fine"/>
-      <feDisplacementMap in="d1" in2="fine" scale="4" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="td-roughFine" x="-20%" y="-20%" width="140%" height="140%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" result="f"/>
-      <feDisplacementMap in="SourceGraphic" in2="f" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
+    <filter id="td-rough" x="-10%" y="-10%" width="125%" height="125%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.6" result="d"/><feFlood flood-color="#1c100b"/><feComposite in2="d" operator="in" result="ink"/><feOffset in="SourceAlpha" dx="5" dy="7" result="o"/><feFlood flood-color="#2a140c" flood-opacity="0.22"/><feComposite in2="o" operator="in" result="sh"/><feMerge><feMergeNode in="sh"/><feMergeNode in="ink"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="td-roughFine" x="-10%" y="-10%" width="125%" height="125%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.1" result="d"/><feFlood flood-color="#1c100b"/><feComposite in2="d" operator="in" result="ink"/><feOffset in="SourceAlpha" dx="3" dy="4" result="o"/><feFlood flood-color="#2a140c" flood-opacity="0.2"/><feComposite in2="o" operator="in" result="sh"/><feMerge><feMergeNode in="sh"/><feMergeNode in="ink"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <filter id="td-soft"><feGaussianBlur stdDeviation="16"/></filter>
-    <filter id="td-mid"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="td-mid"><feOffset dx="5" dy="8"/></filter>
     <filter id="td-puffblur"><feGaussianBlur stdDeviation="6"/></filter>
     <filter id="td-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="11"/><feColorMatrix type="saturate" values="0"/></filter>
     <filter id="td-stainEdge" x="-25%" y="-25%" width="150%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="4" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter>
@@ -2472,15 +2464,25 @@ let K = DPR;
 const P = s => new Path2D(s);
 const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 const base = g => g.setTransform(K, 0, 0, K, 0, 0);
-function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
-function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
+// While somebody who is not speaking is drawn, every colour passes through dimC: a touch darker and greyer.
+// It costs nothing per frame (the mapping is cached), where a canvas filter or an offscreen copy cost whole frames.
+let DIM = false; const DC = new Map();
+const dimC = c => { if(!DIM || typeof c !== 'string') return c; let v = DC.get(c); if(v) return v;
+  let r, gg, b, a = 1, m = /^#([0-9a-f]{6})$/i.exec(c);
+  if(m){ const n = parseInt(m[1], 16); r = n >> 16; gg = n >> 8 & 255; b = n & 255; }
+  else if((m = /^rgba?\(([^)]+)\)$/.exec(c))){ const q = m[1].split(',').map(Number); [r, gg, b] = q; if(q.length > 3) a = q[3]; }
+  else if(/^#[0-9a-f]{3}$/i.test(c)){ [r, gg, b] = [1, 2, 3].map(i => parseInt(c[i] + c[i], 16)); } else return c;
+  const l = .3 * r + .59 * gg + .11 * b, f = x => Math.round((x * .9 + l * .1) * .84);
+  v = `rgba(${f(r)},${f(gg)},${f(b)},${a})`; DC.set(c, v); return v; };
+function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = dimC(c); g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
+function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha *= a; g.strokeStyle = dimC(c); g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
   g.stroke(typeof p === 'string' ? P(p) : p); g.restore(); }
-function el(g, x, y, rx, ry, c, a, rot){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = c; g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
+function el(g, x, y, rx, ry, c, a, rot){ g.save(); if(a != null) g.globalAlpha *= a; g.fillStyle = dimC(c); g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
 function clip(g, p, fn){ g.save(); g.clip(typeof p === 'string' ? P(p) : p); fn(); g.restore(); }
 const rr = (x, y, w, h, r) => { r = Math.min(r, w / 2, h / 2); return P(`M ${x + r} ${y} L ${x + w - r} ${y} Q ${x + w} ${y} ${x + w} ${y + r} L ${x + w} ${y + h - r} Q ${x + w} ${y + h} ${x + w - r} ${y + h} L ${x + r} ${y + h} Q ${x} ${y + h} ${x} ${y + h - r} L ${x} ${y + r} Q ${x} ${y} ${x + r} ${y} Z`); };
 function rgrad(g, x, y, r0, r1, stops){ const gr = g.createRadialGradient(x, y, r0, x, y, r1); stops.forEach(([o, c]) => gr.addColorStop(o, c)); return gr; }
 function lgrad(g, x0, y0, x1, y1, stops){ const gr = g.createLinearGradient(x0, y0, x1, y1); stops.forEach(([o, c]) => gr.addColorStop(o, c)); return gr; }
-function text(g, s, x, y, font, col, align){ g.save(); g.font = font; g.fillStyle = col; g.textAlign = align || 'center'; g.fillText(s, x, y); g.restore(); }
+function text(g, s, x, y, font, col, align){ g.save(); g.font = font; g.fillStyle = dimC(col); g.textAlign = align || 'center'; g.fillText(s, x, y); g.restore(); }
 
 // ====================== THE RIG ======================
 const CAST = {}, HAIR = {};
@@ -2539,7 +2541,7 @@ function drawEye(g, ch, side, e){
   if(lid > .9){ st(g, upper, lash, ch.glasses ? 1 : 1.15); return; }
   const open = P(`${upper} C ${l1[0]} ${l1[1]} ${l2[0]} ${l2[1]} ${q.o[0]} ${q.o[1]} Z`);
   clip(g, open, () => {
-    g.fillStyle = ch.white || '#f1e9df'; g.fillRect(q.c[0] - 13, q.c[1] - 9, 26, 18);
+    g.fillStyle = dimC(ch.white || '#f1e9df'); g.fillRect(q.c[0] - 13, q.c[1] - 9, 26, 18);
     const gx = Math.max(-2.7, Math.min(2.7, e.gx)), gy = Math.max(-2.2, Math.min(2.6, e.gy)), ix = q.c[0] + gx, iy = q.c[1] + .2 + gy, r = 4.7 * ch.eyeS;
     el(g, ix, iy, r, r, ch.iris); el(g, ix, iy, 1.95 * ch.eyeS, 1.95 * ch.eyeS, '#0d0806');
     el(g, ix - 1.5, iy - 1.7, .95, .95, '#fff', .92); });
@@ -2565,7 +2567,7 @@ function drawMouth(g, ch, e){
   const m = ch.mouth, y = m.y, w = m.w * (1 - e.o * .42) * (1 + Math.max(0, e.curve) * .14), c = e.curve, o = (e.open || 0) + e.o * .55 + e.grin * .35, uh = m.uh * (1 - e.press * .55), lh = m.lh * (1 - e.press * .45);
   const lift = c > 0 ? c * 3.4 : c * 2.2, L = [100 - w, y - lift], R = [100 + w, y - lift], mid = y + 1.2 + Math.max(0, c) * 1.2, oy = o * 5.5;
   if(o > .05){ const inner = P(`M ${L[0]} ${L[1]} Q 100 ${mid - e.o * 2} ${R[0]} ${R[1]} Q 100 ${mid + oy} ${L[0]} ${L[1]} Z`);
-    fl(g, inner, '#4a1c18'); clip(g, inner, () => { g.fillStyle = '#efe6da'; g.fillRect(100 - w * .8, mid - 1.4 - e.grin, w * 1.6, 1.8 + e.grin * 2.2); }); }
+    fl(g, inner, '#4a1c18'); clip(g, inner, () => { g.fillStyle = dimC('#efe6da'); g.fillRect(100 - w * .8, mid - 1.4 - e.grin, w * 1.6, 1.8 + e.grin * 2.2); }); }
   fl(g, `M ${L[0]} ${L[1]} C ${100 - w * .55} ${y - uh * .85} 97.5 ${y - uh - .3} 100 ${y - uh + .7} C 102.5 ${y - uh - .3} ${100 + w * .55} ${y - uh * .85} ${R[0]} ${R[1]} Q 100 ${mid - e.o * 2} ${L[0]} ${L[1]} Z`, ch.lips[0]);
   fl(g, `M ${L[0]} ${L[1]} Q 100 ${mid + oy} ${R[0]} ${R[1]} C ${100 + w * .6} ${y + lh + oy} ${100 - w * .6} ${y + lh + oy} ${L[0]} ${L[1]} Z`, ch.lips[1]);
   st(g, `M ${L[0]} ${L[1]} Q 100 ${mid} ${R[0]} ${R[1]}`, '#5e2a25', .8);
@@ -2658,7 +2660,7 @@ function drawHead(g, id, e, torso){
 // Pieces that touch merge into one silhouette with a single outline, the way an inked drawing does.
 const OL = 1.3;
 function limb(g, a, b, w1, w2, col, pass, flat){ const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy) || 1, nx = -dy / d, ny = dx / d, o = pass ? 0 : OL;
-  const h1 = w1 / 2 + o, h2 = w2 / 2 + o; g.fillStyle = pass ? col : '#1c100b';
+  const h1 = w1 / 2 + o, h2 = w2 / 2 + o; g.fillStyle = dimC(pass ? col : '#1c100b');
   g.beginPath(); g.moveTo(a[0] + nx * h1, a[1] + ny * h1); g.lineTo(b[0] + nx * h2, b[1] + ny * h2); g.lineTo(b[0] - nx * h2, b[1] - ny * h2); g.lineTo(a[0] - nx * h1, a[1] - ny * h1); g.fill();
   // flat: square both ends. 'b': round at a, square hem at b
   if(flat === true) return; g.beginPath(); g.arc(a[0], a[1], h1, 0, 6.2832); if(flat !== 'b') g.arc(b[0], b[1], h2, 0, 6.2832); g.fill(); }
@@ -2699,6 +2701,9 @@ function arm(g, id, side, sh, el_, wr, W, reach){
 // ====================== RUNTIME ======================
 const ROOMS = {};
 const S = {cur:{}, target:{}, blink:{}, talkUntil:{}, speaker:null, last:null, flags:{}, motion:{}, room:null, t:0, dt:0};
+let inLayer = false;
+const stats = {frames:0, ms:0};
+const dimmed = id => !!S.speaker && S.speaker !== id;
 const R = { place:{}, caches:{}, g:null, t:0,
   // cache a static layer for the current room; rebuilt on the next visit if the room was dropped
   cached(key, fn){ const k = S.room + ':' + key; let c = R.caches[k];
@@ -2709,14 +2714,14 @@ const R = { place:{}, caches:{}, g:null, t:0,
   speaking(id){ return S.speaker === id; },
   // draw a person at their room placement. over: {x,y,s,torso,expr,flip}
   char(id, over){ const pl = {...R.place[id], ...(over || {})}, ch = CAST[id]; if(!ch) return;
+    if(!inLayer && dimmed(id) && !pl.noDim) return R.layer(id, () => R.char(id, over));
     const e = face(id, pl); const g = R.g; g.save();
-    if(S.speaker && S.speaker !== id && !pl.noDim) g.filter = 'brightness(.84) saturate(.9)';
     const breathe = calm ? 0 : Math.sin(R.t * 1.5 + pl.x) * 1.2 * pl.s / 1.5;
     g.translate(pl.x + (pl.flip ? 100 * pl.s : -100 * pl.s), pl.y + breathe); g.scale(pl.flip ? -pl.s : pl.s, pl.s);
     if(pl.tilt) { g.translate(100, 150); g.rotate(pl.tilt); g.translate(-100, -150); }
     drawHead(g, id, e, pl.torso); g.restore(); },
-  dim(id){ R.g.filter = S.speaker && S.speaker !== id ? 'brightness(.84) saturate(.9)' : 'none'; },
-  undim(){ R.g.filter = 'none'; },
+  // draw one person (and their props) dimmed if somebody else is speaking
+  layer(id, fn){ if(inLayer || !dimmed(id)){ fn(R.g); return; } inLayer = true; DIM = true; try { fn(R.g); } finally { DIM = false; inLayer = false; } },
 };
 function face(id, pl){
   // ease every number toward the target expression, then layer blink, talk and gaze on top
@@ -2744,7 +2749,7 @@ function frame(now){ requestAnimationFrame(frame); if(!S.room) return;
   const t = now / 1000; if(now - lastDraw < 30) return; S.dt = Math.max(0, Math.min(.1, t - (last || t))); last = t; lastDraw = now; clock += S.dt;
   R.t = calm ? clock * .25 : clock; const room = ROOMS[S.room]; R.place = room.place || {};
   for(const id in R.place) if(R.place[id].flag) R.place[id].hidden = !S.flags[R.place[id].flag];
-  base(ctx); ctx.filter = 'none'; ctx.globalAlpha = 1; room.paint(ctx, R.t, R); }
+  const p0 = performance.now(); base(ctx); ctx.globalAlpha = 1; R.g = ctx; room.paint(ctx, R.t, R); stats.frames++; stats.ms += performance.now() - p0; }
 function show(which){ if(!ROOMS[which]){ S.room = null; return; } ensure();
   const k2 = Math.max(DPR, Math.min(2, (ROOMS[which].res || 1) * DPR));
   if(k2 !== K){ K = k2; cv.width = W * K; cv.height = H * K; for(const k in R.caches) delete R.caches[k]; }
@@ -2761,12 +2766,13 @@ function portraits(){ const css = [];
   for(const id in CAST){ const ch = CAST[id]; if(ch.noPortrait) continue; const c = document.createElement('canvas'); c.width = c.height = 144; const g = c.getContext('2d');
     g.fillStyle = ch.avBg || '#c9a088'; g.fillRect(0, 0, 144, 144); const s = 1.28; g.setTransform(s, 0, 0, s, 72 - 100 * s, 78 - 80 * s);
     drawHead(g, id, {...EX.neutral, ...(ch.portraitExpr ? EX[ch.portraitExpr] : {}), open:0}, false);
-    css.push(`.av.port.av-${id}{background-image:url(${c.toDataURL()})!important;background-size:cover!important;background-position:center!important}`); }
+    // every avatar of this person: the dialogue card and the little ones in the phone thread
+    css.push(`.av.av-${id}{background-image:url(${c.toDataURL()})!important;background-size:cover!important;background-position:center!important}`); }
   const tag = document.createElement('style'); tag.textContent = css.join('\n'); document.head.appendChild(tag); }
 
 return { W, H, DPR, P, hash, base, fl, st, el, clip, rr, rgrad, lgrad, text, limb, body, hand, arm, drawHead, EX,
   cast(id, def){ CAST[id] = def; }, hair(id, def){ HAIR[id] = def; }, room(id, def){ ROOMS[id] = def; },
-  has(id){ return !!ROOMS[id]; }, spot(id, n){ const r = ROOMS[id], h = r && r.hot && r.hot[n]; return h ? {x:h[0], y:h[1]} : null; }, CAST, HAIR, ROOMS, S, R,
+  stats, has(id){ return !!ROOMS[id]; }, spot(id, n){ const r = ROOMS[id], h = r && r.hot && r.hot[n]; return h ? {x:h[0], y:h[1]} : null; }, CAST, HAIR, ROOMS, S, R,
   show, expr, focus, talk, motion, flag, reset, portraits };
 })();
 
@@ -2891,6 +2897,20 @@ ILL.cast('ocampo', { avBg:'#8e9bc0', portraitExpr:'kind',
 ILL.hair('ocampo', { back:P('M 50 60 C 44 30 70 10 100 10 C 130 10 156 30 150 60 C 146 70 54 70 50 60 Z'),
   after(g, ch){ for(let k = 0; k < 5; k++){ const x = 64 + k * 18; ILL.el(g, x, 30 - Math.sin(k / 4 * Math.PI) * 8, 8, 6, '#e7a3b8'); ILL.st(g, `M ${x - 8} ${30 - Math.sin(k / 4 * Math.PI) * 8} l 16 0`, '#b56f86', .8); }
     ILL.st(g, 'M 50 58 C 46 30 70 12 100 12 C 130 12 154 30 150 58', '#6a5a5a', .9, .6); } });
+})();
+
+// ---------- Batangas, on the phone ----------
+(() => { const P = ILL.P;
+ILL.cast('bea', { avBg:'#e8b86a', portraitExpr:'smile',
+  skin:'#b97a52', shade:'#96603f', neck:'#ab7150', line:'#4e2c1d', lips:['#94504a', '#a45c52'], iris:'#2e1d16', brow:'#1b1311', hair:'#161111', hairShine:'#342826',
+  face:{cw:37, jw:27, jy:114, cy:128, chw:7}, eyeS:1.02, nose:1, mouth:{y:109.6, w:12.4, uh:2.5, lh:5.4}, brows:{ti:2.4, to:1, peak:60.4},
+  neckW:17.5, hairStyle:'bea', ears:false, age:0,
+  clothes:{col:'#f4f2ea', shade:'#d8d4c8', line:'#6a665a', neck:'collar', under:'#f4f2ea', trim:'#eceae2', reach:'short'} });
+// a chin-length bob with a straight fringe
+ILL.hair('bea', { back:P('M 100 16 C 140 16 156 44 156 80 C 156 100 156 118 152 130 L 48 130 C 44 118 44 100 44 80 C 44 44 60 16 100 16 Z'),
+  front:[P('M 50 58 C 48 84 50 108 52 130 L 66 130 C 62 108 61 84 64 60 Z'), P('M 150 58 C 152 84 150 108 148 130 L 134 130 C 138 108 139 84 136 60 Z'),
+    P('M 100 15 C 130 15 148 32 150 62 C 146 60 140 58 136 58 C 120 55.5 80 55.5 64 58 C 60 58 54 60 50 62 C 52 32 70 15 100 15 Z')],
+  shine:['M 96 21 C 116 20 132 28 140 40 C 130 32 114 25 96 24 Z'] });
 })();
 
 // ====================== 4:10 A.M., THE SIXTH MORNING ======================
@@ -3100,12 +3120,12 @@ function props(g, t, R, d){
   if(call){ g.save(); g.translate(484, 462); g.rotate(.07); fl(g, rr(-36, -18, 72, 36, 3), '#f4efe4');
     st(g, 'M -36 -18 L 0 4 L 36 -18', '#c9bfae', 1.2); st(g, 'M -22 7 q 6 -4 12 0 t 12 0 t 12 0', '#5a4a8a', .9, .7); st(g, rr(-36, -18, 72, 36, 3), '#a89c86', 1); g.restore(); }
   // Tala, both hands wrapped around a mug of tsokolate
-  R.dim('tala'); { const x = pl.tala.x, W = 52, L = 88;
+  R.layer('tala', g => { { const x = pl.tala.x, W = 52, L = 88;
     arm(g, 'tala', -1, [x - 86, 398], [x - 124, 446], [x - 80, 472], W * .72); arm(g, 'tala', 1, [x + 86, 398], [x + 124, 446], [x + 80, 468], W * .72);
     mug(g, x, 410, 1, t, true);
     hand(g, 'tala', x - 72, 470, -.06, L, W, .35, false); hand(g, 'tala', x + 72, 466, Math.PI + .06, L, W, .35, true); }
   // Ma: counting the money twice when she is counting, otherwise her hands flat either side of her cup
-  R.dim('ma'); { const x = pl.ma.x, W = 52, L = 90;
+  });R.layer('ma', g => { { const x = pl.ma.x, W = 52, L = 90;
     if(counting || call){
       arm(g, 'ma', -1, [x - 86, 400], [x - 126, 448], [x - 84, 488], W * .72); arm(g, 'ma', 1, [x + 86, 400], [x + 128, 444], [x + 90, 472], W * .72);
       bill(g, x - 16, 478, -.05); bill(g, x - 12, 474, .04); bill(g, x - 14, 470, -.02);
@@ -3116,11 +3136,11 @@ function props(g, t, R, d){
       mug(g, x, 420, .82, t, true);
       hand(g, 'ma', x - 72, 480, .05, L, W, .2, false, true); hand(g, 'ma', x + 72, 480, Math.PI - .05, L, W, .2, true, true); } }
   // Pa, hands folded, sleeves rolled
-  R.dim('pa'); { const x = pl.pa.x, W = 54, L = 92;
+  });R.layer('pa', g => { { const x = pl.pa.x, W = 54, L = 92;
     arm(g, 'pa', -1, [x - 92, 394], [x - 130, 444], [x - 70, 484], W * .74); arm(g, 'pa', 1, [x + 92, 394], [x + 130, 444], [x + 70, 478], W * .74);
     if(d < 22){ mug(g, x + 150, 440, .8, t, false); g.save(); g.translate(x + 150, 500); el(g, 0, 0, 22, 12, '#d99a52'); st(g, 'M -22 0 a 22 12 0 1 0 44 0 a 22 12 0 1 0 -44 0', '#7a4420', 1); g.restore(); }
     hand(g, 'pa', x - 70, 482, -.1, L, W, .8, false, true); hand(g, 'pa', x + 70, 474, Math.PI + .12, L, W, .8, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('dining', {
   hot:[[150, 174], [1144, 185], [470, 96], [908, 170]],
@@ -3241,8 +3261,12 @@ function room(g){
   g.save(); g.translate(660, 158); g.rotate(-.01); fl(g, rr(-222, -30, 444, 60, 6), '#b8413a'); fl(g, rr(-214, -23, 428, 46, 4), '#e0685c');
   text(g, 'MALIGAYANG PASKO', 0, 11, '600 30px "Fraunces", Georgia, serif', '#fff4e0'); g.restore();
   // the crowd behind the table, talking over each other
-  for(const [x, y, s, k] of CROWD){ g.save(); g.filter = 'saturate(.75) brightness(.95)'; g.translate(x - 100 * s, y); g.scale(s, s);
-    drawHead(g, 'parish' + k, {...EX[PARISH[k][3]], gx:(hash(k) - .5) * 4, open:hash(k + 3) > .5 ? .3 : 0}, true); g.restore(); }
+  // drawn to their own layer and knocked back with one wash of the wall colour, so they sit behind the family
+  const cc = document.createElement('canvas'); cc.width = g.canvas.width; cc.height = g.canvas.height; const cg = cc.getContext('2d'); cg.setTransform(g.getTransform());
+  for(const [x, y, s, k] of CROWD){ cg.save(); cg.translate(x - 100 * s, y); cg.scale(s, s);
+    drawHead(cg, 'parish' + k, {...EX[PARISH[k][3]], gx:(hash(k) - .5) * 4, open:hash(k + 3) > .5 ? .3 : 0}, true); cg.restore(); }
+  cg.globalCompositeOperation = 'source-atop'; cg.fillStyle = 'rgba(236,214,172,.22)'; cg.fillRect(0, 0, 1280, 720);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(cc, 0, 0); g.restore();
   // the long table: white cloth, the salabat urn, the pan de sal
   fl(g, rr(260, TY, 1020, 90, 0), '#f6f1e6'); fl(g, rr(260, TY, 1020, 10, 0), '#fffbf2'); st(g, `M 260 ${TY} L 1280 ${TY}`, '#c9bfa8', 1.4);
   for(let k = 0; k < 12; k++) st(g, `M ${280 + k * 86} ${TY + 12} q 4 40 -2 78`, '#e2d8c4', 1.4);
@@ -3268,14 +3292,14 @@ function videoke(g, t){
 // Hannah, in the doorway, in her coat, if she came
 function hannah(g, t, R){
   const pl = R.place.hannah; if(pl.hidden) return; const x = pl.x, s = pl.s, hip = pl.y + 344 * s;
-  R.dim('hannah'); body(g, [[[x - 20, hip - 10], [x - 20, hip + 80], 42, 36, '#2a2e3a'], [[x + 20, hip - 10], [x + 20, hip + 80], 42, 36, '#22262f']]);
+  R.layer('hannah', g => { body(g, [[[x - 20, hip - 10], [x - 20, hip + 80], 42, 36, '#2a2e3a'], [[x + 20, hip - 10], [x + 20, hip + 80], 42, 36, '#22262f']]);
   R.char('hannah');
   arm(g, 'hannah', -1, [x - 60, pl.y + 190 * s], [x - 74, pl.y + 290 * s], [x - 20, pl.y + 300 * s], 26);
   arm(g, 'hannah', 1, [x + 60, pl.y + 190 * s], [x + 74, pl.y + 290 * s], [x + 20, pl.y + 300 * s], 26);
   // a paper plate somebody has already filled
   el(g, x, pl.y + 300 * s, 46, 12, '#fbfaf4'); el(g, x - 10, pl.y + 294 * s, 14, 7, '#c98a44'); el(g, x + 12, pl.y + 294 * s, 12, 6, '#7a4a9a');
   hand(g, 'hannah', x - 22, pl.y + 304 * s, .2, 40, 26, .5, false, true); hand(g, 'hannah', x + 22, pl.y + 304 * s, Math.PI - .2, 40, 26, .5, true, true);
-  R.undim(); }
+  }); }
 
 function food(g){
   // Christmas Eve: the front table, puto bumbong on banana leaf and the bibingka
@@ -3288,7 +3312,7 @@ function food(g){
 
 function tita(g, t, R){
   const pl = R.place.tita, x = pl.x, sing = singing(), basket = R.flag('hall-basket'), W = 50;
-  R.dim('tita');
+  R.layer('tita', g => {
   if(basket){
     arm(g, 'tita', -1, [x - 86, 400], [x - 100, 470], [x - 50, 470], W * .72); arm(g, 'tita', 1, [x + 86, 400], [x + 100, 470], [x + 50, 470], W * .72);
     fl(g, `M ${x - 70} 440 L ${x + 70} 440 L ${x + 56} 486 L ${x - 56} 486 Z`, '#b8894a');
@@ -3302,7 +3326,7 @@ function tita(g, t, R){
     arm(g, 'tita', 1, [x + 86, 400], [x + 80, 440], [x + 30, 386], W * .72);
     g.save(); g.translate(x + 22, 360); g.rotate(-.5); fl(g, rr(-7, 0, 14, 70, 5), '#2a2a2e'); el(g, 0, -4, 13, 15, '#4a4a50'); st(g, 'M -10 -10 L 10 2 M -10 2 L 10 -10', '#6a6a70', .8); g.restore();
     hand(g, 'tita', x + 30, 392, -Math.PI / 2 - .5, 60, W * .9, .85, false, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('hall', {
   hot:[[1190, 318], [332, 350], [855, 378], [660, 158], [1010, 512], [1165, 556]],
@@ -3385,17 +3409,17 @@ function counter(g){
 function props(g, t, R){
   const pl = R.place;
   // Pa: the knife in his right hand, his left flat on the board, the way he is showing Ando
-  R.dim('pa'); { const x = pl.pa.x, W = 52, L = 88;
+  R.layer('pa', g => { { const x = pl.pa.x, W = 52, L = 88;
     arm(g, 'pa', -1, [x - 90, 350], [x - 118, 404], [x - 66, 440], W * .72); arm(g, 'pa', 1, [x + 90, 350], [x + 118, 404], [x + 76, 434], W * .72);
     hand(g, 'pa', x - 68, 438, .02, L, W, .15, false, true);
     g.save(); g.translate(x + 30, 420); g.rotate(-.3); fl(g, 'M 0 -5 L 104 -3 Q 116 4 104 6 L 0 5 Z', '#dfe3e6'); st(g, 'M 0 -5 L 104 -3 Q 116 4 104 6 L 0 5 Z', '#4a4e52', 1.2);
     fl(g, rr(-46, -7, 48, 14, 5), '#2a2622'); g.restore();
     hand(g, 'pa', x + 80, 432, Math.PI + .3, L * .9, W, .75, true, true); }
   // Ando: both hands on the edge of the counter, holding on
-  R.dim('ando'); { const x = pl.ando.x, W = 48, L = 82;
+  });R.layer('ando', g => { { const x = pl.ando.x, W = 48, L = 82;
     arm(g, 'ando', -1, [x - 80, 360], [x - 110, 412], [x - 70, 436], W * .7); arm(g, 'ando', 1, [x + 80, 360], [x + 110, 412], [x + 70, 436], W * .7);
     hand(g, 'ando', x - 72, 434, .5, L, W, .5, false, true); hand(g, 'ando', x + 72, 434, Math.PI - .5, L, W, .5, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('kitchen', {
   hot:[[300, 215], [64, 300]],
@@ -3450,7 +3474,7 @@ function lamps(g, t){
 // Tala, the whole of her, small in the kitchen doorway with a stack of menus against her chest
 function talaFull(g, t, R){
   const pl = R.place.tala, s = pl.s, x = pl.x, y = pl.y, hip = y + 344 * s, ch = ILL.CAST.tala;
-  R.dim('tala');
+  R.layer('tala', g => {
   // legs, then shoes
   const legs = [[[x - 18, hip - 8], [x - 17, hip + 92], 40, 32, '#34466e'], [[x - 17, hip + 92], [x - 15, hip + 176], 32, 25, '#34466e'],
                 [[x + 18, hip - 8], [x + 17, hip + 92], 40, 32, '#2a3a5e'], [[x + 17, hip + 92], [x + 15, hip + 176], 32, 25, '#2a3a5e']];
@@ -3461,7 +3485,7 @@ function talaFull(g, t, R){
   fl(g, rr(x - 26, y + 216 * s, 58, 70, 3), '#2a1a1c'); fl(g, rr(x - 22, y + 220 * s, 50, 62, 2), '#8a2a2e'); text(g, 'P', x + 3, y + 262 * s, '600 14px "Fraunces", serif', '#e8c46a');
   arm(g, 'tala', 1, [x + 46, y + 176 * s], [x + 54, y + 262 * s], [x + 14, y + 262 * s], 20);
   hand(g, 'tala', x - 10, y + 250 * s, .1, 30, 18, .5, false, true); hand(g, 'tala', x + 14, y + 262 * s, Math.PI - .1, 30, 18, .5, true, true);
-  R.undim(); }
+  }); }
 
 // Ma at the table, pitcher in hand; the engine triggers 'pour' and 'nod'
 function ma(g, t, R){
@@ -3469,7 +3493,7 @@ function ma(g, t, R){
   const nod = nodT >= 0 && nodT < 1.6 ? Math.sin(nodT / 1.6 * Math.PI * 3) * Math.sin(nodT / 1.6 * Math.PI) : 0;
   R.char('ma', {y:pl.y + nod * 5});
   const pour = pourT >= 0 && pourT < 3 ? Math.min(1, Math.sin(pourT / 3 * Math.PI) * 1.6) : 0, ang = -.45 * pour;
-  const x = pl.x, W = 50; R.dim('ma');
+  const x = pl.x, W = 50; R.layer('ma', g => {
   arm(g, 'ma', -1, [x - 84, 424], [x - 110, 520], [x - 60, 560], W * .72);
   hand(g, 'ma', x - 62, 558, .1, 80, W, .3, false, true);
   // the pitcher, and water when she pours
@@ -3479,11 +3503,11 @@ function ma(g, t, R){
   if(pour > .6){ st(g, `M ${px - 38} ${py - 50} q -18 20 -22 ${60}`, '#bcd8ec', 5, .8); }
   arm(g, 'ma', 1, [x + 84, 424], [x + 128, 500], [x + 162, 480], W * .72);
   hand(g, 'ma', x + 162, 478, -.3 + ang, 78, W, .75, false, true);
-  R.undim(); }
+  }); }
 
 // the customer, from behind: we are standing where Tala stands
 function customer(g, t, R){
-  const x = 1120, y = 420; R.dim('customer');
+  const x = 1120, y = 420; R.layer('customer', g => {
   fl(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 Z`, '#6d6a8a');
   fl(g, `M ${x + 20} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720 L ${x + 60} 720 Z`, '#58556f');
   st(g, `M ${x - 150} 720 C ${x - 150} ${y + 150} ${x - 110} ${y + 110} ${x - 40} ${y + 100} L ${x + 40} ${y + 100} C ${x + 110} ${y + 110} ${x + 150} ${y + 150} ${x + 150} 720`, '#26243a', 1.4);
@@ -3492,7 +3516,7 @@ function customer(g, t, R){
   for(let k = 0; k < 6; k++) st(g, `M ${x - 40 + k * 16} ${y - 60} q ${4 - k} 40 ${-2 + k} 70`, '#b8944a', 1.2, .6);
   el(g, x, y + 58, 16, 12, '#b8944a'); el(g, x, y + 50, 10, 8, '#c9524a');
   st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#d9b56a', 14); st(g, `M ${x} ${y + 62} q 6 40 -2 80`, '#b8944a', 1.2, .6);
-  R.undim(); }
+  }); }
 
 function tableFront(g){
   // her table, in the foreground right: the bowl of sinigang, the glass
@@ -3569,16 +3593,16 @@ function desks(g){
 function props(g, t, R){
   const pl = R.place;
   // Tala, forearms on the desk, a pencil in one hand
-  R.dim('tala'); { const x = pl.tala.x, W = 50, L = 84;
+  R.layer('tala', g => { { const x = pl.tala.x, W = 50, L = 84;
     arm(g, 'tala', -1, [x - 84, 400], [x - 120, 452], [x - 60, 478], W * .72); arm(g, 'tala', 1, [x + 84, 400], [x + 120, 452], [x + 62, 470], W * .72);
     hand(g, 'tala', x - 62, 476, .12, L, W, .55, false, true);
     g.save(); g.translate(x + 30, 470); g.rotate(-.9); fl(g, rr(-4, -40, 8, 80, 2), '#e0a43a'); fl(g, 'M -4 40 L 4 40 L 0 50 Z', '#e9c9a0'); fl(g, rr(-4, -46, 8, 8, 2), '#e89aa0'); g.restore();
     hand(g, 'tala', x + 62, 468, Math.PI - .2, L, W, .7, true, true); }
   // Hannah, turned toward Tala, one elbow on the desk
-  R.dim('hannah'); { const x = pl.hannah.x, W = 48, L = 82;
+  });R.layer('hannah', g => { { const x = pl.hannah.x, W = 48, L = 82;
     arm(g, 'hannah', -1, [x - 82, 404], [x - 116, 456], [x - 56, 474], W * .7); arm(g, 'hannah', 1, [x + 82, 404], [x + 118, 456], [x + 60, 478], W * .7);
     hand(g, 'hannah', x - 58, 472, .1, L, W, .45, false, true); hand(g, 'hannah', x + 60, 476, Math.PI - .1, L, W, .45, true, true); }
-  R.undim(); }
+  }); }
 
 ILL.room('school', {
   hot:[[850, 150], [340, 160]],
@@ -3761,10 +3785,10 @@ function clerkHands(g, t, R){
   // typing when he is working, still when he is talking to you
   const x = R.place.clerk.x, busy = ILL.S.target.clerk === 'working' || ILL.S.target.clerk === 'up';
   fl(g, rr(x - 110, 520, 220, 24, 4), '#34383c'); for(let k = 0; k < 10; k++) fl(g, rr(x - 100 + k * 20, 525, 16, 6, 2), '#4c5156');
-  R.dim('clerk'); const W = 44, L = 76, bob = k => busy ? Math.max(0, Math.sin(t * 14 + k * 2.1)) * 3 : 0;
+  R.layer('clerk', g => { const W = 44, L = 76, bob = k => busy ? Math.max(0, Math.sin(t * 14 + k * 2.1)) * 3 : 0;
   arm(g, 'clerk', -1, [x - 80, 470], [x - 104, 540], [x - 56, 526], W * .7);
   arm(g, 'clerk', 1, [x + 80, 470], [x + 104, 540], [x + 56, 526], W * .7);
-  hand(g, 'clerk', x - 58, 524 - bob(0), .15, L, W, .55, false, true); hand(g, 'clerk', x + 58, 524 - bob(1), Math.PI - .15, L, W, .55, true, true); R.undim(); }
+  hand(g, 'clerk', x - 58, 524 - bob(0), .15, L, W, .55, false, true); hand(g, 'clerk', x + 58, 524 - bob(1), Math.PI - .15, L, W, .55, true, true); }); }
 
 ILL.room('wire', {
   hot:[[350, 104], [1156, 272], [1184, 598], [1000, 610]],
@@ -4419,7 +4443,7 @@ function render(){
     $('line').innerHTML = (tl ? `<span class="tlline">${tl}</span>` : '') + gloss((b.pre ? `<em>${b.pre}</em> ` : '') + t);
     focus(who);
     if(bg === 'rest' && who === 'ma' && !b.offstage) talk('ma', Math.min(2600, 380 + t.length * 45));
-    else if(ill && !b.offstage) ill.talk(who, Math.min(2600, 380 + t.length * 45));
+    else if(ill && !b.offstage) ill.talk(who, Math.min(2600, 380 + (t || "").length * 45));
   }
   const aside = txt(b.aside); $('aside').className = 'aside'; $('aside').hidden = !aside; if(aside) $('aside').innerHTML = gloss(aside);
   if(b.motion) for(const k in b.motion) motion(k, b.motion[k]);
