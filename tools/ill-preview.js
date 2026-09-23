@@ -5,7 +5,7 @@ const { chromium } = require('playwright'); const path = require('path'), fs = r
   const p = await b.newPage({viewport:{width:1280, height:720}}); let errs = 0;
   p.on('pageerror', e => { errs++; console.log('PAGEERROR', e.message); });
   await p.goto('file://' + path.resolve(process.env.GAME || 'game/nine-mornings-illustrated.html'), {waitUntil:'networkidle'});
-  const list = await p.evaluate(bg => beats.map((b, k) => [k, b.bg]).filter(x => x[1] === bg).map(x => x[0]), bg);
+  const list = await p.evaluate(bg => beats.map((b, k) => [k, b.alarm ? 'alarm' : b.bg]).filter(x => x[1] === bg).map(x => x[0]), bg);
   for(const n of ns.split(',').map(Number)){ const k = list[n]; if(k == null) continue;
     await p.evaluate(k => { document.getElementById('title').classList.remove('on');
       for(let j = 0; j < k; j++){ const b = beats[j]; if(b.hud){ $('hud-date').textContent = txt(b.hud[0]); $('hud-sub').textContent = txt(b.hud[1]); }
