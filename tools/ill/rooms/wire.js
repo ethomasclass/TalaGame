@@ -62,7 +62,7 @@ function clerkHands(g, t, R){
 
 ILL.room('wire', {
   hot:[[350, 104], [1156, 272], [1184, 598], [1000, 610]],
-  place:{ tala:{x:212, y:204, s:1.46, outfit:'coat', torso:true}, pa:{x:520, y:182, s:1.52, outfit:'coat', torso:true}, clerk:{x:960, y:196, s:1.4, torso:true} },
+  place:{ tala:{x:212, y:204, s:1.46, outfit:'coat', torso:400}, pa:{x:520, y:182, s:1.52, outfit:'coat', torso:400}, clerk:{x:960, y:196, s:1.4, torso:400} },
   paint(g, t, R){
     R.cached('wall', wall); R.char('clerk'); clerkHands(g, t, R); R.cached('glass', glass);
     R.char('tala'); R.char('pa'); R.cached('counter', counterTop); } });

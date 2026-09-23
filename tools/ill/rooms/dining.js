@@ -58,7 +58,7 @@ function roomFront(g, d){
 
 function parol(g, t){ const sw = Math.sin(t * 1.3) * .04; g.save(); g.translate(150, 96); g.rotate(sw);
   st(g, 'M 0 0 L 0 34', '#e9d9b8', 1.2);
-  el(g, 0, 78, 92, 92, '#ffd27a', .1); el(g, 0, 78, 62, 62, '#ffd27a', .16);
+  g.fillStyle = ILL.rgrad(g, 0, 78, 6, 100, [[0, 'rgba(255,210,122,.42)'], [1, 'rgba(255,210,122,0)']]); g.fillRect(-100, -22, 200, 200);
   g.save(); g.translate(0, 78); g.scale(.66, .66); g.fillStyle = '#e0453f'; g.fill(STAR); g.strokeStyle = '#7a1e1a'; g.lineWidth = 2; g.stroke(STAR);
   g.fillStyle = '#f4c65a'; g.fill(STAR_IN); el(g, 0, 0, 12, 12, '#fff4d2'); g.restore();
   [[-12, 112, '#f4c65a'], [0, 108, '#e0453f'], [12, 112, '#f4c65a']].forEach(([x, y, c], k) => st(g, `M ${x} ${y} Q ${x + Math.sin(t * 2 + k) * 3} ${y + 22} ${x + Math.sin(t * 2.4 + k) * 2} ${y + 42}`, c, 3.4));

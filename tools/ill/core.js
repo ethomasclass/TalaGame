@@ -30,12 +30,14 @@ const faceShadow = f => { const {cw, jw, jy, cy, chw} = f;
 const neckPath = w => P(`M ${100 - w} 108 C ${100 - w + 1} 126 ${100 - w} 140 ${100 - w - 4} 153 L ${100 + w + 4} 153 C ${100 + w} 140 ${100 + w - 1} 126 ${100 + w} 108 Z`);
 const SHOULDERS = P('M 26 206 C 28 178 44 162 70 155 C 80 152 88 151 100 151 C 112 151 120 152 130 155 C 156 162 172 178 174 206 Z');
 const SHOULDERS_WIDE = P('M 22 206 C 24 176 42 160 68 153 C 80 150 88 149 100 149 C 112 149 120 150 132 153 C 158 160 176 176 178 206 Z');
-const TORSO = P('M 26 206 C 28 178 44 162 70 155 C 80 152 88 151 100 151 C 112 151 120 152 130 155 C 156 162 172 178 174 206 C 174 250 168 300 166 352 L 34 352 C 32 300 26 250 26 206 Z');
-const TORSO_WIDE = P('M 22 206 C 24 176 42 160 68 153 C 80 150 88 149 100 149 C 112 149 120 150 132 153 C 158 160 176 176 178 206 C 178 252 172 302 170 352 L 30 352 C 28 302 22 252 22 206 Z');
-const SHOULDER_SHADE = P('M 128 154 C 150 162 166 178 170 206 C 170 250 164 300 162 356 L 190 356 L 190 148 Z');
+// torso: true ends at the hip (local 352); a number ends there instead, so big figures can run off the bottom of the frame
+const tEnd = torso => torso === true ? 352 : torso;
+const TORSO = e => P(`M 26 206 C 28 178 44 162 70 155 C 80 152 88 151 100 151 C 112 151 120 152 130 155 C 156 162 172 178 174 206 C 174 250 168 300 166 352 L 166 ${e} L 34 ${e} L 34 352 C 32 300 26 250 26 206 Z`);
+const TORSO_WIDE = e => P(`M 22 206 C 24 176 42 160 68 153 C 80 150 88 149 100 149 C 112 149 120 150 132 153 C 158 160 176 176 178 206 C 178 252 172 302 170 352 L 170 ${e} L 30 ${e} L 30 352 C 28 302 22 252 22 206 Z`);
+const SHOULDER_SHADE = P('M 128 154 C 150 162 166 178 170 206 C 170 250 164 300 162 356 L 162 700 L 190 700 L 190 148 Z');
 // the same person can dress differently per room: place.outfit names one of cast.outfits
 const dressed = id => { const ch = CAST[id], pl = R.place[id], o = pl && pl.outfit && ch.outfits && ch.outfits[pl.outfit]; return o ? {...ch, clothes:o} : ch; };
-const bodyPath = (ch, torso) => ch.clothes.wide ? (torso ? TORSO_WIDE : SHOULDERS_WIDE) : (torso ? TORSO : SHOULDERS);
+const bodyPath = (ch, torso) => ch.clothes.wide ? (torso ? TORSO_WIDE(tEnd(torso)) : SHOULDERS_WIDE) : (torso ? TORSO(tEnd(torso)) : SHOULDERS);
 
 // expressions are numbers, so faces ease from one to the next instead of snapping
 const Z = {browY:0, tilt:0, knit:0, lid:.06, gx:0, gy:0, curve:.1, press:0, squint:0, o:0, grin:0};
@@ -109,7 +111,8 @@ function drawMouth(g, ch, e){
 function drawClothes(g, ch, torso){
   const c = ch.clothes, S = bodyPath(ch, torso);
   fl(g, S, c.col); clip(g, S, () => fl(g, SHOULDER_SHADE, c.shade)); st(g, S, c.line, .8);
-  if(c.pattern === 'stripe') clip(g, S, () => { for(let y = 160; y < 360; y += 11) fl(g, `M 0 ${y} L 200 ${y} L 200 ${y + 4} L 0 ${y + 4} Z`, c.shade, .45); });
+  const bot = torso ? tEnd(torso) : 206;
+  if(c.pattern === 'stripe') clip(g, S, () => { for(let y = 160; y < bot; y += 11) fl(g, `M 0 ${y} L 200 ${y} L 200 ${y + 4} L 0 ${y + 4} Z`, c.shade, .45); });
   if(c.neck === 'crew'){ const col = P('M 76 151 C 86 167 114 167 124 151 L 120.5 150 C 112 162 88 162 79.5 150 Z'); fl(g, col, c.trim || c.shade); st(g, col, c.line, .7); }
   if(c.neck === 'tee'){ st(g, 'M 79 151 C 88 163 112 163 121 151', c.line, 1.1); st(g, 'M 81 153.5 C 89 162 111 162 119 153.5', c.shade, 1.4, .8); }
   if(c.neck === 'vneck'){ fl(g, 'M 87 150.5 L 100 173 L 113 150.5 Z', ch.neck); clip(g, 'M 87 150.5 L 100 173 L 113 150.5 Z', () => fl(g, 'M 104 150 L 100 173 L 114 150 Z', ch.shade));
@@ -117,19 +120,19 @@ function drawClothes(g, ch, torso){
   if(c.neck === 'collar'){ fl(g, 'M 90 149 L 100 166 L 110 149 Z', c.under || '#f5f0e5'); st(g, 'M 90.5 150 Q 100 157 109.5 150', '#d2c8b6', .7);
     const cl = P('M 86 148 L 99 165 L 90 170 L 78 157 Z'), cr = P('M 114 148 L 101 165 L 110 170 L 122 157 Z');
     fl(g, cl, c.trim || c.col); fl(g, cr, c.shade); st(g, cl, c.line, .7); st(g, cr, c.line, .7);
-    st(g, `M 100 166 L 100 ${torso ? 352 : 206}`, c.line, .8, .6); [180, 196, 222, 250, 280, 310].forEach(y => { if(y < (torso ? 352 : 206)) el(g, 100, y, 1.2, 1.2, c.under || '#f6f1e6'); }); }
+    st(g, `M 100 166 L 100 ${bot}`, c.line, .8, .6); [180, 196, 222, 250, 280, 310, 340, 370].forEach(y => { if(y < bot) el(g, 100, y, 1.2, 1.2, c.under || '#f6f1e6'); }); }
   if(c.neck === 'polo'){ fl(g, 'M 90 150 L 100 168 L 110 150 Z', ch.neck); const cl = P('M 84 148 L 99 166 L 88 170 L 76 156 Z'), cr = P('M 116 148 L 101 166 L 112 170 L 124 156 Z');
     fl(g, cl, c.col); fl(g, cr, c.shade); st(g, cl, c.line, .7); st(g, cr, c.line, .7); st(g, 'M 100 168 L 100 186', c.line, .8); el(g, 100, 177, 1.1, 1.1, '#eee'); }
-  if(c.cardigan){ const k = c.cardigan; fl(g, `M 26 206 C 28 178 44 162 70 155 C 76 153 82 152 86 152 C 90 170 92 186 92 ${torso ? 352 : 206} L 26 ${torso ? 352 : 206} Z`, k[0]);
-    fl(g, `M 174 206 C 172 178 156 162 130 155 C 124 153 118 152 114 152 C 110 170 108 186 108 ${torso ? 352 : 206} L 174 ${torso ? 352 : 206} Z`, k[1]);
-    st(g, `M 86 152 C 90 170 92 186 92 ${torso ? 352 : 206}`, c.line, .8); st(g, `M 114 152 C 110 170 108 186 108 ${torso ? 352 : 206}`, c.line, .8);
+  if(c.cardigan){ const k = c.cardigan; fl(g, `M 26 206 C 28 178 44 162 70 155 C 76 153 82 152 86 152 C 90 170 92 186 92 ${bot} L 26 ${bot} Z`, k[0]);
+    fl(g, `M 174 206 C 172 178 156 162 130 155 C 124 153 118 152 114 152 C 110 170 108 186 108 ${bot} L 174 ${bot} Z`, k[1]);
+    st(g, `M 86 152 C 90 170 92 186 92 ${bot}`, c.line, .8); st(g, `M 114 152 C 110 170 108 186 108 ${bot}`, c.line, .8);
     [176, 194].forEach(y => el(g, 90, y, 1.5, 1.5, k[2] || '#e8dcc0')); }
   if(c.cross){ st(g, 'M 89.5 152 Q 100 169.5 110.5 152', '#e0b04a', .7); st(g, 'M 100 166.5 L 100 172.5', '#e0b04a', .9); st(g, 'M 97.9 168.6 L 102.1 168.6', '#e0b04a', .9); }
   if(c.chain){ st(g, 'M 86 151 Q 100 166 114 151', '#e0b04a', .8); el(g, 100, 164, 2, 2.4, '#e0b04a'); }
   if(c.brooch){ el(g, 80, 172, 3.2, 3.2, '#e0b04a'); el(g, 80, 172, 1.6, 1.6, '#c9524a'); }
   if(c.lanyard){ st(g, 'M 84 152 L 94 196', '#2c5aa0', 2.2); st(g, 'M 116 152 L 106 196', '#2c5aa0', 2.2); fl(g, rr(91, 194, 18, 24, 2), '#f6f6f2'); fl(g, rr(91, 194, 18, 7, 2), '#2c5aa0');
     fl(g, rr(94, 204, 12, 2, 1), '#9aa'); fl(g, rr(94, 209, 9, 2, 1), '#9aa'); st(g, rr(91, 194, 18, 24, 2), '#6a7080', .6); }
-  if(c.apron){ const a = c.apron, bot = torso ? 352 : 206, bib = P(`M 72 174 L 128 174 L 132 ${bot} L 68 ${bot} Z`);
+  if(c.apron){ const a = c.apron, bib = P(`M 72 174 L 128 174 L 132 ${bot} L 68 ${bot} Z`);
     st(g, 'M 73 175 C 72 164 80 156 86 152', a[1], 2.4); st(g, 'M 127 175 C 128 164 120 156 114 152', a[1], 2.4);
     fl(g, bib, a[0]); clip(g, bib, () => fl(g, SHOULDER_SHADE, a[1], .6)); st(g, bib, c.line, .8);
     if(torso) { fl(g, `M 70 262 L 130 262 L 130 268 L 70 268 Z`, a[1], .8); fl(g, rr(84, 290, 32, 22, 3), a[1], .5); }
