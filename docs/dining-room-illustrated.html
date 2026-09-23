@@ -1,0 +1,450 @@
+<title>The Dining Room, Illustrated</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{background:#15100d;color:#ece4d3;margin:0}
+body{font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;padding:26px 18px 60px;display:flex;flex-direction:column;align-items:center;gap:16px}
+#wrap{width:100%;max-width:1280px;position:relative}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;overflow:hidden;border-radius:6px;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.9);cursor:pointer;user-select:none}
+#cv{position:absolute;inset:0;width:1280px;height:720px;display:block}
+.hud{position:absolute;left:36px;top:26px;right:36px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;color:#fff6e4;text-shadow:0 1px 3px rgba(0,0,0,.55)}
+.hud .date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;display:block;letter-spacing:-.01em}
+.hud .sub{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.marks{display:flex;gap:6px;padding-top:6px}
+.marks i{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,246,228,.8);display:block}
+.marks i.on{background:#f4c65a;border-color:#f4c65a}
+.dlg{position:absolute;left:0;right:0;bottom:0;padding:0 44px 30px;pointer-events:none}
+.panel{pointer-events:auto;background:rgba(244,238,222,.97);border-radius:12px;padding:16px 24px 14px;max-width:880px;
+  display:flex;gap:18px;align-items:flex-start;box-shadow:0 2px 4px rgba(0,0,0,.35),0 26px 60px -22px rgba(0,0,0,.9)}
+.av{width:72px;height:72px;border-radius:50%;flex:0 0 auto;background-size:cover;border:2px solid rgba(255,255,255,.65);
+  box-shadow:0 1px 3px rgba(0,0,0,.28)}
+.ptext{flex:1;min-width:0}
+.who{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:#9c3f36;margin-bottom:6px;min-height:15px}
+.who .role{color:#8d8873;letter-spacing:.08em}
+.line{font-family:"Fraunces",Georgia,serif;font-size:27px;line-height:1.38;color:#221c16;margin:0}
+.line.sd{font-style:italic;color:#4a4436;font-size:25px}
+.line em{font-style:italic;color:#6d6452}
+.aside{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:19px;color:#6d5a3f;margin:9px 0 0;padding-left:14px;border-left:2px solid rgba(168,114,31,.45)}
+.aside.def{font-style:normal;color:#2c6b62;border-left-color:#2c6b62}
+.aside.def b{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;color:#1f5049;margin-right:8px}
+.term{border-bottom:2px dotted rgba(168,114,31,.85);background:rgba(224,162,60,.1);border-radius:3px;cursor:pointer;padding:0 1px}
+.term::after{content:"?";font-family:"IBM Plex Mono",monospace;font-size:.6em;vertical-align:super;color:#a8721f;margin-left:2px}
+.adv{display:flex;justify-content:flex-end;gap:8px;margin-top:8px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.1em;color:#8d8873}
+.adv span{border:1px solid #cfc6b0;border-radius:4px;padding:2px 7px}
+.end{position:absolute;inset:0;display:grid;place-items:center;background:rgba(18,12,10,.78);text-align:center}
+.end[hidden]{display:none}
+.end h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:44px;margin:0 0 10px;color:#fff6e4}
+.end p{font-size:19px;color:#d9cfbc;margin:0 0 22px;max-width:44ch}
+.end button,.caption button{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  background:#f4c65a;color:#221c16;border:0;border-radius:4px;padding:11px 18px;cursor:pointer}
+.end button:focus-visible,.caption button:focus-visible{outline:3px solid #fff6e4;outline-offset:2px}
+.caption{width:100%;max-width:1280px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#a89c86}
+.caption b{color:#f4c65a;font-weight:500}
+</style>
+
+<div id="wrap">
+  <div id="stage" role="application" aria-label="Nine Mornings, the dining room on December 22, illustrated style">
+    <canvas id="cv"></canvas>
+    <div class="hud">
+      <div><span class="date">December 22</span><span class="sub">Seventh morning &middot; After the call</span></div>
+      <div class="marks" id="marks"></div>
+    </div>
+    <div class="dlg"><div class="panel" id="panel">
+      <span class="av" id="av"></span>
+      <div class="ptext"><div class="who" id="who"></div><p class="line" id="line"></p><p class="aside" id="aside" hidden></p>
+        <div class="adv"><span>&larr; &rarr;</span><span>Enter</span></div></div>
+    </div></div>
+    <div class="end" id="end" hidden><div>
+      <h2>That&rsquo;s the scene.</h2>
+      <p>Seven beats from December 22, redrawn in the Illustrated style.</p>
+      <button id="again" type="button">Play it again</button>
+    </div></div>
+  </div>
+</div>
+<div class="caption">
+  <span><b>Nine Mornings</b> &middot; Illustrated style &middot; scene test</span>
+  <span>Click or Enter to continue &middot; &larr; to go back</span>
+</div>
+
+<script>
+(function(){
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+const cv = document.getElementById('cv'); cv.width = 1280 * DPR; cv.height = 720 * DPR;
+const G = cv.getContext('2d');
+const layer = () => { const c = document.createElement('canvas'); c.width = 1280 * DPR; c.height = 720 * DPR; return c; };
+const base = g => g.setTransform(DPR, 0, 0, DPR, 0, 0);
+const P = s => new Path2D(s);
+const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+function fl(g, p, c, a){ g.save(); if(a != null) g.globalAlpha = a; g.fillStyle = c; g.fill(typeof p === 'string' ? P(p) : p); g.restore(); }
+function st(g, p, c, w, a){ g.save(); if(a != null) g.globalAlpha = a; g.strokeStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.lineJoin = 'round';
+  g.stroke(typeof p === 'string' ? P(p) : p); g.restore(); }
+function el(g, x, y, rx, ry, c, a, rot){ g.save(); if(a != null) g.globalAlpha = a; g.fillStyle = c; g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, 6.2832); g.fill(); g.restore(); }
+function clip(g, p, fn){ g.save(); g.clip(typeof p === 'string' ? P(p) : p); fn(); g.restore(); }
+const rr = (x, y, w, h, r) => P(`M ${x + r} ${y} L ${x + w - r} ${y} Q ${x + w} ${y} ${x + w} ${y + r} L ${x + w} ${y + h - r} Q ${x + w} ${y + h} ${x + w - r} ${y + h} L ${x + r} ${y + h} Q ${x} ${y + h} ${x} ${y + h - r} L ${x} ${y + r} Q ${x} ${y} ${x + r} ${y} Z`);
+
+// ====================== THE FAMILY ======================
+// One illustrated head, three people. Proportions are real; colour is flat with one hard shadow per material.
+const CH = {
+  tala:{ name:'Tala', role:'seventeen · two years here', x:318, y:128, s:1.56, avBg:'#e0a49f',
+    skin:'#c68a66', shade:'#a26546', neck:'#b87c5a', line:'#5b3424', lips:['#98504a', '#ad6158'], iris:'#3b2418', brow:'#23150f', hair:'#1b1413',
+    face:{cw:38, jw:26, jy:115, cy:129, chw:6}, eyeS:1, nose:1, mouth:{y:109.6, w:12.5, uh:2.6, lh:5.6}, brows:{ti:2.6, to:1.0, peak:60.6},
+    neckW:18, clothes:'sweater', ears:false, age:0 },
+  ma:{ name:'Ma', role:'Divina Ramos · runs the dining room', x:640, y:132, s:1.54, avBg:'#b8604f',
+    skin:'#c08058', shade:'#9a5e40', neck:'#b27550', line:'#56301f', lips:['#8e4a44', '#a0564d'], iris:'#34201a', brow:'#2a1a14', hair:'#211715',
+    face:{cw:39.5, jw:29, jy:114, cy:128, chw:8}, eyeS:.94, nose:1.05, mouth:{y:110, w:12, uh:2.1, lh:4.6}, brows:{ti:2.0, to:.8, peak:60},
+    neckW:19, clothes:'blouse', ears:true, earring:true, age:1 },
+  pa:{ name:'Pa', role:'Rey Ramos · kitchen · was a pharmacist for eleven years', x:972, y:108, s:1.62, avBg:'#4f7280',
+    skin:'#b67a55', shade:'#8f5a3d', neck:'#a86f4c', line:'#4e2c1d', lips:['#8a4b42', '#96554a'], iris:'#2e1d16', brow:'#1f1614', hair:'#2a2220',
+    face:{cw:40, jw:33, jy:116, cy:132, chw:12}, eyeS:.95, nose:1.2, mouth:{y:112, w:13.5, uh:2.2, lh:4.2}, brows:{ti:3.2, to:1.6, peak:62},
+    neckW:22, clothes:'shirt', ears:true, glasses:true, stubble:true, age:1.4 },
+};
+
+const facePath = f => { const {cw, jw, jy, cy, chw} = f;
+  return P(`M 100 28 C ${100 + cw * .62} 28 ${100 + cw} 44 ${100 + cw} 72 C ${100 + cw} 90 ${100 + jw + 6} ${jy - 8} ${100 + jw} ${jy}
+    C ${100 + jw - 6} ${jy + 8} ${100 + chw + 4} ${cy} ${100 + chw} ${cy + 1} C ${100 + chw * .4} ${cy + 2.2} ${100 - chw * .4} ${cy + 2.2} ${100 - chw} ${cy + 1}
+    C ${100 - chw - 4} ${cy} ${100 - jw + 6} ${jy + 8} ${100 - jw} ${jy} C ${100 - jw - 6} ${jy - 8} ${100 - cw} 90 ${100 - cw} 72
+    C ${100 - cw} 44 ${100 - cw * .62} 28 100 28 Z`); };
+const faceShadow = f => { const {cw, jw, jy, cy, chw} = f;
+  return P(`M ${100 + cw * .5} 24 C ${100 + cw * .82} 50 ${100 + cw * .82} 88 ${100 + jw * .72} ${jy - 6} C ${100 + jw * .3} ${jy + 8} ${100 + chw} ${cy} 100 ${cy + 3} L 170 ${cy + 3} L 170 20 Z`); };
+const neckPath = w => P(`M ${100 - w} 108 C ${100 - w + 1} 126 ${100 - w} 140 ${100 - w - 4} 153 L ${100 + w + 4} 153 C ${100 + w} 140 ${100 + w - 1} 126 ${100 + w} 108 Z`);
+const SHOULDERS = P('M 26 206 C 28 178 44 162 70 155 C 80 152 88 151 100 151 C 112 151 120 152 130 155 C 156 162 172 178 174 206 Z');
+const SHOULDERS_WIDE = P('M 22 206 C 24 176 42 160 68 153 C 80 150 88 149 100 149 C 112 149 120 150 132 153 C 158 160 176 176 178 206 Z');
+const SHOULDER_SHADE = P('M 128 154 C 150 162 166 178 170 206 L 180 206 L 180 148 Z');
+const HAIR = {
+  tala:{ back:P('M 100 16 C 138 16 154 44 154 80 C 154 112 152 142 158 178 C 160 192 158 204 152 208 L 48 208 C 42 204 40 192 42 178 C 48 142 46 112 46 80 C 46 44 62 16 100 16 Z'),
+    front:[P('M 100 15 C 129 15 147 33 147 62 L 138 63 C 132 50 122 43 110 41 C 100 40 94 42 90 30 C 85 42 75 50 66 62 L 55 60 C 55 34 71 15 100 15 Z'),
+      P('M 55 58 C 53 84 57 104 59 124 C 61 146 57 166 51 190 C 60 189 68 171 70 150 C 72 128 68 108 67 88 C 66 76 66 68 66 62 Z'),
+      P('M 145 58 C 147 84 143 104 141 124 C 139 146 143 166 149 190 C 140 189 132 171 130 150 C 128 128 132 108 133 88 C 134 76 134 68 134 62 Z')],
+    shine:['M 104 20 C 118 20 130 28 136 38 C 128 30 116 25 104 23 Z', 'M 58.5 84 C 57.5 96 59.5 108 61.5 118 C 60.5 108 59.5 96 60.5 84 Z',
+      'M 141.5 84 C 142.5 96 140.5 108 138.5 118 C 139.5 108 140.5 96 139.5 84 Z'] },
+  ma:{ back:P('M 56 58 C 49 80 51 104 58 120 C 64 128 136 128 142 120 C 149 104 151 80 144 58 Z'), bun:[132, 118, 10.5],
+    front:[P('M 100 15 C 128 15 145 31 146 56 C 146 64 145 70 143 76 L 140.5 76 C 139 66 136 56 130 50 C 122 44 112 42 104 42 C 99 41 95 37 93 31 C 90 38 82 44 72 48 C 66 52 62 60 60 68 C 59.5 71 59.3 74 59.2 76 L 56.5 76 C 55 70 54.5 62 55 56 C 56 30 72 15 100 15 Z')],
+    shine:['M 106 19 C 122 20 134 28 139 40 C 131 31 119 25 106 22 Z'],
+    grey:['M 104 21 Q 122 25 134 41', 'M 78 23 Q 69 31 64 44', 'M 112 18 Q 128 22 140 36'] },
+  pa:{ front:[P('M 100 19 C 127 19 142 33 143 56 C 143 63 142 68 141 73 L 138.5 70 C 137 60 133 53 126 49 C 118 45 108 44 98 44.5 C 86 45 74 48 66 56 C 63 60 61.5 65 61 70 L 58.5 73 C 57.5 68 57 62 57 56 C 58 33 73 19 100 19 Z')],
+    shine:['M 94 22 C 110 21 124 26 132 34 C 122 28 108 25 94 25 Z'],
+    temples:['M 58.5 73 C 57.5 68 57 62 57.5 58 L 63.5 60 C 62 64 61.5 67 61 70 Z', 'M 141.5 73 C 142.5 68 143 62 142.5 58 L 136.5 60 C 138 64 138.5 67 139 70 Z'],
+    part:'M 81 22 Q 79 32 80 44' },
+};
+
+// expressions are numbers, so faces ease from one to the next instead of snapping
+const EX = {
+  neutral:{browY:0, tilt:0, knit:0, lid:.06, gx:0, gy:0, curve:.1, press:0},
+  quiet:{browY:.5, tilt:.3, knit:.3, lid:.24, gx:0, gy:.7, curve:-.1, press:.35},
+  counting:{browY:.7, tilt:-.1, knit:.55, lid:.48, gx:0, gy:2.2, curve:-.15, press:.5},
+  held:{browY:-.2, tilt:.2, knit:.15, lid:.2, gx:0, gy:.4, curve:.3, press:.65},
+  down:{browY:1, tilt:.4, knit:.35, lid:.52, gx:.3, gy:2.3, curve:-.3, press:.3},
+  toMa:{browY:-.3, tilt:.25, knit:.1, lid:.1, gx:-2.3, gy:.3, curve:0, press:.1},
+  toTala:{browY:-.35, tilt:.15, knit:0, lid:.1, gx:-2.3, gy:.2, curve:.15, press:.2},
+  toMaT:{browY:-.1, tilt:.2, knit:.1, lid:.1, gx:2.3, gy:.2, curve:0, press:.2},
+};
+const KEYS = Object.keys(EX.neutral);
+
+function eyeGeom(side, es){
+  const b = {o:[74, 77], i:[93, 77.5], u1:[77, 71.5], u2:[88, 70.5], l1:[88, 80.6], l2:[78, 80.6]}, c = [83.8, 76.2], out = {};
+  for(const k in b){ let [x, y] = b[k]; x = c[0] + (x - c[0]) * es; y = c[1] + (y - c[1]) * es; out[k] = [side ? 200 - x : x, y]; }
+  out.c = [side ? 200 - c[0] : c[0], c[1]]; return out; }
+
+function drawEye(g, ch, side, e){
+  const q = eyeGeom(side, ch.eyeS), lid = Math.min(1, e.lid), lash = '#150c09';
+  const u1 = [q.u1[0], q.u1[1] + (q.l2[1] - q.u1[1]) * lid * .97], u2 = [q.u2[0], q.u2[1] + (q.l1[1] - q.u2[1]) * lid * .97];
+  const upper = `M ${q.o[0]} ${q.o[1]} C ${u1[0]} ${u1[1]} ${u2[0]} ${u2[1]} ${q.i[0]} ${q.i[1]}`;
+  if(lid > .9){ st(g, upper, lash, ch.glasses ? 1 : 1.15); return; }
+  const open = P(`${upper} C ${q.l1[0]} ${q.l1[1]} ${q.l2[0]} ${q.l2[1]} ${q.o[0]} ${q.o[1]} Z`);
+  clip(g, open, () => {
+    g.fillStyle = '#f1e9df'; g.fillRect(q.c[0] - 13, q.c[1] - 9, 26, 18);
+    const gx = Math.max(-2.7, Math.min(2.7, e.gx)), gy = Math.max(-2.2, Math.min(2.6, e.gy)), ix = q.c[0] + gx, iy = q.c[1] + .2 + gy, r = 4.7 * ch.eyeS;
+    el(g, ix, iy, r, r, ch.iris); el(g, ix, iy, 1.95 * ch.eyeS, 1.95 * ch.eyeS, '#0d0806');
+    el(g, ix - 1.5, iy - 1.7, .95, .95, '#fff', .92); });
+  st(g, upper, lash, ch.glasses ? 1.05 : 1.25);
+  const fx = side ? 2.2 : -2.2; st(g, `M ${q.o[0]} ${q.o[1]} l ${fx} -1.4`, lash, .95);
+  st(g, `M ${q.i[0]} ${q.i[1]} C ${q.l1[0]} ${q.l1[1]} ${q.l2[0]} ${q.l2[1]} ${q.o[0]} ${q.o[1]}`, '#6e4231', .5, .45);
+  if(ch.earring){ st(g, `M ${q.o[0]} ${q.o[1] - 2.2} C ${u1[0]} ${u1[1] - 2.8} ${u2[0]} ${u2[1] - 2.8} ${q.i[0]} ${q.i[1] - 2}`, ch.shade, .7, .8); }
+  if(ch.age > .5){ const sx = side ? 1 : -1; st(g, `M ${q.o[0] + sx * 2.8} ${q.o[1] - .6} l ${sx * 2.6} -1`, ch.shade, .55, .7);
+    st(g, `M ${q.o[0] + sx * 2.8} ${q.o[1] + 1.6} l ${sx * 2.6} .7`, ch.shade, .55, .6); } }
+
+function drawBrow(g, ch, side, e){
+  const sg = side ? -1 : 1, b = ch.brows;
+  const A = [100 - sg * (6 - e.knit * 1.5), 65.4 + e.browY - e.tilt * 2.4], C = [100 - sg * 18, b.peak + e.browY - e.tilt * .6], Z = [100 - sg * 28, 66 + e.browY + e.tilt * .4];
+  const top = [], bot = [];
+  for(let k = 0; k <= 12; k++){ const s = k / 12, u = 1 - s, x = u * u * A[0] + 2 * u * s * C[0] + s * s * Z[0], y = u * u * A[1] + 2 * u * s * C[1] + s * s * Z[1], t = b.ti * u + b.to * s;
+    top.push([x, y - t / 2]); bot.unshift([x, y + t / 2]); }
+  fl(g, 'M ' + [...top, ...bot].map(p => p.join(' ')).join(' L ') + ' Z', ch.brow); }
+
+function drawMouth(g, ch, e){
+  const m = ch.mouth, y = m.y, w = m.w, c = e.curve, o = e.open || 0, uh = m.uh * (1 - e.press * .55), lh = m.lh * (1 - e.press * .45);
+  const L = [100 - w, y - c * 1.5], R = [100 + w, y - c * 1.5], mid = y + 1.2 + c * .3, oy = o * 5.5;
+  if(o > .05){ const inner = P(`M ${L[0]} ${L[1]} Q 100 ${mid} ${R[0]} ${R[1]} Q 100 ${mid + oy} ${L[0]} ${L[1]} Z`);
+    fl(g, inner, '#4a1c18'); clip(g, inner, () => { g.fillStyle = '#efe6da'; g.fillRect(100 - w * .7, mid - .6, w * 1.4, 1.5); }); }
+  fl(g, `M ${L[0]} ${L[1]} C ${100 - w * .55} ${y - uh * .85} 97.5 ${y - uh - .3} 100 ${y - uh + .7} C 102.5 ${y - uh - .3} ${100 + w * .55} ${y - uh * .85} ${R[0]} ${R[1]} Q 100 ${mid} ${L[0]} ${L[1]} Z`, ch.lips[0]);
+  fl(g, `M ${L[0]} ${L[1]} Q 100 ${mid + oy} ${R[0]} ${R[1]} C ${100 + w * .6} ${y + lh + oy} ${100 - w * .6} ${y + lh + oy} ${L[0]} ${L[1]} Z`, ch.lips[1]);
+  st(g, `M ${L[0]} ${L[1]} Q 100 ${mid} ${R[0]} ${R[1]}`, '#5e2a25', .8);
+  el(g, 100, y + lh + oy + 2.6, 6.5, 1.4, ch.shade); }
+
+function drawChar(g, id, e){
+  const ch = CH[id], H = HAIR[id], f = ch.face, FACE = facePath(f), NECK = neckPath(ch.neckW), ink = '#0a0707';
+  // hair behind
+  if(H.back){ fl(g, H.back, ch.hair); st(g, H.back, ink, .8); }
+  if(H.bun){ el(g, H.bun[0], H.bun[1], H.bun[2], H.bun[2], ch.hair); g.save(); g.beginPath(); g.ellipse(H.bun[0], H.bun[1], H.bun[2], H.bun[2], 0, 0, 6.2832); g.strokeStyle = ink; g.lineWidth = .8; g.stroke(); g.restore(); }
+  // neck, with the chin's hard shadow across the top of it
+  fl(g, NECK, ch.neck);
+  clip(g, NECK, () => { fl(g, `M ${80 - ch.neckW} 106 L ${120 + ch.neckW} 106 L ${120 + ch.neckW} 124 C 112 130 88 130 ${80 - ch.neckW} 124 Z`, ch.shade);
+    fl(g, `M ${100 + ch.neckW - 6} 124 C ${104 + ch.neckW} 136 ${106 + ch.neckW} 146 ${110 + ch.neckW} 153 L 140 153 L 140 124 Z`, ch.shade); });
+  st(g, `M ${100 - ch.neckW} 110 C ${100 - ch.neckW + 1} 126 ${100 - ch.neckW} 140 ${100 - ch.neckW - 4} 153`, ch.line, .8);
+  st(g, `M ${100 + ch.neckW} 110 C ${100 + ch.neckW - 1} 126 ${100 + ch.neckW} 140 ${100 + ch.neckW + 4} 153`, ch.line, .8);
+  // clothes
+  if(ch.clothes === 'sweater'){ fl(g, SHOULDERS, '#2f55a5'); clip(g, SHOULDERS, () => fl(g, SHOULDER_SHADE, '#22407f')); st(g, SHOULDERS, '#14244a', .8);
+    const col = P('M 76 151 C 86 167 114 167 124 151 L 120.5 150 C 112 162 88 162 79.5 150 Z'); fl(g, col, '#27478f'); st(g, col, '#14244a', .7); }
+  if(ch.clothes === 'blouse'){ fl(g, SHOULDERS, '#a33b34'); clip(g, SHOULDERS, () => fl(g, SHOULDER_SHADE, '#7e2a26')); st(g, SHOULDERS, '#4e1a17', .8);
+    fl(g, 'M 87 150.5 L 100 173 L 113 150.5 Z', ch.neck); clip(g, 'M 87 150.5 L 100 173 L 113 150.5 Z', () => fl(g, 'M 104 150 L 100 173 L 114 150 Z', ch.shade));
+    fl(g, 'M 85 150 L 100 174 L 92 158 L 80 154 Z', '#8e3030'); fl(g, 'M 115 150 L 100 174 L 108 158 L 120 154 Z', '#7a2a28');
+    st(g, 'M 89.5 152 Q 100 169.5 110.5 152', '#e0b04a', .7); st(g, 'M 100 166.5 L 100 172.5', '#e0b04a', .9); st(g, 'M 97.9 168.6 L 102.1 168.6', '#e0b04a', .9); }
+  if(ch.clothes === 'shirt'){ fl(g, SHOULDERS_WIDE, '#e6dcc6'); clip(g, SHOULDERS_WIDE, () => fl(g, SHOULDER_SHADE, '#c4b79c')); st(g, SHOULDERS_WIDE, '#7d6f58', .8);
+    fl(g, 'M 90 149 L 100 166 L 110 149 Z', '#f5f0e5'); st(g, 'M 90.5 150 Q 100 157 109.5 150', '#d2c8b6', .7);
+    const cl = P('M 86 148 L 99 165 L 90 170 L 78 157 Z'), cr = P('M 114 148 L 101 165 L 110 170 L 122 157 Z');
+    fl(g, cl, '#ddd2b8'); fl(g, cr, '#c9bc9f'); st(g, cl, '#7d6f58', .7); st(g, cr, '#7d6f58', .7);
+    st(g, 'M 100 166 L 100 206', '#b3a58a', .8); [180, 196].forEach(y => { el(g, 100, y, 1.2, 1.2, '#f6f1e6'); st(g, `M 98.8 ${y} a 1.2 1.2 0 1 0 2.4 0 a 1.2 1.2 0 1 0 -2.4 0`, '#9a8c70', .4); }); }
+  // ears (Ma and Pa wear their hair off their ears)
+  if(ch.ears) for(const s of [1, -1]){ const X = x => 100 + s * (x - 100), cw = f.cw;
+    const ear = P(`M ${X(100 + cw - 1.2)} 74 C ${X(100 + cw + 7)} 69 ${X(100 + cw + 8.5)} 84 ${X(100 + cw + 5)} 93 C ${X(100 + cw + 3)} 97.5 ${X(100 + cw - .5)} 96.5 ${X(100 + cw - 1.2)} 94 Z`);
+    fl(g, ear, s > 0 ? ch.shade : ch.skin); st(g, ear, ch.line, .8);
+    st(g, `M ${X(100 + cw + 1)} 77 C ${X(100 + cw + 5)} 76 ${X(100 + cw + 5)} 86 ${X(100 + cw + 2.5)} 90`, ch.line, .6, .6);
+    if(ch.earring){ el(g, X(100 + cw + 3.2), 96.8, 1.7, 1.7, '#e0b04a'); } }
+  // face, flat with one hard shadow
+  fl(g, FACE, ch.skin);
+  clip(g, FACE, () => {
+    fl(g, faceShadow(f), ch.shade);
+    const dx = (ch.nose - 1) * 3; fl(g, `M ${103.5 + dx} 80 C ${105 + dx} 86 ${106 + dx} 90 ${106.5 + dx} 94 C ${105 + dx} 92 ${104 + dx} 86 ${102.5 + dx} 80 Z`, ch.shade);
+    el(g, 100, 101.4, 5 * ch.nose, 1.1, ch.shade);
+    if(ch.stubble){ fl(g, 'M 66 96 C 70 106 80 104 88 104.5 C 94 104 98 105 100 105 C 102 105 106 104 112 104.5 C 120 104 130 106 134 96 L 140 140 L 60 140 Z', '#4a3d3a', .09);
+      fl(g, 'M 84 116 C 90 114 110 114 116 116 L 120 140 L 80 140 Z', '#4a3d3a', .06); }
+    if(ch.age > .5){ st(g, 'M 91.5 100.5 Q 88 106 88.8 111.5', ch.shade, ch.age > 1 ? .85 : .7, .75); st(g, 'M 108.5 100.5 Q 112 106 111.2 111.5', ch.shade, ch.age > 1 ? .85 : .7, .75);
+      st(g, 'M 76 82 Q 84 83.8 91 81.8', ch.shade, .5, .45); st(g, 'M 109 81.8 Q 116 83.8 124 82', ch.shade, .5, .45); }
+    if(ch.age > 1){ st(g, 'M 86 51.5 Q 100 49.6 114 51.5', ch.shade, .6, .5); st(g, 'M 89 55.5 Q 100 54 111 55.5', ch.shade, .55, .4); } });
+  st(g, FACE, ch.line, .9);
+  // nose
+  const nw = ch.nose;
+  st(g, `M ${100 - 6.8 * nw} 93.6 C ${100 - 10 * nw} 95.6 ${100 - 9.4 * nw} 99.6 ${100 - 5.4 * nw} 99.8`, '#7a4632', .8);
+  st(g, `M ${100 + 6.8 * nw} 93.6 C ${100 + 10 * nw} 95.6 ${100 + 9.4 * nw} 99.6 ${100 + 5.4 * nw} 99.8`, '#7a4632', .8);
+  el(g, 100 - 4.4 * nw, 98, 2.1 * nw, 1.1, '#5e3526', 1, -.25); el(g, 100 + 4.4 * nw, 98, 2.1 * nw, 1.1, '#5e3526', 1, .25);
+  drawMouth(g, ch, e);
+  drawBrow(g, ch, 0, e); drawBrow(g, ch, 1, e);
+  drawEye(g, ch, 0, e); drawEye(g, ch, 1, e);
+  if(ch.glasses){ for(const cx of [83.8, 116.2]){ st(g, rr(cx - 12.5, 68, 25, 16.5, 5), '#2a2320', 1.5); st(g, `M ${cx - 8} 71 L ${cx - 4.5} 74.8`, '#fff', .8, .45); }
+    st(g, 'M 96.3 74.8 Q 100 72.6 103.7 74.8', '#2a2320', 1.3); st(g, 'M 71.3 73.5 L 60.5 72.6', '#2a2320', 1.2); st(g, 'M 128.7 73.5 L 139.5 72.6', '#2a2320', 1.2); }
+  // hair in front
+  for(const p of H.front) fl(g, p, ch.hair);
+  (H.shine || []).forEach(p => fl(g, p, '#3a2c2a'));
+  (H.grey || []).forEach(p => st(g, p, '#9a8f88', .5, .85));
+  (H.temples || []).forEach(p => fl(g, p, '#8e8680'));
+  if(H.part) st(g, H.part, '#6e5a50', .7, .8);
+  for(const p of H.front) st(g, p, ink, .8); }
+
+// ====================== THE ROOM ======================
+const STAR = P('M 0 -66 L 17 -22 L 63 -20 L 27 9 L 39 54 L 0 28 L -39 54 L -27 9 L -63 -20 L -17 -22 Z');
+const STAR_IN = P('M 0 -40 L 10 -14 L 38 -12 L 16 5 L 24 32 L 0 17 L -24 32 L -16 5 L -38 -12 L -10 -14 Z');
+const GLASS = [70, 100, 220, 310];
+
+function room(){ const c = layer(), g = c.getContext('2d'); base(g);
+  g.fillStyle = '#c98f77'; g.fillRect(0, 0, 1280, 720);
+  g.fillStyle = '#b77e67'; g.fillRect(0, 0, 1280, 24);
+  g.fillStyle = '#a9745f'; g.fillRect(1206, 24, 74, 696);
+  st(g, 'M 1206 24 L 1206 720', '#8e5f4c', 2);
+  // night outside: sky, a row of Jersey City roofs, lit windows
+  const [gx, gy, gw, gh] = GLASS; g.fillStyle = '#1d2544'; g.fillRect(gx, gy, gw, gh);
+  fl(g, `M ${gx} ${gy + gh} L ${gx} 330 L 100 330 L 100 300 L 150 300 L 150 318 L 196 318 L 196 286 L 236 286 L 236 322 L ${gx + gw} 322 L ${gx + gw} ${gy + gh} Z`, '#141a31');
+  [[82, 340], [120, 312], [132, 340], [164, 330], [206, 300], [214, 336], [250, 336], [274, 350], [106, 372], [180, 366]].forEach(([x, y], k) => {
+    g.fillStyle = hash(k) > .3 ? '#f2c86a' : '#6a7aa6'; g.globalAlpha = .85; g.fillRect(x, y, 9, 12); g.globalAlpha = 1; });
+  return c; }
+
+function roomFront(){ const c = layer(), g = c.getContext('2d'); base(g);
+  const [gx, gy, gw, gh] = GLASS;
+  // window frame and sill, with the hard shadow on their inner right and bottom edges
+  g.fillStyle = '#efe2cf';
+  g.fillRect(gx - 12, gy - 12, gw + 24, 12); g.fillRect(gx - 12, gy + gh, gw + 24, 12); g.fillRect(gx - 12, gy, 12, gh); g.fillRect(gx + gw, gy, 12, gh);
+  g.fillRect(gx + gw / 2 - 4, gy, 8, gh); g.fillRect(gx, gy + gh * .48 - 4, gw, 8);
+  g.fillStyle = '#cdbfa8'; g.fillRect(gx + gw, gy, 4, gh); g.fillRect(gx, gy + gh, gw, 4);
+  g.fillStyle = '#e6d6bf'; g.fillRect(gx - 22, gy + gh + 12, gw + 44, 12); g.fillStyle = '#b3806a'; g.fillRect(gx - 22, gy + gh + 24, gw + 44, 5);
+  st(g, rr(gx - 12, gy - 12, gw + 24, gh + 24, 1), '#8e6a52', 1.4);
+  // the lamp: warm, hanging left of centre, the one light in the room
+  st(g, 'M 470 0 L 470 70', '#3a2a24', 2);
+  fl(g, 'M 450 70 L 490 70 L 522 120 L 418 120 Z', '#e3b867'); fl(g, 'M 470 70 L 490 70 L 522 120 L 470 120 Z', '#c89a4c');
+  st(g, 'M 450 70 L 490 70 L 522 120 L 418 120 Z', '#6a4a26', 1.4);
+  el(g, 470, 123, 38, 8, '#fff1c8'); el(g, 470, 123, 70, 16, '#fff1c8', .18);
+  // the free store calendar every Filipino kitchen has, open to December, the 22nd ringed
+  st(g, 'M 805 44 L 790 70 M 805 44 L 820 70', '#5a4a40', 1); el(g, 805, 44, 2.5, 2.5, '#5a4a40');
+  fl(g, rr(760, 70, 90, 124, 3), '#f4eee2'); fl(g, rr(760, 70, 90, 38, 3), '#c9524a');
+  g.fillStyle = '#fff6e4'; g.font = '600 10.5px "IBM Plex Mono", monospace'; g.textAlign = 'center';
+  g.fillText("MANG BOY'S", 805, 86); g.font = '9px "IBM Plex Mono", monospace'; g.fillText('SARI-SARI · 2018', 805, 100);
+  g.fillStyle = '#3a2a24'; g.font = '600 10px "IBM Plex Mono", monospace'; g.fillText('DECEMBER', 805, 121);
+  for(let r = 0; r < 5; r++) for(let k = 0; k < 7; k++){ el(g, 769 + k * 12, 133 + r * 12, 1.3, 1.3, '#8a7a6a'); }
+  g.beginPath(); g.arc(769 + 6 * 12, 133 + 3 * 12, 5.2, 0, 6.2832); g.strokeStyle = '#c9524a'; g.lineWidth = 1.6; g.stroke();
+  st(g, rr(760, 70, 90, 124, 3), '#8e7e6a', 1.2);
+  // Lola, young, in the good frame, with the rosary on the corner
+  fl(g, rr(1090, 116, 108, 138, 3), '#5a3a28'); fl(g, rr(1098, 124, 92, 122, 2), '#eee3cc'); fl(g, rr(1106, 132, 76, 106, 1), '#b8946a');
+  fl(g, 'M 1112 238 C 1114 212 1128 204 1144 202 C 1160 204 1174 212 1176 238 Z', '#6b4a30');
+  el(g, 1144, 180, 14, 18, '#8a6444'); el(g, 1144, 163, 13, 8, '#4a3222'); el(g, 1144, 156, 7, 6, '#4a3222');
+  fl(g, 'M 1190 124 L 1198 116 L 1198 254 L 1190 246 Z', '#3e2819'); fl(g, 'M 1098 246 L 1190 246 L 1198 254 L 1090 254 Z', '#3e2819');
+  for(let k = 0; k < 18; k++){ const a = k / 17, x = 1098 + a * 34, y = 124 + Math.sin(a * Math.PI) * 30; el(g, x, y, 1.9, 1.9, '#3a2a4a'); }
+  st(g, 'M 1115 154 L 1115 164 M 1111 157.5 L 1119 157.5', '#3a2a4a', 1.4);
+  return c; }
+
+function parol(g, t){ const sw = Math.sin(t * 1.3) * .04; g.save(); g.translate(150, 96); g.rotate(sw);
+  st(g, 'M 0 0 L 0 34', '#e9d9b8', 1.2);
+  el(g, 0, 78, 92, 92, '#ffd27a', .1); el(g, 0, 78, 62, 62, '#ffd27a', .16);
+  g.save(); g.translate(0, 78); g.scale(.66, .66); g.fillStyle = '#e0453f'; g.fill(STAR); g.strokeStyle = '#7a1e1a'; g.lineWidth = 2; g.stroke(STAR);
+  g.fillStyle = '#f4c65a'; g.fill(STAR_IN); el(g, 0, 0, 12, 12, '#fff4d2'); g.restore();
+  [[-12, 112, '#f4c65a'], [0, 108, '#e0453f'], [12, 112, '#f4c65a']].forEach(([x, y, c], k) => st(g, `M ${x} ${y} Q ${x + Math.sin(t * 2 + k) * 3} ${y + 22} ${x + Math.sin(t * 2.4 + k) * 2} ${y + 42}`, c, 3.4));
+  g.restore(); }
+
+function snow(g, t){ const [gx, gy, gw, gh] = GLASS; g.save(); g.beginPath(); g.rect(gx, gy, gw, gh); g.clip(); g.fillStyle = '#eef3ff';
+  for(let k = 0; k < 70; k++){ const sp = 12 + hash(k) * 20, y = gy + ((hash(k + 90) * gh + t * sp) % gh), x = gx + hash(k + 40) * gw + Math.sin(t * .8 + k) * 5;
+    g.globalAlpha = .45 + hash(k + 7) * .45; g.beginPath(); g.arc(x, y, .9 + hash(k + 3) * 1.4, 0, 6.2832); g.fill(); } g.restore(); }
+
+// ====================== THE TABLE ======================
+const TY = 420;
+function table(){ const c = layer(), g = c.getContext('2d'); base(g);
+  // a vinyl gingham tablecloth, because of course. Stripes fan out toward us; bands widen.
+  g.fillStyle = '#f2e9d6'; g.fillRect(0, TY, 1280, 720 - TY);
+  g.fillStyle = 'rgba(184,67,60,.15)';
+  for(let x = -400; x < 1700; x += 34){ const w = 12, t0 = 640 + (x - 640) * .86, t1 = 640 + (x + w - 640) * .86, b0 = 640 + (x - 640) * 1.3, b1 = 640 + (x + w - 640) * 1.3;
+    g.beginPath(); g.moveTo(t0, TY); g.lineTo(t1, TY); g.lineTo(b1, 720); g.lineTo(b0, 720); g.closePath(); g.fill(); }
+  for(let k = 0; k < 9; k++){ const y0 = TY + 300 * Math.pow(k / 8, 1.35), y1 = TY + 300 * Math.pow((k + .36) / 8, 1.35); g.fillRect(0, y0, 1280, y1 - y0); }
+  // the lamp's pool of light, and the far edge where the cloth meets the family
+  const pool = g.createRadialGradient(470, 470, 10, 470, 470, 330); pool.addColorStop(0, 'rgba(255,236,190,.34)'); pool.addColorStop(1, 'rgba(255,236,190,0)');
+  g.fillStyle = pool; g.fillRect(0, TY, 1280, 720 - TY);
+  const edge = g.createLinearGradient(0, TY, 0, TY + 26); edge.addColorStop(0, 'rgba(90,50,34,.28)'); edge.addColorStop(1, 'rgba(90,50,34,0)');
+  g.fillStyle = edge; g.fillRect(0, TY, 1280, 26);
+  g.fillStyle = '#d8c9aa'; g.fillRect(0, TY - 2, 1280, 3);
+  // the pandesal nobody has touched, on the good plate
+  el(g, 1128, 626, 104, 30, '#b9ab90'); el(g, 1128, 620, 104, 30, '#f7f2e8'); el(g, 1128, 620, 80, 21, '#ece4d4'); st(g, 'M 1024 620 a 104 30 0 1 0 208 0 a 104 30 0 1 0 -208 0', '#a89c86', 1.2);
+  [[1094, 612, -.2], [1140, 606, .1], [1118, 628, .05], [1164, 624, -.1]].forEach(([x, y, r]) => { g.save(); g.translate(x, y); g.rotate(r);
+    el(g, 0, 3, 25, 15, '#b86f34'); el(g, 0, 0, 25, 15, '#d99a52'); el(g, -4, -4, 13, 6, '#eab874'); g.fillStyle = '#f6ecd8';
+    for(let k = 0; k < 9; k++){ g.globalAlpha = .7; g.beginPath(); g.arc(-15 + hash(k + x) * 30, -7 + hash(k + y) * 14, 1.1, 0, 6.2832); g.fill(); } g.globalAlpha = 1;
+    st(g, 'M -25 0 a 25 15 0 1 0 50 0 a 25 15 0 1 0 -50 0', '#7a4420', 1.1); g.restore(); });
+  // the phone, face down, where Ma put it after the call
+  g.save(); g.translate(804, 452); g.rotate(-.12); fl(g, rr(-24, -11, 48, 22, 6), '#26252b'); fl(g, rr(-19, -7, 9, 9, 3), '#3a3940'); st(g, rr(-24, -11, 48, 22, 6), '#0e0e12', 1.2); g.restore();
+  return c; }
+
+// the chairs, so they read as sitting and not floating: a rail and two posts behind each back
+function chairs(g){ for(const id of ['tala', 'ma', 'pa']){ const x = CH[id].x, top = CH[id].y + 174 * CH[id].s;
+  for(const s of [-1, 1]){ fl(g, rr(x + s * 104 - 8, top, 16, TY - top, 4), '#5a3a2a'); fl(g, rr(x + s * 104 + (s > 0 ? 0 : -8), top, 8, TY - top, 3), '#4a2e20'); }
+  fl(g, rr(x - 118, top - 4, 236, 20, 7), '#6a4632'); fl(g, rr(x - 118, top + 8, 236, 8, 4), '#553624'); st(g, rr(x - 118, top - 4, 236, 20, 7), '#2e1c14', 1.2); } }
+
+function arm(g, a, b, w, col, line){ const p = `M ${a[0]} ${a[1]} L ${b[0]} ${b[1]}`; st(g, p, line, w + 2.6); st(g, p, col, w); }
+function hand(g, x, y, rot, w, h, ch, flip){ g.save(); g.translate(x, y); g.rotate(rot); if(flip) g.scale(-1, 1);
+  const thumb = rr(-w * .5, -h * .62, w * .42, h * .34, h * .17); fl(g, thumb, ch.skin); st(g, thumb, ch.line, 1.1);
+  const body = rr(-w / 2, -h / 2 + 2, w, h - 2, h * .4); fl(g, body, ch.skin);
+  clip(g, body, () => { g.fillStyle = ch.shade; g.fillRect(-w / 2, h * .1, w, h); });
+  for(let k = 1; k <= 3; k++){ const yy = -h / 2 + 2 + (h - 2) * k / 4; st(g, `M ${w * .05} ${yy} L ${w / 2 - 1.5} ${yy}`, ch.line, .9, .55); }
+  st(g, body, ch.line, 1.2); g.restore(); }
+function bill(g, x, y, rot){ g.save(); g.translate(x, y); g.rotate(rot); fl(g, rr(-27, -13, 54, 26, 2), '#aebfa6'); el(g, 0, 0, 7, 7, '#93a78c'); st(g, rr(-27, -13, 54, 26, 2), '#6f8468', 1); g.restore(); }
+
+function props(g, t, S){
+  const tala = CH.tala, ma = CH.ma, pa = CH.pa;
+  // the envelope that becomes a hospital deposit, under the lamp
+  if(S.props.envelope){ g.save(); g.translate(478, 470); g.rotate(.07); fl(g, rr(-36, -18, 72, 36, 3), '#f4efe4');
+    st(g, 'M -36 -18 L 0 4 L 36 -18', '#c9bfae', 1.2); st(g, 'M -22 7 q 6 -4 12 0 t 12 0 t 12 0', '#5a4a8a', .9, .7); st(g, rr(-36, -18, 72, 36, 3), '#a89c86', 1); g.restore(); }
+  // Tala, both hands around a mug of tsokolate
+  arm(g, [tala.x - 104, 418], [tala.x - 42, 474], 28, '#2f55a5', '#14244a'); arm(g, [tala.x + 104, 418], [tala.x + 42, 474], 28, '#22407f', '#14244a');
+  fl(g, rr(tala.x - 22, 434, 44, 48, 8), '#e9dfc9'); fl(g, rr(tala.x - 22, 452, 44, 8, 0), '#c9524a'); st(g, rr(tala.x - 22, 434, 44, 48, 8), '#8e8270', 1.2);
+  el(g, tala.x, 435, 22, 5.5, '#d8cdb4'); el(g, tala.x, 435.5, 18, 3.8, '#4a2a1c');
+  for(let k = 0; k < 2; k++){ const ph = (t * .5 + k * .5) % 1; st(g, `M ${tala.x - 6 + k * 12} ${426 - ph * 34} q 4 -6 0 -12 t 0 -12`, '#fff8ee', 1.6, .55 * (1 - ph)); }
+  hand(g, tala.x - 28, 466, .12, 28, 21, tala, false); hand(g, tala.x + 28, 466, -.12, 28, 21, tala, true);
+  // Ma, counting the money twice
+  arm(g, [ma.x - 104, 418], [ma.x - 52, 478], 28, '#a33b34', '#4e1a17'); arm(g, [ma.x + 104, 418], [ma.x + 52, 478], 28, '#7e2a26', '#4e1a17');
+  bill(g, ma.x - 2, 478, -.05); bill(g, ma.x + 2, 475, .04);
+  if(S.cur.ma && S.targetName.ma === 'counting'){ const p = (t % .9) / .9; bill(g, ma.x + 14 - 28 * p, 473 - 10 * Math.sin(Math.PI * p), -.25 * Math.sin(Math.PI * p)); }
+  hand(g, ma.x - 40, 476, .2, 28, 21, ma, false); hand(g, ma.x + 40, 476, -.2, 28, 21, ma, true);
+  // Pa, hands folded, sleeves rolled to the elbow for the kitchen
+  arm(g, [pa.x - 112, 418], [pa.x - 74, 446], 30, '#e6dcc6', '#7d6f58'); arm(g, [pa.x + 112, 418], [pa.x + 74, 446], 30, '#c4b79c', '#7d6f58');
+  arm(g, [pa.x - 76, 446], [pa.x - 22, 478], 23, pa.skin, pa.line); arm(g, [pa.x + 76, 446], [pa.x + 22, 478], 23, pa.shade, pa.line);
+  g.save(); g.translate(pa.x - 76, 446); g.rotate(.53); fl(g, rr(-9, -18, 18, 36, 6), '#d6cab0'); st(g, rr(-9, -18, 18, 36, 6), '#7d6f58', 1); g.restore();
+  g.save(); g.translate(pa.x + 76, 446); g.rotate(-.53); fl(g, rr(-9, -18, 18, 36, 6), '#b8ab8e'); st(g, rr(-9, -18, 18, 36, 6), '#7d6f58', 1); g.restore();
+  hand(g, pa.x - 10, 480, .35, 32, 23, pa, false); hand(g, pa.x + 10, 476, -.35, 32, 23, pa, true); }
+
+// ====================== THE SCENE ======================
+const NAMES = {tala:'Tala', ma:'Ma', pa:'Pa'};
+const TERMS = {'bibingka':'a rice cake baked in a clay pot with hot coals on top', 'puto bumbong':'purple rice steamed in bamboo tubes',
+  'Tita':'auntie. Also any older woman you respect', 'Lola':'grandmother'};
+const BEATS = [
+  {stage:'Lola is in the hospital again. Nobody at this table says the word decision, because there was never going to be one.',
+    expr:{tala:'quiet', ma:'counting', pa:'down'}},
+  {who:'ma', pre:'(counting the money, then counting it again)', text:'It is fine. We will do the bibingka with what we have.',
+    aside:'That is the money that was set aside for the Christmas Eve ingredients. It is now the money that is going to the hospital.', expr:{ma:'counting'}},
+  {who:'pa', text:'And the puto bumbong?', expr:{pa:'toMa'}},
+  {who:'ma', text:'We will do the bibingka.', expr:{ma:'held', pa:'down'}},
+  {who:'tala', text:'Tita Cora asked for both.', expr:{tala:'toMaT'}},
+  {who:'ma', text:'Then we will see what the week does.', expr:{ma:'toTala', tala:'quiet'}},
+  {stage:'Pa takes the envelope off the table and goes to find his coat. The money transfer counter on Newark Avenue closes at six.',
+    expr:{pa:'down', ma:'held', tala:'quiet'}, props:{envelope:false}},
+  {end:true}];
+
+const S = {i:0, cur:{}, targetName:{}, props:{envelope:true}, blink:{}, talkUntil:{}, speaker:null};
+for(const id in CH){ S.cur[id] = {...EX.neutral}; S.targetName[id] = 'neutral'; S.blink[id] = {next:1 + hash(id.length) * 3, until:0}; }
+
+function gloss(s){ let out = s; const stash = [];
+  for(const t of Object.keys(TERMS).sort((a, b) => b.length - a.length)){ const re = new RegExp('(^|[^\\w>])(' + t + ')(?![\\w])');
+    if(re.test(out)) out = out.replace(re, (m, pre, w) => { stash.push(`<span class="term" data-def="${TERMS[t]}">${w}</span>`); return `${pre}\u0000${stash.length - 1}\u0000`; }); }
+  return out.replace(/\u0000(\d+)\u0000/g, (m, n) => stash[n]); }
+
+const portraits = {};
+function makePortrait(id){ const c = document.createElement('canvas'); c.width = c.height = 144; const g = c.getContext('2d');
+  g.fillStyle = CH[id].avBg; g.fillRect(0, 0, 144, 144); const s = 1.28; g.setTransform(s, 0, 0, s, 72 - 100 * s, 78 - 80 * s);
+  drawChar(g, id, {...EX.neutral, open:0}); portraits[id] = c.toDataURL(); }
+
+function apply(){
+  // expressions and props are cumulative up to the current beat, so going back is honest
+  const names = {tala:'neutral', ma:'neutral', pa:'neutral'}, pr = {envelope:true};
+  for(let k = 0; k <= S.i; k++){ Object.assign(names, BEATS[k].expr || {}); Object.assign(pr, BEATS[k].props || {}); }
+  S.targetName = names; S.props = pr;
+  const b = BEATS[S.i]; document.getElementById('end').hidden = !b.end; if(b.end) return;
+  const who = document.getElementById('who'), line = document.getElementById('line'), aside = document.getElementById('aside'), av = document.getElementById('av');
+  S.speaker = b.who || null;
+  if(b.stage){ who.textContent = ''; line.className = 'line sd'; line.innerHTML = gloss(b.stage); av.hidden = true; }
+  else { const first = !S.met.has(b.who); S.met.add(b.who);
+    who.innerHTML = NAMES[b.who] + (first ? ` <span class="role">· ${CH[b.who].role}</span>` : '');
+    line.className = 'line'; line.innerHTML = (b.pre ? `<em>${b.pre}</em> ` : '') + gloss(b.text);
+    av.hidden = false; av.style.backgroundImage = `url(${portraits[b.who]})`;
+    S.talkUntil[b.who] = performance.now() / 1000 + Math.min(2.6, .45 + b.text.length * .045); }
+  aside.className = 'aside'; aside.hidden = !b.aside; if(b.aside) aside.innerHTML = gloss(b.aside); }
+S.met = new Set();
+const next = () => { if(S.i < BEATS.length - 1){ S.i++; apply(); } };
+const prev = () => { if(S.i > 0){ S.i--; apply(); } };
+
+// ====================== RUN ======================
+let ROOM, FRONT, TABLE, last = performance.now() / 1000;
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function frame(now){ const t = now / 1000, dt = Math.min(.05, t - last); last = t; const at = calm ? 2 : t;
+  base(G); G.drawImage(ROOM, 0, 0, 1280, 720); snow(G, at); G.drawImage(FRONT, 0, 0, 1280, 720); parol(G, at); chairs(G);
+  for(const id of ['tala', 'ma', 'pa']){ const ch = CH[id], cur = S.cur[id], tg = EX[S.targetName[id]], bl = S.blink[id];
+    for(const k of KEYS) cur[k] += (tg[k] - cur[k]) * (1 - Math.exp(-dt * 8));
+    if(t > bl.next){ bl.until = t + .13; bl.next = t + 2.8 + hash(t) * 2.8; }
+    const e = {...cur, open:0}; if(t < bl.until) e.lid = 1;
+    if(S.talkUntil[id] && t < S.talkUntil[id]) e.open = .2 + .45 * Math.abs(Math.sin(t * 13));
+    const breathe = calm ? 0 : Math.sin(t * 1.5 + ch.x) * 1.3;
+    G.save(); base(G); if(S.speaker && S.speaker !== id) G.filter = 'brightness(.82) saturate(.9)';
+    G.translate(ch.x - 100 * ch.s, ch.y + breathe); G.scale(ch.s, ch.s); drawChar(G, id, e); G.restore(); }
+  base(G); G.drawImage(TABLE, 0, 0, 1280, 720); props(G, at, S);
+  requestAnimationFrame(frame); }
+
+function fit(){ const wrap = document.getElementById('wrap'), st = document.getElementById('stage'), k = wrap.clientWidth / 1280;
+  st.style.transform = `scale(${k})`; wrap.style.height = (720 * k) + 'px'; }
+window.addEventListener('resize', fit); fit();
+
+const marks = document.getElementById('marks'); marks.innerHTML = [1,2,3,4,5,6,7,8,9].map(n => `<i class="${n <= 7 && n !== 6 ? 'on' : ''}"></i>`).join('');
+document.getElementById('stage').addEventListener('click', ev => {
+  const term = ev.target.closest('.term');
+  if(term){ const a = document.getElementById('aside'); a.className = 'aside def'; a.innerHTML = `<b>${term.textContent}</b>${term.dataset.def}`; a.hidden = false; return; }
+  if(ev.target.closest('.end')) return; next(); });
+document.getElementById('again').addEventListener('click', ev => { ev.stopPropagation(); S.i = 0; S.met = new Set(); apply(); });
+document.addEventListener('keydown', ev => { if(['Enter', ' ', 'ArrowRight'].includes(ev.key)){ ev.preventDefault(); next(); } else if(ev.key === 'ArrowLeft') prev(); });
+
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  ROOM = room(); FRONT = roomFront(); TABLE = table(); for(const id in CH) makePortrait(id);
+  apply(); requestAnimationFrame(frame); });
+})();
+</script>
