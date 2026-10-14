@@ -843,16 +843,19 @@ function endCard(){ mode = 'end'; dlg.hidden = true; $('dim').classList.add('on'
   $('end-p').innerHTML = `Tala wished ${W[STATE.wish] || '…'}. The game does not say whether it comes true.<br><br>${STATE.invitedHannah ? 'Hannah came.' : 'Hannah was not asked.'} The puto bumbong was ${ {lola:'Lola’s', close:'close to Lola’s', off:'not Lola’s'}[STATE.cook.out] }. What Tala told Bea all week was ${tone}. ${noticed} <span class="tally">${n} of ${total}</span>`;
   $('end').classList.add('on'); }
 function updateDev(){ $('dev').textContent = `STATE mornings=[${STATE.mornings}] honesty=${STATE.honesty} invitedHannah=${STATE.invitedHannah} cook=${JSON.stringify(STATE.cook)} beat=${i} mode=${mode}`; }
-function restart(){ if(ill) ill.reset(); met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
+function restart(){ if(ill) ill.reset(); met.clear(); looking = false; drag = null; clearCookUI(); clearTimeout(pauseTimer); clearTimeout(typeTimer); $('estab').hidden = true; $('note').hidden = true; $('photo').hidden = true; phone.classList.remove('on','buzz'); STATE.mornings = []; STATE.invitedHannah = false; STATE.wish = null; $('debrief').classList.remove('on'); hud.hidden = false; $('dawn').classList.remove('sunrise'); STATE.honesty = 0; STATE.cook = {}; STATE.wire = {}; STATE.seen = []; STATE.errand = {left:30, done:[], vinegar:null}; pullOut(); i = -1; mode = 'title'; $('end').classList.remove('on'); $('inter').classList.remove('on'); $('brief').classList.remove('on'); $('title').classList.add('on'); showBg('dawn'); dlg.hidden = true; $('dim').classList.remove('on','soft'); drawMarks(); }
 
 // -------- input --------
-function start(){ if(mode !== 'title') return; $('title').classList.remove('on'); i = 0; render(); }
+// title -> the briefing card -> the first morning. start() still begins the story from either card.
+function showBrief(){ if(mode !== 'title') return; $('title').classList.remove('on'); $('brief').classList.add('on'); mode = 'brief'; }
+function start(){ if(mode !== 'title' && mode !== 'brief') return; $('title').classList.remove('on'); $('brief').classList.remove('on'); i = 0; render(); }
 function pickChoice(n){ const list = [...choices.children]; if(!list.length) return; sel = Math.max(0, Math.min(list.length-1, n)); list.forEach((c,k) => c.classList.toggle('sel', k===sel)); if(mode === 'cook') moveCursor(); }
 document.addEventListener('keydown', e => {
   if(e.key === 'd' || e.key === 'D'){ $('dev').hidden = !$('dev').hidden; updateDev(); return; }
   if(e.key === 'r' || e.key === 'R'){ restart(); return; }
   const go = e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight';
-  if(mode === 'title'){ if(go) start(); }
+  if(mode === 'title'){ if(go) showBrief(); }
+  else if(mode === 'brief'){ if(go) start(); }
   else if(mode === 'pause'){ if(go) endPause(); }
   else if(mode === 'inter'){ if(go){ $('inter').classList.remove('on'); i++; render(); } }
   else if(mode === 'debrief'){ if(go){ $('debrief').classList.remove('on'); i++; render(); } }
@@ -874,7 +877,8 @@ document.addEventListener('keydown', e => {
   updateDev();
 });
 $('photo').addEventListener('click', () => { if(mode !== 'photo') return; $('photo').hidden = true; mode = 'say'; advance(); });
-$('title').addEventListener('click', start);
+$('title').addEventListener('click', showBrief);
+$('brief').addEventListener('click', start);
 $('inter').addEventListener('click', () => { if(mode === 'inter'){ $('inter').classList.remove('on'); i++; render(); } });
 $('debrief').addEventListener('click', () => { if(mode === 'debrief'){ $('debrief').classList.remove('on'); i++; render(); } });
 $('note').addEventListener('click', ev => { if(mode !== 'note') return;

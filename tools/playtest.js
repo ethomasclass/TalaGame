@@ -13,7 +13,7 @@ const VARIANTS = {
   await page.evaluate(()=>document.fonts&&document.fonts.ready); await page.waitForTimeout(300);
   const st=async()=>page.evaluate(()=>({mode,bg,i,busy}));
   let n=0, last=''; const shot=async(tag)=>{ if(variant!=='main') return; n++; await page.waitForTimeout(300); await page.screenshot({path:`${out}/${String(n).padStart(2,'0')}-${tag}.png`}); };
-  await shot('title'); await page.keyboard.press('Enter');
+  await shot('title'); await page.keyboard.press('Enter'); await shot('brief'); await page.keyboard.press('Enter');
   for(let step=0; step<400; step++){
     await page.waitForTimeout(120); const s=await st(); const key=`${s.mode}:${s.bg}:${s.i}`;
     if(s.mode==='end'){ await shot('end'); break; }

@@ -166,6 +166,17 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
   .cardwrap,.prompt,.estab,.alarmtxt,#dev,.hud{{pointer-events:none}}
   .dlg{{pointer-events:none}} .panel{{pointer-events:auto}}
   .cardscreen{{pointer-events:none}} .cardscreen.on{{pointer-events:auto}}
+  /* the briefing between the title and the first morning */
+  #brief .brief{{max-width:1120px;text-align:left;padding:0 20px}}
+  #brief h1{{font-size:44px;margin:0 0 20px}} #brief .eyebrow{{margin-bottom:10px}}
+  #brief .bcols{{display:grid;grid-template-columns:1.25fr 1fr;gap:44px;margin-bottom:22px}}
+  #brief p{{font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.5;color:#d8d2c0;max-width:none;margin:0 0 12px}}
+  #brief b{{color:#f3ecdc;font-weight:600}} #brief p.cast{{font-size:16px;color:#bdb8a4}}
+  #brief p.watch{{border-left:3px solid #dba748;padding-left:14px;color:#ece4d3}}
+  #brief h2{{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:24px;color:#f3ecdc;margin:0 0 12px}}
+  #brief ul{{margin:0;padding-left:20px;font-family:"Source Sans 3",-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.45;color:#d8d2c0}} #brief li{{margin-bottom:9px}}
+  #brief kbd{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;border:1px solid rgba(232,228,212,.3);border-radius:4px;padding:1px 6px;color:#f3ecdc}}
+  #brief .hint,#brief .tap{{text-align:center}}
   #cook svg,#cook .overlay{{pointer-events:none}}
   #drag-egg,#drag-vin,#drag-tube,#drag-tablea,#drag-bills{{pointer-events:auto}}
   .estab{{position:absolute;left:44px;bottom:44px;z-index:7;background:rgba(18,12,10,.78);color:#ece7d6;padding:14px 22px 14px 18px;border-left:3px solid #dba748;border-radius:0 8px 8px 0;backdrop-filter:blur(3px)}}
@@ -334,6 +345,31 @@ html = f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
     <div class="tap">Tap to begin &nbsp;&middot;&nbsp; tap the text to advance &nbsp;&middot;&nbsp; tap a choice to pick it</div>
     <div class="hint"><span>Enter</span> to begin &nbsp;&middot;&nbsp; <span>&larr; &rarr;</span> advance &nbsp;&middot;&nbsp; <span>&uarr; &darr;</span> choose &nbsp;&middot;&nbsp; <span>D</span> dev state</div></div>
   </div>
+  <div class="cardscreen" id="brief"><div class="brief">
+    <div class="eyebrow">Before you start</div><h1>What&rsquo;s happening</h1>
+    <div class="bcols">
+      <div class="bcol">
+        <p>Tala Ramos is seventeen. She was born in Batangas, a province in the Philippines. Two years ago her family moved to Jersey City, New Jersey, where her parents run Pacing&rsquo;s, a Filipino restaurant on Newark Avenue.</p>
+        <p>It is December. Filipino Catholics keep a tradition called <b>Simbang Gabi</b>: nine masses at dawn, from December 16 to Christmas Eve. People say that if you make it to all nine, you get one wish. Tala is trying for all nine.</p>
+        <p>Her grandmother, Lola, and her best friend, Bea, still live in the Philippines, thirteen hours ahead.</p>
+        <p class="cast"><b>Ma</b> and <b>Pa</b>, her parents &middot; <b>Lola</b>, in Batangas &middot; <b>Bea</b>, her best friend &middot; <b>Ando</b>, her cousin, arriving this week &middot; <b>Hannah</b>, a classmate &middot; <b>Tita Cora</b>, who runs the church food committee</p>
+        <p class="watch">As you play, watch how moving changes a family: the money they send home, the neighborhood that feels like home, the two languages they speak, and what they left behind.</p>
+      </div>
+      <div class="bcol">
+        <h2>How to play</h2>
+        <ul>
+          <li>Click, or press <kbd>Enter</kbd>, to keep going. <kbd>&larr;</kbd> goes back one line.</li>
+          <li>Choose by clicking, or press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>.</li>
+          <li>Tap an underlined word with a <b>?</b> to see what it means.</li>
+          <li>When you cook, follow Lola&rsquo;s recipe card. The game tells you what to drag or pick.</li>
+          <li>When Bea texts, pick a reply.</li>
+          <li>Glowing dots are things you can look at. They are optional.</li>
+          <li>There are no wrong choices. The game does not save, so play it in one sitting, about 45 minutes.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tap">Tap to begin</div><div class="hint"><span>Enter</span> to begin</div>
+  </div></div>
   <div class="cardscreen" id="inter">
     <div><div class="eyebrow" id="inter-e"></div><h1 id="inter-h"></h1><p id="inter-p"></p><div class="hint" id="inter-hint">&nbsp;</div></div>
   </div>
